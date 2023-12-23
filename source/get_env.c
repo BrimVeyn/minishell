@@ -6,7 +6,7 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/23 14:22:29 by bvan-pae          #+#    #+#             */
-/*   Updated: 2023/12/23 15:08:53 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2023/12/23 15:44:48 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ char *get_pwd(t_env *data)
 	i = 0;
 	while (ft_strncmp(data->f_env[i], "PWD=", 4) != 0)
 		i++;
-	data->pwd = ft_strdup(data->f_env[i]);
+	data->pwd = ft_substr(data->f_env[i], 4, ft_strlen(data->f_env[i]) - 4);
 	return (data->pwd);
 }
 
@@ -34,22 +34,31 @@ char *get_path(t_env *data)
 	i = 0;
 	while (ft_strncmp(data->f_env[i], "PATH=", 5) != 0)
 		i++;
-	data->path = ft_strdup(data->f_env[i]);
+	data->path = ft_substr(data->f_env[i], 5, ft_strlen(data->f_env[i]) - 5);
 	return (data->path);
 }
 
-
-
-
-int	main(int ac, char *av[], char *env[])
+char *get_usr(t_env *data)
 {
-	t_env data;
+	size_t	i;
 
-	if (!env)
-		perror("Env is null");
-	data.f_env = env;
-	data.pwd = get_pwd(&data);
-	data.path = get_path(&data);
-	printf("%s\n", data.pwd);
-	printf("%s\n", data.path);
+	if (data->usr)
+		free(data->usr);
+	i = 0;
+	while (ft_strncmp(data->f_env[i], "USER=", 5) != 0)
+		i++;
+	data->usr = ft_substr(data->f_env[i], 5, ft_strlen(data->f_env[i]) - 5);
+	return (data->usr);
 }
+// int	main(int ac, char *av[], char *env[])
+// {
+// 	t_env data;
+//
+// 	if (!env)
+// 		perror("Env is null");
+// 	data.f_env = env;
+// 	data.pwd = get_pwd(&data);
+// 	data.path = get_path(&data);
+// 	printf("%s\n", data.pwd);
+// 	printf("%s\n", data.path);
+// }
