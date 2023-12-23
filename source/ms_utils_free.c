@@ -1,18 +1,45 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_substr.c                                        :+:      :+:    :+:   */
+/*   ms_utils_free.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/06 14:47:36 by bvan-pae          #+#    #+#             */
-/*   Updated: 2023/12/23 16:02:55 by nbardavi         ###   ########.fr       */
+/*   Created: 2023/12/23 16:01:03 by nbardavi          #+#    #+#             */
+/*   Updated: 2023/12/23 16:07:17 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/libft.h"
+#include "../include/minishell.h"
 
-char	*ft_substr(char const *s, unsigned int start, size_t len)
+char	*ft_strjoin_free(char const *s1, char const *s2)
+{
+	char	*cat;
+	size_t	i;
+	size_t	j;
+
+	i = 0;
+	j = 0;
+	cat = (char *)malloc((ft_strlen(s1) + ft_strlen(s2) + 1) * sizeof(char));
+	if (cat == NULL)
+		return (NULL);
+	while (s1[i])
+	{
+		cat[i] = s1[i];
+		i++;
+	}
+	while (s2[j])
+	{
+		cat[i + j] = s2[j];
+		j++;
+	}
+	cat[i + j] = 0;
+	free((void*)s1);
+	free((void*)s2);
+	return (cat);
+}
+
+char	*ft_substr_free(char const *s, unsigned int start, size_t len)
 {
 	char	*new;
 	size_t	i;
@@ -23,7 +50,7 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 	if (!s)
 		return (NULL);
 	if (start >= slen || len == 0)
-		return (ft_strdup(""));
+		return (NULL);
 	if (len > slen - start)
 		len = slen - start;
 	new = malloc((len + 1) * sizeof(char));
@@ -35,20 +62,6 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 		i++;
 	}
 	new[i] = 0;
+	free((void*)s);
 	return (new);
 }
-//
-// #include <string.h>
-//
-// int	main(void)
-// {
-// 	char *ret = ft_substr("tripouille", 0, 42000);
-// 	char *s;
-// 	char *str = strdup("0123456789");
-// 	s = ft_substr(str, 9, 10);
-// 	__builtin_printf("%s", s);
-// 	// if (!strncmp(ret, "", 1))
-// 	// 	__builtin_printf("Yes");
-// }
-//
-//
