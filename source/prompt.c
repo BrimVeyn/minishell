@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prompt.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
+/*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/23 16:11:18 by bvan-pae          #+#    #+#             */
-/*   Updated: 2023/12/23 16:11:21 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2023/12/23 16:21:03 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,12 @@ char *ms_form_prompt(t_env *env)
 	char	*prompt;
 	char	*full_home;
 
-	full_home = ft_strjoin(ft_strdup("/home/"), "nbardavi");
+	full_home = ft_strjoin_free(ft_strdup("/home/"), env->usr);
 	if (ft_strncmp(env->pwd, full_home, ft_strlen(full_home)) == 0)
-		full_home = ft_strjoin(ft_strdup("~"), ft_substr(env->pwd, ft_strlen(full_home), ft_strlen(env->pwd)));
+		full_home = ft_strjoin_free(ft_strdup("~"), ft_substr_free(env->pwd, ft_strlen(full_home), ft_strlen(env->pwd)));
 	else
 		full_home = ft_strdup(env->pwd);
-	prompt = ft_strjoin(ft_strjoin(ft_strdup("\033[38;2;80;255;125m" ), full_home), ft_strdup(" \033[38;2;189;147;249m ❯ \033[0m"));
+	prompt = ft_strjoin_free(ft_strjoin_free(ft_strdup("\033[38;2;80;255;125m" ), full_home), ft_strdup(" \033[38;2;189;147;249m ❯ \033[0m"));
 	return (prompt);
 }
 

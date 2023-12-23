@@ -3,7 +3,7 @@ NAME			:= minishell
 LIBFT			:= libft/libft.a
 CC 				:= cc
 CFLAGS 			:= -Wall -Wextra -Werror -lreadline
-SRC 			:= source/main.c source/prompt.c source/get_env.c
+SRC 			:= source/main.c source/prompt.c source/get_env.c source/ms_utils_free.c
 OBJ 			:= $(SRC:source/%.c=objects/%.o)
 OBJDIR 			:= objects
 
