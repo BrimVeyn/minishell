@@ -6,11 +6,11 @@
 /*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/23 16:01:03 by nbardavi          #+#    #+#             */
-/*   Updated: 2023/12/23 16:20:25 by nbardavi         ###   ########.fr       */
+/*   Updated: 2023/12/23 18:28:46 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
+#include "../header/ft_printf.h"
 
 char	*ft_strjoin_free(char const *s1, char const *s2)
 {
@@ -39,29 +39,29 @@ char	*ft_strjoin_free(char const *s1, char const *s2)
 	return (cat);
 }
 
-char	*ft_substr_free(char const *s, unsigned int start, size_t len)
-{
-	char	*new;
-	size_t	i;
-	size_t	slen;
-
-	i = 0;
-	slen = ft_strlen(s);
-	if (!s)
-		return (NULL);
-	if (start >= slen || len == 0)
-		return (NULL);
-	if (len > slen - start)
-		len = slen - start;
-	new = malloc((len + 1) * sizeof(char));
-	if (new == NULL)
-		return (NULL);
-	while (i < len && s[start + i])
-	{
-		new[i] = s[start + i];
-		i++;
-	}
-	new[i] = 0;
-	free((void*)s);
-	return (new);
-}
+// char	*ft_substr_free(char const *s, unsigned int start, size_t len)
+// {
+// 	char	*new;
+// 	size_t	i;
+// 	size_t	slen;
+//
+// 	i = 0;
+// 	slen = ft_strlen(s);
+// 	if (!s)
+// 		return (NULL);
+// 	if (start >= slen || len == 0)
+// 		return (NULL);
+// 	if (len > slen - start)
+// 		len = slen - start;
+// 	new = malloc((len + 1) * sizeof(char));
+// 	if (new == NULL)
+// 		return (NULL);
+// 	while (i < len && s[start + i])
+// 	{
+// 		new[i] = s[start + i];
+// 		i++;
+// 	}
+// 	new[i] = 0;
+// 	free((void*)s);
+// 	return (new);
+// }
