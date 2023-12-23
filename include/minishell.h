@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
+/*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/23 14:09:29 by nbardavi          #+#    #+#             */
-/*   Updated: 2023/12/23 15:36:39 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2023/12/23 16:20:40 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,5 +45,7 @@ void prompt(t_env *env);
 char *get_pwd(t_env *data);
 char *get_path(t_env *data);
 char *get_usr(t_env *data);
+char	*ft_strjoin_free(char const *s1, char const *s2);
+char	*ft_substr_free(char const *s, unsigned int start, size_t len);
 
 #endif
