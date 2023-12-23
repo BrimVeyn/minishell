@@ -6,7 +6,7 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/23 14:09:29 by nbardavi          #+#    #+#             */
-/*   Updated: 2023/12/23 14:25:23 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2023/12/23 15:36:39 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ typedef struct s_lst
 	char	*name;
 	void	*content;
 	void	*next;
-}	t_lst;
+}			t_lst;
 
 typedef struct s_env
 {	
@@ -38,6 +38,12 @@ typedef struct s_env
 	char	**f_env;
 	char	*pwd;
 	char	*path;
-}					t_env;
+	char	*usr;
+}			t_env;
+
+void prompt(t_env *env);
+char *get_pwd(t_env *data);
+char *get_path(t_env *data);
+char *get_usr(t_env *data);
 
 #endif
