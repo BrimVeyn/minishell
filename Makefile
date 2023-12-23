@@ -2,11 +2,9 @@ NAME			:= minishell
 
 LIBFT			:= libft/libft.a
 CC 				:= cc
-CFLAGS 			:= -Wall -Wextra -Werror
-AR				:= ar rc
-RAN 			:= ranlib 
-SRC 			:= source/main.c 
-OBJ 			:= $(SRC:src/%.c=objects/%.o)
+CFLAGS 			:= -Wall -Wextra -Werror -lreadline
+SRC 			:= source/main.c source/prompt.c source/get_env.c
+OBJ 			:= $(SRC:source/%.c=objects/%.o)
 OBJDIR 			:= objects
 
 DEF_COLOR		:= \033[0;39m
@@ -24,14 +22,13 @@ all: $(NAME)
 $(NAME): $(LIBFT) $(OBJDIR) $(OBJ)
 	@echo "$(GREEN)Making binary: $(NAME)"
 	@printf "$(MAGENTA)"
-	@$(AR) $(NAME) $(OBJ)
-	@$(RAN) $(NAME)
+	@$(CC) $(OBJ) $(LIBFT) $(CFLAGS) -o $(NAME)
 	@printf "Done !$(DEF_COLOR)\n"
 
 $(OBJDIR)/%.o: source/%.c
 	@printf '$(YELLOW)Compiling : %-25s $(CYAN)-->	$(YELLOW)%-30s\n' "$<" "$@";
 	@printf "$(BLUE)"
-	@$(CC) $(CFLAGS) -c $< -o $@
+	@$(CC) -c $< -o $@
 	@printf "$(DEF_COLOR)"
 
 clean:
