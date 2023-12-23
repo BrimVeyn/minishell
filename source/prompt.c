@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prompt.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
+/*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/23 14:17:38 by nbardavi          #+#    #+#             */
-/*   Updated: 2023/12/23 15:12:44 by nbardavi         ###   ########.fr       */
+/*   Updated: 2023/12/23 15:23:18 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,11 +37,11 @@ void prompt(t_env *env)
 	free(prompt);
 }
 
-int main(void)
-{
-	t_env *env;
-
-	env = ft_calloc(1, sizeof(t_env));
-	env->pwd = ft_strdup("~/Desktop/minishell");
-	prompt(env);
-}
+// int main(void)
+// {
+// 	t_env *env;
+//
+// 	env = ft_calloc(1, sizeof(t_env));
+// 	env->pwd = ft_strdup("~/Desktop/minishell");
+// 	prompt(env);
+// }
