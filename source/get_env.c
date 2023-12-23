@@ -6,7 +6,7 @@
 /*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/23 14:22:29 by bvan-pae          #+#    #+#             */
-/*   Updated: 2023/12/23 16:18:38 by nbardavi         ###   ########.fr       */
+/*   Updated: 2023/12/23 19:31:43 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,10 @@ char *get_path(t_env *data)
 	size_t	i;
 
 	if (data->path)
+	{
+		data->path = NULL;
 		free(data->path);
+	}
 	i = 0;
 	while (ft_strncmp(data->f_env[i], "PATH=", 5) != 0)
 		i++;

@@ -6,7 +6,7 @@
 /*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/23 14:09:29 by nbardavi          #+#    #+#             */
-/*   Updated: 2023/12/23 16:20:40 by nbardavi         ###   ########.fr       */
+/*   Updated: 2023/12/23 19:13:52 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,18 @@
 
 /*_.-=-._.-=-._.-=-._.-=-._.- Includes -._.-=-._.-=-._.-=-._.-=-._.-=-._*/
 
-# include "../libft/include/libft.h"
+# include "../libftprintf/header/ft_printf.h"
 # include <errno.h>
 # include <fcntl.h>
 # include <stdio.h>
 # include <stdlib.h>
 # include <sys/wait.h>
 # include <unistd.h>
+# include <time.h>
 
+#define VIOLET "\033[38;2;189;147;249m"
+#define GREEN "\033[38;2;80;255;125m"
+#define WHITE "\033[0m"
 /*_.-=-._.-=-._.-=-._.-=-._.- Structs -._.-=-._.-=-._.-=-._.-=-._.-=-._*/
 
 typedef struct s_lst
@@ -41,11 +45,10 @@ typedef struct s_env
 	char	*usr;
 }			t_env;
 
+
 void prompt(t_env *env);
 char *get_pwd(t_env *data);
 char *get_path(t_env *data);
 char *get_usr(t_env *data);
-char	*ft_strjoin_free(char const *s1, char const *s2);
-char	*ft_substr_free(char const *s, unsigned int start, size_t len);
 
 #endif
