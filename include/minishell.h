@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
+/*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/23 14:09:29 by nbardavi          #+#    #+#             */
-/*   Updated: 2023/12/26 13:28:40 by nbardavi         ###   ########.fr       */
+/*   Updated: 2023/12/26 15:16:54 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,9 +57,12 @@ typedef struct s_args
 	int 	trigger;
 }			t_args;
 
-void prompt(t_env *env);
-char *get_pwd(t_env *data);
-char *get_path(t_env *data);
-char *get_usr(t_env *data);
+char	**ms_dupdup(char **environ);
+char	*get_pwd(t_env *data);
+char	*get_path(t_env *data);
+char	*get_usr(t_env *data);
+void	prompt(t_env *env);
+void	update_env(t_env *data);
+void	free_tab(char **tab);
 
 #endif
