@@ -6,12 +6,13 @@
 /*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/23 16:11:18 by bvan-pae          #+#    #+#             */
-/*   Updated: 2023/12/26 13:27:32 by nbardavi         ###   ########.fr       */
+/*   Updated: 2023/12/26 15:20:12 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 #include <readline/readline.h>
+#include <readline/history.h>
 #include <sys/ioctl.h>
 
 char	*rm_last_slash(char *path, int total_slash)
@@ -101,11 +102,14 @@ void	prompt(t_env *env)
 
 	while (1)
 	{
+		update_env(env);
 		prompt = ms_form_prompt(env);
 		input = readline(prompt);
 		free(prompt);
 		if (input == NULL)
 			break ;
+        if (input && *input)
+            add_history(input);
 		free(input);
 	}
 	free(input);
