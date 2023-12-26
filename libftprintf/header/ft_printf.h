@@ -6,7 +6,7 @@
 /*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/10 12:13:14 by bvan-pae          #+#    #+#             */
-/*   Updated: 2023/12/23 18:56:58 by nbardavi         ###   ########.fr       */
+/*   Updated: 2023/12/24 14:26:43 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,11 @@ typedef struct s_triggers
 	int		number;
 	int		number1;
 	int		number2;
+	int		tr_nbr;
+	int		tr;
 	int		index;
 	int		origine;
+	int		fr;
 	char	*s_origine;
 }			t_trigger;
 
