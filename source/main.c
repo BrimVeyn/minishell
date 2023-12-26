@@ -6,16 +6,23 @@
 /*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/23 15:16:24 by bvan-pae          #+#    #+#             */
-/*   Updated: 2023/12/23 18:06:58 by nbardavi         ###   ########.fr       */
+/*   Updated: 2023/12/24 14:37:24 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
+void free_env(t_env *env)
+{
+	free(env->usr);
+	free(env->path);
+	free(env->pwd);
+}
+
 int main(int ac, char *av[], char *env[])
 {
 	t_env data;
-
+	
 	(void) ac;
 	(void) av;
 	if (!env)
@@ -31,4 +38,5 @@ int main(int ac, char *av[], char *env[])
 	// for (int i = 0; c_line[i]; i++)
 	// 	printf("%d\n", c_line[i]);
 	prompt(&data);
+	free_env(&data);
 }

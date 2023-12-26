@@ -6,7 +6,7 @@
 /*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 10:15:50 by nbardavi          #+#    #+#             */
-/*   Updated: 2023/12/06 14:00:48 by nbardavi         ###   ########.fr       */
+/*   Updated: 2023/12/24 12:17:23 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,5 +92,9 @@ void				ft_putchar_fd(char c, int fd);
 // Autres fonctions
 void				ft_bzero(void *s, size_t n);
 int					ft_atoi(const char *theString);
+
+// Fonctions Customs
+
+int ft_strcmp(const char *s1, const char *s2);
 
 #endif

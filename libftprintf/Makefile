@@ -1,76 +1,91 @@
 NAME = libftprintf.a
 CC = cc
-CFLAGS = -Wall -Wextra -Werror
-SRCS = sources/ft_atoi.c \
-       sources/ft_itoa_u.c \
-       sources/ft_memset.c \
-       sources/ft_strmapi.c \
-       sources/ft_bzero.c \
-       sources/ft_lstadd_back.c \
-       sources/ft_printf.c \
-       sources/ft_strncmp.c \
-       sources/ft_calloc.c \
-       sources/ft_lstadd_front.c \
-       sources/ft_putchar_fd.c \
-       sources/ft_strnstr.c \
-       sources/ft_exec_d.c \
-       sources/ft_lstclear.c \
-       sources/ft_putendl_fd.c \
-       sources/ft_strrchr.c \
-       sources/ft_exec_flags.c \
-       sources/ft_lstdelone.c \
-       sources/ft_putnbr_fd.c \
-       sources/ft_strtrim.c \
-       sources/ft_fcustoms.c \
-       sources/ft_lstiter.c \
-       sources/ft_putstr_fd.c \
-       sources/ft_substr.c \
-       sources/ft_flags.c \
-       sources/ft_lstlast.c \
-       sources/ft_split.c \
-       sources/ft_tohexa.c \
-       sources/ft_fsource.c \
-       sources/ft_lstmap.c \
-       sources/ft_strchr.c \
-       sources/ft_tolower.c \
-       sources/ft_isalnum.c \
-       sources/ft_lstnew.c \
-       sources/ft_strdup.c \
-       sources/ft_tools2.c \
-       sources/ft_isalpha.c \
-       sources/ft_lstsize.c \
-       sources/ft_striteri.c \
-       sources/ft_tools.c \
-       sources/ft_isascii.c \
-       sources/ft_memchr.c \
-       sources/ft_strjoin.c \
-       sources/ft_toupper.c \
-       sources/ft_isdigit.c \
-       sources/ft_memcmp.c \
-       sources/ft_strlcat.c \
-       sources/ft_isprint.c \
-       sources/ft_memcpy.c \
-       sources/ft_strlcpy.c \
-       sources/ft_itoa.c \
-       sources/ft_memmove.c \
-	   sources/ft_printf.c \
-	   sources/ft_sprintf.c \
-	   sources/ms_utils_free.c \
-       sources/ft_strlen.c
+CFLAGS = -Wall -Wextra -Werror -g3
+SRCS = sources/custom_utils/ft_strcmp.c \
+sources/custom_utils/ft_strjoin_free.c \
+sources/ft_printf/ft_exec_d.c \
+sources/ft_printf/ft_exec_flags.c \
+sources/ft_printf/ft_fcustoms.c \
+sources/ft_printf/ft_flags.c \
+sources/ft_printf/ft_fsource.c \
+sources/ft_printf/ft_itoa_u.c \
+sources/ft_printf/ft_printf.c \
+sources/ft_printf/ft_sprintf.c \
+sources/ft_printf/ft_tohexa.c \
+sources/ft_printf/ft_tools2.c \
+sources/ft_printf/ft_tools.c \
+sources/libft/ft_atoi.c \
+sources/libft/ft_bzero.c \
+sources/libft/ft_calloc.c \
+sources/libft/ft_isalnum.c \
+sources/libft/ft_isalpha.c \
+sources/libft/ft_isascii.c \
+sources/libft/ft_isdigit.c \
+sources/libft/ft_isprint.c \
+sources/libft/ft_itoa.c \
+sources/libft/ft_lstadd_back.c \
+sources/libft/ft_lstadd_front.c \
+sources/libft/ft_lstclear.c \
+sources/libft/ft_lstdelone.c \
+sources/libft/ft_lstiter.c \
+sources/libft/ft_lstlast.c \
+sources/libft/ft_lstmap.c \
+sources/libft/ft_lstnew.c \
+sources/libft/ft_lstsize.c \
+sources/libft/ft_memchr.c \
+sources/libft/ft_memcmp.c \
+sources/libft/ft_memcpy.c \
+sources/libft/ft_memmove.c \
+sources/libft/ft_memset.c \
+sources/libft/ft_putchar_fd.c \
+sources/libft/ft_putendl_fd.c \
+sources/libft/ft_putnbr_fd.c \
+sources/libft/ft_putstr_fd.c \
+sources/libft/ft_split.c \
+sources/libft/ft_strchr.c \
+sources/libft/ft_strdup.c \
+sources/libft/ft_striteri.c \
+sources/libft/ft_strjoin.c \
+sources/libft/ft_strlcat.c \
+sources/libft/ft_strlcpy.c \
+sources/libft/ft_strlen.c \
+sources/libft/ft_strmapi.c \
+sources/libft/ft_strncmp.c \
+sources/libft/ft_strnstr.c \
+sources/libft/ft_strrchr.c \
+sources/libft/ft_strtrim.c \
+sources/libft/ft_substr.c \
+sources/libft/ft_tolower.c \
+sources/libft/ft_toupper.c
 OBJS = $(SRCS:sources/%.c=objets/%.o)
 AR = ar rcs
 LIB = ranlib
 OBJDEST = ./objets
 
+DEF_COLOR		:= \033[0;39m
+GRAY			:= \033[0;90m
+RED				:= \033[0;91m
+GREEN			:= \033[0;92m
+YELLOW			:= \033[0;93m
+BLUE			:= \033[0;94m
+MAGENTA			:= \033[0;95m
+CYAN			:= \033[0;96m
+WHITE			:= \033[0;97m
+
 all: $(NAME)
 
 $(NAME): $(OBJS)
+	@echo "$(GREEN)Making binary: $(NAME)"
+	@printf "$(MAGENTA)"
 	@$(AR) $(NAME) $(OBJS)
 	@$(LIB) $(NAME)
+	@printf "Done !$(DEF_COLOR)\n"
 
 $(OBJDEST)/%.o: sources/%.c
-	@mkdir -p $(OBJDEST)
+	@printf '$(YELLOW)Compiling : %-25s $(CYAN)-->	$(YELLOW)%-30s\n' "$<" "$@";
+	@printf "$(BLUE)"
 	@$(CC) $(CFLAGS) -c $< -o $@
+	@printf "$(DEF_COLOR)"
 
 clean:
 	@rm -f $(OBJS)
@@ -80,53 +95,6 @@ fclean: clean
 
 re: fclean all
 
-progress: fclean
-	@TOTAL_FILES=$$(echo $(SRCS) | wc -w); \
-	COMPLETED_FILES=0; \
-	GREEN='\033[0;32m'; \
-	YELLOW='\033[0;33m'; \
-	NC='\033[0m'; \
-	FILLED_BLOCK='▓'; \
-	EMPTY_BLOCK='░'; \
-	echo "$${GREEN}"; \
-	echo " ___       ___  ________  ________ _________  ________  ________  ___  ________   _________  ________ " ;\
-	echo "|\  \     |\  \|\   __  \|\  _____\\\\\\___   ___\\\\\\   __  \|\   __  \|\  \|\   ___  \|\___   ___\\\\\\  _____\\" ;\
-	echo "\ \  \    \ \  \ \  \|\ /\ \  \__/\|___ \  \_\ \  \|\  \ \  \|\  \ \  \ \  \\\\\\ \  \|___ \  \_\ \  \__/ " ;\
-	echo " \ \  \    \ \  \ \   __  \ \   __\    \ \  \ \ \   ____\ \   _  _\ \  \ \  \\\\\\ \  \   \ \  \ \ \   __\\" ;\
-	echo "  \ \  \____\ \  \ \  \|\  \ \  \_|     \ \  \ \ \  \___|\ \  \\\\\\  \\\\\\ \  \ \  \\\\\\ \  \   \ \  \ \ \  \_|" ;\
-	echo "   \ \_______\ \__\ \_______\ \__\       \ \__\ \ \__\    \ \__\\\\\\ _\\\\\\ \__\ \__\\\\\\ \__\   \ \__\ \ \__\\" ;\
-	echo "    \|_______|\|__|\|_______|\|__|        \|__|  \|__|     \|__|\|__|\|__|\|__| \|__|    \|__|  \|__| " ;\
-	echo "                                                                                                      " ;\
-	echo "$${NC}"; \
-	draw_progress_bar() { \
-		PERCENT=$$(( 100 * $$COMPLETED_FILES / $$TOTAL_FILES )); \
-		FILLED=$$(( $$PERCENT / 2 )); \
-		UNFILLED=$$(( 50 - $$FILLED )); \
-		printf "\r$$(tput el)"; \
-		printf "$${NC}%3d%% $${YELLOW}[" $$PERCENT; \
-		printf "$${GREEN}%0.s$${FILLED_BLOCK}" $$(seq 1 $$FILLED); \
-		printf "$${NC}%0.s$${EMPTY_BLOCK}" $$(seq 1 $$UNFILLED); \
-		printf "$${YELLOW}]"; \
-		if [ $$COMPLETED_FILES -gt 0 ]; then \
-			printf " $${GREEN}$${LAST_SRC} compiled$${NC}"; \
-		fi; \
-	}; \
-	for SRC in $(SRCS); do \
-		OBJ=$$(echo $$SRC | sed 's/sources\//objets\//' | sed 's/\.c$$/.o/'); \
-		if [ ! -f $$OBJ ] || [ $$SRC -nt $$OBJ ]; then \
-			$(CC) $(CFLAGS) -c $$SRC -o $$OBJ; \
-		fi; \
-		LAST_SRC=$$(basename $$SRC .c); \
-		COMPLETED_FILES=$$((COMPLETED_FILES + 1)); \
-		draw_progress_bar; \
-	done; \
-	printf "\r$$(tput el)"; \
-	printf "$${NC}%3d%% $${YELLOW}[" $$PERCENT; \
-	printf "$${GREEN}%0.s$${FILLED_BLOCK}" $$(seq 1 $$FILLED); \
-	printf "$${YELLOW}]"; \
-	echo "\n$${GREEN}Compilation terminée.$${NC}\n"
-	@$(AR) $(NAME) $(OBJS)
-
-.PHONY: all clean fclean re bonus progress
+.PHONY: all clean fclean re bonus
 
 
