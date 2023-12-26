@@ -2,7 +2,7 @@ NAME			:= minishell
 
 LIBFT			:= libftprintf/libftprintf.a
 CC 				:= cc
-CFLAGS 			:= -Wall -Wextra -Werror -lreadline
+CFLAGS 			:= -Wall -Wextra -Werror -lreadline -g3
 SRC 			:= source/main.c source/prompt.c source/get_env.c
 OBJ 			:= $(SRC:source/%.c=objects/%.o)
 OBJDIR 			:= objects
@@ -33,21 +33,20 @@ $(OBJDIR)/%.o: source/%.c
 
 clean:
 	@rm -rf $(OBJDIR) $(OBJ)
-	@make clean -C libftprintf/
+	@make --no-print-directory clean -C libftprintf/
 	@printf "$(RED)Objects deleted !$(DEF_COLOR)\n"
 
 fclean: clean
 	@rm -rf $(NAME)
-	@make fclean -C libftprintf/
+	@make --no-print-directory fclean -C libftprintf/
 	@printf "$(RED)Binary deleted !$(DEF_COLOR)\n"
 
 $(OBJDIR):
 	@mkdir -p $(OBJDIR)
 
 $(LIBFT) :
-	@make -C libftprintf/
+	@make --no-print-directory -C libftprintf/
 
 re: fclean all
-	@make re -C libftprintf/
 
 .PHONY: all clean fclean re 
