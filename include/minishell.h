@@ -6,7 +6,7 @@
 /*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/23 14:09:29 by nbardavi          #+#    #+#             */
-/*   Updated: 2023/12/23 19:13:52 by nbardavi         ###   ########.fr       */
+/*   Updated: 2023/12/26 13:28:40 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,11 @@
 #define VIOLET "\033[38;2;189;147;249m"
 #define GREEN "\033[38;2;80;255;125m"
 #define WHITE "\033[0m"
+
+# define F_PIPE 1
+# define F_OR 2
+# define F_AND 3
+
 /*_.-=-._.-=-._.-=-._.-=-._.- Structs -._.-=-._.-=-._.-=-._.-=-._.-=-._*/
 
 typedef struct s_lst
@@ -45,6 +50,12 @@ typedef struct s_env
 	char	*usr;
 }			t_env;
 
+typedef struct s_args
+{	
+	char	**flags;
+	char	*cmd;
+	int 	trigger;
+}			t_args;
 
 void prompt(t_env *env);
 char *get_pwd(t_env *data);
