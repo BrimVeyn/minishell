@@ -6,10 +6,7 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/23 16:11:18 by bvan-pae          #+#    #+#             */
-/*   Updated: 2023/12/26 15:30:41 by bvan-pae         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-/*   Updated: 2023/12/26 15:20:12 by nbardavi         ###   ########.fr       */
+/*   Updated: 2023/12/26 16:26:18 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,18 +75,18 @@ char	*get_time(void)
 	return (time_char);
 }
 
-char	*ms_form_prompt(t_env *env)
+char	*ms_form_prompt(t_env *denv)
 {
 	char	*prompt;
 	char	*full_home;
 	char	*time_char;
 	char	*temp_home;
 
-	full_home = ft_strjoin("/home/", env->usr);
-	if (ft_strncmp(env->pwd, full_home, ft_strlen(full_home)) == 0)
-		temp_home = ft_sprintf("~%s", ft_substr_free(ft_strdup(env->pwd), ft_strlen(full_home), ft_strlen(env->pwd)));
+	full_home = ft_strjoin("/home/", denv->usr);
+	if (ft_strncmp(denv->pwd, full_home, ft_strlen(full_home)) == 0)
+		temp_home = ft_sprintf("~%s", ft_substr_free(ft_strdup(denv->pwd), ft_strlen(full_home), ft_strlen(denv->pwd)));
 	else
-		temp_home = ft_sprintf("%s", ft_strdup(env->pwd));
+		temp_home = ft_sprintf("%s", ft_strdup(denv->pwd));
 	free(full_home);
 	full_home = ft_strdup_free(temp_home);
 	full_home = cut_size(full_home);
@@ -98,15 +95,15 @@ char	*ms_form_prompt(t_env *env)
 	return (prompt);
 }
 
-void	prompt(t_env *env)
+void	prompt(t_env *denv)
 {
 	char	*input;
 	char	*prompt;
 
 	while (1)
 	{
-		update_env(env);
-		prompt = ms_form_prompt(env);
+		update_env(denv);
+		prompt = ms_form_prompt(denv);
 		input = readline(prompt);
 		free(prompt);
 		if (input == NULL)

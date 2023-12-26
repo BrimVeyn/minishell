@@ -6,7 +6,7 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/23 14:09:29 by nbardavi          #+#    #+#             */
-/*   Updated: 2023/12/26 15:16:54 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2023/12/26 16:34:31 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,13 @@
 #define GREEN "\033[38;2;80;255;125m"
 #define WHITE "\033[0m"
 
-# define F_PIPE 1
-# define F_OR 2
-# define F_AND 3
+# define PIPE 1
+# define OR 2
+# define AND 3
+# define S_AL 4
+# define S_AR 5
+# define D_AL 6
+# define D_AR 7
 
 /*_.-=-._.-=-._.-=-._.-=-._.- Structs -._.-=-._.-=-._.-=-._.-=-._.-=-._*/
 
