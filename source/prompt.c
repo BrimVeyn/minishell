@@ -6,7 +6,7 @@
 /*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/23 16:11:18 by bvan-pae          #+#    #+#             */
-/*   Updated: 2023/12/24 15:46:26 by nbardavi         ###   ########.fr       */
+/*   Updated: 2023/12/26 13:27:32 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,6 @@ char	*cut_size(char *path)
 	i = 0;
 	cpt = 0;
 	ioctl(STDOUT_FILENO, TIOCGWINSZ, &w);
-	printf("Lignes : %d\n", w.ws_row);
-	printf("Colonnes : %d\n", w.ws_col);
 	while (path[i])
 	{
 		if (path[i] == '/')
