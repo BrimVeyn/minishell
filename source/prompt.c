@@ -6,7 +6,7 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/23 16:11:18 by bvan-pae          #+#    #+#             */
-/*   Updated: 2023/12/27 09:34:16 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2023/12/27 16:10:23 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ char	*ms_form_prompt(t_env *denv)
 	free(full_home);
 	full_home = ft_strdup_free(temp_home);
 	full_home = cut_size(full_home);
-	prompt = ft_sprintf("%s%fs%s%fs ❯%fs", get_time(), GREEN, full_home, VIOLET,
+	prompt = ft_sprintf("%s%fs%s%fs ❯ %fs", get_time(), GREEN, full_home, VIOLET,
 			WHITE);
 	return (prompt);
 }

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_sprintf.c                                       :+:      :+:    :+:   */
+/*   fd_printf.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/09 13:32:26 by nbardavi          #+#    #+#             */
-/*   Updated: 2023/12/27 17:12:52 by bvan-pae         ###   ########.fr       */
+/*   Created: 2023/12/27 16:37:56 by bvan-pae          #+#    #+#             */
+/*   Updated: 2023/12/27 17:11:39 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,22 +14,21 @@
 
 char		*exec_flags(const char *txt, int i, va_list args);
 
-static char	*print_and_free2(char *str, char *returnchar)
+static int	print_and_free3(char *str, int fd)
 {
-	char *returnvalue;
+	int	len;
 
-	
 	if (str)
 	{
-		returnvalue = ft_strjoin(returnchar, str);
-		free(returnchar);
+		len = (int)ft_strlen(str);
+		ft_putstr_fd(str, fd);
 		free(str);
-		return(returnvalue);
+		return (len);
 	}
 	return (0);
 }
 
-static char	*handle_format2(const char *txt, unsigned int *i, va_list args, char* returnchar)
+static int	handle_format3(const char *txt, unsigned int *i, va_list args, int fd)
 {
 	int		nbf;
 	char	*temp;
@@ -43,39 +42,31 @@ static char	*handle_format2(const char *txt, unsigned int *i, va_list args, char
 		if (temp)
 			*i += nbf;
 	}
-	return (print_and_free2(temp, returnchar));
+	return (print_and_free3(temp, fd));
 }
 
-char	*ft_sprintf(char *txt, ...)
+int	fd_printf(int fd, const char *txt, ...)
 {
 	va_list			args;
 	unsigned int	i;
 	int				count;
-	char	*returnchar;
 
-	returnchar = ft_strdup("");
+	if (txt == NULL)
+		return (-1);
 	va_start(args, txt);
 	count = 0;
 	i = 0;
 	while (txt[i])
 	{
 		if (txt[i] == '%')
-			returnchar = handle_format2(txt, &i, args, returnchar);
+			count += handle_format3(txt, &i, args, fd);
 		else
 		{
-			returnchar = ft_strjoin_free(returnchar, ft_strdup_char(txt[i]));
+			ft_putchar_fd(txt[i], fd);
 			count++;
 		}
 		i++;
 	}
 	va_end(args);
-	return (returnchar);
+	return (count);
 }
-
-// int	main(void)
-// {
-// 	char *count2 = ft_sprintf("%05d %s", 232, "Coucou");
-// 	printf("%s", count2);
-// 	free(count2);
-// 	return (0);
-// }
