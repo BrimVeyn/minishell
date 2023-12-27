@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_printf.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
+/*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/10 12:13:14 by bvan-pae          #+#    #+#             */
-/*   Updated: 2023/12/26 15:04:00 by nbardavi         ###   ########.fr       */
+/*   Updated: 2023/12/27 17:11:39 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,8 @@ char		*to_hexa_p(unsigned long long nbr);
 
 /*_.-=-._.-=-._.-=-._.-=-._.- Main -._.-=-._.-=-._.-=-._.-=-._.-=-._*/
 
+int		fd_printf(int fd, const char *txt, ...);
+char	*check_p(const char *txt, unsigned int i, va_list args);
 int			ft_printf(const char *txt, ...);
 char		*ft_sprintf(char *txt, ...);
 char		*exec_flags(const char *txt, int i, va_list args);
