@@ -89,6 +89,8 @@ char		*to_hexa_p(unsigned long long nbr);
 
 /*_.-=-._.-=-._.-=-._.-=-._.- Main -._.-=-._.-=-._.-=-._.-=-._.-=-._*/
 
+int		fd_printf(int fd, const char *txt, ...);
+char	*check_p(const char *txt, unsigned int i, va_list args);
 int			ft_printf(const char *txt, ...);
 char		*ft_sprintf(char *txt, ...);
 char		*exec_flags(const char *txt, int i, va_list args);
