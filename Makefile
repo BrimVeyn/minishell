@@ -4,7 +4,7 @@ LIBFT			:= libftprintf/libftprintf.a
 CC 				:= cc
 CFLAGS 			:= -Wall -Wextra -Werror -lreadline -g3
 SRC 			:= source/main.c source/prompt.c source/get_env.c \
-				   source/free.c
+				   source/free.c source/parse.c
 OBJ 			:= $(SRC:source/%.c=objects/%.o)
 OBJDIR 			:= objects
 

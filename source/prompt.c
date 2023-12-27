@@ -6,7 +6,7 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/23 16:11:18 by bvan-pae          #+#    #+#             */
-/*   Updated: 2023/12/26 16:26:18 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2023/12/27 09:34:16 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,10 @@ void	prompt(t_env *denv)
 		if (input == NULL)
 			break ;
         if (input && *input)
+		{
             add_history(input);
+			parse_input(input);
+		}
 		free(input);
 	}
 	free(input);
