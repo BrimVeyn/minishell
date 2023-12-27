@@ -6,7 +6,7 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/23 14:09:29 by nbardavi          #+#    #+#             */
-/*   Updated: 2023/12/26 15:16:54 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2023/12/27 17:11:39 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,15 +24,38 @@
 # include <unistd.h>
 # include <time.h>
 
-#define VIOLET "\033[38;2;189;147;249m"
-#define GREEN "\033[38;2;80;255;125m"
-#define WHITE "\033[0m"
+#include <readline/readline.h>
+#include <readline/history.h>
+#include <sys/ioctl.h>
 
-# define F_PIPE 1
-# define F_OR 2
-# define F_AND 3
+# define VIOLET "\001\e[38;2;189;147;249m\002"
+# define GREEN "\001\e[38;2;80;255;125m\002"
+# define WHITE "\001\e[0m\002"
+
+/*_.-=-._.-=-._.-=-._.-=-._.- Enum -._.-=-._.-=-._.-=-._.-=-._.-=-._*/
+
+enum
+{
+	CMD = 0,
+	PIPE = 1,
+	OR = 2,
+	AND = 3,
+	S_AL = 4,
+	S_AR = 5,
+	D_AL = 6,
+	D_AR = 7,
+	DOLLAR = 8,
+	P_O = -10,
+	P_C = 10,
+};
 
 /*_.-=-._.-=-._.-=-._.-=-._.- Structs -._.-=-._.-=-._.-=-._.-=-._.-=-._*/
+
+typedef struct s_pipe
+{
+	int input;
+	int output;
+}			t_pipe;
 
 typedef struct s_lst
 {
@@ -41,6 +64,12 @@ typedef struct s_lst
 	void	*next;
 }			t_lst;
 
+typedef struct s_h_lst
+{
+	char	*content;
+	void	*next;
+}			t_h_lst;
+
 typedef struct s_env
 {	
 	t_lst	lst;
@@ -48,21 +77,43 @@ typedef struct s_env
 	char	*pwd;
 	char	*path;
 	char	*usr;
+	t_h_lst	*history;
 }			t_env;
 
-typedef struct s_args
+typedef struct s_tok
 {	
-	char	**flags;
-	char	*cmd;
-	int 	trigger;
-}			t_args;
+	char	***tokens;
+	int 	*type;
+	int		*par;
+}			t_tok;
+
+typedef struct s_tokvar
+{
+	char	*str;
+	int		type;
+	int		len;
+}			t_tokvar;
+
+typedef struct s_tokh
+{
+	int		i;
+	int		j;
+	int		k;
+	int		tri;
+}			t_tokh;
+
+t_tok	parse_input(char *input);
+t_h_lst *ms_lst_new(char *content);
 
 char	**ms_dupdup(char **environ);
 char	*get_pwd(t_env *data);
 char	*get_path(t_env *data);
 char	*get_usr(t_env *data);
+
 void	prompt(t_env *env);
 void	update_env(t_env *data);
 void	free_tab(char **tab);
+void	ms_lst_b(t_h_lst **lst, t_h_lst *newlst);
+void	ms_main_pipe(t_tok d_token, t_env *denv);
 
 #endif

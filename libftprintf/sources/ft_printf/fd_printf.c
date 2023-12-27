@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_printf.c                                        :+:      :+:    :+:   */
+/*   fd_printf.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbardavi <nbardavi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/09 13:32:26 by nbardavi          #+#    #+#             */
-/*   Updated: 2023/12/24 12:36:39 by nbardavi         ###   ########.fr       */
+/*   Created: 2023/12/27 16:37:56 by bvan-pae          #+#    #+#             */
+/*   Updated: 2023/12/27 16:37:56 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 char		*exec_flags(const char *txt, int i, va_list args);
 
-static int	print_and_free2(char *str, int fd)
+static int	print_and_free3(char *str, int fd)
 {
 	int	len;
 
@@ -28,7 +28,7 @@ static int	print_and_free2(char *str, int fd)
 	return (0);
 }
 
-static int	handle_format2(const char *txt, unsigned int *i, va_list args)
+static int	handle_format3(const char *txt, unsigned int *i, va_list args, int fd)
 {
 	int		nbf;
 	char	*temp;
@@ -42,10 +42,10 @@ static int	handle_format2(const char *txt, unsigned int *i, va_list args)
 		if (temp)
 			*i += nbf;
 	}
-	return (print_and_free2(temp, 2));
+	return (print_and_free3(temp, fd));
 }
 
-int	ft_printf(const char *txt, ...)
+int	fd_printf(int fd, const char *txt, ...)
 {
 	va_list			args;
 	unsigned int	i;
@@ -59,10 +59,10 @@ int	ft_printf(const char *txt, ...)
 	while (txt[i])
 	{
 		if (txt[i] == '%')
-			count += handle_format2(txt, &i, args);
+			count += handle_format3(txt, &i, args, fd);
 		else
 		{
-			ft_putchar_fd(txt[i], 2);
+			ft_putchar_fd(txt[i], fd);
 			count++;
 		}
 		i++;
@@ -70,13 +70,3 @@ int	ft_printf(const char *txt, ...)
 	va_end(args);
 	return (count);
 }
-
-// int	main(void)
-// {
-// 	int count = printf("|%02.X|", 0);
-//
-// 	printf("\n");
-// 	int count2 = ft_printf("|%02.X|", 0);
-// 	printf("\nvalue printf: %d\nvalue ft_printf: %d\n", count, count2);
-// 	return (0);
-// }
