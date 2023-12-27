@@ -99,7 +99,9 @@ void	prompt(t_env *denv)
 {
 	char	*input;
 	char	*prompt;
+	int		i;
 
+	i = 0;
 	while (1)
 	{
 		update_env(denv);
@@ -110,9 +112,14 @@ void	prompt(t_env *denv)
 			break ;
         if (input && *input)
 		{
+			if (i == 0)
+				denv->history = ms_lst_new(input);
+			else
+				ms_lst_b(&denv->history, ms_lst_new(input));
             add_history(input);
-			parse_input(input);
+			ms_main_pipe(parse_input(input), denv);
 		}
+		i++;
 		free(input);
 	}
 	free(input);

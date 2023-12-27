@@ -26,11 +26,8 @@ char *ms_getlast(t_env *denv)
 	t_h_lst *lst;
 
 	lst = denv->history;
-	ft_printf("content: %s", lst->content);
 	while(lst->next != NULL)
-	{
 		lst = lst->next;
-	}
 	return (lst->content);
 }
 
@@ -45,7 +42,6 @@ void reset_history(t_env *denv)
 		add_history(lst->content);
 		lst = lst->next;
 	}
-	lst = lst->next;
 }
 
 void heredoc(t_pipe *d_pipe, char *limiter, t_env *denv)
