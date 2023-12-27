@@ -6,7 +6,7 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/26 15:14:38 by bvan-pae          #+#    #+#             */
-/*   Updated: 2023/12/26 15:21:42 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2023/12/26 16:13:39 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,11 @@ void	free_tab(char **tab)
 {
 	int i;
 
-	i = -1;
-	while (tab[++i])
+	i = 0;
+	while (tab[i])
+	{
 		free(tab[i]);
+		i++;
+	}
 	free(tab);
 }
