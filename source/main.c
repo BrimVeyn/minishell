@@ -6,7 +6,7 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/23 15:16:24 by bvan-pae          #+#    #+#             */
-/*   Updated: 2023/12/26 16:25:06 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2023/12/27 08:35:19 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,12 +30,6 @@ int main(int ac, char *av[], char *env[])
 	denv.pwd = get_pwd(&denv);
 	denv.path = get_path(&denv);
 	denv.usr = get_usr(&denv);
-	// printf("%s\n", denv.pwd);
-	// printf("%s\n", denv.path);
-	// printf("%s\n", denv.usr);
-	char *c_line = "\"";
-	// for (int i = 0; c_line[i]; i++)
-	// 	printf("%d\n", c_line[i]);
 	prompt(&denv);
 	free_env(&denv);
 }
