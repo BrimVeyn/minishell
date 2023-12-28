@@ -6,7 +6,7 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/26 16:27:38 by bvan-pae          #+#    #+#             */
-/*   Updated: 2023/12/28 10:15:33 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2023/12/28 14:08:59 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,8 +55,16 @@ void	extract_delimiter(char *input, t_tok *tdata, t_tokh *v)
 	}
 	tdata->tokens[v->j] = (char **) ft_calloc (2, sizeof(char *));
 	tdata->tokens[v->j][0] = ft_substr(input, v->i - len, len); 
-	tdata->type[v->j] = DELIMITER;
-	v->j++;
+	tdata->type[v->j++] = DELIMITER;
+}
+
+
+char **parse_command(char *cmd)
+{
+	char **args;
+
+	printf("%s", cmd);
+	return (args);
 }
 
 void fill_token(char *input, t_tok *tdata)
@@ -73,9 +81,8 @@ void fill_token(char *input, t_tok *tdata)
 		{			
 			tdata->tokens[v.j] = (char **) ft_calloc (2, sizeof(char *));
 			tdata->tokens[v.j][0] = ft_strdup(tokvar.str); 
-			tdata->type[v.j] = tokvar.type;
+			tdata->type[v.j++] = tokvar.type;
 			v.i += tokvar.len;
-			v.j += 1;
 		}
 		if (input[v.i] && tokvar.type == D_AL)
 			extract_delimiter(input, tdata, &v);
@@ -90,11 +97,37 @@ void fill_token(char *input, t_tok *tdata)
 		}
 		if (v.tri == 1)
 		{
+			// tdata->tokens[v.j] = parse_command(ft_substr(input, v.i - v.k, v.k));
 			tdata->tokens[v.j] = ft_split(ft_substr(input, v.i - v.k, v.k), ' ');
-			tdata->type[v.j] = ms_tiktok(&input[v.i - v.k]).type;
-			v.j += 1;
+			tdata->type[v.j++] = ms_tiktok(&input[v.i - v.k]).type;
 		}
 	}
+}
+
+int	count_delimiter(char *input)
+{
+	int len;
+	int i;
+
+	len = 0;
+	i = 0;
+	while (ms_isws(input[i]))
+		i++;
+	while (input[i] && !ms_isws(input[i]) && ms_tiktok(&input[i]).type == CMD)
+	{
+		len++;
+		i++;
+	}
+	// ft_printf("len ===== %d\n", len);
+	if (len == 0 && !input[i])
+	{
+		fd_printf(2, "bash: syntax error near unexpected token `newline'");
+	}
+	else if (len ==  0 && ms_tiktok(&input[i]).type != CMD)
+	{
+		fd_printf(2, "bash: syntax error near unexpected token `%fs'", ms_tiktok(&input[i]).str);
+	}
+	return (len);
 }
 
 int count_tokens(char *input)
@@ -104,22 +137,36 @@ int count_tokens(char *input)
 	int trigger;
 	int count;
 	int off;
+	int dcount;
 
 	count = 0;
 	i = 0;
 	trigger = 0;
-	
+	dcount = 0;
 	while (input[i])
 	{
 		trigger = 0;
 		tokvar = ms_tiktok(&input[i]);
-		if (input[i] && tokvar.type != CMD)
+		if (input[i] && tokvar.type != CMD && tokvar.type != D_AL)
 		{
+			printf("COUNTED ANYSYM\n");
 			count += 1;
 			i += tokvar.len;
 		}
 		if (input[i] && tokvar.type == D_AL)
-			count += 1;
+		{
+			printf("COUNTED <<\n");
+			dcount = count_delimiter(&input[i + 2]);
+			i += 2 + dcount;
+			if (dcount)
+			{
+				printf("COUNTED DELIMITER\n");
+				count += 2;
+			}
+			else
+				count += 1;
+		}
+		// printf("remaining str %s\n", &input[i]);
 		while(ms_isws(input[i]))
 			i++;
 		while (input[i] && ms_tiktok(&input[i]).type == CMD)
@@ -128,19 +175,12 @@ int count_tokens(char *input)
 			i++;
 		}
 		if (trigger == 1)
+		{
+			printf("COUNTED CMD\n");
 			count += 1;
+		}
 	}
 	return (count);
-}
-
-t_tok ms_alloctok(int tokcount)
-{
-	t_tok self;
-
-	self.tokens = (char ***) ft_calloc(tokcount + 1, sizeof(char **));
-	self.type = (int *) ft_calloc(tokcount + 1, sizeof(int));
-	self.par = (int *) ft_calloc(tokcount + 1, sizeof(int));
-	return(self);
 }
 
 t_tok	parse_input(char *input, t_env *denv)
@@ -149,10 +189,10 @@ t_tok	parse_input(char *input, t_env *denv)
 	int		tokcount;
 
 	tokcount = count_tokens(input);
-	tdata = ms_alloctok(tokcount);
+	tdata = init_tok(tokcount);
 	printf("Token count : %d\n", tokcount);
 	fill_token(input, &tdata);
-	ms_add_path(&tdata, denv);
+	// ms_add_path(&tdata, denv);
 	for (int i = 0; tdata.tokens[i]; i++)
 	{
 		printf("S->TYPE[%d] = %d\n", i, tdata.type[i]);
