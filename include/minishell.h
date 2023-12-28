@@ -58,6 +58,7 @@ typedef struct s_pipe
 	int output;
 	int nbr_h;
 	int skip_and;
+	int *fork_id;
 }			t_pipe;
 
 typedef struct s_lst
@@ -86,7 +87,7 @@ typedef struct s_env
 typedef struct s_tok
 {	
 	char	***tokens;
-	int 	*type;
+	int 	**type;
 	int		*par;
 }			t_tok;
 
