@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_sprintf.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
+/*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/09 13:32:26 by nbardavi          #+#    #+#             */
-/*   Updated: 2023/12/24 14:03:55 by nbardavi         ###   ########.fr       */
+/*   Updated: 2023/12/27 17:12:52 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,26 +14,7 @@
 
 char		*exec_flags(const char *txt, int i, va_list args);
 
-char	*check_p(const char *txt, unsigned int i, va_list args)
-{
-	if (txt[i] == 'd' || txt[i] == 'i')
-		return (ft_itoa(va_arg(args, int)));
-	if (txt[i] == 'c')
-		return (itc(va_arg(args, int)));
-	if (txt[i] == 's')
-		return (interdup(va_arg(args, char *)));
-	if (txt[i] == 'p')
-		return (to_hexa_p(va_arg(args, unsigned long long)));
-	if (txt[i] == 'u')
-		return (ft_itoa_u(va_arg(args, unsigned int)));
-	if (txt[i] == 'x' || txt[i] == 'X')
-		return (to_hexa(va_arg(args, unsigned int), txt[i]));
-	if (txt[i] == '%')
-		return (ft_strdup("%"));
-	return (NULL);
-}
-
-static char	*print_and_free(char *str, char *returnchar)
+static char	*print_and_free2(char *str, char *returnchar)
 {
 	char *returnvalue;
 
@@ -48,7 +29,7 @@ static char	*print_and_free(char *str, char *returnchar)
 	return (0);
 }
 
-static char	*handle_format(const char *txt, unsigned int *i, va_list args, char* returnchar)
+static char	*handle_format2(const char *txt, unsigned int *i, va_list args, char* returnchar)
 {
 	int		nbf;
 	char	*temp;
@@ -62,7 +43,7 @@ static char	*handle_format(const char *txt, unsigned int *i, va_list args, char*
 		if (temp)
 			*i += nbf;
 	}
-	return (print_and_free(temp, returnchar));
+	return (print_and_free2(temp, returnchar));
 }
 
 char	*ft_sprintf(char *txt, ...)
@@ -79,7 +60,7 @@ char	*ft_sprintf(char *txt, ...)
 	while (txt[i])
 	{
 		if (txt[i] == '%')
-			returnchar = handle_format(txt, &i, args, returnchar);
+			returnchar = handle_format2(txt, &i, args, returnchar);
 		else
 		{
 			returnchar = ft_strjoin_free(returnchar, ft_strdup_char(txt[i]));

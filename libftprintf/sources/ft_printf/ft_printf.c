@@ -14,7 +14,26 @@
 
 char		*exec_flags(const char *txt, int i, va_list args);
 
-static int	print_and_free2(char *str, int fd)
+char	*check_p(const char *txt, unsigned int i, va_list args)
+{
+	if (txt[i] == 'd' || txt[i] == 'i')
+		return (ft_itoa(va_arg(args, int)));
+	if (txt[i] == 'c')
+		return (itc(va_arg(args, int)));
+	if (txt[i] == 's')
+		return (interdup(va_arg(args, char *)));
+	if (txt[i] == 'p')
+		return (to_hexa_p(va_arg(args, unsigned long long)));
+	if (txt[i] == 'u')
+		return (ft_itoa_u(va_arg(args, unsigned int)));
+	if (txt[i] == 'x' || txt[i] == 'X')
+		return (to_hexa(va_arg(args, unsigned int), txt[i]));
+	if (txt[i] == '%')
+		return (ft_strdup("%"));
+	return (NULL);
+}
+
+static int	print_and_free(char *str, int fd)
 {
 	int	len;
 
@@ -28,7 +47,7 @@ static int	print_and_free2(char *str, int fd)
 	return (0);
 }
 
-static int	handle_format2(const char *txt, unsigned int *i, va_list args)
+static int	handle_format(const char *txt, unsigned int *i, va_list args)
 {
 	int		nbf;
 	char	*temp;
@@ -42,7 +61,7 @@ static int	handle_format2(const char *txt, unsigned int *i, va_list args)
 		if (temp)
 			*i += nbf;
 	}
-	return (print_and_free2(temp, 2));
+	return (print_and_free(temp, 2));
 }
 
 int	ft_printf(const char *txt, ...)
@@ -59,7 +78,7 @@ int	ft_printf(const char *txt, ...)
 	while (txt[i])
 	{
 		if (txt[i] == '%')
-			count += handle_format2(txt, &i, args);
+			count += handle_format(txt, &i, args);
 		else
 		{
 			ft_putchar_fd(txt[i], 2);
