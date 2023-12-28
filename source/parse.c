@@ -6,7 +6,7 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/26 16:27:38 by bvan-pae          #+#    #+#             */
-/*   Updated: 2023/12/27 16:52:52 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2023/12/28 10:15:33 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,27 +17,6 @@ int	ms_isws(char c)
 	if ((c >= 9 && c <= 13) || c == 32)
 		return (1);
 	return (0);
-}
-
-t_tokvar init_tokvar(char *symbol, int type)
-{
-	t_tokvar self;
-
-	self.type = type;
-	self.len = ft_strlen(symbol);
-	self.str = symbol;
-	return (self);
-}
-
-t_tokh init_tokh(void)
-{
-	t_tokh self;
-	
-	self.i = 0;
-	self.j = 0;
-	self.k = 0;
-	self.tri = 0;
-	return (self);
 }
 
 t_tokvar ms_tiktok(char *ptr)
@@ -64,19 +43,19 @@ t_tokvar ms_tiktok(char *ptr)
 
 void	extract_delimiter(char *input, t_tok *tdata, t_tokh *v)
 {
-	int j;
+	int len;
 
-	j = 0;
+	len = 0;
 	while (ms_isws(input[v->i]))
 		v->i++;
 	while (!ms_isws(input[v->i]))
 	{
-		j++;
+		len++;
 		v->i++;
 	}
 	tdata->tokens[v->j] = (char **) ft_calloc (2, sizeof(char *));
-	tdata->tokens[v->j][0] = ft_substr(input, v->i - j, j); 
-	tdata->type[v->j] = CMD;
+	tdata->tokens[v->j][0] = ft_substr(input, v->i - len, len); 
+	tdata->type[v->j] = DELIMITER;
 	v->j++;
 }
 
@@ -90,7 +69,7 @@ void fill_token(char *input, t_tok *tdata)
 	{
 		v.tri = 0;
 		tokvar = ms_tiktok(&input[v.i]);
-		if (input[v.i] && tokvar.type != 0)
+		if (input[v.i] && tokvar.type != CMD)
 		{			
 			tdata->tokens[v.j] = (char **) ft_calloc (2, sizeof(char *));
 			tdata->tokens[v.j][0] = ft_strdup(tokvar.str); 
@@ -98,12 +77,12 @@ void fill_token(char *input, t_tok *tdata)
 			v.i += tokvar.len;
 			v.j += 1;
 		}
-		if (input[v.i] && tokvar.type == 6)
+		if (input[v.i] && tokvar.type == D_AL)
 			extract_delimiter(input, tdata, &v);
 		v.k = 0;
 		while(ms_isws(input[v.i]))
 			v.i++;
-		while (input[v.i] && ms_tiktok(&input[v.i]).type == 0)
+		while (input[v.i] && ms_tiktok(&input[v.i]).type == CMD)
 		{
 			v.tri = 1;
 			v.k++;
@@ -134,16 +113,16 @@ int count_tokens(char *input)
 	{
 		trigger = 0;
 		tokvar = ms_tiktok(&input[i]);
-		if (input[i] && tokvar.type != 0)
+		if (input[i] && tokvar.type != CMD)
 		{
 			count += 1;
 			i += tokvar.len;
 		}
-		if (input[i] && tokvar.type == 6)
+		if (input[i] && tokvar.type == D_AL)
 			count += 1;
 		while(ms_isws(input[i]))
 			i++;
-		while (input[i] && ms_tiktok(&input[i]).type == 0)
+		while (input[i] && ms_tiktok(&input[i]).type == CMD)
 		{
 			trigger = 1;
 			i++;
@@ -164,7 +143,7 @@ t_tok ms_alloctok(int tokcount)
 	return(self);
 }
 
-t_tok	parse_input(char *input)
+t_tok	parse_input(char *input, t_env *denv)
 {
 	t_tok	tdata;
 	int		tokcount;
@@ -173,6 +152,7 @@ t_tok	parse_input(char *input)
 	tdata = ms_alloctok(tokcount);
 	printf("Token count : %d\n", tokcount);
 	fill_token(input, &tdata);
+	ms_add_path(&tdata, denv);
 	for (int i = 0; tdata.tokens[i]; i++)
 	{
 		printf("S->TYPE[%d] = %d\n", i, tdata.type[i]);
