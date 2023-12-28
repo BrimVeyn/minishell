@@ -6,7 +6,7 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/23 14:09:29 by nbardavi          #+#    #+#             */
-/*   Updated: 2023/12/27 17:11:39 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2023/12/28 13:50:08 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ enum
 	S_AL = 4,
 	S_AR = 5,
 	D_AL = 6,
+	DELIMITER = 42,
 	D_AR = 7,
 	DOLLAR = 8,
 	P_O = -10,
@@ -55,6 +56,8 @@ typedef struct s_pipe
 {
 	int input;
 	int output;
+	int nbr_h;
+	int skip_and;
 }			t_pipe;
 
 typedef struct s_lst
@@ -102,18 +105,22 @@ typedef struct s_tokh
 	int		tri;
 }			t_tokh;
 
-t_tok	parse_input(char *input);
-t_h_lst *ms_lst_new(char *content);
+t_tok		parse_input(char *input, t_env *denv);
+t_tok		init_tok(int tokcount);
+t_tokvar	init_tokvar(char *symbol, int type);
+t_tokh		init_tokh(void);
+t_h_lst		*ms_lst_new(char *content);
 
-char	**ms_dupdup(char **environ);
-char	*get_pwd(t_env *data);
-char	*get_path(t_env *data);
-char	*get_usr(t_env *data);
+char		**ms_dupdup(char **environ);
+char		*get_pwd(t_env *data);
+char		*get_path(t_env *data);
+char		*get_usr(t_env *data);
 
-void	prompt(t_env *env);
-void	update_env(t_env *data);
-void	free_tab(char **tab);
-void	ms_lst_b(t_h_lst **lst, t_h_lst *newlst);
-void	ms_main_pipe(t_tok d_token, t_env *denv);
+void		prompt(t_env *env);
+void		update_env(t_env *data);
+void		free_tab(char **tab);
+void		ms_lst_b(t_h_lst **lst, t_h_lst *newlst);
+void		ms_main_pipe(t_tok d_token, t_env *denv);
+void		ms_add_path(t_tok *tdata, t_env *denv);
 
 #endif
