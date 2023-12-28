@@ -6,7 +6,7 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/23 14:09:29 by nbardavi          #+#    #+#             */
-/*   Updated: 2023/12/28 10:14:29 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2023/12/28 13:50:08 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,8 @@ typedef struct s_pipe
 {
 	int input;
 	int output;
+	int nbr_h;
+	int skip_and;
 }			t_pipe;
 
 typedef struct s_lst
@@ -104,6 +106,7 @@ typedef struct s_tokh
 }			t_tokh;
 
 t_tok		parse_input(char *input, t_env *denv);
+t_tok		init_tok(int tokcount);
 t_tokvar	init_tokvar(char *symbol, int type);
 t_tokh		init_tokh(void);
 t_h_lst		*ms_lst_new(char *content);

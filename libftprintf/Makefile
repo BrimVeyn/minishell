@@ -9,6 +9,7 @@ sources/ft_printf/ft_fcustoms.c \
 sources/ft_printf/ft_flags.c \
 sources/ft_printf/ft_fsource.c \
 sources/ft_printf/ft_itoa_u.c \
+sources/ft_printf/fd_printf.c \
 sources/ft_printf/ft_printf.c \
 sources/ft_printf/ft_sprintf.c \
 sources/ft_printf/ft_tohexa.c \
@@ -82,7 +83,7 @@ $(NAME): $(OBJS)
 	@printf "Done !$(DEF_COLOR)\n"
 
 $(OBJDEST)/%.o: sources/%.c
-	@printf '$(YELLOW)Compiling : %-25s $(CYAN)-->	$(YELLOW)%-30s\n' "$<" "$@";
+	@printf '$(YELLOW)Compiling : %-40s $(CYAN)-->	$(YELLOW)%-30s\n' "$<" "$@";
 	@printf "$(BLUE)"
 	@$(CC) $(CFLAGS) -c $< -o $@
 	@printf "$(DEF_COLOR)"
