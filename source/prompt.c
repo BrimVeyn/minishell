@@ -6,7 +6,7 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/23 16:11:18 by bvan-pae          #+#    #+#             */
-/*   Updated: 2023/12/27 11:41:44 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2023/12/28 14:11:47 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ void	prompt(t_env *denv)
 {
 	char	*input;
 	char	*prompt;
-	int i;
+	int		i;
 
 	i = 0;
 	while (1)
@@ -117,7 +117,8 @@ void	prompt(t_env *denv)
 			else
 				ms_lst_b(&denv->history, ms_lst_new(input));
             add_history(input);
-			ms_main_pipe(parse_input(input), denv);
+			parse_input(input, denv);
+			// ms_main_pipe(parse_input(input, denv), denv);
 		}
 		i++;
 		free(input);
