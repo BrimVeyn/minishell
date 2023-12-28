@@ -63,7 +63,7 @@ void heredoc(t_pipe *d_pipe, char *limiter, t_env *denv)
 	reset_history(denv);
 	// write(d_pipe->input, save, ft_strlen(save));
 	fd_printf(d_pipe->input, "%s",save);
-	fd_printf(STDIN, "%s", save);
+	fd_printf(STDIN_FILENO, "%s", save);
 	add_history(save);
 }
 
@@ -91,6 +91,25 @@ void heredoc(t_pipe *d_pipe, char *limiter, t_env *denv)
 // 	}
 // 
 
+int next_ident(t_tok *d_token, int i)
+{
+	while(d_token->tokens[i])
+	{
+		if (d_token->type[i][0] == PIPE)
+			return (PIPE);
+		else if (d_token->type[i][0] == OR)
+			return (OR);
+		else if (d_token->type[i][0] == AND)
+			return (AND);
+	}
+	return(-1);
+}
+
+void e_cmd_pipe(t_tok *d_token, t_pipe *d_pipe, t_env *denv)
+{
+
+}
+
 void exec_cmd(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
 {
 	int j;
@@ -100,13 +119,12 @@ void exec_cmd(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
 	{
 		if (d_token->type[*i][j] == D_AL)
 		{
-			heredoc(d_pipe, d_token[*i][j + 1], denv);
-			d_token[*i][j + 1] = ft_sprintf("%fs%d", ".temp_heredoc", d_pipe->nbr_h);
+			heredoc(d_pipe, d_token->tokens[*i][j + 1], denv);
+			d_token->tokens[*i][j + 1] = ft_sprintf("%fs%d", ".temp_heredoc", d_pipe->nbr_h);
 		}
 		j++;
 	}
-	execve(d_token[*i][0], d_token[*i], denv->f_env);
-
+	execve(d_token->tokens[*i][0], d_token->tokens[*i], denv->f_env);
 	exit(EXIT_FAILURE);//TEMPORAIRE -> LEAKS, FONCTION SPECIAL A FAIRE
 }
 
@@ -114,20 +132,22 @@ void parse_type(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
 {
 	if (d_token->type[*i][0] == S_AL)
 	{
-		if (access(d->token[*i + 1][0], F_OK) != 0 && access(d->token[*i + 1][0], X_OK) != 0)
-			exit_file();
-		d_pipe->input = open(d->token[i + 1][0], O_RDONLY);
+		if (access(d_token->tokens[*i + 1][0], F_OK) != 0 && access(d_token->tokens[*i + 1][0], X_OK) != 0)
+			// exit_file();
+		d_pipe->input = open(d_token->tokens[*i + 1][0], O_RDONLY);
 	}
-	if (d_token->type[*i][0] == commands)
-		exec_cmd(d_token, denv, d_pipe);
+	if (d_token->type[*i][0] == CMD)
+		if (next_ident(d_token) == PIPE)
+			pipe_cmd(d_token, d_pipe, denv, i);
+		exec_cmd(d_token, d_pipe, denv, i);
 	//if (d_token->type[i] == )
-	// {i
+	// i
 	// 	if (access(d->token[i + 1][0], F_OK) != 0 && access(d->token[i + 1][0], X_OK) != 0)
 	// 		exit_file();
 	// 	d_pipe->output = open(d->token[i + 1][0], O_WRONLY);
 	// 
 	if (d_token->type[*i][0] == D_AL)
-		heredoc(d_pipe, d_token->token[i + 1][0], denv)
+		heredoc(d_pipe, d_token->tokens[*i + 1][0], denv);
 }
 
 void ms_main_pipe(t_tok d_token, t_env *denv)
@@ -135,8 +155,13 @@ void ms_main_pipe(t_tok d_token, t_env *denv)
 	int i;
 	t_pipe d_pipe;
 
-	init_d_pipe(&d_pipe);
-	parse_type(&d_token, &d_pipe, denv);
+	i = 0;
+	// init_d_pipe(&d_pipe);
+	while (d_token.tokens[i])
+	{
+		parse_type(&d_token, &d_pipe, denv, &i);
+		i++;
+	}
 	// while()
 	// {
 	//
