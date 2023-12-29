@@ -110,6 +110,45 @@ void e_cmd_pipe(t_tok *d_token, t_pipe *d_pipe, t_env *denv)
 
 }
 
+void pipe_cmd(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
+{
+	int cpt;
+
+	cpt = 0;
+	d_pipe->i_f = 0;
+	while(next_ident(d_token, *i))
+	{
+		if (pipe(d_pipe->pipefd) == -1)
+			exit(EXIT_FAILURE);
+		d_pipe->fork_id[d_pipe->i_f] = fork();
+		
+		if (d_pipe->fork_id[d_pipe->i_f] != 0)
+		{
+			close(d_pipe->pipefd[1]);
+			dup2(d_pipe->pipefd[0], STDIN_FILENO);
+			close(d_pipe->pipefd[0]);
+		}
+		
+		if (d_pipe->fork_id[d_pipe->i_f] == 0)
+		{
+			close(d_pipe->pipefd[0]);
+			close(d_pipe->input);
+			if (next_ident(d_token, *i) == PIPE)
+				dup2(d_pipe->pipefd[1], STDOUT_FILENO);
+			else
+				dup2(d_pipe->output, STDOUT_FILENO);
+			close(d_pipe->pipefd[1]);
+			close(d_pipe->output);
+			execve(d_token->tokens[*i][0], d_token->tokens[*i], denv->f_env);
+			// exit_execve(d_pipe);
+		}
+		*i += 2;
+	}
+
+	while(cpt < d_pipe->i_f)
+		waitpid(d_pipe->fork_id[cpt++], NULL, 0);
+}
+
 void exec_cmd(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
 {
 	int j;
@@ -137,7 +176,7 @@ void parse_type(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
 		d_pipe->input = open(d_token->tokens[*i + 1][0], O_RDONLY);
 	}
 	if (d_token->type[*i][0] == CMD)
-		if (next_ident(d_token) == PIPE)
+		if (next_ident(d_token, *i) == PIPE)
 			pipe_cmd(d_token, d_pipe, denv, i);
 		exec_cmd(d_token, d_pipe, denv, i);
 	//if (d_token->type[i] == )

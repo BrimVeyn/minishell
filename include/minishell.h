@@ -59,6 +59,8 @@ typedef struct s_pipe
 	int nbr_h;
 	int skip_and;
 	int *fork_id;
+	int pipefd[2];
+	int i_f;
 }			t_pipe;
 
 typedef struct s_lst
