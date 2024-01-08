@@ -6,7 +6,7 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/23 14:09:29 by nbardavi          #+#    #+#             */
-/*   Updated: 2024/01/08 10:33:32 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/01/08 14:08:09 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ typedef struct s_pipe
 	int input;
 	int output;
 	int nbr_h;
+	int or_return;
 	int failed;
 	int skip_and;
 	int skip_or;
@@ -93,6 +94,7 @@ typedef struct s_env
 typedef struct s_tok
 {	
 	char	***tokens;
+	int		t_size;
 	int 	*type;
 	int		*par;
 }			t_tok;
