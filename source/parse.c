@@ -6,7 +6,7 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/26 16:27:38 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/01/08 09:46:07 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/01/08 11:57:03 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,9 @@ t_tokvar ms_tiktok(char *ptr)
 
 void	extract_delimiter(char *input, t_tok *tdata, t_tokh *v)
 {
-	int len;
+	int		len;
+	char	dquote[2];
+	char	*tmp;
 
 	len = 0;
 	while (input[v->i] && ms_isws(input[v->i]))
@@ -53,8 +55,13 @@ void	extract_delimiter(char *input, t_tok *tdata, t_tokh *v)
 		len++;
 		v->i++;
 	}
+	dquote[0] = 34;
+	dquote[1] = 0;
 	tdata->tokens[v->j] = (char **) ft_calloc (2, sizeof(char *));
 	tdata->tokens[v->j][0] = ft_substr(input, v->i - len, len); 
+	tmp = ft_strtrimf(tdata->tokens[v->j][0], "'");
+	tmp = ft_strtrimf(tmp, dquote);
+	tdata->tokens[v->j][0] = tmp;
 	tdata->type[v->j] = DELIMITER;
 	v->j++;
 }
@@ -145,6 +152,32 @@ char ** add_args_to_cmd(char **token, char *input, t_tokh *v)
 	return (new);
 }
 
+char **add_here_to_cmd(char **token, char *input, t_tokh *v)
+{
+	char	**to_add;
+	char	**new;
+	char	*d_al;
+	char	*delimiter;
+	v->k = 0;
+	to_add = (char **) ft_calloc(3, sizeof(char *));
+	d_al = ft_strdup(ms_tiktok((&input[v->i])).str);
+	v->i += 2;
+	while (input[v->i] && !ms_isws(input[v->i]))
+	{
+		v->k++;
+		v->i++;
+	}
+	delimiter = ft_substr(input, v->i - v->k, v->k);
+	to_add[0] = d_al;
+	to_add[1] = delimiter;
+	new = ms_joinstarstar(token, to_add);
+	// for (int j = 0; new[j]; j++)
+	// 	ft_printf("to_add[%d] = %s\n", j, new[j]);
+	free_tab(token);
+	free_tab(to_add);
+	return (new);
+}
+
 void fill_token(char *input, t_tok *tdata)
 {
 	t_tokvar tokvar;
@@ -200,6 +233,13 @@ void fill_token(char *input, t_tok *tdata)
 			tdata->tokens[v.j] = ft_split(ft_substr(input, v.i - v.k, v.k), ' ');
 			tdata->type[v.j] = ms_tiktok(&input[v.i - v.k]).type;
 			v.j++;
+		}
+		while (ms_tiktok(&input[v.i]).type == D_AL && v.i > 0)
+		{
+			int k = f_lcmd_index(tdata, v.j);
+			// printf("the number is %d\n", k);
+			tdata->tokens[k] = add_here_to_cmd(tdata->tokens[k] ,input, &v);
+			tdata->tokens[k] = add_args_to_cmd(tdata->tokens[k] ,input, &v);
 		}
 	}
 }
@@ -312,6 +352,14 @@ int count_tokens(char *input)
 		{
 			// printf("COUNTED CMD\n");
 			count += 1;
+		}
+		while (input[i] && ms_tiktok(&input[i]).type == D_AL)
+		{
+			i += 2;
+			while (input[i] && !ms_isws(input[i]))
+				i++;
+			while (input[i] && ms_tiktok(&input[i]).type == CMD)
+				i++;
 		}
 	}
 	return (count);

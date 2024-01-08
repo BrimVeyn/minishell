@@ -6,7 +6,7 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/23 14:09:29 by nbardavi          #+#    #+#             */
-/*   Updated: 2023/12/28 16:15:26 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/01/08 10:33:32 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ typedef struct s_pipe
 	int nbr_h;
 	int failed;
 	int skip_and;
+	int skip_or;
 	int *fork_id;
 	int pipefd[2];
 	int i_f;
@@ -122,6 +123,7 @@ char		**ms_dupdup(char **environ);
 char		*get_pwd(t_env *data);
 char		*get_path(t_env *data);
 char		*get_usr(t_env *data);
+char	*ft_strtrimf(char const *s1, char const *set);
 
 void		prompt(t_env *env);
 void		update_env(t_env *data);

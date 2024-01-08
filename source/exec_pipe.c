@@ -168,7 +168,20 @@ void parse_type(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
 	if (d_token->type[*i] == AND)
 	{
 		if (d_pipe->failed == 1)
+		{
 			d_pipe->skip_and = 1;
+			d_pipe->failed = 0;
+			write(1, "SKIP AND\n", 10);
+		}
+	}
+	if (d_token->type[*i] == OR)
+	{
+		if (d_pipe->failed == 1)
+		{
+			d_pipe->skip_or = 1;
+			d_pipe->failed = 0;
+			write(1, "SKIP OR\n", 9);
+		}
 	}
 	//if (d_token->type[i] == )
 	// {i
@@ -183,11 +196,17 @@ void parse_type(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
 void ms_main_pipe(t_tok d_token, t_env *denv)
 {
 	int i;
+	int j;
 	t_pipe d_pipe;
-
+	
+	j = 0;
 	i = 0;
 	init_d_pipe(&d_pipe);
-	parse_type(&d_token, &d_pipe, denv, &i);
+	while(j < d_pipe.t_size)
+	{
+		parse_type(&d_token, &d_pipe, denv, &i);
+		j++;
+	}
 	// while()
 	// {
 	//
