@@ -6,7 +6,7 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/26 16:27:38 by bvan-pae          #+#    #+#             */
-/*   Updated: 2023/12/29 14:35:39 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/01/08 09:46:07 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -265,7 +265,6 @@ int	check_errors(char *input, t_tokvar tokvar, int i)
 	}
 	return (0);
 }
-
 
 int count_tokens(char *input)
 {
