@@ -6,7 +6,7 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/23 14:09:29 by nbardavi          #+#    #+#             */
-/*   Updated: 2024/01/08 14:08:09 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/01/08 16:04:58 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,8 @@ enum
 	P_O = -10,
 	P_C = 10,
 	FAILE = 100, 
+	SQUOTE = 39,
+	DQUOTE = 34,
 };
 
 /*_.-=-._.-=-._.-=-._.-=-._.- Structs -._.-=-._.-=-._.-=-._.-=-._.-=-._*/
@@ -120,10 +122,13 @@ void		init_d_pipe(t_pipe *d_pipe);
 t_h_lst		*ms_lst_new(char *content);
 
 char		**ms_dupdup(char **environ);
+char	**ft_splitm(char *str);
 char		*get_pwd(t_env *data);
 char		*get_path(t_env *data);
 char		*get_usr(t_env *data);
-char	*ft_strtrimf(char const *s1, char const *set);
+char		*ft_strtrimf(char const *s1, char const *set);
+
+int			ms_isws(char c);
 
 void		prompt(t_env *env);
 void		update_env(t_env *data);
