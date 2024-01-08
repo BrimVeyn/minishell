@@ -6,7 +6,7 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/26 16:27:38 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/01/08 14:11:59 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/01/08 17:34:56 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -229,8 +229,8 @@ void fill_token(char *input, t_tok *tdata)
 		if (v.tri == 1)
 		{
 			// tdata->tokens[v.j] = parse_command(ft_substr(input, v.i - v.k, v.k));
-			// ft_printf("CMD[%d]\n", v.j);
-			tdata->tokens[v.j] = ft_split(ft_substr(input, v.i - v.k, v.k), ' ');
+			// ft_splitm(ft_substr(input, v.i - v.k, v.k));
+			tdata->tokens[v.j] = ft_splitm(ft_substr(input, v.i - v.k, v.k));
 			tdata->type[v.j] = ms_tiktok(&input[v.i - v.k]).type;
 			v.j++;
 		}
