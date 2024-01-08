@@ -6,7 +6,7 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/23 14:09:29 by nbardavi          #+#    #+#             */
-/*   Updated: 2024/01/08 10:33:32 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/01/08 14:08:09 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,11 @@ typedef struct s_pipe
 	int input;
 	int output;
 	int nbr_h;
+	int failed;
 	int skip_and;
+	int *fork_id;
+	int pipefd[2];
+	int i_f;
 }			t_pipe;
 
 typedef struct s_lst
@@ -88,6 +92,7 @@ typedef struct s_env
 typedef struct s_tok
 {	
 	char	***tokens;
+	int		t_size;
 	int 	*type;
 	int		*par;
 }			t_tok;
@@ -111,6 +116,7 @@ t_tok		parse_input(char *input, t_env *denv);
 t_tok		init_tok(int tokcount);
 t_tokvar	init_tokvar(char *symbol, int type);
 t_tokh		init_tokh(void);
+void		init_d_pipe(t_pipe *d_pipe);
 t_h_lst		*ms_lst_new(char *content);
 
 char		**ms_dupdup(char **environ);

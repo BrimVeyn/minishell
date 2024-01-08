@@ -6,7 +6,7 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/23 16:11:18 by bvan-pae          #+#    #+#             */
-/*   Updated: 2023/12/28 14:11:47 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/01/08 13:52:32 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,8 +117,7 @@ void	prompt(t_env *denv)
 			else
 				ms_lst_b(&denv->history, ms_lst_new(input));
             add_history(input);
-			parse_input(input, denv);
-			// ms_main_pipe(parse_input(input, denv), denv);
+			ms_main_pipe(parse_input(input, denv), denv);
 		}
 		i++;
 		free(input);

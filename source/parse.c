@@ -6,7 +6,7 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/26 16:27:38 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/01/08 11:57:03 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/01/08 14:11:59 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -368,15 +368,14 @@ int count_tokens(char *input)
 t_tok	parse_input(char *input, t_env *denv)
 {
 	t_tok	tdata;
-	int		tokcount;
 
-	tokcount = count_tokens(input);
-	if (tokcount == ERROR)
+	tdata.t_size = count_tokens(input);
+	if (tdata.t_size == ERROR)
 		return (tdata);
-	tdata = init_tok(tokcount);
-	printf("Token count : %d\n", tokcount);
+	tdata = init_tok(tdata.t_size);
+	printf("Token count : %d\n", tdata.t_size);
 	fill_token(input, &tdata);
-	// ms_add_path(&tdata, denv);
+	ms_add_path(&tdata, denv);
 	for (int i = 0; tdata.tokens[i]; i++)
 	{
 		printf("S->TYPE[%d] = %d\n", i, tdata.type[i]);
