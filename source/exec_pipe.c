@@ -117,25 +117,33 @@ void cut_here(t_tok *d_token, int *i)
 void exec_cmd(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
 {
 	int j;
-	int pipefd[2];
 	int id;
 	char *buffer;
+	int status;
 
 	j = 0;
-	if (pipe(pipefd) == -1)
-		exit (EXIT_FAILURE);
 	id = fork();
-	if (id != 0)
+
+	if (id != 0) // PROCESSUS PERE
 	{
-		close(pipefd[1]);
+		waitpid(id, &status ,0);
 		d_pipe->failed = 0;
-		if (read(pipefd[0], buffer, 10) > 0)
+		if (status != 0)
 			d_pipe->failed = 1;
-		close(pipefd[0]);
-		wait(NULL);
+		// if (d_pipe->failed == 0 && d_token->tokens[*i - 1])
+		// 	d_pipe->or_return = 0;
+		if (d_pipe->failed == 1 && *i < d_token->t_size)
+		{
+			if (d_token->type[*i + 1] != OR)
+			{
+				ft_printf("or_return = 1, command = %s\n", d_token->tokens[*i][0]);
+				d_pipe->or_return = 1;
+				d_pipe->failed = 0;
+			}
+		}
 		return;
 	}
-	close(pipefd[0]);
+
 	while(d_token->tokens[*i][j])
 	{
 		if (d_token->type[*i] == D_AL)// UTILISER STRCMP !!!
@@ -147,8 +155,6 @@ void exec_cmd(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
 	}
 	execve(d_token->tokens[*i][0], d_token->tokens[*i], denv->f_env);
 	perror("execve failed");
-	write(pipefd[1], "failed", 6);
-	close(pipefd[0]);
 	exit(EXIT_FAILURE);//TEMPORAIRE -> LEAKS, FONCTION SPECIAL A FAIRE
 }
 
@@ -162,13 +168,27 @@ void parse_type(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
 	}
 	if (d_token->type[*i] == CMD && d_pipe->skip_and == 0)
 	{
-		if (d_pipe->skip_and == 0)
+		// ft_printf("=======\nskip_and: %d\nskip_or:%d\nor_return:%d\n======\n", d_pipe->skip_and, d_pipe->skip_or, d_pipe->or_return);
+		if (d_pipe->skip_and == 0 && d_pipe->skip_or == 0 && d_pipe->or_return == 0)
 			exec_cmd(d_token, d_pipe, denv, i);
 	}
 	if (d_token->type[*i] == AND)
 	{
+		d_pipe->skip_or = 0;
 		if (d_pipe->failed == 1)
+		{
 			d_pipe->skip_and = 1;
+			d_pipe->failed = 0;
+			// write(1, "SKIP AND\n", 10);
+		}
+	}
+	if (d_token->type[*i] == OR)
+	{
+		if (d_pipe->failed == 0)
+		{
+			d_pipe->skip_or = 1;
+			// write(1, "SKIP OR\n", 9);
+		}
 	}
 	//if (d_token->type[i] == )
 	// {i
@@ -182,12 +202,21 @@ void parse_type(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
 
 void ms_main_pipe(t_tok d_token, t_env *denv)
 {
+	ft_printf("%s== Return ==\n", ft_strdup(BLUE));
 	int i;
+	int j;
 	t_pipe d_pipe;
-
+	
+	j = 0;
 	i = 0;
 	init_d_pipe(&d_pipe);
-	parse_type(&d_token, &d_pipe, denv, &i);
+	while(j < d_token.t_size)
+	{
+		parse_type(&d_token, &d_pipe, denv, &i);
+		i++;
+		j++;
+	}
+	ft_printf("===========\n%s", ft_strdup(RESET));
 	// while()
 	// {
 	//
