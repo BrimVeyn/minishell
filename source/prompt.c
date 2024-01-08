@@ -117,7 +117,6 @@ void	prompt(t_env *denv)
 			else
 				ms_lst_b(&denv->history, ms_lst_new(input));
             add_history(input);
-			parse_input(input, denv);
 			ms_main_pipe(parse_input(input, denv), denv);
 		}
 		i++;
