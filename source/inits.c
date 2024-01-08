@@ -48,5 +48,6 @@ void init_d_pipe(t_pipe *d_pipe)
 	d_pipe->input = -1;
 	d_pipe->output = -1;
 	d_pipe->skip_and = 0;
+	d_pipe->failed = 0; 
 	d_pipe->fork_id = ft_calloc(1000, sizeof(int)); //TEMPORAIRE
 }
