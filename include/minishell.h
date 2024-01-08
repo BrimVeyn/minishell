@@ -31,7 +31,9 @@
 # define VIOLET "\001\e[38;2;189;147;249m\002"
 # define GREEN "\001\e[38;2;80;255;125m\002"
 # define WHITE "\001\e[0m\002"
-
+# define RED "\033[38;2;255;70;100m"
+# define BLUE "\e[1;34m"
+#define RESET "\e[0m"
 /*_.-=-._.-=-._.-=-._.-=-._.- Enum -._.-=-._.-=-._.-=-._.-=-._.-=-._*/
 
 enum
@@ -61,8 +63,10 @@ typedef struct s_pipe
 	int input;
 	int output;
 	int nbr_h;
+	int or_return;
 	int failed;
 	int skip_and;
+	int skip_or;
 	int *fork_id;
 	int pipefd[2];
 	int i_f;
