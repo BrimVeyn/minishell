@@ -328,7 +328,7 @@ t_tok	parse_input(char *input, t_env *denv)
 	tdata = init_tok(tokcount);
 	printf("Token count : %d\n", tokcount);
 	fill_token(input, &tdata);
-	// ms_add_path(&tdata, denv);
+	ms_add_path(&tdata, denv);
 	for (int i = 0; tdata.tokens[i]; i++)
 	{
 		printf("S->TYPE[%d] = %d\n", i, tdata.type[i]);
