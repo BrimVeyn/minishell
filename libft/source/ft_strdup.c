@@ -16,7 +16,9 @@ char	*ft_strdup(const char *src)
 {
 	char	*ptr;
 	int		i;
-
+	
+	if (!src)
+		return (ft_calloc(1,1));
 	i = 0;
 	while (src[i])
 		i++;
