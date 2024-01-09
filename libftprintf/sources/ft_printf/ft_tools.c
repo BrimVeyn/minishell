@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_tools.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
+/*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/16 14:03:35 by nbardavi          #+#    #+#             */
-/*   Updated: 2023/12/24 14:31:31 by nbardavi         ###   ########.fr       */
+/*   Updated: 2024/01/09 11:53:15 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,7 @@ char	*itc(int c)
 char	*interdup(char *str)
 {
 	if (str == NULL)
-		return (ft_strdup("(null)"));
+		return (ft_strdup(""));
 	else
 		return (ft_strdup_free(str));
 }
