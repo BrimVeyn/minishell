@@ -217,6 +217,8 @@ void p_while(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
 
 void parse_type(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
 {
+	int j;
+
 	if (d_token->type[*i] == S_AL)
 	{
 		if (access(d_token->tokens[*i + 1][0], F_OK) != 0 && access(d_token->tokens[*i + 1][0], X_OK) != 0)
@@ -228,19 +230,19 @@ void parse_type(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
 		// ft_printf("=======\nskip_and: %d\nskip_or:%d\nor_return:%d\n======\n", d_pipe->skip_and, d_pipe->skip_or, d_pipe->or_return);
 		if (*i < d_token->t_size)
 		{
-			if (d_token->type[*i] == S_AR)
+			j = 0;
+			while(*i + j < d_token->t_size && d_token->type[*i + 1 + j] == S_AR)
 			{
-				dup2(d_token->token[*i][0]);
+				d_pipe->output = open(d_token->tokens[*i + 2 + j][0], O_WRONLY | O_CREAT); //A Securiser + fuite fd
+				dup2(d_pipe->output, STDOUT_FILENO);
+				j +=2;
 			}
 		}
 		if (d_pipe->skip_and == 0 && d_pipe->skip_or == 0 && d_pipe->or_return == 0)
 			exec_cmd(d_token, d_pipe, denv, i);
-		if (*i < d_token->t_size)
+		if (d_pipe->output != 0)
 		{
-			if (d_token->type[*i] == S_AR)
-			{
-				dup2(STDOUT_FILENO, d_token->token[*i][0]);
-			}
+			dup2(d_pipe->old_stdout, STDOUT_FILENO);
 		}
 	}
 	if (d_token->type[*i] == P_O)

@@ -1,0 +1,12 @@
+include
+libft
+libftprintf
+Makefile
+minishell
+objects
+readline_suppression.supp
+resultat
+source
+test1
+test2
+valgrind.sh
