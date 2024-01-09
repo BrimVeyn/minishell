@@ -161,9 +161,12 @@ void exec_cmd(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
 	exit(EXIT_FAILURE);//TEMPORAIRE -> LEAKS, FONCTION SPECIAL A FAIRE
 }
 
-
 void p_parse_type(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
 {
+	if (d_token->type[*i] == P_O)
+	{
+		d_pipe->p_cpt++;
+	}
 	if (d_token->type[*i] == P_C)
 	{
 		if (d_pipe->or_return == 1 || d_pipe->skip_and == 1)
@@ -180,17 +183,11 @@ void p_parse_type(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
 	if (d_token->type[*i] == CMD && d_pipe->skip_and == 0)
 	{
 		// ft_printf("=======\nskip_and: %d\nskip_or:%d\nor_return:%d\n======\n", d_pipe->skip_and, d_pipe->skip_or, d_pipe->or_return);
-		if (d_pipe->skip_and == 0 && d_pipe->skip_or == 0 && d_pipe->or_return == 0)
+		if (d_pipe->skip_and == 0 && d_pipe->skip_or == 0 && d_pipe->or_return == 0 && d_pipe->p_return[d_pipe->p_cpt] == 0)
 			exec_cmd(d_token, d_pipe, denv, i);
-	}
-	if (d_token->type[*i] == P_O)
-	{
-		d_pipe->p_cpt++;
 	}
 	if (d_token->type[*i] == AND)
 	{
-		d_pipe->skip_or = 0;
-		d_pipe->or_return = 0; // POSSIBLE BUG
 		if (d_pipe->failed == 1)
 		{
 			d_pipe->skip_and = 1;
@@ -210,6 +207,7 @@ void p_parse_type(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
 
 void p_while(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
 {
+	(*i)++;
 	while(d_pipe->p_nbr > 0)
 	{
 		p_parse_type(d_token, d_pipe, denv, i);
@@ -228,12 +226,27 @@ void parse_type(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
 	if (d_token->type[*i] == CMD && d_pipe->skip_and == 0)
 	{
 		// ft_printf("=======\nskip_and: %d\nskip_or:%d\nor_return:%d\n======\n", d_pipe->skip_and, d_pipe->skip_or, d_pipe->or_return);
+		if (*i < d_token->t_size)
+		{
+			if (d_token->type[*i] == S_AR)
+			{
+				dup2(d_token->token[*i][0]);
+			}
+		}
 		if (d_pipe->skip_and == 0 && d_pipe->skip_or == 0 && d_pipe->or_return == 0)
 			exec_cmd(d_token, d_pipe, denv, i);
+		if (*i < d_token->t_size)
+		{
+			if (d_token->type[*i] == S_AR)
+			{
+				dup2(STDOUT_FILENO, d_token->token[*i][0]);
+			}
+		}
 	}
 	if (d_token->type[*i] == P_O)
 	{
 		d_pipe->p_cpt++;
+		p_while(d_token, d_pipe, denv, i);
 	}
 	if (d_token->type[*i] == P_C)
 	{
@@ -258,9 +271,6 @@ void parse_type(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
 			// write(1, "SKIP OR\n", 9);
 		}
 	}
-	if (d_token->type[*i] == S_AR)
-	{
-	}
 	//if (d_token->type[i] == )
 	// {i
 	// 	if (access(d->token[i + 1][0], F_OK) != 0 && access(d->token[i + 1][0], X_OK) != 0)
@@ -275,12 +285,12 @@ void p_count(t_tok *d_token, t_pipe *d_pipe)
 {
 	int i;
 
+	i = 0;
 	while(i < d_token->t_size)
 	{
-		i++;
-
 		if (d_token->type[i] == P_O)
 			d_pipe->p_nbr++;
+		i++;
 	}
 	d_pipe->p_return = ft_calloc(d_pipe->p_nbr, sizeof(int));
 }
@@ -295,6 +305,7 @@ void ms_main_pipe(t_tok d_token, t_env *denv)
 	j = 0;
 	i = 0;
 	init_d_pipe(&d_pipe);
+	p_count(&d_token, &d_pipe);
 	while(j < d_token.t_size)
 	{
 		parse_type(&d_token, &d_pipe, denv, &i);
