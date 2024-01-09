@@ -64,6 +64,9 @@ typedef struct s_pipe
 	int output;
 	int nbr_h;
 	int or_return;
+	int *p_return;
+	int p_nbr;
+	int p_cpt;
 	int failed;
 	int skip_and;
 	int skip_or;
