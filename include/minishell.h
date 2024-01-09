@@ -73,6 +73,7 @@ typedef struct s_pipe
 	int *fork_id;
 	int pipefd[2];
 	int i_f;
+	int old_stdout;
 }			t_pipe;
 
 typedef struct s_lst
