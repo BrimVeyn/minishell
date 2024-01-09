@@ -6,7 +6,7 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/26 16:27:38 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/01/08 17:34:56 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/01/09 13:19:39 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,12 @@ t_tokvar ms_tiktok(char *ptr)
 		return(init_tokvar("<", S_AL));
 	if (!ft_strncmp(ptr, ">", 1))
 		return(init_tokvar(">", S_AR));
-	if (!ft_strncmp(ptr, "$", 1))
-		return(init_tokvar("$", DOLLAR));
+	if (!ft_strncmp(ptr, "(", 1))
+		return(init_tokvar("(", P_O));
+	if (!ft_strncmp(ptr, ")", 1))
+		return(init_tokvar(")", P_C));
+	// if (!ft_strncmp(ptr, "$", 1))
+	// 	return(init_tokvar("$", DOLLAR));
 	if (!ft_strncmp(ptr, "|", 1))
 		return(init_tokvar("|", PIPE));
 	return(init_tokvar("", CMD));
@@ -143,7 +147,7 @@ char ** add_args_to_cmd(char **token, char *input, t_tokh *v)
 		v->k++;
 		v->i++;
 	}
-	to_add = ft_split(ft_substr(input, v->i - v->k, v->k), ' ');
+	to_add = ft_splitm(ft_substr(input, v->i - v->k, v->k));
 	new = ms_joinstarstar(token, to_add);
 	// for (int j = 0; new[j]; j++)
 	// 	ft_printf("to_add[%d] = %s\n", j, new[j]);
@@ -284,6 +288,8 @@ int	check_errors(char *input, t_tokvar tokvar, int i)
 	int icpy;
 
 	icpy = i;
+	if (tokvar.type == P_O || tokvar.type == P_C)
+		return(0);
 	if (icpy != 0)
 	{
 		icpy -= ms_tiktok(&input[i]).len;
@@ -298,9 +304,13 @@ int	check_errors(char *input, t_tokvar tokvar, int i)
 	else if (icpy == 0)
 	{
 		if (input[i + 1] && ms_tiktok(&input[i + ms_tiktok(&input[i]).len]).type != CMD)
+		{
 			fd_printf(2, "bash: syntax error near unexpected token `%fs'\n", ms_tiktok(&input[i + ms_tiktok(&input[i]).len]).str);
+		}
 		else
+        {
 			fd_printf(2, "bash: syntax error near unexpected token `newline'\n");
+        }
 		return (ERROR);
 	}
 	return (0);
