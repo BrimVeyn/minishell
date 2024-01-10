@@ -6,7 +6,7 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/23 14:09:29 by nbardavi          #+#    #+#             */
-/*   Updated: 2024/01/08 16:04:58 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/01/10 10:24:43 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@
 enum
 {
 	ERROR = -1,
+	WRONG = 127,
 	CMD = 0,
 	PIPE = 1,
 	OR = 2,
@@ -74,6 +75,7 @@ typedef struct s_pipe
 	int pipefd[2];
 	int i_f;
 	int old_stdout;
+	int *heredoc;
 }			t_pipe;
 
 typedef struct s_lst
