@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/08 14:02:17 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/01/10 09:03:05 by bvan-pae         ###   ########.fr       */
+/*   Created: 2024/01/10 10:51:26 by bvan-pae          #+#    #+#             */
+/*   Updated: 2024/01/10 10:58:12 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -195,11 +195,11 @@ void	transform_split(char **split)
 	int t;
 
 	i = 0;
-	t = 0;
+	j = 0;
 	while (split[i])
 	{
 		j = 0;
-		j = 0;
+		t = 0;
 		while(split[i][j])
 		{
 			if (split[i][j] == SQUOTE)
@@ -232,10 +232,11 @@ char	**ft_splitm(char *str)
 	ft_printf("%d %d", quotes[0], quotes[1]);
 	if (quotes == NULL || quotes[0] % 2 || quotes[1] % 2)
 	{
-		ft_printf("CICIPD");
-		// free(quotes);
+		// ft_printf("CICIPD");
+		free(quotes);
 		return (NULL);
 	}
+
 	wc = count_words(str);
 	printf("STR = %s, WC = %d\n", str, wc);
 	printf("SQ = %d, DQ = %d\n", quotes[0], quotes[1]);
