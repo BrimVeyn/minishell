@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/26 16:27:38 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/01/10 09:04:36 by bvan-pae         ###   ########.fr       */
+/*   Created: 2024/01/10 10:49:15 by bvan-pae          #+#    #+#             */
+/*   Updated: 2024/01/10 10:53:50 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,8 @@ t_tokvar ms_tiktok(char *ptr)
 		return(init_tokvar("(", P_O));
 	if (!ft_strncmp(ptr, ")", 1))
 		return(init_tokvar(")", P_C));
+	// if (!ft_strncmp(ptr, "$", 1))
+	// 	return(init_tokvar("$", DOLLAR));
 	if (!ft_strncmp(ptr, "|", 1))
 		return(init_tokvar("|", PIPE));
 	return(init_tokvar("", CMD));

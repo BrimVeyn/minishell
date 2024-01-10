@@ -74,6 +74,7 @@ typedef struct s_pipe
 	int *fork_id;
 	int pipefd[2];
 	int i_f;
+	int old_stdout;
 }			t_pipe;
 
 typedef struct s_lst
@@ -100,11 +101,12 @@ typedef struct s_env
 }			t_env;
 
 typedef struct s_tok
-{	
+{
 	char	***tokens;
 	int		t_size;
 	int 	*type;
 	int		*par;
+	int		exitno;
 }			t_tok;
 
 typedef struct s_tokvar
