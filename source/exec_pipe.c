@@ -119,16 +119,15 @@ void exec_cmd(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
 	int j;
 	int id;
 	char *buffer;
-	int status;
 
 	j = 0;
 	id = fork();
 
 	if (id != 0) // PROCESSUS PERE
 	{
-		waitpid(id, &status ,0);
+		waitpid(id, &d_token->exitno ,0);
 		d_pipe->failed = 0;
-		if (status != 0)
+		if (d_token->exitno != 0)
 			d_pipe->failed = 1;
 		// if (d_pipe->failed == 0 && d_token->tokens[*i - 1])
 		// 	d_pipe->or_return = 0;
@@ -233,7 +232,7 @@ void parse_type(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
 			j = 0;
 			while(*i + j < d_token->t_size && d_token->type[*i + 1 + j] == S_AR)
 			{
-				d_pipe->output = open(d_token->tokens[*i + 2 + j][0], O_WRONLY | O_CREAT); //A Securiser + fuite fd
+				d_pipe->output = open(d_token->tokens[*i + 2 + j][0], O_WRONLY | O_CREAT | O_TRUNC, 000064); //A Securiser + fuite fd
 				dup2(d_pipe->output, STDOUT_FILENO);
 				j +=2;
 			}
@@ -314,6 +313,7 @@ void ms_main_pipe(t_tok d_token, t_env *denv)
 		i++;
 		j++;
 	}
+	ft_printf("exit no: %d\n", d_token.exitno);
 	ft_printf("===========\n%s", ft_strdup(RESET));
 	// while()
 	// {
