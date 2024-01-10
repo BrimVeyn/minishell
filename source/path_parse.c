@@ -6,11 +6,12 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/28 09:31:25 by bvan-pae          #+#    #+#             */
-/*   Updated: 2023/12/28 10:15:45 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/01/10 10:22:08 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
+#include <unistd.h>
 
 char	*join_path(char *cmd, t_env *denv)
 {
@@ -24,7 +25,7 @@ char	*join_path(char *cmd, t_env *denv)
 	{
 		cmd_cpy = ft_strjoin_s2(paths[i], ft_strjoin_s2("/", ft_strdup(cmd)));
 		// printf("%s\n", cmd_cpy);
-		if (!access(cmd_cpy, X_OK))
+		if (!access(cmd_cpy, X_OK | F_OK))
 		{
 			free_tab(paths);
 			free(cmd);
