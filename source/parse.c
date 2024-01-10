@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/26 16:27:38 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/01/09 13:19:39 by bvan-pae         ###   ########.fr       */
+/*   Created: 2024/01/10 10:49:15 by bvan-pae          #+#    #+#             */
+/*   Updated: 2024/01/10 10:53:50 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,6 @@ t_tokvar ms_tiktok(char *ptr)
 void	extract_delimiter(char *input, t_tok *tdata, t_tokh *v)
 {
 	int		len;
-	char	dquote[2];
 	char	*tmp;
 
 	len = 0;
@@ -59,24 +58,13 @@ void	extract_delimiter(char *input, t_tok *tdata, t_tokh *v)
 		len++;
 		v->i++;
 	}
-	dquote[0] = 34;
-	dquote[1] = 0;
 	tdata->tokens[v->j] = (char **) ft_calloc (2, sizeof(char *));
 	tdata->tokens[v->j][0] = ft_substr(input, v->i - len, len); 
 	tmp = ft_strtrimf(tdata->tokens[v->j][0], "'");
-	tmp = ft_strtrimf(tmp, dquote);
+	tmp = ft_strtrimf(tmp, "\"");
 	tdata->tokens[v->j][0] = tmp;
 	tdata->type[v->j] = DELIMITER;
 	v->j++;
-}
-
-
-char **parse_command(char *cmd)
-{
-	char **args;
-
-	printf("%s", cmd);
-	return (args);
 }
 
 char *grep_word(char *input, t_tokh *v)
@@ -283,7 +271,7 @@ int	ms_wl(char *ptr)
 	return(0);
 }
 
-int	check_errors(char *input, t_tokvar tokvar, int i)
+int start_check(char *input, t_tokvar tokvar, int i)
 {
 	int icpy;
 
@@ -316,6 +304,55 @@ int	check_errors(char *input, t_tokvar tokvar, int i)
 	return (0);
 }
 
+int end_check(char *input, t_tokvar tokvar, int i)
+{
+	int	icpy;
+
+	icpy = i + ms_tiktok(&input[i]).len;
+	while (input[icpy] && ms_isws(input[icpy]))
+		icpy++;
+	if (!input[icpy] && ms_tiktok(&input[icpy - 2]).type != CMD)
+    {
+		fd_printf(2, "bash: syntax error near unexpected token `%fs'\n", ms_tiktok(&input[icpy - 2]).str);
+		return (ERROR);
+    }
+	else if (!input[icpy] && ms_tiktok(&input[icpy - 1]).type != CMD && ms_tiktok(&input[icpy - 1]).type != P_O && ms_tiktok(&input[icpy - 1]).type != P_C)
+    {
+		fd_printf(2, "bash: syntax error near unexpected token `%fs'\n", ms_tiktok(&input[icpy - 1]).str);
+		return (ERROR);
+    }
+	return (0);	
+}
+
+int	p_check(char *input)
+{
+	int p;
+	int	i;
+	
+	i = 0;
+	p = 0;
+	while (input[i])
+	{
+		if (input[i] == '(')
+			p += 1;
+		if (input[i] == ')')
+			p -= 1;
+		i++;
+	}
+	if (p == 0)
+		return (1);
+	else if (p > 0)
+    {
+		fd_printf(2, "bash: syntax error near unexpected token `)'\n");
+		return (ERROR);
+    }
+	else
+	{
+		fd_printf(2, "bash: syntax error near unexpected token `('\n");
+		return (ERROR);
+	}
+}
+
 int count_tokens(char *input)
 {
 	t_tokvar tokvar;
@@ -329,6 +366,8 @@ int count_tokens(char *input)
 	i = 0;
 	trigger = 0;
 	dcount = 0;
+	if (p_check(input) == ERROR)
+		return (ERROR);
 	while (input[i])
 	{
 		trigger = 0;
@@ -337,7 +376,9 @@ int count_tokens(char *input)
 		{
 			// printf("COUNTED ANYSYM\n");
 			count += 1;
-			if (check_errors(input, tokvar, i) == ERROR)
+			if (start_check(input, tokvar, i) == ERROR)
+				return (ERROR);
+			if (end_check(input, tokvar, i) == ERROR)
 				return (ERROR);
 			i += tokvar.len;
 		}
