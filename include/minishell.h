@@ -75,6 +75,7 @@ typedef struct s_pipe
 	int pipefd[2];
 	int i_f;
 	int old_stdout;
+	int *heredoc;
 }			t_pipe;
 
 typedef struct s_lst

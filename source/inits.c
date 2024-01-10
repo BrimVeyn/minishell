@@ -55,6 +55,8 @@ void init_d_pipe(t_pipe *d_pipe)
 	d_pipe->p_nbr = 0;
 	d_pipe->p_return = 0;
 	d_pipe->p_cpt = -1;
+	d_pipe->nbr_h = 0;
 	d_pipe->old_stdout = dup(STDOUT_FILENO);
+	d_pipe->heredoc = ft_calloc(1000, sizeof(int)); //TEMPORAIRE
 	d_pipe->fork_id = ft_calloc(1000, sizeof(int)); //TEMPORAIRE
 }
