@@ -6,7 +6,7 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 10:49:15 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/01/10 10:53:50 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/01/10 13:42:49 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,7 +125,7 @@ char **ms_joinstarstar(char **p1, char **p2)
 	return(new);
 }
 
-char ** add_args_to_cmd(char **token, char *input, t_tokh *v)
+char **add_args_to_cmd(char **token, char *input, t_tokh *v, t_tok *tdata)
 {
 	char **to_add;
 	char **new;
@@ -135,7 +135,7 @@ char ** add_args_to_cmd(char **token, char *input, t_tokh *v)
 		v->k++;
 		v->i++;
 	}
-	to_add = ft_splitm(ft_substr(input, v->i - v->k, v->k));
+	to_add = ft_splitm(ft_substr(input, v->i - v->k, v->k), tdata);
 	new = ms_joinstarstar(token, to_add);
 	// for (int j = 0; new[j]; j++)
 	// 	ft_printf("to_add[%d] = %s\n", j, new[j]);
@@ -198,7 +198,7 @@ void fill_token(char *input, t_tok *tdata)
 				{
 					int k = f_lcmd_index(tdata, v.j);
 					// printf("THE NUMBER IS %d\n", k);
-					tdata->tokens[k] = add_args_to_cmd(tdata->tokens[k] ,input, &v);
+					tdata->tokens[k] = add_args_to_cmd(tdata->tokens[k] ,input, &v, tdata);
 				}
 			}
 		}
@@ -221,8 +221,7 @@ void fill_token(char *input, t_tok *tdata)
 		if (v.tri == 1)
 		{
 			// tdata->tokens[v.j] = parse_command(ft_substr(input, v.i - v.k, v.k));
-			// ft_splitm(ft_substr(input, v.i - v.k, v.k));
-			tdata->tokens[v.j] = ft_splitm(ft_substr(input, v.i - v.k, v.k));
+			tdata->tokens[v.j] = ft_splitm(ft_substr(input, v.i - v.k, v.k), tdata);
 			tdata->type[v.j] = ms_tiktok(&input[v.i - v.k]).type;
 			v.j++;
 		}
@@ -231,7 +230,7 @@ void fill_token(char *input, t_tok *tdata)
 			int k = f_lcmd_index(tdata, v.j);
 			// printf("the number is %d\n", k);
 			tdata->tokens[k] = add_here_to_cmd(tdata->tokens[k] ,input, &v);
-			tdata->tokens[k] = add_args_to_cmd(tdata->tokens[k] ,input, &v);
+			tdata->tokens[k] = add_args_to_cmd(tdata->tokens[k] ,input, &v, tdata);
 		}
 	}
 }

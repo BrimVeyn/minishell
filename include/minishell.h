@@ -6,7 +6,7 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/23 14:09:29 by nbardavi          #+#    #+#             */
-/*   Updated: 2024/01/10 10:24:43 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/01/10 13:43:31 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,7 +132,7 @@ void		init_d_pipe(t_pipe *d_pipe);
 t_h_lst		*ms_lst_new(char *content);
 
 char		**ms_dupdup(char **environ);
-char	**ft_splitm(char *str);
+char	**ft_splitm(char *str, t_tok *tdata);
 char		*get_pwd(t_env *data);
 char		*get_path(t_env *data);
 char		*get_usr(t_env *data);
