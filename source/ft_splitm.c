@@ -200,8 +200,10 @@ char *t_dquote(char *split, int *j, t_tok *tdata)
 int	no_quotes(char *split)
 {
 	int	i;
+	int	j;
 
 	i = 0;
+	j = 0;
 	while (split[i])
 	{
 		if (split[i] == DQUOTE || split[i] == SQUOTE)
