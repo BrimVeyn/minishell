@@ -100,11 +100,12 @@ typedef struct s_env
 }			t_env;
 
 typedef struct s_tok
-{	
+{
 	char	***tokens;
 	int		t_size;
 	int 	*type;
 	int		*par;
+	int		exitno;
 }			t_tok;
 
 typedef struct s_tokvar
