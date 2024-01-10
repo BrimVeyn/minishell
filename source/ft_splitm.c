@@ -6,7 +6,7 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 14:02:17 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/01/09 16:28:11 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/01/10 09:03:05 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,18 +141,20 @@ char *r_env(char *split)
 	{
 		if (split[i] == '$')
 		{
-			start = i + 1;
-			while (split[i] && split[i] != ' ' && split[i] != '\'')
+			if (split[i + 1])
+				i++;
+			start = i;
+			while (split[i] && split[i] != ' ' && split[i] != '\'' && split[i] != '$')
 				i++;
 			end = i;
 			p1 = ft_substr(split, 0, start - 1);
 			var = getenv(ft_substr(split, start, end - start));
 			p2 = ft_substr(split, end, (ft_strlen(split) - end));
+			i = ft_strlen(split) - ft_strlen(p2);
 			if (!var)
 				split = ft_sprintf("%s%s%s", p1, var, p2);
 			else
 				split = ft_sprintf("%s%fs%s", p1, var, p2);
-			i = ft_strlen(split) - end;
 			// new = ft_sprintf("%s%s%s", p1, var, p2);
 			// printf("P1 = %s\nP2 = %s\nVAR = %s\n", p1, p2, var);
 		}
@@ -190,25 +192,32 @@ void	transform_split(char **split)
 {
 	int	i;
 	int	j;
+	int t;
 
 	i = 0;
+	t = 0;
 	while (split[i])
 	{
+		j = 0;
 		j = 0;
 		while(split[i][j])
 		{
 			if (split[i][j] == SQUOTE)
 			{
 				split[i] = t_squote(split[i], &j);
+				t = 1;
 				// printf("SRESTE = %s\n",split[i]);
 			}
 			if (split[i][j] == DQUOTE)
 			{
 				split[i] = t_dquote(split[i], &j);
+				t = 1;
 				// printf("DRESTE = %s\n",split[i]);
 			}
 			j++;
 		}
+		if (t == 0)
+			split[i] = r_env(split[i]);
 		i++;
 	}
 }
@@ -220,9 +229,11 @@ char	**ft_splitm(char *str)
 	int		wc;
 
 	quotes = count_quotes(str);
+	ft_printf("%d %d", quotes[0], quotes[1]);
 	if (quotes == NULL || quotes[0] % 2 || quotes[1] % 2)
 	{
-		free(quotes);
+		ft_printf("CICIPD");
+		// free(quotes);
 		return (NULL);
 	}
 	wc = count_words(str);
