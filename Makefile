@@ -6,7 +6,7 @@ CFLAGS 			:= -Wall -Wextra -Werror -lreadline -g3
 SRC 			:= source/main.c source/prompt.c source/get_env.c \
 				   source/free.c source/parse.c source/ms_h_lst.c \
 				   source/exec_pipe.c source/path_parse.c source/inits.c \
-				   source/ft_strtrimfree.c source/ft_splitm.c
+				   source/ft_strtrimfree.c source/ft_splitm.c source/signals.c
 OBJ 			:= $(SRC:source/%.c=objects/%.o)
 OBJDIR 			:= objects
 

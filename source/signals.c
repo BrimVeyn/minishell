@@ -1,38 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/23 15:16:24 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/01/11 15:00:34 by nbardavi         ###   ########.fr       */
+/*   Created: 2024/01/11 14:28:08 by nbardavi          #+#    #+#             */
+/*   Updated: 2024/01/11 16:31:53 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-int exitno = 0;
+extern int exitno;
 
-void free_env(t_env *env)
+void sigint_handler(int sig_num)
 {
-	free(env->usr);
-	free(env->path);
-	free(env->pwd);
+	exitno = 130;
 }
 
-int main(int ac, char *av[], char *env[])
+void init_sig()
 {
-	t_env denv;
-	
-	(void) av;
-	if (!env || ac >= 2)
-		perror("Env is null");
-	denv.f_env = ms_dupdup(env);
-	denv.pwd = get_pwd(&denv);
-	denv.path = get_path(&denv);
-	denv.usr = get_usr(&denv);
-	init_sig();
-	prompt(&denv);
-	free_env(&denv);
+    struct sigaction sa;
+
+    sa.sa_handler = sigint_handler;   // Spécifiez le gestionnaire de signal
+    sigemptyset(&sa.sa_mask);         // Initialise l'ensemble des signaux bloqués
+    sa.sa_flags = 0;
+    if (sigaction(SIGINT, &sa, NULL) == -1) 
+	{
+        perror("sigaction");
+        exit(1);
+	}
 }
