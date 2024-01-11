@@ -6,7 +6,7 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 10:51:26 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/01/10 15:11:30 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/01/11 08:48:58 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -213,37 +213,59 @@ int	no_quotes(char *split)
 	return (0);
 }
 
+int	last_quote(char *split)
+{
+	int	i;
+	int quote;
+
+	i = 0;
+	quote = 0;
+	while (split[i])
+	{
+		if (split[i] == DQUOTE || split[i] == SQUOTE)
+			quote = i;
+		i++;
+	}
+	return (quote);
+}
+
 
 void	transform_split(char **split, t_tok *tdata)
 {
 	int	i;
 	int	j;
-	int t;
+	int k;
 
 	i = 0;
 	j = 0;
 	while (split[i])
 	{
 		j = 0;
-		t = 0;
-		while(split[i][j])
+		k = 0;
+		while(split[i][j] && split[i][j] != DQUOTE && split[i][j] != SQUOTE)
+        {
+			j++;
+			k++;
+        }
+		split[i] = ft_sprintf("%s%s", r_env(ft_substr(split[i], 0, k), tdata), ft_substr(split[i], k, ft_strlen(split[i]) - k));
+		while (split[i][j] && j < last_quote(split[i]))
 		{
 			if (split[i][j] == SQUOTE)
 			{
 				split[i] = t_squote(split[i], &j);
-				t = 1;
 				// printf("SRESTE = %s\n",split[i]);
 			}
 			if (split[i][j] == DQUOTE)
 			{
 				split[i] = t_dquote(split[i], &j, tdata);
-				t = 1;
 				// printf("DRESTE = %s\n",split[i]);
 			}
 			j++;
 		}
-		if (t == 0)
-			split[i] = r_env(split[i], tdata);
+		j--;
+		// printf("J et LEN = %d %zu\n", j, ft_strlen(split[i]));
+		// printf("P1 : %s SUB : %s\n", ft_substr(split[i], 0, j), r_env(ft_substr(split[i], j, ft_strlen(split[i]) - j), tdata));
+		split[i] = ft_sprintf("%s%s", ft_substr(split[i], 0, j), r_env(ft_substr(split[i], j, ft_strlen(split[i]) - j), tdata));
 		i++;
 	}
 }
