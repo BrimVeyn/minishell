@@ -6,7 +6,7 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/23 15:16:24 by bvan-pae          #+#    #+#             */
-/*   Updated: 2023/12/28 13:50:08 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/01/11 14:02:36 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void free_env(t_env *env)
 int main(int ac, char *av[], char *env[])
 {
 	t_env denv;
-	
+
 	(void) av;
 	if (!env || ac >= 2)
 		perror("Env is null");
@@ -30,6 +30,7 @@ int main(int ac, char *av[], char *env[])
 	denv.pwd = get_pwd(&denv);
 	denv.path = get_path(&denv);
 	denv.usr = get_usr(&denv);
+	denv.flist = get_flist(&denv);
 	prompt(&denv);
 	free_env(&denv);
 }

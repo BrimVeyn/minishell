@@ -6,7 +6,7 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/23 14:22:29 by bvan-pae          #+#    #+#             */
-/*   Updated: 2023/12/26 16:25:21 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/01/11 14:13:25 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,4 +75,54 @@ void update_env(t_env *denv)
 	get_usr(denv);
 	get_pwd(denv);
 	get_path(denv);
+}
+
+int	tab_len(char **tab)
+{
+	int i;
+
+	i = 0;
+	while (tab[i])
+		i++;
+	return (i);
+}
+
+char **join_tab(char **tab, char *entry)
+{
+	char **new;
+	int i;
+
+	i = -1;
+	new = ft_calloc(tab_len(tab) + 2, sizeof(char *));
+	while(tab[++i])
+		new[i] = ft_strdup(tab[i]);
+	new[i] = ft_strdup(entry);
+	free_tab(tab);
+	return (new);
+}
+
+char *get_flist(t_env *denv)
+{
+	struct dirent	*entry;
+    DIR				*dir;
+	char			**tab = ft_calloc(2, sizeof(char *));
+
+	dir = opendir(denv->pwd);
+	if (dir == NULL)
+	{
+        perror("opendir");
+        exit(EXIT_FAILURE);
+	}
+	entry = readdir(dir);
+	tab = join_tab(tab, entry->d_name);
+    while (entry != NULL)
+	{
+		entry = readdir(dir);
+		if (entry)
+			tab = join_tab(tab, entry->d_name);
+    }
+	// for(int i = 0; tab[i]; i++)
+	// 	printf("tab[%d] = %s\n", i, tab[i]);
+    closedir(dir);
+    return 0;
 }

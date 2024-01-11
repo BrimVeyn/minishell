@@ -6,7 +6,7 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/23 14:09:29 by nbardavi          #+#    #+#             */
-/*   Updated: 2024/01/10 13:43:31 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/01/11 14:03:25 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 # include <sys/wait.h>
 # include <unistd.h>
 # include <time.h>
+# include <dirent.h>
 
 #include <readline/readline.h>
 #include <readline/history.h>
@@ -98,6 +99,7 @@ typedef struct s_env
 	char	*pwd;
 	char	*path;
 	char	*usr;
+	char	*flist;
 	t_h_lst	*history;
 }			t_env;
 
@@ -125,19 +127,20 @@ typedef struct s_tokh
 	int		tri;
 }			t_tokh;
 
+t_h_lst		*ms_lst_new(char *content);
 t_tok		parse_input(char *input, t_env *denv);
 t_tok		init_tok(int tokcount);
 t_tokvar	init_tokvar(char *symbol, int type);
 t_tokh		init_tokh(void);
 void		init_d_pipe(t_pipe *d_pipe);
-t_h_lst		*ms_lst_new(char *content);
 
 char		**ms_dupdup(char **environ);
-char	**ft_splitm(char *str, t_tok *tdata);
+char		**ft_splitm(char *str, t_tok *tdata);
 char		*get_pwd(t_env *data);
 char		*get_path(t_env *data);
 char		*get_usr(t_env *data);
 char		*ft_strtrimf(char const *s1, char const *set);
+char		*get_flist(t_env *denv);
 
 int			ms_isws(char c);
 
