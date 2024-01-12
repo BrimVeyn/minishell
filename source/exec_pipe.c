@@ -184,7 +184,7 @@ void exec_cmd(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
 
 	j = 0;
 	id = fork();
-
+	
 	if (id != 0) // PROCESSUS PERE
 	{
 		waitpid(id, &d_token->exitno ,0);
@@ -358,11 +358,40 @@ void parse_type(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
 			j = 0;
 			if (d_token->type[*i + 1] == P_C)
 				j++;
-			while(*i + j < d_token->t_size && d_token->type[*i + 1 + j] == S_AR)
+			// while(*i + j < d_token->t_size && d_token->type[*i + 1 + j] == S_AL)
+			// {
+			// 	d_pipe->input = open(d_token->tokens[*i + 2 + j][0], O_RDONLY);
+			// 	if (d_pipe->input == -1)
+			// 		perror("Error: ");
+			// 	dup2(d_pipe->input, STDIN_FILENO);
+			// 	j += 2;
+			// }
+			while(*i + j < d_token->t_size && (d_token->type[*i + 1 + j] == S_AR || d_token->type[*i + 1 + j] == S_AL || d_token->type[*i + 1 + j] == D_AR))
 			{
-				d_pipe->output = open(d_token->tokens[*i + 2 + j][0], O_WRONLY | O_CREAT | O_TRUNC, 000064); //A Securiser + fuite fd
-				dup2(d_pipe->output, STDOUT_FILENO);
-				j +=2;
+				if (d_token->type[*i + 1 + j] == S_AR)
+				{
+					d_pipe->output = open(d_token->tokens[*i + 2 + j][0], O_WRONLY | O_CREAT | O_TRUNC, 0644); //A Securiser + fuite fd
+					if (d_pipe->output == -1)
+						perror("Error: ");
+					dup2(d_pipe->output, STDOUT_FILENO);
+					j +=2;
+				}
+				if (d_token->type[*i + 1 + j] == S_AL)
+				{
+					d_pipe->input = open(d_token->tokens[*i + 2 + j][0], O_RDONLY);
+					if (d_pipe->input == -1)
+						perror("Error: ");
+					dup2(d_pipe->input, STDIN_FILENO);
+					j += 2;
+				}
+				if (d_token->type[*i + 1 + j] == D_AR)
+				{	
+					d_pipe->output = open(d_token->tokens[*i + 2 + j][0], O_WRONLY | O_CREAT | O_APPEND, 0644); //A Securiser + fuite fd
+					if (d_pipe->output == -1)
+						perror("Error: ");
+					dup2(d_pipe->output, STDOUT_FILENO);
+					j +=2;
+				}
 			}
 		}
 
@@ -380,11 +409,17 @@ void parse_type(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
 			// ft_printf("p_here: %d\n", p_here);
 			// ft_printf("p_here:%d\nindice 2:%fs\nindice 1:%fs\n", p_here, d_token->tokens[*i][2], d_token->tokens[*i][1]);
 		}	
-
+		
+		// ft_printf("Hello");
 		if (d_pipe->skip_and == 0 && d_pipe->skip_or == 0 && d_pipe->or_return == 0)
 			exec_cmd(d_token, d_pipe, denv, i);
-
-		if (d_pipe->output != 0) // RESET FD
+		
+		if (d_pipe->input != -1)
+		{
+			ft_printf("Reset stdint");
+			dup2(d_pipe->old_stdin, STDIN_FILENO);
+		}
+		if (d_pipe->output != -1) // RESET FD
 		{
 			dup2(d_pipe->old_stdout, STDOUT_FILENO);
 		}
@@ -489,6 +524,11 @@ void ms_main_pipe(t_tok d_token, t_env *denv)
 Notes:
 
 -perms a modifier
-
-
+-fuites fd
+-securiser malloc
+-securiser open
+-securiser pipe
+-ctrl + c dans minishell DANS minishell bug
+-input a faire dans parentheses
+-append a faire dans parentheses
 */

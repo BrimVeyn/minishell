@@ -32,7 +32,6 @@ int main(int ac, char *av[], char *env[])
 	denv.pwd = get_pwd(&denv);
 	denv.path = get_path(&denv);
 	denv.usr = get_usr(&denv);
-	init_sig();
 	prompt(&denv);
 	free_env(&denv);
 }
