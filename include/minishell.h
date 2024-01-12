@@ -75,6 +75,7 @@ typedef struct s_pipe
 	int *fork_id;
 	int pipefd[2];
 	int i_f;
+	int old_stdin;
 	int old_stdout;
 	int *heredoc;
 	int p_redi_fd;

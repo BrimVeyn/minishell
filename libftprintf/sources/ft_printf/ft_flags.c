@@ -19,7 +19,7 @@ t_trigger	t_flags(const char *txt, int i)
 
 	stop = "dicspuxX";
 	trigger = reset_struct();
-	while (instr(txt[i], stop) == 0)
+	while (ft_instr(txt[i], stop) == 0)
 	{
 		if (txt[i] == '-')
 		{
