@@ -11,12 +11,21 @@
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
+#include <term.h>
 
 extern int exitno;
 
 void sigint_handler(int sig_num)
 {
-	exitno = 130;
+	ft_printf("\n");
+	rl_on_new_line();
+	rl_replace_line("", 0);
+	rl_redisplay();
+}
+
+void signal_ctrl()
+{
+	signal(SIGINT, sigint_handler);
 }
 
 void init_sig()
