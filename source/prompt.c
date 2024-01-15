@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prompt.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
+/*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/23 16:11:18 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/01/08 13:52:32 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/01/11 14:32:14 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 #include <readline/readline.h>
 #include <readline/history.h>
 #include <sys/ioctl.h>
+
+extern int exitno;
 
 char	*rm_last_slash(char *path, int total_slash)
 {
@@ -95,29 +97,44 @@ char	*ms_form_prompt(t_env *denv)
 	return (prompt);
 }
 
+void signal_ctrl();
+
 void	prompt(t_env *denv)
 {
 	char	*input;
 	char	*prompt;
 	int		i;
+	t_tok	d_token;
 
 	i = 0;
+	// init_sig();
 	while (1)
 	{
 		update_env(denv);
+		signal_ctrl();
 		prompt = ms_form_prompt(denv);
 		input = readline(prompt);
 		free(prompt);
+		// if (exitno == 130)
+		// {
+		// 	d_token.exitno = exitno;
+		// 	exitno = -1;
+		// 	continue;
+		// }
 		if (input == NULL)
+		{
+			printf("exit\n");
 			break ;
-        if (input && *input)
+		}
+		if (input && *input)
 		{
 			if (i == 0)
 				denv->history = ms_lst_new(input);
 			else
 				ms_lst_b(&denv->history, ms_lst_new(input));
             add_history(input);
-			ms_main_pipe(parse_input(input, denv), denv);
+			d_token = parse_input(input, denv);
+			ms_main_pipe(d_token, denv);
 			;
 		}
 		i++;

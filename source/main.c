@@ -6,11 +6,13 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/23 15:16:24 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/01/11 14:02:36 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/01/15 09:10:21 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
+
+int exitno = 0;
 
 void free_env(t_env *env)
 {
