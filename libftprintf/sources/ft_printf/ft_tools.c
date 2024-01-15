@@ -74,7 +74,7 @@ int	c_flags(const char *txt, unsigned int i)
 
 	cpt = 0;
 	lst = "dicspuxX%";
-	while (instr(txt[i], lst) == 0 && txt[i] != '\0')
+	while (ft_instr(txt[i], lst) == 0 && txt[i] != '\0')
 	{
 		cpt++;
 		i++;
@@ -82,16 +82,16 @@ int	c_flags(const char *txt, unsigned int i)
 	return (cpt);
 }
 
-int	instr(char c, char *str)
-{
-	while (*str)
-	{
-		if (*str == c)
-			return (1);
-		++str;
-	}
-	return (0);
-}
+// int	instr(char c, char *str)
+// {
+// 	while (*str)
+// 	{
+// 		if (*str == c)
+// 			return (1);
+// 		++str;
+// 	}
+// 	return (0);
+// }
 
 char	*itc(int c)
 {

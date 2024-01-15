@@ -73,7 +73,6 @@ t_trigger	t_flags4(const char *txt, int i, t_trigger trigger);
 
 char		*ft_itoa_u(unsigned int nbr);
 t_trigger	get_nbr(const char *txt, int i, t_trigger trigger);
-int			instr(char c, char *str);
 char		*itc(int c);
 int			c_flags(const char *txt, unsigned int i);
 

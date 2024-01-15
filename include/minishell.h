@@ -6,8 +6,9 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/23 14:09:29 by nbardavi          #+#    #+#             */
-/*   Updated: 2024/01/12 10:42:36 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/01/15 09:10:45 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
+/* ************************************************************************** */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
@@ -20,6 +21,7 @@
 # include <fcntl.h>
 # include <stdio.h>
 # include <stdlib.h>
+# include <signal.h>
 # include <sys/wait.h>
 # include <unistd.h>
 # include <time.h>
@@ -75,6 +77,7 @@ typedef struct s_pipe
 	int *fork_id;
 	int pipefd[2];
 	int i_f;
+	int old_stdin;
 	int old_stdout;
 	int *heredoc;
 	int p_redi_fd;
@@ -148,6 +151,9 @@ char		*get_usr(t_env *data);
 char		*ft_strtrimf(char const *s1, char const *set);
 
 int			ms_isws(char c);
+
+
+void		init_sig();
 
 void		prompt(t_env *env);
 void		update_env(t_env *data);
