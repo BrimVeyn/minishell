@@ -6,7 +6,7 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/23 14:09:29 by nbardavi          #+#    #+#             */
-/*   Updated: 2024/01/11 14:03:25 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/01/12 10:42:36 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,7 @@ typedef struct s_pipe
 	int i_f;
 	int old_stdout;
 	int *heredoc;
+	int p_redi_fd;
 }			t_pipe;
 
 typedef struct s_lst
@@ -99,7 +100,7 @@ typedef struct s_env
 	char	*pwd;
 	char	*path;
 	char	*usr;
-	char	*flist;
+	char	**flist;
 	t_h_lst	*history;
 }			t_env;
 
@@ -124,6 +125,7 @@ typedef struct s_tokh
 	int		i;
 	int		j;
 	int		k;
+	int		l;
 	int		tri;
 }			t_tokh;
 
@@ -135,12 +137,15 @@ t_tokh		init_tokh(void);
 void		init_d_pipe(t_pipe *d_pipe);
 
 char		**ms_dupdup(char **environ);
-char		**ft_splitm(char *str, t_tok *tdata);
+char		**ms_joinstarstar(char **p1, char **p2);
+char		**ft_splitm(char *str, t_tok *tdata, t_env *denv);
+char		**join_tab(char **tab, char *entry);
+char		**get_flist(t_env *denv);
+// char	**ft_splitm(char *str, t_tok *tdata);
 char		*get_pwd(t_env *data);
 char		*get_path(t_env *data);
 char		*get_usr(t_env *data);
 char		*ft_strtrimf(char const *s1, char const *set);
-char		*get_flist(t_env *denv);
 
 int			ms_isws(char c);
 

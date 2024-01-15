@@ -6,7 +6,7 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 10:49:15 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/01/10 13:42:49 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/01/12 09:03:10 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,7 +125,7 @@ char **ms_joinstarstar(char **p1, char **p2)
 	return(new);
 }
 
-char **add_args_to_cmd(char **token, char *input, t_tokh *v, t_tok *tdata)
+char **add_args_to_cmd(char *input, t_tokh *v, t_tok *tdata, t_env *denv)
 {
 	char **to_add;
 	char **new;
@@ -135,11 +135,11 @@ char **add_args_to_cmd(char **token, char *input, t_tokh *v, t_tok *tdata)
 		v->k++;
 		v->i++;
 	}
-	to_add = ft_splitm(ft_substr(input, v->i - v->k, v->k), tdata);
-	new = ms_joinstarstar(token, to_add);
+	to_add = ft_splitm(ft_substr(input, v->i - v->k, v->k), tdata, denv);
+	new = ms_joinstarstar(tdata->tokens[v->l], to_add);
 	// for (int j = 0; new[j]; j++)
 	// 	ft_printf("to_add[%d] = %s\n", j, new[j]);
-	free_tab(token);
+	free_tab(tdata->tokens[v->l]);
 	free_tab(to_add);
 	return (new);
 }
@@ -170,7 +170,7 @@ char **add_here_to_cmd(char **token, char *input, t_tokh *v)
 	return (new);
 }
 
-void fill_token(char *input, t_tok *tdata)
+void fill_token(char *input, t_tok *tdata, t_env *denv)
 {
 	t_tokvar tokvar;
 	t_tokh	v;
@@ -196,9 +196,9 @@ void fill_token(char *input, t_tok *tdata)
 				v.j++;
 				if (input[v.i] && ms_tiktok(&input[v.i]).type == CMD)
 				{
-					int k = f_lcmd_index(tdata, v.j);
+					v.l = f_lcmd_index(tdata, v.j);
 					// printf("THE NUMBER IS %d\n", k);
-					tdata->tokens[k] = add_args_to_cmd(tdata->tokens[k] ,input, &v, tdata);
+					tdata->tokens[v.l] = add_args_to_cmd(input, &v, tdata, denv);
 				}
 			}
 		}
@@ -221,16 +221,16 @@ void fill_token(char *input, t_tok *tdata)
 		if (v.tri == 1)
 		{
 			// tdata->tokens[v.j] = parse_command(ft_substr(input, v.i - v.k, v.k));
-			tdata->tokens[v.j] = ft_splitm(ft_substr(input, v.i - v.k, v.k), tdata);
+			tdata->tokens[v.j] = ft_splitm(ft_substr(input, v.i - v.k, v.k), tdata, denv);
 			tdata->type[v.j] = ms_tiktok(&input[v.i - v.k]).type;
 			v.j++;
 		}
 		while (ms_tiktok(&input[v.i]).type == D_AL && v.i > 0)
 		{
-			int k = f_lcmd_index(tdata, v.j);
+			v.l = f_lcmd_index(tdata, v.j);
 			// printf("the number is %d\n", k);
-			tdata->tokens[k] = add_here_to_cmd(tdata->tokens[k] ,input, &v);
-			tdata->tokens[k] = add_args_to_cmd(tdata->tokens[k] ,input, &v, tdata);
+			tdata->tokens[v.l] = add_here_to_cmd(tdata->tokens[v.l] ,input, &v);
+			tdata->tokens[v.l] = add_args_to_cmd(input, &v, tdata, denv);
 		}
 	}
 }
@@ -252,11 +252,11 @@ int	count_delimiter(char *input)
 	// ft_printf("len ===== %d\n", len);
 	if (len == 0 && !input[i])
 	{
-		fd_printf(2, "bash: syntax error near unexpected token `newline'\n");
+		fd_printf(2, "minishell: syntax error near unexpected token `newline'\n");
 	}
 	else if (len ==  0 && input[i] && ms_tiktok(&input[i]).type != CMD)
 	{
-		fd_printf(2, "bash: syntax error near unexpected token `%fs'\n", ms_tiktok(&input[i]).str);
+		fd_printf(2, "minishell: syntax error near unexpected token `%fs'\n", ms_tiktok(&input[i]).str);
 	}
 	return (len);
 }
@@ -285,18 +285,18 @@ int start_check(char *input, t_tokvar tokvar, int i)
 		icpy--;
 	if(icpy == 0 && ms_wl(ms_tiktok(&input[i]).str))
 	{
-		fd_printf(2, "bash: syntax error near unexpected token `%fs'\n", ms_tiktok(&input[i]).str);
+		fd_printf(2, "minishell: syntax error near unexpected token `%fs'\n", ms_tiktok(&input[i]).str);
 		return(ERROR);
 	}
 	else if (icpy == 0)
 	{
 		if (input[i + 1] && ms_tiktok(&input[i + ms_tiktok(&input[i]).len]).type != CMD)
 		{
-			fd_printf(2, "bash: syntax error near unexpected token `%fs'\n", ms_tiktok(&input[i + ms_tiktok(&input[i]).len]).str);
+			fd_printf(2, "minishell: syntax error near unexpected token `%fs'\n", ms_tiktok(&input[i + ms_tiktok(&input[i]).len]).str);
 		}
 		else
         {
-			fd_printf(2, "bash: syntax error near unexpected token `newline'\n");
+			fd_printf(2, "minishell: syntax error near unexpected token `newline'\n");
         }
 		return (ERROR);
 	}
@@ -312,18 +312,18 @@ int end_check(char *input, t_tokvar tokvar, int i)
 		icpy++;
 	if (!input[icpy] && ms_tiktok(&input[icpy - 2]).type != CMD)
     {
-		fd_printf(2, "bash: syntax error near unexpected token `%fs'\n", ms_tiktok(&input[icpy - 2]).str);
+		fd_printf(2, "minishell: syntax error near unexpected token `%fs'\n", ms_tiktok(&input[icpy - 2]).str);
 		return (ERROR);
     }
 	else if (!input[icpy] && ms_tiktok(&input[icpy - 1]).type != CMD && ms_tiktok(&input[icpy - 1]).type != P_O && ms_tiktok(&input[icpy - 1]).type != P_C)
     {
-		fd_printf(2, "bash: syntax error near unexpected token `%fs'\n", ms_tiktok(&input[icpy - 1]).str);
+		fd_printf(2, "minishell: syntax error near unexpected token `%fs'\n", ms_tiktok(&input[icpy - 1]).str);
 		return (ERROR);
     }
 	return (0);	
 }
 
-int	p_check(char *input)
+int	parenthesis_check(char *input)
 {
 	int p;
 	int	i;
@@ -342,14 +342,45 @@ int	p_check(char *input)
 		return (1);
 	else if (p > 0)
     {
-		fd_printf(2, "bash: syntax error near unexpected token `)'\n");
+		fd_printf(2, "minishell: syntax error near unexpected token `)'\n");
 		return (ERROR);
     }
 	else
 	{
-		fd_printf(2, "bash: syntax error near unexpected token `('\n");
+		fd_printf(2, "minishell: syntax error near unexpected token `('\n");
 		return (ERROR);
 	}
+}
+
+int quotes_check(char *str)
+{
+	int	i;
+	int	*quotes;
+
+	i = 0;
+	quotes = (int *) ft_calloc(3, sizeof(int));
+	if (!quotes)
+		return (ERROR);
+	while (str[i])
+	{
+		if (str[i] == SQUOTE)
+			quotes[0]++;
+		else if (str[i] == DQUOTE)
+			quotes[1]++;
+		i++;
+	}
+	if (quotes[0] % 2 != 0)
+    {
+		fd_printf(2, "minishell: parsing error: unclosed single quotes\n");
+		return (ERROR);
+    }
+	if (quotes[1] % 2 != 0)
+    {
+		fd_printf(2, "minishell: parsing error: unclosed double quotes\n");
+		return (ERROR);
+    }
+	free(quotes);
+	return (0);
 }
 
 int count_tokens(char *input)
@@ -365,7 +396,7 @@ int count_tokens(char *input)
 	i = 0;
 	trigger = 0;
 	dcount = 0;
-	if (p_check(input) == ERROR)
+	if (parenthesis_check(input) == ERROR || quotes_check(input) == ERROR)
 		return (ERROR);
 	while (input[i])
 	{
@@ -424,7 +455,7 @@ t_tok	parse_input(char *input, t_env *denv)
 		return (tdata);
 	tdata = init_tok(tdata.t_size);
 	printf("Token count : %d\n", tdata.t_size);
-	fill_token(input, &tdata);
+	fill_token(input, &tdata, denv);
 	ms_add_path(&tdata, denv);
 	for (int i = 0; tdata.tokens[i]; i++)
 	{
