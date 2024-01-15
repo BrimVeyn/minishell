@@ -3,12 +3,11 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
+/*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/23 14:09:29 by nbardavi          #+#    #+#             */
-/*   Updated: 2024/01/15 09:10:45 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/01/15 14:29:04 by nbardavi         ###   ########.fr       */
 /*                                                                            */
-/* ************************************************************************** */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
@@ -81,6 +80,10 @@ typedef struct s_pipe
 	int old_stdout;
 	int *heredoc;
 	int p_redi_fd;
+	//Pour les pipes
+	int f_cpt;
+	int	*f_id;
+	//
 }			t_pipe;
 
 typedef struct s_lst
