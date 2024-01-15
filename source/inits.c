@@ -6,7 +6,7 @@
 /*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/28 10:13:33 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/01/11 14:30:56 by nbardavi         ###   ########.fr       */
+/*   Updated: 2024/01/15 14:13:40 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,4 +60,5 @@ void init_d_pipe(t_pipe *d_pipe)
 	d_pipe->old_stdout = dup(STDOUT_FILENO);
 	d_pipe->heredoc = ft_calloc(1000, sizeof(int)); //TEMPORAIRE
 	d_pipe->fork_id = ft_calloc(1000, sizeof(int)); //TEMPORAIRE
+	d_pipe->f_id = ft_calloc(1000, sizeof(int)); //TEMPORAIRE
 }
