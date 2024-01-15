@@ -6,7 +6,7 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 10:51:26 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/01/15 09:00:33 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/01/15 17:28:22 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,95 +105,6 @@ char *t_squote(char *split, int *j)
 	// printf("final : %s\n", final);
 	*j = end - 1;
 	return (final);
-}
-
-int	find_star(char *split)
-{
-	int	i;
-	
-	i = -1;
-	while (split[++i])
-		if (split[i] == '*')
-			return (i);
-	return (ERROR);
-}
-
-char *find_word(char *sub)
-{
-	int	i;
-
-	i = (int) ft_strlen(sub) - 1;
-	while (sub[i] && !ms_isws(sub[i]) && sub[i] != '*')
-		i--;
-	i++;
-	return (ft_substr(sub, i, ft_strlen(sub)));
-}
-
-char **find_matches(char **flist, char *word)
-{
-	int	i;
-	int	j;
-	int pass;
-	char **tab = ft_calloc(2, sizeof(char *));
-	
-	i = 0;
-	while (flist[i])
-	{
-		pass = 1;
-		j = 0;
-		while(word[j])
-		{
-			// ft_printf("oh ptn salope %c %c\n", word[j], flist[i][j]);
-			if (flist[i][j] && word[j] != flist[i][j])
-            {
-				pass = 0;
-				break;
-            }
-			j++;
-		}
-		if (pass == 1)
-			tab = join_tab(tab, flist[i]);
-		i++;
-	}
-	return (tab);
-}
-
-char **find_midmatches(char **matches, char *word, int s1, int s2)
-{
-	int	i;
-	int	j;
-	int pass;
-	char **tab = ft_calloc(2, sizeof(char *));
-	
-	i = 0;
-	while (matches[i])
-	{
-		j = s1;
-		pass = 0;
-		while (matches[i][j]) 
-		{
-			// ft_printf("%c", matches[i][j]);
-			if (!ft_strncmp(&matches[i][j], word, ft_strlen(word) - 1))
-            {
-				pass = 1;
-				break;
-            }
-			j++;
-		}
-		if (pass == 1)
-			tab = join_tab(tab, matches[i]);
-		i++;
-	}
-	free_tab(matches);
-	return (tab);
-}
-
-char *w_expand(char *split, t_env *denv)
-{
-	if (find_star(split) == ERROR)
-		return (split);
-
-	return (split);
 }
 
 char *r_env(char *split, t_tok *tdata, t_env *denv)
@@ -298,6 +209,42 @@ int	last_quote(char *split)
 	return (quote);
 }
 
+char *cut_bstar(char *word)
+{
+	int	i;
+
+	i = 0;
+	while (word[i] != '*')
+		i++;
+	while (word[i] && !ms_isws(word[i]))
+		i--;
+	return (ft_substr(word, 0, i));
+}
+
+int	find_star(char *word)
+{
+	int	i;
+
+	i = -1;
+	while(word[++i])
+		if (word[i] == '*')
+			return (1);
+	return (ERROR);
+}
+
+char	*w_expand(char *word, t_env *denv)
+{
+	char	*p1;
+	char	*p2;
+	char	**to_match;
+
+	denv->flist = get_flist(denv);
+	ms_dprint(&denv->flist);
+	if (find_star(word) == ERROR)
+		return (word);
+	p1 = cut_bstar(word); 
+	return (word);
+}
 
 void	transform_split(char **split, t_tok *tdata, t_env *denv)
 {
@@ -334,7 +281,7 @@ void	transform_split(char **split, t_tok *tdata, t_env *denv)
 		j--;
 		// printf("J et LEN = %d %zu\n", j, ft_strlen(split[i]));
 		// printf("P1 : %s SUB : %s\n", ft_substr(split[i], 0, j), r_env(ft_substr(split[i], j, ft_strlen(split[i]) - j), tdata));
-		split[i] = ft_sprintf("%s%s", ft_substr(split[i], 0, j), w_expand(r_env(ft_substr(split[i], j, ft_strlen(split[i]) - j), tdata, denv), denv));
+		split[i] = ft_sprintf("%s%fs", ft_substr(split[i], 0, j), r_env(ft_substr(split[i], j, ft_strlen(split[i]) - j), tdata, denv));
 		i++;
 	}
 }
