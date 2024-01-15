@@ -6,7 +6,12 @@ CFLAGS 			:= -Wall -Wextra -Werror -lreadline -g3 -lncurses
 SRC 			:= source/main.c source/prompt.c source/get_env.c \
 				   source/free.c source/parse.c source/ms_h_lst.c \
 				   source/exec_pipe.c source/path_parse.c source/inits.c \
-				   source/ft_strtrimfree.c source/ft_splitm.c source/signals.c
+				   source/ft_strtrimfree.c source/ft_splitm.c source/signals.c \
+				   source/double_linked_list/ms_dlstaddback.c \
+				   source/double_linked_list/ms_dlstclear.c \
+				   source/double_linked_list/ms_dlstdelone.c \
+				   source/double_linked_list/ms_dlstmap.c \
+				   source/double_linked_list/ms_dlstnew.c 
 OBJ 			:= $(SRC:source/%.c=objects/%.o)
 OBJDIR 			:= objects
 
@@ -29,13 +34,13 @@ $(NAME): $(LIBFT) $(OBJDIR) $(OBJ)
 	@printf "Done !$(DEF_COLOR)\n"
 
 $(OBJDIR)/%.o: source/%.c
-	@printf '$(YELLOW)Compiling : %-25s $(CYAN)-->	$(YELLOW)%-30s\n' "$<" "$@";
+	@printf '$(YELLOW)Compiling : %-45s $(CYAN)-->	$(YELLOW)%-30s\n' "$<" "$@";
 	@printf "$(BLUE)"
 	@$(CC) -c $< -o $@
 	@printf "$(DEF_COLOR)"
 
 clean:
-	@rm -rf $(OBJDIR) $(OBJ)
+	@rm -rf $(OBJDIR)
 	@make --no-print-directory clean -C libftprintf/
 	@printf "$(RED)Objects deleted !$(DEF_COLOR)\n"
 
@@ -45,7 +50,7 @@ fclean: clean
 	@printf "$(RED)Binary deleted !$(DEF_COLOR)\n"
 
 $(OBJDIR):
-	@mkdir -p $(OBJDIR)
+	@mkdir -p $(OBJDIR) $(OBJDIR)/double_linked_list
 
 $(LIBFT) :
 	@make --no-print-directory -C libftprintf/

@@ -6,7 +6,7 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/23 14:22:29 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/01/12 10:18:23 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/01/15 17:18:58 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,59 +70,36 @@ void update_env(t_env *denv)
 {
 	extern char **environ;
 
-	free_tab(denv->f_env);	
+	free_tab(denv->f_env);
 	denv->f_env = ms_dupdup(environ);
-	get_usr(denv);
-	get_pwd(denv);
-	get_path(denv);
+	denv->usr = get_usr(denv);
+	denv->pwd = get_pwd(denv);
+	denv->path = get_path(denv);
+	denv->flist = get_flist(denv);
 }
 
-int	tab_len(char **tab)
-{
-	int i;
-
-	i = 0;
-	while (tab[i])
-		i++;
-	return (i);
-}
-
-char **join_tab(char **tab, char *entry)
-{
-	char **new;
-	int i;
-
-	i = -1;
-	new = ft_calloc(tab_len(tab) + 2, sizeof(char *));
-	while(tab[++i])
-		new[i] = ft_strdup(tab[i]);
-	new[i] = ft_strdup(entry);
-	free_tab(tab);
-	return (new);
-}
-
-char **get_flist(t_env *denv)
+t_dlist *get_flist(t_env *denv)
 {
 	struct dirent	*entry;
     DIR				*dir;
-	char			**tab = ft_calloc(2, sizeof(char *));
+	t_dlist			*head;
 
+	head = NULL;
 	dir = opendir(denv->pwd);
 	if (dir == NULL)
 	{
         perror("opendir");
         exit(EXIT_FAILURE);
 	}
-	entry = readdir(dir);
-	tab = join_tab(tab, entry->d_name);
     while (entry != NULL)
 	{
 		entry = readdir(dir);
 		if (entry)
-			tab = join_tab(tab, entry->d_name);
+			ms_dlstab(&head, ms_dlstnew(entry->d_name, 0));
     }
+	// ms_dprint(&head);
 	// for(int i = 0; tab[i]; i++)
 	// 	printf("tab[%d] = %s\n", i, tab[i]);
     closedir(dir);
-    return (tab);
+    return (head);
 }
