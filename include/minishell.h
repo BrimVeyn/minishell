@@ -6,7 +6,7 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/23 14:09:29 by nbardavi          #+#    #+#             */
-/*   Updated: 2024/01/15 09:10:45 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/01/15 17:14:23 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 /* ************************************************************************** */
@@ -62,6 +62,15 @@ enum
 
 /*_.-=-._.-=-._.-=-._.-=-._.- Structs -._.-=-._.-=-._.-=-._.-=-._.-=-._*/
 
+typedef struct s_dlist
+{
+	char	*str;
+	int		i;
+	struct s_dlist	*prev;
+	struct s_dlist	*next;
+}	t_dlist;
+
+
 typedef struct s_pipe
 {
 	int input;
@@ -103,7 +112,7 @@ typedef struct s_env
 	char	*pwd;
 	char	*path;
 	char	*usr;
-	char	**flist;
+	t_dlist	*flist;
 	t_h_lst	*history;
 }			t_env;
 
@@ -139,15 +148,24 @@ t_tokvar	init_tokvar(char *symbol, int type);
 t_tokh		init_tokh(void);
 void		init_d_pipe(t_pipe *d_pipe);
 
+t_dlist		*ms_dlstnew(void *str, int i);
+void		ms_dlstab(t_dlist **lst, t_dlist *new);
+void		ms_dlstdelone(t_dlist **lst);
+void		ms_dlstdel(t_dlist *el);
+void		ms_dlstclear(t_dlist **head);
+void	ms_dprint(t_dlist **lst);
+t_dlist *ms_dlstmap(t_dlist **lst, t_dlist *(*f)(t_dlist *));
+t_dlist *ms_match_check(t_dlist *el);
+
 char		**ms_dupdup(char **environ);
 char		**ms_joinstarstar(char **p1, char **p2);
 char		**ft_splitm(char *str, t_tok *tdata, t_env *denv);
 char		**join_tab(char **tab, char *entry);
-char		**get_flist(t_env *denv);
 // char	**ft_splitm(char *str, t_tok *tdata);
 char		*get_pwd(t_env *data);
 char		*get_path(t_env *data);
 char		*get_usr(t_env *data);
+t_dlist		*get_flist(t_env *denv);
 char		*ft_strtrimf(char const *s1, char const *set);
 
 int			ms_isws(char c);

@@ -6,7 +6,7 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 10:49:15 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/01/12 09:03:10 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/01/15 17:18:43 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -450,6 +450,8 @@ t_tok	parse_input(char *input, t_env *denv)
 {
 	t_tok	tdata;
 
+	// ft_printf("IN_PARSE\n");
+	// ms_dprint(denv->flist);
 	tdata.t_size = count_tokens(input);
 	if (tdata.t_size == ERROR)
 		return (tdata);
