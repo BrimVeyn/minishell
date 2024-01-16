@@ -6,7 +6,7 @@
 /*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/26 15:06:31 by nbardavi          #+#    #+#             */
-/*   Updated: 2024/01/15 15:51:30 by nbardavi         ###   ########.fr       */
+/*   Updated: 2024/01/16 14:00:58 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ int check_here(char ***tokens, int i);
 void cut_here(t_tok *d_token, int *i);
 void	exec_pipe(t_tok *d_token, t_pipe *d_pipe, char *env[], int *i);
 void pipe_parse(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i);
+void	w_exec_pipe(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i);
 // void exec_pipe()
 // {
 //
@@ -274,6 +275,7 @@ void p_parse_type(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
 		d_pipe->input = open(d_token->tokens[*i + 1][0], O_RDONLY);
 	}
 	
+
 	if (d_token->type[*i] == CMD && d_pipe->skip_and == 0)
 	{
 		// ft_printf("=======\nskip_and: %d\nskip_or:%d\nor_return:%d\n======\n", d_pipe->skip_and, d_pipe->skip_or, d_pipe->or_return);
@@ -332,8 +334,23 @@ void p_parse_type(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
 			}
 			// ft_printf("p_here: %d\n", p_here);
 			// ft_printf("p_here:%d\nindice 2:%fs\nindice 1:%fs\n", p_here, d_token->tokens[*i][2], d_token->tokens[*i][1]);
-		}	
+		}
 		
+		if (d_token->t_size > *i)
+		{
+			if (d_token->type[*i + 1] == PIPE)
+			{
+				w_exec_pipe(d_token, d_pipe, denv, i);
+				return;
+			}
+		}
+		else if(*i > 0)
+			if (d_token->type[*i - 1] == PIPE)
+			{
+				w_exec_pipe(d_token, d_pipe, denv, i);
+				return;
+			}
+
 		// ft_printf("Hello");
 		if (d_pipe->skip_and == 0 && d_pipe->skip_or == 0 && d_pipe->or_return == 0)
 			exec_cmd(d_token, d_pipe, denv, i);
@@ -342,10 +359,12 @@ void p_parse_type(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
 		{
 			ft_printf("Reset stdint");
 			dup2(d_pipe->old_stdin, STDIN_FILENO);
+			d_pipe->input = -1;
 		}
 		if (d_pipe->output != -1) // RESET FD
 		{
 			dup2(d_pipe->old_stdout, STDOUT_FILENO);
+			d_pipe->output = -1;
 		}
 	}
 
@@ -398,6 +417,7 @@ int next_ope(t_tok *d_token, int i)
 			return (PIPE);
 		else if (d_token->type[i] == OR)
 			return (OR);
+		else if (d_token->type[i] == WRONG)
 		i++;
 	}
 	return (-42);
@@ -416,6 +436,7 @@ int previous_ope(t_tok *d_token, int i)
 			return (PIPE);
 		else if (d_token->type[i] == OR)
 			return (OR);
+		else if (d_token->type[i] == WRONG)
 		i--;
 	}
 	return (-42);
@@ -437,6 +458,7 @@ void	w_exec_pipe(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
 		printf("next_ope: %d\n, previous ope: %d\n==\n", next_ope(d_token, *i), previous_ope(d_token, *i));
 		(*i)++;
 	}
+	dup2(d_pipe->old_stdin, STDIN_FILENO);
 	while(d_pipe->f_cpt >= j)
 	{
 		waitpid(d_pipe->f_id[d_pipe->f_cpt], &d_token->exitno, 0);
@@ -460,22 +482,22 @@ void pipe_parse(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
 	}
 
 
-	if (p_here > -1) //HEREDOC
-	{
-		// cut_here(d_token, i);
-		while(p_here > -1)
-		{
-			// print_tok(d_token);
-			d_token->tokens[*i][p_here] = heredoc(d_pipe, d_token, denv, i);
-			// print_tok(d_token);
-			p_here = check_here(d_token->tokens, *i);
-			// ft_printf("p_here:%d", p_here);
-		}
-		// ft_printf("p_here: %d\n", p_here);
-		// ft_printf("p_here:%d\nindice 2:%fs\nindice 1:%fs\n", p_here, d_token->tokens[*i][2], d_token->tokens[*i][1]);
-	}	
+	// if (p_here > -1) //HEREDOC
+	// {
+	// 	// cut_here(d_token, i);
+	// 	while(p_here > -1)
+	// 	{
+	// 		// print_tok(d_token);
+	// 		d_token->tokens[*i][p_here] = heredoc(d_pipe, d_token, denv, i);
+	// 		// print_tok(d_token);
+	// 		p_here = check_here(d_token->tokens, *i);
+	// 		// ft_printf("p_here:%d", p_here);
+	// 	}
+	// 	// ft_printf("p_here: %d\n", p_here);
+	// 	// ft_printf("p_here:%d\nindice 2:%fs\nindice 1:%fs\n", p_here, d_token->tokens[*i][2], d_token->tokens[*i][1]);
+	// }	
 
-	if (d_token->type[*i] == CMD && d_pipe->skip_and == 0)
+	if (d_token->type[*i] == CMD && d_pipe->skip_and == 0 || d_token->type[*i] == WRONG)
 	{
 		// ft_printf("=======\nskip_and: %d\nskip_or:%d\nor_return:%d\n======\n", d_pipe->skip_and, d_pipe->skip_or, d_pipe->or_return);
 		if (*i < d_token->t_size) // REDIRECTION
@@ -572,11 +594,11 @@ void pipe_parse(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
 		d_pipe->p_cpt--;
 	}
 
-	if (d_token->type[*i] == WRONG)
-	{
-		d_token->exitno = 127;
-		d_pipe->failed = 1;
-	}
+	// if (d_token->type[*i] == WRONG)
+	// {
+	// 	d_token->exitno = 127;
+	// 	d_pipe->failed = 1;
+	// }
 	if (d_token->type[*i] == AND)
 	{
 		d_pipe->skip_or = 0;
@@ -607,7 +629,7 @@ void pipe_parse(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
 
 void	exec_pipe(t_tok *d_token, t_pipe *d_pipe, char *env[], int *i)
 {
-		// killfork(data);
+	// killfork(data);
 	// printf("\nf_cpt: %d\n", d_pipe->f_cpt);
 	pipe(d_pipe->pipefd);
 	d_pipe->f_id[d_pipe->f_cpt] = fork();
@@ -621,19 +643,20 @@ void	exec_pipe(t_tok *d_token, t_pipe *d_pipe, char *env[], int *i)
 	{
 		// printf("f_cpt: %d\n", d_pipe->f_cpt);
 		close(d_pipe->pipefd[0]);
-		// close(d_pipe->input);
+		close(d_pipe->input);
 		if (next_ope(d_token, *i) == PIPE)
 			dup2(d_pipe->pipefd[1], STDOUT_FILENO);
 		else
 			dup2(d_pipe->output, STDOUT_FILENO);
 		close(d_pipe->pipefd[1]);
-		// close(d_pipe->output);
+		close(d_pipe->output);
 		execve(d_token->tokens[*i][0], d_token->tokens[*i], env);
 		perror("");
 		exit (EXIT_FAILURE);
 		// exit_execve(data);
 	}
 }
+
 void parse_type(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
 {
 	int j;
