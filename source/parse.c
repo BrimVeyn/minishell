@@ -6,7 +6,7 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 10:49:15 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/01/15 17:18:43 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/01/16 14:41:59 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ int	ms_wl2(char *ptr)
 {
 	if (!ft_strncmp(ptr, ">>", 2) ||
 		!ft_strncmp(ptr, ">", 1) ||
-		(!ft_strncmp(ptr, "<", 1)) && ft_strncmp(ptr, "<<", 2))
+		(!ft_strncmp(ptr, "<", 1) && ft_strncmp(ptr, "<<", 2)))
 		return(1);
 	return(0);
 }
@@ -307,6 +307,7 @@ int end_check(char *input, t_tokvar tokvar, int i)
 {
 	int	icpy;
 
+	(void) tokvar;
 	icpy = i + ms_tiktok(&input[i]).len;
 	while (input[icpy] && ms_isws(input[icpy]))
 		icpy++;
@@ -389,7 +390,6 @@ int count_tokens(char *input)
 	int i;
 	int trigger;
 	int count;
-	int off;
 	int dcount;
 
 	count = 0;

@@ -6,7 +6,7 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/28 09:31:25 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/01/11 14:54:03 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/01/16 14:42:37 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,6 @@ char	*join_path(char *cmd, t_env *denv)
 void	ms_add_path(t_tok *tdata, t_env *denv)
 {
 	int i;
-	char *save;
 
 	i = 0;
 	while (tdata->tokens[i])

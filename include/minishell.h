@@ -6,7 +6,7 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/23 14:09:29 by nbardavi          #+#    #+#             */
-/*   Updated: 2024/01/15 17:14:23 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/01/16 15:25:37 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 /* ************************************************************************** */
@@ -60,16 +60,29 @@ enum
 	DQUOTE = 34,
 };
 
+enum
+{
+	START = 111,
+	MID = 101,
+	END = 222,
+};
+
 /*_.-=-._.-=-._.-=-._.-=-._.- Structs -._.-=-._.-=-._.-=-._.-=-._.-=-._*/
 
 typedef struct s_dlist
 {
 	char	*str;
 	int		i;
-	struct s_dlist	*prev;
-	struct s_dlist	*next;
+	struct	s_dlist	*prev;
+	struct	s_dlist	*next;
 }	t_dlist;
 
+typedef struct s_starlist
+{
+	char	*str;
+	int		type;
+	struct	s_starlist *next;
+} t_starlist;
 
 typedef struct s_pipe
 {
@@ -112,7 +125,6 @@ typedef struct s_env
 	char	*pwd;
 	char	*path;
 	char	*usr;
-	t_dlist	*flist;
 	t_h_lst	*history;
 }			t_env;
 
@@ -148,14 +160,27 @@ t_tokvar	init_tokvar(char *symbol, int type);
 t_tokh		init_tokh(void);
 void		init_d_pipe(t_pipe *d_pipe);
 
+/*_.-=-._.-=-._.-=-._.-=-._.- DOUBLE_LINKED_LIST -._.-=-._.-=-._.-=-._.-=-._.-=-._*/
+
 t_dlist		*ms_dlstnew(void *str, int i);
 void		ms_dlstab(t_dlist **lst, t_dlist *new);
 void		ms_dlstdelone(t_dlist **lst);
 void		ms_dlstdel(t_dlist *el);
 void		ms_dlstclear(t_dlist **head);
 void	ms_dprint(t_dlist **lst);
-t_dlist *ms_dlstmap(t_dlist **lst, t_dlist *(*f)(t_dlist *));
+t_dlist *ms_dlstmap(t_dlist **lst, char *word, void (*f)(t_dlist *, char *));
 t_dlist *ms_match_check(t_dlist *el);
+
+/*_.-=-._.-=-._.-=-._.-=-._.--._.-=-._.--._.-=-._.-=-._.-=-._.-=-._.-=-._*/
+/*_.-=-._.-=-._.-=-._.-=-._.- STAR_LIST -._.-=-._.-=-._.-=-._.-=-._.-=-._*/
+
+t_starlist	*ms_starlnew(void *str, int i);
+void		ms_starlab(t_starlist **lst, t_starlist *new);
+void		ms_starclear(t_starlist **head);
+t_starlist	*ms_starsplit(char *string);
+char *ms_starjoin(t_dlist **slist, char *word);
+
+/*_.-=-._.-=-._.-=-._.-=-._.--._.-=-._.--._.-=-._.-=-._.-=-._.-=-._.-=-._*/
 
 char		**ms_dupdup(char **environ);
 char		**ms_joinstarstar(char **p1, char **p2);
@@ -169,12 +194,13 @@ t_dlist		*get_flist(t_env *denv);
 char		*ft_strtrimf(char const *s1, char const *set);
 
 int			ms_isws(char c);
+int			ms_tablen(char **tab);
 
 
 void		init_sig();
 
 void		prompt(t_env *env);
-void		update_env(t_env *data);
+t_env		*update_env(t_env *denv);
 void		free_tab(char **tab);
 void		ms_lst_b(t_h_lst **lst, t_h_lst *newlst);
 void		ms_main_pipe(t_tok d_token, t_env *denv);

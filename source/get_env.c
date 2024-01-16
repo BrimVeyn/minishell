@@ -6,7 +6,7 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/23 14:22:29 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/01/15 17:18:58 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/01/16 16:30:31 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,16 +66,19 @@ char **ms_dupdup(char **environ)
 	return (new);
 }
 
-void update_env(t_env *denv)
+t_env *update_env(t_env *denv)
 {
 	extern char **environ;
 
 	free_tab(denv->f_env);
 	denv->f_env = ms_dupdup(environ);
+	free(denv->usr);
 	denv->usr = get_usr(denv);
+	free(denv->pwd);
 	denv->pwd = get_pwd(denv);
+	free(denv->path);
 	denv->path = get_path(denv);
-	denv->flist = get_flist(denv);
+	return (denv);
 }
 
 t_dlist *get_flist(t_env *denv)
@@ -91,15 +94,12 @@ t_dlist *get_flist(t_env *denv)
         perror("opendir");
         exit(EXIT_FAILURE);
 	}
+	entry = readdir(dir);
     while (entry != NULL)
 	{
+		ms_dlstab(&head, ms_dlstnew(ft_strdup(entry->d_name), 0));
 		entry = readdir(dir);
-		if (entry)
-			ms_dlstab(&head, ms_dlstnew(entry->d_name, 0));
     }
-	// ms_dprint(&head);
-	// for(int i = 0; tab[i]; i++)
-	// 	printf("tab[%d] = %s\n", i, tab[i]);
     closedir(dir);
     return (head);
 }

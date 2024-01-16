@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_pipe.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
+/*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/26 15:06:31 by nbardavi          #+#    #+#             */
-/*   Updated: 2024/01/11 14:28:15 by nbardavi         ###   ########.fr       */
+/*   Updated: 2024/01/16 14:42:28 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,7 +144,6 @@ void print_tok(t_tok *d_token)
 void cut_here(t_tok *d_token, int *i)
 {
 	char **new;
-	int nbr_args;
 	int j;
 	int k;
 	int len;
@@ -180,7 +179,6 @@ void exec_cmd(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
 {
 	int j;
 	int id;
-	char *buffer;
 
 	j = 0;
 	id = fork();
