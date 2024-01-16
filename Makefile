@@ -11,7 +11,12 @@ SRC 			:= source/main.c source/prompt.c source/get_env.c \
 				   source/double_linked_list/ms_dlstclear.c \
 				   source/double_linked_list/ms_dlstdelone.c \
 				   source/double_linked_list/ms_dlstmap.c \
-				   source/double_linked_list/ms_dlstnew.c 
+				   source/double_linked_list/ms_dlstnew.c \
+				   source/star_list/ms_starlclear.c \
+				   source/star_list/ms_starlnew.c \
+				   source/star_list/ms_starsplit.c \
+				   source/star_list/ms_startlab.c \
+				   source/star_list/ms_starjoin.c
 OBJ 			:= $(SRC:source/%.c=objects/%.o)
 OBJDIR 			:= objects
 
@@ -36,7 +41,7 @@ $(NAME): $(LIBFT) $(OBJDIR) $(OBJ)
 $(OBJDIR)/%.o: source/%.c
 	@printf '$(YELLOW)Compiling : %-45s $(CYAN)-->	$(YELLOW)%-30s\n' "$<" "$@";
 	@printf "$(BLUE)"
-	@$(CC) -c $< -o $@
+	@$(CC) -Wall -Wextra -Werror -g -c $< -o $@
 	@printf "$(DEF_COLOR)"
 
 clean:
@@ -50,7 +55,7 @@ fclean: clean
 	@printf "$(RED)Binary deleted !$(DEF_COLOR)\n"
 
 $(OBJDIR):
-	@mkdir -p $(OBJDIR) $(OBJDIR)/double_linked_list
+	@mkdir -p $(OBJDIR) $(OBJDIR)/double_linked_list $(OBJDIR)/star_list
 
 $(LIBFT) :
 	@make --no-print-directory -C libftprintf/

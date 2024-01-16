@@ -6,7 +6,7 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/23 16:11:18 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/01/15 17:18:10 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/01/16 14:39:33 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,6 @@ char	*ms_form_prompt(t_env *denv)
 {
 	char	*prompt;
 	char	*full_home;
-	char	*time_char;
 	char	*temp_home;
 
 	full_home = ft_strjoin("/home/", denv->usr);
@@ -110,7 +109,7 @@ void	prompt(t_env *denv)
 	// init_sig();
 	while (1)
 	{
-		update_env(denv);
+		denv = update_env(denv);
 		signal_ctrl();
 		prompt = ms_form_prompt(denv);
 		input = readline(prompt);

@@ -6,7 +6,7 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 10:51:26 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/01/15 17:28:22 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/01/16 16:29:18 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,7 @@ char *t_squote(char *split, int *j)
 	return (final);
 }
 
-char *r_env(char *split, t_tok *tdata, t_env *denv)
+char *r_env(char *split, t_tok *tdata)
 {
 	int	i;
 	int start;
@@ -115,7 +115,6 @@ char *r_env(char *split, t_tok *tdata, t_env *denv)
 	char *p1;
 	char *var;
 	char *p2;
-	char *new;
 
 	i = 0;
 	while (split[i])
@@ -152,7 +151,7 @@ char *r_env(char *split, t_tok *tdata, t_env *denv)
 	return (split);
 }
 
-char *t_dquote(char *split, int *j, t_tok *tdata, t_env *denv)
+char *t_dquote(char *split, int *j, t_tok *tdata)
 {
 	int	i;
 	int	start;
@@ -170,7 +169,7 @@ char *t_dquote(char *split, int *j, t_tok *tdata, t_env *denv)
 		i++;
 	end = i;
 	p1 = ft_substr(split, 0, start - 1);
-	new = r_env(ft_substr(split, start, end - start), tdata, denv);
+	new = r_env(ft_substr(split, start, end - start), tdata);
 	p2 = ft_substr(split, end + 1, (ft_strlen(split) - end));
 	*j = ft_strlen(p1) + ft_strlen(new);
 	// printf("POINTER = %d\n", *j);
@@ -209,18 +208,6 @@ int	last_quote(char *split)
 	return (quote);
 }
 
-char *cut_bstar(char *word)
-{
-	int	i;
-
-	i = 0;
-	while (word[i] != '*')
-		i++;
-	while (word[i] && !ms_isws(word[i]))
-		i--;
-	return (ft_substr(word, 0, i));
-}
-
 int	find_star(char *word)
 {
 	int	i;
@@ -232,17 +219,94 @@ int	find_star(char *word)
 	return (ERROR);
 }
 
+void	ms_matchstart(t_dlist *el, char *to_match)
+{
+	int	i;
+	int	tm_len;
+
+	i = 0;
+	tm_len = ft_strlen(to_match);
+	if (!ft_strncmp(el->str, to_match, tm_len))
+		el->i = tm_len;
+	else
+		el->i = ERROR;
+}
+
+void  ms_matchmid(t_dlist *el, char *to_match)
+{
+	int tm_len;
+	int	str_len;
+	int	valid;
+
+	tm_len = ft_strlen(to_match);
+	str_len = ft_strlen(el->str);
+	valid = 0;
+	while (el->str[el->i] && el->i <= str_len - tm_len)
+	{
+		if (!ft_strncmp(&el->str[el->i], to_match, tm_len))
+        {
+			el->i += tm_len;
+			valid = 1;
+			break;
+        }
+		el->i++;
+	}
+	if (valid == 0) 
+		el->i = ERROR;
+}
+
+void ms_matchend(t_dlist *el, char *to_match)
+{
+	int	tm_len;
+	int	str_len;
+
+	tm_len = ft_strlen(to_match);
+	str_len = ft_strlen(el->str);
+	if (!ft_strncmp(&el->str[str_len - tm_len], to_match, tm_len))
+		el->i = str_len;
+	else
+		el->i = ERROR;
+}
+
 char	*w_expand(char *word, t_env *denv)
 {
-	char	*p1;
-	char	*p2;
-	char	**to_match;
+	t_dlist		*flist;
+	t_starlist	*slist;
+	t_starlist	*current;
 
-	denv->flist = get_flist(denv);
-	ms_dprint(&denv->flist);
-	if (find_star(word) == ERROR)
+	flist = NULL;
+	flist = get_flist(denv);
+	// denv->flist = get_flist(denv);
+	if (find_star(word) == ERROR || !word)
+	{
+		// ms_dlstclear(&flist);
 		return (word);
-	p1 = cut_bstar(word); 
+	}
+	slist = NULL;
+	slist = ms_starsplit(word);
+	current = slist;
+	while (current)
+	{
+		if (current->type == START)
+			flist = ms_dlstmap(&flist, current->str, &ms_matchstart);
+		else if (current->type == MID) 
+			flist = ms_dlstmap(&flist, current->str, &ms_matchmid);
+		else if (current->type == END)
+			flist = ms_dlstmap(&flist, current->str, &ms_matchend);
+		current = current->next;
+	}
+	if (!flist)
+		return (word);
+	// ft_printf("REGEX = %fs\n", word);
+	// ft_printf("Printing the resulting list -->\n");
+	// ms_dprint(&flist);
+	ft_printf("THIS IS THE WORD : %fs\n", word);
+	word = ms_starjoin(&flist, word);
+	// ms_dlstclear(&flist);
+	// ms_starclear(&slist);
+	// ft_printf("WORD = %fs", word);
+	// ms_starclear(&slist);
+
 	return (word);
 }
 
@@ -263,7 +327,7 @@ void	transform_split(char **split, t_tok *tdata, t_env *denv)
 			j++;
 			k++;
         }
-		split[i] = ft_sprintf("%s%s", w_expand(r_env(ft_substr(split[i], 0, k), tdata, denv), denv), ft_substr(split[i], k, ft_strlen(split[i]) - k));
+		split[i] = ft_sprintf("%s%s", w_expand(r_env(ft_substr(split[i], 0, k), tdata), denv), ft_substr(split[i], k, ft_strlen(split[i]) - k));
 		while (split[i][j] && j < last_quote(split[i]))
 		{
 			if (split[i][j] == SQUOTE)
@@ -273,7 +337,7 @@ void	transform_split(char **split, t_tok *tdata, t_env *denv)
 			}
 			if (split[i][j] == DQUOTE)
 			{
-				split[i] = t_dquote(split[i], &j, tdata, denv);
+				split[i] = t_dquote(split[i], &j, tdata);
 				// printf("DRESTE = %s\n",split[i]);
 			}
 			j++;
@@ -281,7 +345,7 @@ void	transform_split(char **split, t_tok *tdata, t_env *denv)
 		j--;
 		// printf("J et LEN = %d %zu\n", j, ft_strlen(split[i]));
 		// printf("P1 : %s SUB : %s\n", ft_substr(split[i], 0, j), r_env(ft_substr(split[i], j, ft_strlen(split[i]) - j), tdata));
-		split[i] = ft_sprintf("%s%fs", ft_substr(split[i], 0, j), r_env(ft_substr(split[i], j, ft_strlen(split[i]) - j), tdata, denv));
+		split[i] = ft_sprintf("%s%fs", ft_substr(split[i], 0, j), r_env(ft_substr(split[i], j, ft_strlen(split[i]) - j), tdata), denv);
 		i++;
 	}
 }
