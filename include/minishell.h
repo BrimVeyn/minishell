@@ -6,7 +6,7 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/23 14:09:29 by nbardavi          #+#    #+#             */
-/*   Updated: 2024/01/16 15:25:37 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/01/17 08:56:23 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 /* ************************************************************************** */
@@ -178,7 +178,7 @@ t_starlist	*ms_starlnew(void *str, int i);
 void		ms_starlab(t_starlist **lst, t_starlist *new);
 void		ms_starclear(t_starlist **head);
 t_starlist	*ms_starsplit(char *string);
-char *ms_starjoin(t_dlist **slist, char *word);
+char *ms_starjoin(t_dlist **slist);
 
 /*_.-=-._.-=-._.-=-._.-=-._.--._.-=-._.--._.-=-._.-=-._.-=-._.-=-._.-=-._*/
 
