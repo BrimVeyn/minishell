@@ -6,7 +6,7 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/23 16:11:18 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/01/17 13:54:18 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/01/17 16:10:52 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,7 +134,7 @@ void	prompt(t_env *denv)
             add_history(input);
 			d_token = parse_input(input, denv);
 			ms_main_pipe(d_token, denv);
-			;
+			free_tdata(&d_token);
 		}
 		i++;
 		free(input);

@@ -6,7 +6,7 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 10:49:15 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/01/16 14:41:59 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/01/17 14:05:22 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -456,7 +456,7 @@ t_tok	parse_input(char *input, t_env *denv)
 	if (tdata.t_size == ERROR)
 		return (tdata);
 	tdata = init_tok(tdata.t_size);
-	printf("Token count : %d\n", tdata.t_size);
+	// printf("Token count : %d\n", tdata.t_size);
 	fill_token(input, &tdata, denv);
 	ms_add_path(&tdata, denv);
 	for (int i = 0; tdata.tokens[i]; i++)
