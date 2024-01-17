@@ -6,7 +6,7 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/23 14:09:29 by nbardavi          #+#    #+#             */
-/*   Updated: 2024/01/17 13:54:04 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/01/17 16:13:34 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,7 +136,6 @@ typedef struct s_tok
 	char	***tokens;
 	int		t_size;
 	int 	*type;
-	int		*par;
 	int		exitno;
 }			t_tok;
 
@@ -170,9 +169,9 @@ void		ms_dlstab(t_dlist **lst, t_dlist *new);
 void		ms_dlstdelone(t_dlist **lst);
 void		ms_dlstdel(t_dlist *el);
 void		ms_dlstclear(t_dlist **head);
-void	ms_dprint(t_dlist **lst);
-t_dlist *ms_dlstmap(t_dlist **lst, char *word, void (*f)(t_dlist *, char *));
-t_dlist *ms_match_check(t_dlist *el);
+void		ms_dprint(t_dlist **lst);
+t_dlist		*ms_dlstmap(t_dlist **lst, char *word, void (*f)(t_dlist *, char *));
+t_dlist		*ms_match_check(t_dlist *el);
 
 /*_.-=-._.-=-._.-=-._.-=-._.--._.-=-._.--._.-=-._.-=-._.-=-._.-=-._.-=-._*/
 /*_.-=-._.-=-._.-=-._.-=-._.- STAR_LIST -._.-=-._.-=-._.-=-._.-=-._.-=-._*/
@@ -181,7 +180,7 @@ t_starlist	*ms_starlnew(void *str, int i);
 void		ms_starlab(t_starlist **lst, t_starlist *new);
 void		ms_starclear(t_starlist **head);
 t_starlist	*ms_starsplit(char *string);
-char *ms_starjoin(t_dlist **slist);
+char		*ms_starjoin(t_dlist **slist);
 
 /*_.-=-._.-=-._.-=-._.-=-._.--._.-=-._.--._.-=-._.-=-._.-=-._.-=-._.-=-._*/
 
@@ -189,7 +188,6 @@ char		**ms_dupdup(char **environ);
 char		**ms_joinstarstar(char **p1, char **p2);
 char		**ft_splitm(char *str, t_tok *tdata, t_env *denv);
 char		**join_tab(char **tab, char *entry);
-// char	**ft_splitm(char *str, t_tok *tdata);
 char		*get_pwd(t_env *data);
 char		*get_path(t_env *data);
 char		*get_usr(t_env *data);
@@ -204,9 +202,11 @@ void		init_sig();
 
 void		prompt(t_env *env);
 t_env		*update_env(t_env *denv);
-void		free_tab(char **tab);
 void		ms_lst_b(t_h_lst **lst, t_h_lst *newlst);
 void		ms_main_pipe(t_tok d_token, t_env *denv);
 void		ms_add_path(t_tok *tdata, t_env *denv);
+
+void		free_tab(char **tab);
+void		free_tdata(t_tok *tdata);
 
 #endif
