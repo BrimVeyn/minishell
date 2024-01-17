@@ -6,7 +6,7 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 14:28:08 by nbardavi          #+#    #+#             */
-/*   Updated: 2024/01/16 14:43:34 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/01/17 13:55:40 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,14 +31,5 @@ void signal_ctrl()
 
 void init_sig()
 {
-    struct sigaction sa;
-
-    sa.sa_handler = sigint_handler;   // Spécifiez le gestionnaire de signal
-    sigemptyset(&sa.sa_mask);         // Initialise l'ensemble des signaux bloqués
-    sa.sa_flags = 0;
-    if (sigaction(SIGINT, &sa, NULL) == -1) 
-	{
-        perror("sigaction");
-        exit(1);
-	}
+    signal(SIGINT, sigint_handler);
 }
