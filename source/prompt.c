@@ -6,7 +6,7 @@
 /*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/23 16:11:18 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/01/16 11:20:26 by nbardavi         ###   ########.fr       */
+/*   Updated: 2024/01/17 10:44:32 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,6 @@ char	*ms_form_prompt(t_env *denv)
 {
 	char	*prompt;
 	char	*full_home;
-	char	*time_char;
 	char	*temp_home;
 
 	full_home = ft_strjoin("/home/", denv->usr);
