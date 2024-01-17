@@ -6,7 +6,7 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 10:51:26 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/01/16 16:29:18 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/01/17 13:46:45 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -268,20 +268,102 @@ void ms_matchend(t_dlist *el, char *to_match)
 		el->i = ERROR;
 }
 
+void ms_del_hidden(t_dlist *el, char *to_match)
+{
+	(void) to_match;
+	if (el->str[0] == '.')
+		el->i = ERROR;
+}
+
+int	ms_dlstlen(t_dlist **flist)
+{
+	t_dlist *current;
+	int		i;
+
+	current = *flist;
+	i = 0;
+	while (current)
+	{
+		current = current->next;
+		i++;
+	}
+	return (i);
+}
+
+void ms_dswapstr(t_dlist *current, t_dlist *next)
+{
+	char	*tmp;
+
+	tmp = ft_strdup(next->str);
+	free(next->str);
+	next->str = ft_strdup(current->str);
+	free(current->str);
+	current->str = tmp;
+}
+
+char *ms_lowdelspec(char *str)
+{
+	char *cpy;
+	int	i;
+
+	i = -1;
+	cpy = ft_calloc(ft_strlen(str) + 1, sizeof(char));
+	while (str[++i])
+		cpy[i] = ft_tolower(str[i]);
+	// printf("||%s||\n", cpy);
+	return (cpy);
+}
+
+int ms_strcmp(const char *s1, const char *s2)
+{
+	int	i;
+
+	i = 0;
+	while (s1[i] && s2[i] && s1[i] == s2[i])
+		i++;
+	return ((unsigned char)s1[i] - (unsigned char)s2[i]);
+}
+
+void ms_dlsort(t_dlist **flist)
+{
+	t_dlist *current;
+	int		i;
+	int	const list_len = ms_dlstlen(flist);
+	char	*cstrcpy;
+	char	*nstrcpy;
+
+	i = 0;
+	while (i < list_len)
+    {
+		current = *flist;
+		while (current->next)
+		{
+			cstrcpy = ms_lowdelspec(current->str);
+			nstrcpy = ms_lowdelspec(current->next->str);
+			// printf("Current->str = %s, next %s\n", current->str, current->next->str);
+			if(ms_strcmp(cstrcpy, nstrcpy) > 0)
+				ms_dswapstr(current, current->next);
+			current = current->next;
+			free(cstrcpy);
+			free(nstrcpy);
+		}
+		i++;
+    }
+}
+
 char	*w_expand(char *word, t_env *denv)
 {
 	t_dlist		*flist;
 	t_starlist	*slist;
 	t_starlist	*current;
+	int			dot_trigger;
+	char		*newword;
 
+	if (find_star(word) == ERROR || !word)
+		return (word);
+	dot_trigger = (word[0] != '.');
 	flist = NULL;
 	flist = get_flist(denv);
-	// denv->flist = get_flist(denv);
-	if (find_star(word) == ERROR || !word)
-	{
-		// ms_dlstclear(&flist);
-		return (word);
-	}
 	slist = NULL;
 	slist = ms_starsplit(word);
 	current = slist;
@@ -297,17 +379,21 @@ char	*w_expand(char *word, t_env *denv)
 	}
 	if (!flist)
 		return (word);
+	if (dot_trigger)
+		flist = ms_dlstmap(&flist, NULL, &ms_del_hidden);
+	ms_dlsort(&flist);
 	// ft_printf("REGEX = %fs\n", word);
 	// ft_printf("Printing the resulting list -->\n");
 	// ms_dprint(&flist);
-	ft_printf("THIS IS THE WORD : %fs\n", word);
-	word = ms_starjoin(&flist, word);
-	// ms_dlstclear(&flist);
-	// ms_starclear(&slist);
+	// ft_printf("THIS IS THE WORD : %fs\n", word);
+	free(word);
+	newword = ms_starjoin(&flist);
+	ms_dlstclear(&flist);
+	ms_starclear(&slist);
 	// ft_printf("WORD = %fs", word);
 	// ms_starclear(&slist);
 
-	return (word);
+	return (newword);
 }
 
 void	transform_split(char **split, t_tok *tdata, t_env *denv)

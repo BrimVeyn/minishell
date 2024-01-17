@@ -6,7 +6,7 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 12:26:05 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/01/16 15:44:05 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/01/17 08:56:10 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,8 @@
 // 	return (new);
 // }
 
-char *ms_starjoin(t_dlist **slist, char *word)
+char *ms_starjoin(t_dlist **slist)
 {
-	(void) word;
     if (!slist || !*slist) return NULL;
 
     t_dlist *current = *slist;
@@ -50,6 +49,5 @@ char *ms_starjoin(t_dlist **slist, char *word)
         }
         current = current->next;
     }
-
     return new;
 }
