@@ -6,7 +6,7 @@
 /*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/26 15:06:31 by nbardavi          #+#    #+#             */
-/*   Updated: 2024/01/16 14:00:58 by nbardavi         ###   ########.fr       */
+/*   Updated: 2024/01/17 13:49:45 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -255,6 +255,7 @@ void p_parse_type(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
 	int j;
 	int p_here;
 
+	ft_printf("i:%d\n", *i);
 	p_here = check_here(d_token->tokens, *i);
 	if (d_token->type[*i] == P_O)
 	{
@@ -409,6 +410,7 @@ void p_while(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
 int next_ope(t_tok *d_token, int i)
 {
 	i++;
+	// fd_printf(2, "i: %d, size%d\n", i, d_token->t_size);
 	while(i < d_token->t_size)
 	{
 		if (d_token->type[i] == AND)
@@ -418,7 +420,9 @@ int next_ope(t_tok *d_token, int i)
 		else if (d_token->type[i] == OR)
 			return (OR);
 		else if (d_token->type[i] == WRONG)
+			return (WRONG); 
 		i++;
+		// fd_printf(2, "%d\n", i);
 	}
 	return (-42);
 }
@@ -437,6 +441,7 @@ int previous_ope(t_tok *d_token, int i)
 		else if (d_token->type[i] == OR)
 			return (OR);
 		else if (d_token->type[i] == WRONG)
+			return (WRONG);
 		i--;
 	}
 	return (-42);
@@ -450,17 +455,20 @@ void	w_exec_pipe(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
 
 	j = 0;
 	d_pipe->f_cpt = 0;
+	dup2(d_pipe->input, STDIN_FILENO);
 	while((next_ope(d_token, *i) == PIPE || (previous_ope(d_token, *i) == PIPE && next_ope(d_token, *i) != PIPE) || d_token->type[*i] == PIPE) && d_token->t_size > *i)
 	{
 		pipe_parse(d_token, d_pipe, denv, i);
+		// fd_printf(2, "Execution de %s\n", d_token->tokens[*i][0]);
+		// printf("f_cpt: %d\n", d_pipe->f_cpt);
+		// printf("next_ope: %d\n, previous ope: %d\n==\n", next_ope(d_token, *i), previous_ope(d_token, *i));
 		d_pipe->f_cpt++;
-		printf("f_cpt: %d\n", d_pipe->f_cpt);
-		printf("next_ope: %d\n, previous ope: %d\n==\n", next_ope(d_token, *i), previous_ope(d_token, *i));
 		(*i)++;
 	}
 	dup2(d_pipe->old_stdin, STDIN_FILENO);
 	while(d_pipe->f_cpt >= j)
 	{
+		// ft_printf("Wait\n");
 		waitpid(d_pipe->f_id[d_pipe->f_cpt], &d_token->exitno, 0);
 		j++;
 	}
@@ -630,24 +638,35 @@ void pipe_parse(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
 void	exec_pipe(t_tok *d_token, t_pipe *d_pipe, char *env[], int *i)
 {
 	// killfork(data);
-	// printf("\nf_cpt: %d\n", d_pipe->f_cpt);
 	pipe(d_pipe->pipefd);
 	d_pipe->f_id[d_pipe->f_cpt] = fork();
-	if (d_pipe->f_id[d_pipe->f_cpt] != 0)
+	if (d_pipe->f_id[d_pipe->f_cpt] > 0)
 	{
 		close(d_pipe->pipefd[1]);
 		dup2(d_pipe->pipefd[0], STDIN_FILENO);
 		close(d_pipe->pipefd[0]);
 	}
-	if (d_pipe->f_id[d_pipe->f_cpt] == 0)
+	else if (d_pipe->f_id[d_pipe->f_cpt] == 0)
 	{
-		// printf("f_cpt: %d\n", d_pipe->f_cpt);
+		// fd_printf(2, "f_cpt: %d\n", d_pipe->f_cpt);
 		close(d_pipe->pipefd[0]);
 		close(d_pipe->input);
+		// fd_printf(2, "Next ope: %d\nPrevious ope: %d\n", next_ope(d_token, *i), previous_ope(d_token, *i));
+		if (previous_ope(d_token, *i) != PIPE)
+		{
+			dup2(d_pipe->input, STDIN_FILENO);
+		}
 		if (next_ope(d_token, *i) == PIPE)
+		{
+			// printf("Redirection Output vers Pipe de %s\n", d_token->tokens[*i][0]);
 			dup2(d_pipe->pipefd[1], STDOUT_FILENO);
+		}
 		else
+		{
+			// fd_printf(2, "Redirection Output vers output de %fs\n", d_token->tokens[*i][0]);
+			// fd_printf(2, "output: %d", d_pipe->output);
 			dup2(d_pipe->output, STDOUT_FILENO);
+		}
 		close(d_pipe->pipefd[1]);
 		close(d_pipe->output);
 		execve(d_token->tokens[*i][0], d_token->tokens[*i], env);
@@ -655,6 +674,8 @@ void	exec_pipe(t_tok *d_token, t_pipe *d_pipe, char *env[], int *i)
 		exit (EXIT_FAILURE);
 		// exit_execve(data);
 	}
+	else 
+		perror("fork");
 }
 
 void parse_type(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
@@ -887,4 +908,6 @@ Notes:
 -securiser pipe
 -securiser signal ??
 -Norminette
+
+ ls (grep h | grep h) ne return pas derreurs
 */
