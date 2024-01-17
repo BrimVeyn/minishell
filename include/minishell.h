@@ -6,9 +6,8 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/23 14:09:29 by nbardavi          #+#    #+#             */
-/*   Updated: 2024/01/17 08:56:23 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/01/17 13:54:04 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
-/* ************************************************************************** */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
@@ -103,6 +102,10 @@ typedef struct s_pipe
 	int old_stdout;
 	int *heredoc;
 	int p_redi_fd;
+	//Pour les pipes
+	int f_cpt;
+	int	*f_id;
+	//
 }			t_pipe;
 
 typedef struct s_lst
