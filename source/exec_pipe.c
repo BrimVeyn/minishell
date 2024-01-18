@@ -75,7 +75,7 @@ char *heredoc(t_pipe *d_pipe, t_tok *d_token, t_env *denv, int *i)
 	ms_lst_b(&denv->history, ms_lst_new(save));
 	reset_history(denv);
 	// write(d_pipe->input, save, ft_strlen(save));
-	fd_printf(d_pipe->heredoc[d_pipe->nbr_h], "%fs", sasave);
+	fd_printf(d_pipe->heredoc[d_pipe->nbr_h], "%s", sasave);
 	// fd_printf(STDIN_FILENO, "%fs", save);
 	// unlink(f_name);
 	add_history(save);
@@ -867,6 +867,7 @@ void ms_h_unlink(t_pipe *d_pipe)
 
 	while(d_pipe->nbr_h > -1)
 	{
+		// close(d_pipe->heredoc[d_pipe->nbr_h]);
 		temp = ft_sprintf("%fs%d", ".temp_heredoc", d_pipe->nbr_h--);
 		unlink(temp);
 		free(temp);
@@ -878,6 +879,9 @@ void ms_free_pipe(t_pipe *d_pipe)
 	free(d_pipe->heredoc);
 	free(d_pipe->fork_id);
 	free(d_pipe->f_id);
+	free(d_pipe->p_return);
+	close(d_pipe->old_stdout);
+	close(d_pipe->old_stdin);
 }
 
 void ms_main_pipe(t_tok d_token, t_env *denv)
