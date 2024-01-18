@@ -402,7 +402,10 @@ void p_while(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
 	{
 		// ft_printf("parenthese nbr:%d\n", d_pipe->p_nbr);
 		p_parse_type(d_token, d_pipe, denv, i);
-		(*i)++;
+		if (d_pipe->p_trig == 0)
+			(*i)++;
+		else
+			d_pipe->p_trig = 0;
 	}
 	dup2(d_pipe->old_stdout, STDOUT_FILENO);
 }
@@ -472,6 +475,7 @@ void	w_exec_pipe(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
 		waitpid(d_pipe->f_id[d_pipe->f_cpt], &d_token->exitno, 0);
 		j++;
 	}
+	d_pipe->p_trig = 1;
 }
 
 void pipe_parse(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
@@ -594,6 +598,7 @@ void pipe_parse(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
 	if (d_token->type[*i] == P_O)
 	{
 		d_pipe->p_cpt++;
+		// d_pipe->p_trig = 1;
 		p_while(d_token, d_pipe, denv, i);
 	}
 	if (d_token->type[*i] == P_C)
@@ -871,6 +876,13 @@ void ms_h_unlink(t_pipe *d_pipe)
 	}
 }
 
+void ms_free_pipe(t_pipe *d_pipe)
+{
+	free(d_pipe->heredoc);
+	free(d_pipe->fork_id);
+	free(d_pipe->f_id);
+}
+
 void ms_main_pipe(t_tok d_token, t_env *denv)
 {
 	int i;
@@ -888,6 +900,7 @@ void ms_main_pipe(t_tok d_token, t_env *denv)
 	ft_printf("exit no: %d\n", d_token.exitno);
 	ft_printf("===========\n%s", ft_strdup(RESET));
 	ms_h_unlink(&d_pipe);
+	ms_free_pipe(&d_pipe);
 	// while()
 	// {
 	//
@@ -899,7 +912,7 @@ void ms_main_pipe(t_tok d_token, t_env *denv)
 /*
 Notes:
 
--pipe a faire
+-faire calloc structure d_pipe
 
 ==
 -fuites fd
