@@ -121,6 +121,7 @@ typedef struct s_pipe
 	//Pour les pipes
 	int f_cpt;
 	int	*f_id;
+	int p_trig;
 	//
 }			t_pipe;
 
