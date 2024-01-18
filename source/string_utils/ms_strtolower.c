@@ -1,22 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ms_dlstclear.c                                     :+:      :+:    :+:   */
+/*   ms_strtolower.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/15 11:07:10 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/01/18 10:51:22 by bvan-pae         ###   ########.fr       */
+/*   Created: 2024/01/18 12:05:48 by bvan-pae          #+#    #+#             */
+/*   Updated: 2024/01/18 12:06:08 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-void	ms_dlstclear(t_dlist **head)
+char *ms_strtolower(char *str)
 {
-	while (*head)
-	{
-		free((*head)->str);
-		ms_dlstdelone(head);
-	}
+	char *cpy;
+	int	i;
+
+	i = -1;
+	cpy = ft_calloc(ft_strlen(str) + 1, sizeof(char));
+	while (str[++i])
+		cpy[i] = ft_tolower(str[i]);
+	// printf("||%s||\n", cpy);
+	return (cpy);
 }
