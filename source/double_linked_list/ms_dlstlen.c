@@ -1,22 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ms_dlstclear.c                                     :+:      :+:    :+:   */
+/*   ms_dlstlen.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/15 11:07:10 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/01/18 10:51:22 by bvan-pae         ###   ########.fr       */
+/*   Created: 2024/01/18 12:02:14 by bvan-pae          #+#    #+#             */
+/*   Updated: 2024/01/18 12:02:32 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-void	ms_dlstclear(t_dlist **head)
+int	ms_dlstlen(t_dlist **flist)
 {
-	while (*head)
+	t_dlist *current;
+	int		i;
+
+	current = *flist;
+	i = 0;
+	while (current)
 	{
-		free((*head)->str);
-		ms_dlstdelone(head);
+		current = current->next;
+		i++;
 	}
+	return (i);
 }
+

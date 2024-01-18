@@ -6,7 +6,7 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/23 14:09:29 by nbardavi          #+#    #+#             */
-/*   Updated: 2024/01/17 16:13:34 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/01/18 13:53:11 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,8 @@
 enum
 {
 	ERROR = -1,
+	TRUE = 1,
+	ZERO = 0,
 	WRONG = 127,
 	CMD = 0,
 	PIPE = 1,
@@ -65,6 +67,20 @@ enum
 	MID = 101,
 	END = 222,
 };
+
+enum
+{
+	I = 0,
+	J = 1,
+	K = 2,
+};
+
+enum
+{
+	SQ = 0,
+	DQ = 1,
+};
+
 
 /*_.-=-._.-=-._.-=-._.-=-._.- Structs -._.-=-._.-=-._.-=-._.-=-._.-=-._*/
 
@@ -165,25 +181,36 @@ void		init_d_pipe(t_pipe *d_pipe);
 /*_.-=-._.-=-._.-=-._.-=-._.- DOUBLE_LINKED_LIST -._.-=-._.-=-._.-=-._.-=-._.-=-._*/
 
 t_dlist		*ms_dlstnew(void *str, int i);
+t_dlist		*ms_dlstmap(t_dlist **lst, char *word, void (*f)(t_dlist *, char *));
+t_dlist		*ms_match_check(t_dlist *el);
+int			ms_dlstlen(t_dlist **flist);
 void		ms_dlstab(t_dlist **lst, t_dlist *new);
 void		ms_dlstdelone(t_dlist **lst);
 void		ms_dlstdel(t_dlist *el);
 void		ms_dlstclear(t_dlist **head);
 void		ms_dprint(t_dlist **lst);
-t_dlist		*ms_dlstmap(t_dlist **lst, char *word, void (*f)(t_dlist *, char *));
-t_dlist		*ms_match_check(t_dlist *el);
+char		*ms_dlstjoin(t_dlist **dlist);
+void		ms_matchstart(t_dlist *el, char *to_match);
+void		ms_matchmid(t_dlist *el, char *to_match);
+void		ms_matchend(t_dlist *el, char *to_match);
+void		ms_del_hidden(t_dlist *el, char *to_match);
+void		ms_dswapstr(t_dlist *current, t_dlist *next);
+void		ms_dlsort(t_dlist **flist);
 
 /*_.-=-._.-=-._.-=-._.-=-._.--._.-=-._.--._.-=-._.-=-._.-=-._.-=-._.-=-._*/
 /*_.-=-._.-=-._.-=-._.-=-._.- STAR_LIST -._.-=-._.-=-._.-=-._.-=-._.-=-._*/
 
 t_starlist	*ms_starlnew(void *str, int i);
+t_starlist	*ms_starsplit(char *string);
 void		ms_starlab(t_starlist **lst, t_starlist *new);
 void		ms_starclear(t_starlist **head);
-t_starlist	*ms_starsplit(char *string);
-char		*ms_starjoin(t_dlist **slist);
+char		*ms_starjoin(t_starlist **slist);
 
 /*_.-=-._.-=-._.-=-._.-=-._.--._.-=-._.--._.-=-._.-=-._.-=-._.-=-._.-=-._*/
+/*_.-=-._.-=-._.-=-._.-=-._.- STRING_UTILS -._.-=-._.-=-._.-=-._.-=-._.-=-._*/
 
+int			ms_findstar(char *word);
+char		*ms_strtolower(char *str);
 char		**ms_dupdup(char **environ);
 char		**ms_joinstarstar(char **p1, char **p2);
 char		**ft_splitm(char *str, t_tok *tdata, t_env *denv);
@@ -197,6 +224,12 @@ char		*ft_strtrimf(char const *s1, char const *set);
 int			ms_isws(char c);
 int			ms_tablen(char **tab);
 
+
+/*_.-=-._.-=-._.-=-._.-=-._.- MISC -._.-=-._.-=-._.-=-._.-=-._.-=-._*/
+
+void ms_setint(int *i, int value);
+
+/*_.-=-._.-=-._.-=-._.-=-._.--._.-=-._.--._.-=-._.-=-._.-=-._.-=-._.-=-._*/
 
 void		init_sig();
 

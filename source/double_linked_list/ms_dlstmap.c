@@ -6,7 +6,7 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 14:16:31 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/01/16 16:28:58 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/01/18 11:29:42 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,16 +37,19 @@ t_dlist *ms_dlstmap(t_dlist **lst, char *word, void (*f)(t_dlist *, char *))
 {
 	t_dlist **current;
 	t_dlist *newhead;
+	t_dlist *save;
 
+	save = *lst;
 	current = lst;
 	newhead = NULL;
 	while(*current)
 	{
 		(f)((*current), word);
 		if ((*current)->i != ERROR)
-			ms_dlstab(&newhead, ms_dlstnew((*current)->str, (*current)->i)); 
+			ms_dlstab(&newhead, ms_dlstnew(ft_strdup((*current)->str), (*current)->i)); 
 		(*current) = (*current)->next;
 	}
-	ms_dlstclear(lst);
+	// ms_dprint(&save);
+	ms_dlstclear(&save);
 	return (newhead);
 }
