@@ -6,7 +6,7 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/23 14:09:29 by nbardavi          #+#    #+#             */
-/*   Updated: 2024/01/18 13:53:11 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/01/18 17:19:16 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,9 @@ enum
 {
 	SQ = 0,
 	DQ = 1,
+	COUNT = 2,
+	IX = 3,
+	TRIGGER = 4,
 };
 
 
@@ -210,8 +213,6 @@ char		*ms_starjoin(t_starlist **slist);
 /*_.-=-._.-=-._.-=-._.-=-._.--._.-=-._.--._.-=-._.-=-._.-=-._.-=-._.-=-._*/
 /*_.-=-._.-=-._.-=-._.-=-._.- STRING_UTILS -._.-=-._.-=-._.-=-._.-=-._.-=-._*/
 
-int			ms_findstar(char *word);
-char		*ms_strtolower(char *str);
 char		**ms_dupdup(char **environ);
 char		**ms_joinstarstar(char **p1, char **p2);
 char		**ft_splitm(char *str, t_tok *tdata, t_env *denv);
@@ -224,11 +225,15 @@ char		*ft_strtrimf(char const *s1, char const *set);
 
 int			ms_isws(char c);
 int			ms_tablen(char **tab);
+int			ms_strstrchr(char c, char *charset);
+int			ms_findstar(char *word);
+char		*ms_strtolower(char *str);
 
 
 /*_.-=-._.-=-._.-=-._.-=-._.- MISC -._.-=-._.-=-._.-=-._.-=-._.-=-._*/
 
 void ms_setint(int *i, int value);
+void ms_setchar(char *c, int value);
 
 /*_.-=-._.-=-._.-=-._.-=-._.--._.-=-._.--._.-=-._.-=-._.-=-._.-=-._.-=-._*/
 
