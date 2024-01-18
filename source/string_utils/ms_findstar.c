@@ -1,22 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ms_dlstclear.c                                     :+:      :+:    :+:   */
+/*   ms_findstar.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/15 11:07:10 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/01/18 10:51:22 by bvan-pae         ###   ########.fr       */
+/*   Created: 2024/01/18 12:22:39 by bvan-pae          #+#    #+#             */
+/*   Updated: 2024/01/18 12:22:57 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-void	ms_dlstclear(t_dlist **head)
+int	ms_findstar(char *word)
 {
-	while (*head)
-	{
-		free((*head)->str);
-		ms_dlstdelone(head);
-	}
+	int	i;
+
+	i = -1;
+	while(word[++i])
+		if (word[i] == '*')
+			return (TRUE);
+	return (ERROR);
 }
