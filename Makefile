@@ -26,6 +26,7 @@ SRC 			:= source/main.c source/prompt.c source/get_env.c \
 				   source/string_utils/ms_strtolower.c \
 				   source/string_utils/ms_findstar.c \
 				   source/string_utils/ms_strstrchr.c \
+				   source/string_utils/ms_isws.c \
 				   source/misc/ms_setint.c \
 				   source/misc/ms_setchar.c
 
