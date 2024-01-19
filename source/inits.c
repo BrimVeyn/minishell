@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   inits.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
+/*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/28 10:13:33 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/01/17 16:13:45 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/01/19 10:28:54 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ void init_d_pipe(t_pipe *d_pipe)
 	d_pipe->p_trig = 0;
 	d_pipe->old_stdin = dup(STDIN_FILENO);
 	d_pipe->old_stdout = dup(STDOUT_FILENO);
-	d_pipe->heredoc = ft_calloc(1000, sizeof(int)); //TEMPORAIRE
+	// d_pipe->heredoc = ft_calloc(1000, sizeof(int)); //TEMPORAIRE
 	d_pipe->fork_id = ft_calloc(1000, sizeof(int)); //TEMPORAIRE
 	d_pipe->f_id = ft_calloc(1000, sizeof(int)); //TEMPORAIRE
 }

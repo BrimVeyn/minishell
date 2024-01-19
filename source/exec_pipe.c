@@ -3,19 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   exec_pipe.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
+/*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/26 15:06:31 by nbardavi          #+#    #+#             */
-/*   Updated: 2024/01/17 14:05:04 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/01/19 15:31:51 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "../include/minishell.h"
 
-int check_here(char ***tokens, int i);
-void cut_here(t_tok *d_token, int *i);
+int		check_here(char ***tokens, int i);
+void	cut_here(t_tok *d_token, int *i);
 void	exec_pipe(t_tok *d_token, t_pipe *d_pipe, char *env[], int *i);
-void pipe_parse(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i);
+void	pipe_parse(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i);
 void	w_exec_pipe(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i);
+void	ms_free_env(t_env *denv);
 // void exec_pipe()
 // {
 //
@@ -55,32 +56,60 @@ char *heredoc(t_pipe *d_pipe, t_tok *d_token, t_env *denv, int *i)
 	char	*f_name;
 	char	*limiter;
 	char	*sasave;
+	int		cpt;
 	
+	cpt = 1;
 	limiter = d_token->tokens[*i][check_here(d_token->tokens, *i) + 1];
 	cut_here(d_token, i);
 	f_name = ft_sprintf("%fs%d", ".temp_heredoc", d_pipe->nbr_h++);
-	d_pipe->heredoc[d_pipe->nbr_h] = open(f_name, O_WRONLY | O_CREAT, 0644);
+	d_pipe->heredoc = open(f_name, O_WRONLY | O_CREAT, 0644);
 	save = ft_strdup("");
-	// ft_printf("LIMITER :%fs\n", limiter);
 	while(1)
 	{
-		input = readline(">");
-		// ft_printf("Limiter: %fs\ninput:%fs\n", limiter, input);
+		input = readline("> ");
+		if (input == NULL)
+		{
+			printf("minishell: warning: here-document at line %d delimited by end-of-file (wanted '%s')\n", cpt, limiter);
+			return (NULL);
+		}
 		if (ft_strcmp(limiter, input) == 0)
 			break;
+		cpt++;
 		save = ft_sprintf("%s%s\n", save, input);
 	}
 	sasave = ft_strdup(save);
 	save = ft_sprintf("%fs\n%s%fs", ms_getlast(denv), save, limiter);
 	ms_lst_b(&denv->history, ms_lst_new(save));
 	reset_history(denv);
-	// write(d_pipe->input, save, ft_strlen(save));
-	fd_printf(d_pipe->heredoc[d_pipe->nbr_h], "%s", sasave);
-	// fd_printf(STDIN_FILENO, "%fs", save);
-	// unlink(f_name);
+	fd_printf(d_pipe->heredoc, "%s", sasave);
 	add_history(save);
 	ft_printf("%fs\n", "===============");
+	free(save);
+	close(d_pipe->heredoc);
 	return (f_name);
+}
+
+void t_heredoc(t_tok *d_token, int *i)
+{
+	char	*input;
+	char	*limiter;
+	int		cpt;
+
+	cpt = 1;
+	limiter = d_token->tokens[*i + 1][0];
+	while(1)
+	{
+		input = readline("> ");
+		if (input == NULL)
+		{
+			printf("minishell: warning: here-document at line %d delimited by end-of-file (wanted '%s')\n", cpt, limiter);
+			return;
+		}
+		else if (ft_strcmp(limiter, input) == 0)
+			break;
+		cpt++;
+	}
+	d_token->exitno = 0;
 }
 
 //
@@ -221,6 +250,8 @@ void exec_cmd(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
 		j++;
 	}
 	// ft_printf("tokens debug:%fs\n", d_token->tokens[*i][0]);
+	close(d_pipe->old_stdin);
+	close(d_pipe->old_stdout);
 	execve(d_token->tokens[*i][0], d_token->tokens[*i], denv->f_env);
 	perror("execve failed");
 	exit(EXIT_FAILURE);//TEMPORAIRE -> LEAKS, FONCTION SPECIAL A FAIRE
@@ -688,6 +719,11 @@ void parse_type(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
 	// ft_printf("i nbr:%d\n", *i);
 	p_here = check_here(d_token->tokens, *i);
 	
+	if (d_token->type[*i] == D_AL)
+	{
+		t_heredoc(d_token, i);
+		return;
+	}
 	if (d_token->type[*i] == S_AL)
 	{
 		if (access(d_token->tokens[*i + 1][0], F_OK) != 0 && access(d_token->tokens[*i + 1][0], X_OK) != 0)
@@ -735,6 +771,7 @@ void parse_type(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
 					if (d_pipe->output == -1)
 						perror("Error: ");
 					dup2(d_pipe->output, STDOUT_FILENO);
+					close(d_pipe->output);
 					j +=2;
 				}
 				if (d_token->type[*i + 1 + j] == S_AL)
@@ -813,7 +850,6 @@ void parse_type(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
 		d_pipe->p_nbr--;
 		d_pipe->p_cpt--;
 	}
-
 	if (d_token->type[*i] == WRONG)
 	{
 		d_token->exitno = 127;
@@ -843,8 +879,6 @@ void parse_type(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
 	// 		exit_file();
 	// 	d_pipe->output = open(d->token[i + 1][0], O_WRONLY);
 	// 
-	if (d_token->type[*i] == D_AL)
-		heredoc(d_pipe, d_token, denv, i);
 }
 
 void p_count(t_tok *d_token, t_pipe *d_pipe)
@@ -865,18 +899,41 @@ void ms_h_unlink(t_pipe *d_pipe)
 {
 	char *temp;
 
+	d_pipe->nbr_h--;
 	while(d_pipe->nbr_h > -1)
 	{
-		// close(d_pipe->heredoc[d_pipe->nbr_h]);
-		temp = ft_sprintf("%fs%d", ".temp_heredoc", d_pipe->nbr_h--);
+		temp = ft_sprintf("%fs%d", ".temp_heredoc", d_pipe->nbr_h);
 		unlink(temp);
 		free(temp);
+		ft_printf("nbr_h: %d\n", d_pipe->nbr_h);
+		d_pipe->nbr_h--;
 	}
+}
+
+void ms_free_history(t_h_lst **head)
+{
+	t_h_lst *tmp;
+	
+	while (*head)
+	{
+		tmp = (*head)->next;
+		free(*head);
+		*head = tmp;
+	}
+}
+
+void ms_free_env(t_env *denv)
+{
+	free_tab(denv->f_env);
+	free(denv->usr);
+	free(denv->path);
+	free(denv->pwd);
+	if(denv->history)
+		ms_free_history(&denv->history);
 }
 
 void ms_free_pipe(t_pipe *d_pipe)
 {
-	free(d_pipe->heredoc);
 	free(d_pipe->fork_id);
 	free(d_pipe->f_id);
 	free(d_pipe->p_return);
@@ -895,12 +952,15 @@ void ms_main_pipe(t_tok d_token, t_env *denv)
 	p_count(&d_token, &d_pipe);
 	while(i < d_token.t_size)
 	{
+		if (d_token.type[0] == -1)
+			break;
 		parse_type(&d_token, &d_pipe, denv, &i);
 		i++;
 	}
 	ft_printf("exit no: %d\n", d_token.exitno);
 	ft_printf("===========\n%s", ft_strdup(RESET));
 	ms_h_unlink(&d_pipe);
+	// ms_free_env(denv);
 	ms_free_pipe(&d_pipe);
 	// while()
 	// {

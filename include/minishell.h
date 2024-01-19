@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
+/*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/23 14:09:29 by nbardavi          #+#    #+#             */
-/*   Updated: 2024/01/18 13:53:11 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/01/19 16:11:38 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,13 +116,14 @@ typedef struct s_pipe
 	int i_f;
 	int old_stdin;
 	int old_stdout;
-	int *heredoc;
+	int heredoc;
 	int p_redi_fd;
 	//Pour les pipes
 	int f_cpt;
 	int	*f_id;
 	int p_trig;
 	//
+	int t_exit;
 }			t_pipe;
 
 typedef struct s_lst
@@ -140,7 +141,6 @@ typedef struct s_h_lst
 
 typedef struct s_env
 {	
-	t_lst	lst;
 	char	**f_env;
 	char	*pwd;
 	char	*path;
@@ -154,6 +154,7 @@ typedef struct s_tok
 	int		t_size;
 	int 	*type;
 	int		exitno;
+	char	*heredoc;
 }			t_tok;
 
 typedef struct s_tokvar
@@ -232,6 +233,10 @@ void ms_setint(int *i, int value);
 
 /*_.-=-._.-=-._.-=-._.-=-._.--._.-=-._.--._.-=-._.-=-._.-=-._.-=-._.-=-._*/
 
+// Pas touche
+void	ms_free_env(t_env *denv);
+
+//
 void		init_sig();
 
 void		prompt(t_env *env);
