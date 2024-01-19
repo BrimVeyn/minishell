@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
+/*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/23 15:16:24 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/01/16 10:25:54 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/01/19 10:46:18 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,12 @@
 
 int exitno = 0;
 
-void free_env(t_env *env)
-{
-	free(env->usr);
-	free(env->path);
-	free(env->pwd);
-}
+// void free_env(t_env *env)
+// {
+// 	free(env->usr);
+// 	free(env->path);
+// 	free(env->pwd);
+// }
 
 int main(int ac, char *av[], char *env[])
 {
@@ -32,6 +32,7 @@ int main(int ac, char *av[], char *env[])
 	denv.pwd = get_pwd(&denv);
 	denv.path = get_path(&denv);
 	denv.usr = get_usr(&denv);
+	denv.history = NULL;
 	prompt(&denv);
-	free_env(&denv);
+	// free_env(&denv);
 }
