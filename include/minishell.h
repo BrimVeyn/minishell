@@ -6,7 +6,7 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/23 14:09:29 by nbardavi          #+#    #+#             */
-/*   Updated: 2024/01/18 17:19:16 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/01/19 14:37:08 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -222,6 +222,7 @@ char		*get_path(t_env *data);
 char		*get_usr(t_env *data);
 t_dlist		*get_flist(t_env *denv);
 char		*ft_strtrimf(char const *s1, char const *set);
+void		free_startab(char ***tokens);
 
 int			ms_isws(char c);
 int			ms_tablen(char **tab);

@@ -6,7 +6,7 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/28 09:31:25 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/01/17 16:11:41 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/01/19 10:37:04 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,12 +61,12 @@ char	*join_path(char *cmd, t_env *denv)
 	}
 	free_tab(paths);
 	fd_printf(2, "%fs: command not found\n", cmd);
-	return(NULL);
+	return(free(cmd), ft_strdup("WRONG"));
 }
 
 void	ms_add_path(t_tok *tdata, t_env *denv)
 {
-	int i;
+	int		i;
 
 	i = 0;
 	while (tdata->tokens[i])
@@ -74,7 +74,7 @@ void	ms_add_path(t_tok *tdata, t_env *denv)
 		if (tdata->type[i] == CMD)
         {
 			tdata->tokens[i][0] = join_path(tdata->tokens[i][0], denv);
-			if (tdata->tokens[i][0] == NULL)
+			if (!ft_strncmp(tdata->tokens[i][0], "WRONG", 5))
 				tdata->type[i] = WRONG;
         }
 		i++;

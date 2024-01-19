@@ -6,18 +6,11 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 10:49:15 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/01/18 09:39:09 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/01/19 16:20:26 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
-
-int	ms_isws(char c)
-{
-	if ((c >= 9 && c <= 13) || c == 32)
-		return (1);
-	return (0);
-}
 
 t_tokvar ms_tiktok(char *ptr)
 {
@@ -37,8 +30,6 @@ t_tokvar ms_tiktok(char *ptr)
 		return(init_tokvar("(", P_O));
 	if (!ft_strncmp(ptr, ")", 1))
 		return(init_tokvar(")", P_C));
-	// if (!ft_strncmp(ptr, "$", 1))
-	// 	return(init_tokvar("$", DOLLAR));
 	if (!ft_strncmp(ptr, "|", 1))
 		return(init_tokvar("|", PIPE));
 	return(init_tokvar("", CMD));
@@ -230,7 +221,7 @@ void fill_token(char *input, t_tok *tdata, t_env *denv)
 		while (ms_tiktok(&input[v.i]).type == D_AL && v.i > 0)
 		{
 			v.l = f_lcmd_index(tdata, v.j);
-			// printf("the number is %d\n", k);
+			printf("HOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO\n");
 			tdata->tokens[v.l] = add_here_to_cmd(tdata->tokens[v.l] ,input, &v);
 			tdata->tokens[v.l] = add_args_to_cmd(input, &v, tdata, denv);
 		}
@@ -277,8 +268,8 @@ int start_check(char *input, t_tokvar tokvar, int i)
 	int icpy;
 
 	icpy = i;
-	if (tokvar.type == P_O || tokvar.type == P_C)
-		return(0);
+	if (tokvar.type == P_O || tokvar.type == P_C || tokvar.type == S_AL)
+		return(TRUE);
 	if (icpy != 0)
 	{
 		icpy -= ms_tiktok(&input[i]).len;
@@ -302,7 +293,7 @@ int start_check(char *input, t_tokvar tokvar, int i)
         }
 		return (ERROR);
 	}
-	return (0);
+	return (TRUE);
 }
 
 int end_check(char *input, t_tokvar tokvar, int i)
@@ -345,12 +336,12 @@ int	parenthesis_check(char *input)
 		return (1);
 	else if (p > 0)
     {
-		fd_printf(2, "minishell: syntax error near unexpected token `)'\n");
+		fd_printf(2, "minishell: syntax error near unexpected token `('\n");
 		return (ERROR);
     }
 	else
 	{
-		fd_printf(2, "minishell: syntax error near unexpected token `('\n");
+		fd_printf(2, "minishell: syntax error near unexpected token `)'\n");
 		return (ERROR);
 	}
 }
@@ -448,6 +439,36 @@ int count_tokens(char *input)
 	return (count);
 }
 
+int	ms_quotes_whitelist(int type)
+{
+	if (type == AND || type == OR || type == S_AL || type == S_AR ||
+		type == D_AL || type == D_AR || type == PIPE)
+		return (TRUE);
+	return (ERROR);
+}
+
+int	quotes_position_check(t_tok *tdata)
+{
+	int	i;
+
+	i = 0;
+	while (tdata->tokens[i])
+	{
+		if ((tdata->type[i] == P_O && i != 0) && (i > 0 && ms_quotes_whitelist(tdata->type[i - 1]) == ERROR))
+        {
+			fd_printf(2, "minishell: syntax error near unexpected token `%fs'\n", tdata->tokens[i + 1][0]);
+			return (ERROR);
+		}
+		if ((tdata->type[i] == P_C && i != tdata->t_size - 1) && (i > 0 && ms_quotes_whitelist(tdata->type[i + 1]) == ERROR))
+        {
+			fd_printf(2, "minishell: syntax error near unexpected token `%fs'\n", tdata->tokens[i + 1][0]);
+			return (ERROR);
+        }
+		i++;
+	}
+	return (TRUE);
+}
+
 t_tok	parse_input(char *input, t_env *denv)
 {
 	t_tok	tdata;
@@ -458,8 +479,20 @@ t_tok	parse_input(char *input, t_env *denv)
 	if (tdata.t_size == ERROR)
 		return (tdata);
 	tdata = init_tok(tdata.t_size);
-	// printf("Token count : %d\n", tdata.t_size);
+	printf("Token count : %d\n", tdata.t_size);
 	fill_token(input, &tdata, denv);
+	// ft_printf("Quote position error : %d\n", quotes_position_check(&tdata));
+	if (quotes_position_check(&tdata) == ERROR)
+	{
+		tdata.type[0] = ERROR;
+		for (int i = 0; tdata.tokens[i]; i++)
+		{
+			printf("S->TYPE[%d] = %d\n", i, tdata.type[i]);
+			for (int j = 0; tdata.tokens[i][j]; j++)
+				printf("S[%d][%d] = %s\n", i, j, tdata.tokens[i][j]);
+		}
+		return (tdata);
+	}
 	ms_add_path(&tdata, denv);
 	for (int i = 0; tdata.tokens[i]; i++)
 	{
