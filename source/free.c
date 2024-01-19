@@ -6,7 +6,7 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/26 15:14:38 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/01/17 16:12:19 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/01/19 14:11:12 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	free_tab(char **tab)
 // 	int		exitno;
 // }			t_tok;
 
-static void	free_startab(char ***tokens)
+void	free_startab(char ***tokens)
 {
 	int	i;
 	int	j;

@@ -6,7 +6,7 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 10:51:26 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/01/18 17:24:52 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/01/19 14:06:01 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,9 +38,9 @@ static int count_words(char *str)
 
 void	fill_split(char **split, char *str)
 {
-	int	x[3];
+	int		x[3];
+	int		trigger;
 	char	qt;
-	int	trigger;
 
 	if (ms_setint(&x[I], 0), ms_setint(&x[J], 0), ms_setchar(&qt, 0), str)
 		(void) str;
@@ -120,6 +120,21 @@ char *r_env(char *split, t_tok *tdata)
 	return (split);
 }
 
+t_dlist *ms_wildcard_expand(t_starlist *current, t_dlist *flist)
+{
+	while (current)
+	{
+		if (current->type == START)
+			flist = ms_dlstmap(&flist, current->str, &ms_matchstart);
+		else if (current->type == MID) 
+			flist = ms_dlstmap(&flist, current->str, &ms_matchmid);
+		else if (current->type == END)
+			flist = ms_dlstmap(&flist, current->str, &ms_matchend);
+		current = current->next;
+	}
+	return (flist);
+}
+
 char	*w_expand(char *word, t_env *denv)
 {
 	t_dlist		*flist;
@@ -134,18 +149,9 @@ char	*w_expand(char *word, t_env *denv)
 	flist = get_flist(denv);
 	slist = ms_starsplit(word);
 	current = slist;
-	while (current)
-	{
-		if (current->type == START)
-			flist = ms_dlstmap(&flist, current->str, &ms_matchstart);
-		else if (current->type == MID) 
-			flist = ms_dlstmap(&flist, current->str, &ms_matchmid);
-		else if (current->type == END)
-			flist = ms_dlstmap(&flist, current->str, &ms_matchend);
-		current = current->next;
-	}
+	flist = ms_wildcard_expand(current, flist);
 	if (!flist)
-		return (word);
+		return (ms_dlstclear(&flist), word);
 	if (dot_trigger)
 		flist = ms_dlstmap(&flist, NULL, &ms_del_hidden);
 	ms_dlsort(&flist);
@@ -182,10 +188,10 @@ void transform_split(char **split, t_tok *tdata, t_env *denv)
 	strl = NULL;
 	while (ms_setint(&x[J], ZERO), split[x[I]])
 	{
-		ft_printf("--------------------------------\n");
+		// ft_printf("--------------------------------\n");
 		while (split[x[I]][x[J]])
         {
-			ft_printf("J === %d, char = %c\n", x[J], split[x[I]][x[J]]);
+			// ft_printf("J === %d, char = %c\n", x[J], split[x[I]][x[J]]);
 			if (split[x[I]][x[J]] != '\'' && split[x[I]][x[J]] != '\"')
 				ms_starlab(&strl, ms_starlnew(r_env(ms_extract(split[x[I]], &x[J], ZERO), tdata), 0));
 			else if (split[x[I]][x[J]] == '\"')
@@ -219,7 +225,7 @@ char	**ft_splitm(char *str, t_tok *tdata, t_env *denv)
 	wc = count_words(str);
 	// printf("STR = %s, WC = %d\n", str, wc);
 	// printf("SQ = %d, DQ = %d\n", quotes[0], quotes[1]);
-	printf("WC = %d\n", wc);
+	// printf("WC = %d\n", wc);
 	split = (char **) ft_calloc(count_words(str) + 1, sizeof(char *));
 	if (!split)
 	{
