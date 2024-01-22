@@ -6,7 +6,7 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 10:49:15 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/01/22 16:21:36 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/01/22 16:38:58 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -488,15 +488,15 @@ int	quotes_position_check(t_tok *tdata)
 	return (TRUE);
 }
 
-char *fill_heredoc(char *input, t_tok tdata)
+char *fill_heredoc(char *input, t_tok *tdata)
 {
 	char const *backn = ft_strchr(input, '\n');
 
 	if (!backn)
 		return (input);
-	tdata.heredoc = ft_split(backn, '\n');
-	for(int i = 0; tdata.heredoc[i]; i++)
-		printf("HEREDOC[%d] = %s\n", i, tdata.heredoc[i]);
+	tdata->heredoc = ft_split(backn, '\n');
+	for(int i = 0; tdata->heredoc[i]; i++)
+		printf("HEREDOC[%d] = %s\n", i, tdata->heredoc[i]);
 	input = ms_cut_at(input, '\n');	
 	return (input);
 }
@@ -547,11 +547,14 @@ char **get_delimiters(char ***tokens, int *type)
 	while (tokens[i])
 	{
 		j = 0;
-		while (tokens[i][j] && type[i] == CMD)
+		while (tokens[i][j] && (type[i] == CMD || type[i] == D_AL))
 		{
-			if (ft_strlen(tokens[i][j]) >= 2 && !ft_strncmp(tokens[i][j], "<<", 2) && ft_strncmp(tokens[i][j], "\0", 1))
+			if (type[i] == D_AL && !ft_strncmp(tokens[i + 1][0], "\0", 1))
+				(void) type;
+			if (ft_strlen(tokens[i][j]) >= 2 && !ft_strncmp(tokens[i][j], "<<", 2) && ft_strncmp(tokens[i][j + 1], "\0", 1))
             {
 				delimiters = ms_joinstarstr(delimiters, tokens[i][j + 1]);
+				ft_printf("++");
             }
 			j++;
 		}
@@ -570,10 +573,8 @@ int	missing_delimiter_check(t_tok *tdata)
 
 	delimiters = get_delimiters(tdata->tokens, tdata->type);
 	i = 0;
-	ft_printf("delimiter_len = %d\n", ms_tablen(delimiters));
 	while (delimiters[i])
 	{
-		ft_printf("del[%d] = %fs", i, delimiters[i]);
 		t_heredoc(tdata, 0, delimiters[0]);
 		i++;
 	}
@@ -587,10 +588,10 @@ t_tok	parse_input(char *input, t_env *denv)
 	// ft_printf("IN_PARSE\n");
 	// ms_dprint(denv->flist);
 	tdata.t_size = count_tokens(input);
-	input = fill_heredoc(input, tdata);
 	if (tdata.t_size == ERROR)
 		return (tdata);
 	tdata = init_tok(tdata.t_size);
+	input = fill_heredoc(input, &tdata);
 	printf("Token count : %d\n", tdata.t_size);
 	fill_token(input, &tdata, denv);
 	// ft_printf("Quote position error : %d\n", quotes_position_check(&tdata));
@@ -608,7 +609,8 @@ t_tok	parse_input(char *input, t_env *denv)
 	ms_add_path(&tdata, denv);
 	if (missing_delimiter_check(&tdata) == ERROR)
     {
-		ft_printf("ERROR");
+		fd_printf(2, "minishell: syntax error near unexpected token `newline'\n");
+		tdata.type[0] = WRONG;
 		return (tdata);
     }
 	for (int i = 0; tdata.tokens[i]; i++)
