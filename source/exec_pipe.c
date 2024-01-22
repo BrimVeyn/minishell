@@ -6,7 +6,7 @@
 /*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/26 15:06:31 by nbardavi          #+#    #+#             */
-/*   Updated: 2024/01/22 13:05:53 by nbardavi         ###   ########.fr       */
+/*   Updated: 2024/01/22 14:57:42 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "../include/minishell.h"
@@ -25,7 +25,7 @@ void	ms_free_env(t_env *denv);
 // void set_output()
 // {
 // }
-//
+
 char *ms_getlast(t_env *denv)
 {
 	t_h_lst *lst;
@@ -137,14 +137,14 @@ char *heredoc(t_pipe *d_pipe, t_tok *d_token, t_env *denv, int *i)
 	return (f_name);
 }
 
-void t_heredoc(t_tok *d_token, int *i)
+void t_heredoc(t_tok *d_token, int *i, char *limiter)
 {
 	char	*input;
-	char	*limiter;
 	int		cpt;
 
 	cpt = 1;
-	limiter = d_token->tokens[*i + 1][0];
+	if (limiter == NULL)
+		limiter = d_token->tokens[*i + 1][0];
 	while(1)
 	{
 		input = readline("> ");
@@ -765,13 +765,13 @@ void parse_type(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
 	
 	if (d_token->type[*i] == D_AL)
 	{
-		if (d_token->type[*i + 2] == CMD)
+		if (d_token->type[*i + 2] == CMD && d_token->t_size > 2)
 		{
 			ms_place_h(d_token, h_before(d_pipe, d_token, denv, i), *i);
 		}
 		else
 		{
-			t_heredoc(d_token, i);
+			t_heredoc(d_token, i, NULL);
 		}
 		return;
 	}
