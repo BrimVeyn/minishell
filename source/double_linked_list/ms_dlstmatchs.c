@@ -6,7 +6,7 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 11:57:39 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/01/18 12:04:00 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/01/19 10:26:01 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,9 @@ void ms_matchend(t_dlist *el, char *to_match)
 
 	tm_len = ft_strlen(to_match);
 	str_len = ft_strlen(el->str);
-	if (!ft_strncmp(&el->str[str_len - tm_len], to_match, tm_len))
+	if (tm_len > str_len)
+		el->i = ERROR;
+	else if (!ft_strncmp(&el->str[str_len - tm_len], to_match, tm_len))
 		el->i = str_len;
 	else
 		el->i = ERROR;

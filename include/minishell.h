@@ -6,10 +6,9 @@
 /*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/23 14:09:29 by nbardavi          #+#    #+#             */
-/*   Updated: 2024/01/22 09:09:54 by nbardavi         ###   ########.fr       */
+/*   Updated: 2024/01/22 14:59:45 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
@@ -79,6 +78,9 @@ enum
 {
 	SQ = 0,
 	DQ = 1,
+	COUNT = 2,
+	IX = 3,
+	TRIGGER = 4,
 };
 
 
@@ -155,7 +157,7 @@ typedef struct s_tok
 	int		t_size;
 	int 	*type;
 	int		exitno;
-	char	*heredoc;
+	char	**heredoc;
 }			t_tok;
 
 typedef struct s_tokvar
@@ -212,8 +214,6 @@ char		*ms_starjoin(t_starlist **slist);
 /*_.-=-._.-=-._.-=-._.-=-._.--._.-=-._.--._.-=-._.-=-._.-=-._.-=-._.-=-._*/
 /*_.-=-._.-=-._.-=-._.-=-._.- STRING_UTILS -._.-=-._.-=-._.-=-._.-=-._.-=-._*/
 
-int			ms_findstar(char *word);
-char		*ms_strtolower(char *str);
 char		**ms_dupdup(char **environ);
 char		**ms_joinstarstar(char **p1, char **p2);
 char		**ft_splitm(char *str, t_tok *tdata, t_env *denv);
@@ -223,19 +223,26 @@ char		*get_path(t_env *data);
 char		*get_usr(t_env *data);
 t_dlist		*get_flist(t_env *denv);
 char		*ft_strtrimf(char const *s1, char const *set);
+void		free_startab(char ***tokens);
 
 int			ms_isws(char c);
 int			ms_tablen(char **tab);
+int			ms_strstrchr(char c, char *charset);
+int			ms_findstar(char *word);
+char		*ms_strtolower(char *str);
+char		*ms_cut_at(char *input, char c);
 
 
 /*_.-=-._.-=-._.-=-._.-=-._.- MISC -._.-=-._.-=-._.-=-._.-=-._.-=-._*/
 
 void ms_setint(int *i, int value);
+void ms_setchar(char *c, int value);
 
 /*_.-=-._.-=-._.-=-._.-=-._.--._.-=-._.--._.-=-._.-=-._.-=-._.-=-._.-=-._*/
 
 // Pas touche
 void	ms_free_env(t_env *denv);
+void t_heredoc(t_tok *d_token, int *i, char *limiter);
 
 //
 void		init_sig();

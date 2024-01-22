@@ -4,6 +4,8 @@
    ...
    obj:/usr/lib/x86_64-linux-gnu/libreadline.so.*
 }
+<<<<<<< HEAD
+=======
 
 {
    ignore_all_ls_leaks
@@ -18,3 +20,4 @@
    ...
    obj:*grep*
 }
+>>>>>>> nathan
