@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   inits.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
+/*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/28 10:13:33 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/01/19 10:28:54 by nbardavi         ###   ########.fr       */
+/*   Updated: 2024/01/22 16:21:34 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ t_tok init_tok(int tokcount)
 	self.tokens = (char ***) ft_calloc(tokcount + 1, sizeof(char **));
 	self.type = (int *) ft_calloc(tokcount + 1, sizeof(int));
 	self.t_size = tokcount;
+	self.heredoc = NULL;
 	return(self);
 }
 
