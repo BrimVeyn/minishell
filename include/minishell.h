@@ -6,7 +6,7 @@
 /*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/23 14:09:29 by nbardavi          #+#    #+#             */
-/*   Updated: 2024/01/19 16:11:38 by nbardavi         ###   ########.fr       */
+/*   Updated: 2024/01/22 09:09:54 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,6 +123,7 @@ typedef struct s_pipe
 	int	*f_id;
 	int p_trig;
 	//
+	int h_i;
 	int t_exit;
 }			t_pipe;
 
