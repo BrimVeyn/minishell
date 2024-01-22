@@ -6,7 +6,7 @@
 /*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/26 15:06:31 by nbardavi          #+#    #+#             */
-/*   Updated: 2024/01/19 15:31:51 by nbardavi         ###   ########.fr       */
+/*   Updated: 2024/01/22 13:05:53 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "../include/minishell.h"
@@ -49,6 +49,50 @@ void reset_history(t_env *denv)
 	}
 }
 
+char *h_before(t_pipe *d_pipe, t_tok *d_token, t_env *denv, int *i)
+{
+	char	*input;
+	char	*save;
+	char	*f_name;
+	char	*limiter;
+	char	*sasave;
+	int		cpt;
+	
+	cpt = 1;
+	limiter = d_token->tokens[*i + 1][0];
+	cut_here(d_token, i);
+	f_name = ft_sprintf("%fs%d", ".temp_heredoc", d_pipe->nbr_h++);
+	d_pipe->heredoc = open(f_name, O_WRONLY | O_CREAT, 0644);
+	save = ft_strdup("");
+	// while(d_token->heredoc[d_pipe->h_i])
+	// {
+	// 	
+	// }
+	while(1)
+	{
+		input = readline("> ");
+		if (input == NULL)
+		{
+			printf("minishell: warning: here-document at line %d delimited by end-of-file (wanted '%s')\n", cpt, limiter);
+			return (NULL);
+		}
+		if (ft_strcmp(limiter, input) == 0)
+			break;
+		cpt++;
+		save = ft_sprintf("%s%s\n", save, input);
+	}
+	sasave = ft_strdup(save);
+	save = ft_sprintf("%fs\n%s%fs", ms_getlast(denv), save, limiter);
+	ms_lst_b(&denv->history, ms_lst_new(save));
+	reset_history(denv);
+	fd_printf(d_pipe->heredoc, "%s", sasave);
+	add_history(save);
+	ft_printf("%fs\n", "===============");
+	free(save);
+	close(d_pipe->heredoc);
+	return (f_name);
+}
+
 char *heredoc(t_pipe *d_pipe, t_tok *d_token, t_env *denv, int *i)
 {
 	char	*input;
@@ -64,6 +108,10 @@ char *heredoc(t_pipe *d_pipe, t_tok *d_token, t_env *denv, int *i)
 	f_name = ft_sprintf("%fs%d", ".temp_heredoc", d_pipe->nbr_h++);
 	d_pipe->heredoc = open(f_name, O_WRONLY | O_CREAT, 0644);
 	save = ft_strdup("");
+	// while(d_token->heredoc[d_pipe->h_i])
+	// {
+	// 	
+	// }
 	while(1)
 	{
 		input = readline("> ");
@@ -111,32 +159,6 @@ void t_heredoc(t_tok *d_token, int *i)
 	}
 	d_token->exitno = 0;
 }
-
-//
-
-// void set_input(t_tok *d_token, t_pipe *d_pipe, t_env *denv)
-// {
-// 	//TEMPORAIRE
-// 	// char **temp;
-// 	//
-// 	//
-// 	// if (ft_strcmp("make", d_token->tokens[0][0]) == 0)
-// 	// {
-// 	// 	temp = ft_calloc(3, sizeof(char *));
-// 	// 	temp[0] = ft_strdup("/chemin/vers/make");
-// 	// 	temp[2] = NULL;
-// 	//
-// 	// 	execve(temp[0], temp, denv->f_env);
-// 	// 
-// 	if (d_token->type[0] == S_AL)
-// 	{
-// 		d_pipe->input = open(d_token->tokens[0][0], O_RDONLY);
-// 	}
-// 	if (d_token->type[0] == D_AL)
-// 	{
-// 		heredoc(d_pipe, d_token->tokens[1][0], denv); //HEREDOC PAS FORCEMENT AU DEBUT
-// 	}
-// 
 
 int check_here(char ***tokens, int i)
 {
@@ -711,6 +733,28 @@ void	exec_pipe(t_tok *d_token, t_pipe *d_pipe, char *env[], int *i)
 		perror("fork");
 }
 
+void ms_place_h(t_tok *d_token, char *f_name, int i)
+{
+	int j;
+	int k;
+	char **u_char;
+
+	j = 0;
+	k = 0;
+	while(d_token->tokens[i + 2][j])
+		j++;
+	u_char = ft_calloc(j + 2, sizeof(char *));
+	j = 0;
+	while(d_token->tokens[i + 2][j])
+	{	
+		u_char[j] = ft_strdup(d_token->tokens[i + 2][j]);
+		j++;
+	}
+	u_char[j] = ft_strdup(f_name);
+	free_tab(d_token->tokens[i + 2]);
+	d_token->tokens[i + 2] = u_char;
+}
+
 void parse_type(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
 {
 	int j;
@@ -721,7 +765,14 @@ void parse_type(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
 	
 	if (d_token->type[*i] == D_AL)
 	{
-		t_heredoc(d_token, i);
+		if (d_token->type[*i + 2] == CMD)
+		{
+			ms_place_h(d_token, h_before(d_pipe, d_token, denv, i), *i);
+		}
+		else
+		{
+			t_heredoc(d_token, i);
+		}
 		return;
 	}
 	if (d_token->type[*i] == S_AL)
@@ -732,20 +783,6 @@ void parse_type(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
 	}
 
 
-	if (p_here > -1) //HEREDOC
-	{
-		// cut_here(d_token, i);
-		while(p_here > -1)
-		{
-			// print_tok(d_token);
-			d_token->tokens[*i][p_here] = heredoc(d_pipe, d_token, denv, i);
-			// print_tok(d_token);
-			p_here = check_here(d_token->tokens, *i);
-			// ft_printf("p_here:%d", p_here);
-		}
-		// ft_printf("p_here: %d\n", p_here);
-		// ft_printf("p_here:%d\nindice 2:%fs\nindice 1:%fs\n", p_here, d_token->tokens[*i][2], d_token->tokens[*i][1]);
-	}	
 
 	if (d_token->type[*i] == CMD && d_pipe->skip_and == 0)
 	{
