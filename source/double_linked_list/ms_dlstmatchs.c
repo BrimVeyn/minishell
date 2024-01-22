@@ -21,10 +21,8 @@ void ms_del_hidden(t_dlist *el, char *to_match)
 
 void	ms_matchstart(t_dlist *el, char *to_match)
 {
-	int	i;
 	int	tm_len;
 
-	i = 0;
 	tm_len = ft_strlen(to_match);
 	if (!ft_strncmp(el->str, to_match, tm_len))
 		el->i = tm_len;
