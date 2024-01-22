@@ -6,7 +6,7 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 10:51:26 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/01/18 14:17:14 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/01/22 14:31:02 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,52 +16,46 @@ static int count_words(char *str)
 {
     int x[5];
 
-    if (ms_setint(&x[0], 0), ms_setint(&x[1], 0), ms_setint(&x[2], 0), ms_setint(&x[3], 0), str)
+    if (ms_setint(&x[COUNT], 0), ms_setint(&x[IX], 0), ms_setint(&x[DQ], 0), ms_setint(&x[SQ], 0), str)
 		(void) str;
-    while (str[x[1]])
+    while (str[x[IX]])
     {
-		x[4] = 0;
-        while ((str[x[1]] && !ms_isws(str[x[1]])) || (str[x[1]] && (x[2] || x[3])))
+		x[TRIGGER] = 0;
+        while ((str[x[IX]] && !ms_isws(str[x[IX]])) || (str[x[IX]] && (x[DQ] || x[SQ])))
         {
-            if (str[x[1]] == DQUOTE) 
-				x[2] ^= 1;
-            if (str[x[1]] == SQUOTE) 
-				x[3] ^= 1;
-            x[4] = 1; 
-			x[1]++;
+			x[DQ] ^= (str[x[IX]] == DQUOTE);
+			x[SQ] ^= (str[x[IX]] == SQUOTE);
+            x[TRIGGER] = 1; 
+			x[IX]++;
         }
-        if (x[4] && x[2] == 0 && x[3] == 0) 
-			x[0]++;
-        while (str[x[1]] && ms_isws(str[x[1]])) 
-			x[1]++;
+        if (x[TRIGGER] && x[DQ] == 0 && x[SQ] == 0) 
+			x[COUNT]++;
+        while (str[x[IX]] && ms_isws(str[x[IX]])) 
+			x[IX]++;
     }
-    return (x[0]);
+    return (x[COUNT]);
 }
 
 void	fill_split(char **split, char *str)
 {
-	int	x[3];
-	int qt[2];
-	int	trigger;
+	int		x[3];
+	int		trigger;
+	char	qt;
 
-	x[I] = 0;
-	x[J] = 0;
-	qt[DQ] = 0;
-	qt[SQ] = 0;
+	if (ms_setint(&x[I], 0), ms_setint(&x[J], 0), ms_setchar(&qt, 0), str)
+		(void) str;
 	while (ms_setint(&x[K], 0), str[x[I]])
 	{
 		trigger = 0;
-		while ((str[x[I]] && !ms_isws(str[x[I]])) || (str[x[I]] && (qt[DQ] == 1 || qt[SQ] == 1)))
+		while ((str[x[I]] && !ms_isws(str[x[I]])) || (str[x[I]] && (qt & DQ || qt & SQ)))
 		{
-			if (str[x[I]] == DQUOTE)
-				qt[DQ] ^= 1;
-			if (str[x[I]] == SQUOTE)
-				qt[SQ] ^= 1;
+			qt ^= (str[x[I]] == DQUOTE) << SQ;
+			qt ^= (str[x[I]] == SQUOTE) << DQ;
 			trigger = 1;
 			x[K]++;
 			x[I]++;
 		}
-		if (trigger == 1 && qt[DQ] == 0 && qt[SQ] == 0)
+        if (trigger == 1 && !(qt & DQ) && !(qt & SQ))
 		{
 			split[x[J]] = ft_substr(str, x[I] - x[K], x[K]);
 			x[J]++;
@@ -71,48 +65,74 @@ void	fill_split(char **split, char *str)
 	}
 }
 
+char	*r_dollarquestion(char *split, int *i, t_tok *tdata)
+{
+	char *p1;
+	char *var;
+	char *p2;
+
+	p1 = ft_substr(split, 0, *i);
+	var = ft_itoa(tdata->exitno);
+	p2 = ft_substr(split, *i + 2, (ft_strlen(split) - (*i + 2)));
+	*i += ft_strlen(var);
+	split = ft_sprintf("%s%s%s", p1, var, p2);
+	return (split);
+}
+
+char *r_dollar(char *split, int *i, int start, int end)
+{
+	char *p1;
+	char *var;
+	char *p2;
+
+	p1 = ft_substr(split, 0, start - 1);
+	var = getenv(ft_substr(split, start, end - start));
+	p2 = ft_substr(split, end, (ft_strlen(split) - end));
+	*i = ft_strlen(split) - ft_strlen(p2);
+	if (!var)
+		split = ft_sprintf("%s%s%s", p1, var, p2);
+	else
+		split = ft_sprintf("%s%fs%s", p1, var, p2);
+	return (split);
+}
+
 char *r_env(char *split, t_tok *tdata)
 {
 	int	i;
 	int start;
-	int end;
-	char *p1;
-	char *var;
-	char *p2;
 
 	i = 0;
 	while (split[i])
 	{
 		if (!ft_strncmp(&split[i], "$?", 2))
-		{
-			p1 = ft_substr(split, 0, i);
-			var = ft_itoa(tdata->exitno);
-			p2 = ft_substr(split, i + 2, (ft_strlen(split) - (i + 2)));
-			i += ft_strlen(var);
-			split = ft_sprintf("%s%s%s", p1, var, p2);
-		}
+			split = r_dollarquestion(split, &i, tdata);
 		if (split[i] == '$')
 		{
 			if (split[i + 1])
 				i++;
 			start = i;
-			while (split[i] && split[i] != ' ' && split[i] != '\'' && split[i] != '$' && split[i] != '*')
+			while (split[i] && ms_strstrchr(split[i], "\'$* ") == TRUE)
 				i++;
-			end = i;
-			p1 = ft_substr(split, 0, start - 1);
-			var = getenv(ft_substr(split, start, end - start));
-			p2 = ft_substr(split, end, (ft_strlen(split) - end));
-			i = ft_strlen(split) - ft_strlen(p2);
-			if (!var)
-				split = ft_sprintf("%s%s%s", p1, var, p2);
-			else
-				split = ft_sprintf("%s%fs%s", p1, var, p2);
-			// new = ft_sprintf("%s%s%s", p1, var, p2);
-			// printf("P1 = %s\nP2 = %s\nVAR = %s\n", p1, p2, var);
+			split = r_dollar(split, &i, start, i);
 		}
 		i++;
 	}
 	return (split);
+}
+
+t_dlist *ms_wildcard_expand(t_starlist *current, t_dlist *flist)
+{
+	while (current)
+	{
+		if (current->type == START)
+			flist = ms_dlstmap(&flist, current->str, &ms_matchstart);
+		else if (current->type == MID) 
+			flist = ms_dlstmap(&flist, current->str, &ms_matchmid);
+		else if (current->type == END)
+			flist = ms_dlstmap(&flist, current->str, &ms_matchend);
+		current = current->next;
+	}
+	return (flist);
 }
 
 char	*w_expand(char *word, t_env *denv)
@@ -126,23 +146,12 @@ char	*w_expand(char *word, t_env *denv)
 	if (ms_findstar(word) == ERROR || !word)
 		return (word);
 	dot_trigger = (word[0] != '.');
-	flist = NULL;
 	flist = get_flist(denv);
-	slist = NULL;
 	slist = ms_starsplit(word);
 	current = slist;
-	while (current)
-	{
-		if (current->type == START)
-			flist = ms_dlstmap(&flist, current->str, &ms_matchstart);
-		else if (current->type == MID) 
-			flist = ms_dlstmap(&flist, current->str, &ms_matchmid);
-		else if (current->type == END)
-			flist = ms_dlstmap(&flist, current->str, &ms_matchend);
-		current = current->next;
-	}
+	flist = ms_wildcard_expand(current, flist);
 	if (!flist)
-		return (word);
+		return (ms_dlstclear(&flist), word);
 	if (dot_trigger)
 		flist = ms_dlstmap(&flist, NULL, &ms_del_hidden);
 	ms_dlsort(&flist);
@@ -156,6 +165,7 @@ char	*w_expand(char *word, t_env *denv)
 char *ms_extract(char *split, int *j, char c)
 {
 	int const start = *j + (c != ZERO);
+	char *new;
 
 	(*j) += (c != ZERO);
 	if (c == ZERO)
@@ -164,7 +174,9 @@ char *ms_extract(char *split, int *j, char c)
 	else
 		while (split[*j] && split[*j] != c)
 			(*j)++;
-	return (ft_substr(split, start, *j - start));
+	new = ft_substr(split, start, *j - start);
+	(*j) += (c != ZERO);
+	return (new);
 }
 
 void transform_split(char **split, t_tok *tdata, t_env *denv)
@@ -176,13 +188,17 @@ void transform_split(char **split, t_tok *tdata, t_env *denv)
 	strl = NULL;
 	while (ms_setint(&x[J], ZERO), split[x[I]])
 	{
+		// ft_printf("--------------------------------\n");
 		while (split[x[I]][x[J]])
+        {
+			// ft_printf("J === %d, char = %c\n", x[J], split[x[I]][x[J]]);
 			if (split[x[I]][x[J]] != '\'' && split[x[I]][x[J]] != '\"')
 				ms_starlab(&strl, ms_starlnew(r_env(ms_extract(split[x[I]], &x[J], ZERO), tdata), 0));
 			else if (split[x[I]][x[J]] == '\"')
 				ms_starlab(&strl, ms_starlnew(r_env(ms_extract(split[x[I]], &x[J], '\"'), tdata), 0));
 			else if (split[x[I]][x[J]] == '\'')
 				ms_starlab(&strl, ms_starlnew(ms_extract(split[x[I]], &x[J], '\''), 0));
+        }
 		free(split[x[I]]);
 		split[x[I]] = w_expand(ms_starjoin(&strl), denv);
 		ms_starclear(&strl);
@@ -209,7 +225,7 @@ char	**ft_splitm(char *str, t_tok *tdata, t_env *denv)
 	wc = count_words(str);
 	// printf("STR = %s, WC = %d\n", str, wc);
 	// printf("SQ = %d, DQ = %d\n", quotes[0], quotes[1]);
-	printf("WC = %d\n", wc);
+	// printf("WC = %d\n", wc);
 	split = (char **) ft_calloc(count_words(str) + 1, sizeof(char *));
 	if (!split)
 	{
