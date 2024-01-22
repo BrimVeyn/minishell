@@ -6,7 +6,7 @@
 /*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/28 10:13:33 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/01/19 10:28:54 by nbardavi         ###   ########.fr       */
+/*   Updated: 2024/01/22 15:56:49 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ void init_d_pipe(t_pipe *d_pipe)
 	d_pipe->p_cpt = -1;
 	d_pipe->nbr_h = 0;
 	d_pipe->p_trig = 0;
+	d_pipe->h_i = 0;
 	d_pipe->old_stdin = dup(STDIN_FILENO);
 	d_pipe->old_stdout = dup(STDOUT_FILENO);
 	// d_pipe->heredoc = ft_calloc(1000, sizeof(int)); //TEMPORAIRE
