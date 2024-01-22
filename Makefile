@@ -25,7 +25,11 @@ SRC 			:= source/main.c source/prompt.c source/get_env.c \
 				   source/star_list/ms_starjoin.c \
 				   source/string_utils/ms_strtolower.c \
 				   source/string_utils/ms_findstar.c \
-				   source/misc/ms_setint.c
+				   source/string_utils/ms_strstrchr.c \
+				   source/string_utils/ms_isws.c \
+				   source/string_utils/ms_cut_at.c \
+				   source/misc/ms_setint.c \
+				   source/misc/ms_setchar.c
 
 OBJ 			:= $(SRC:source/%.c=objects/%.o)
 
