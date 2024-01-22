@@ -6,7 +6,7 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 10:49:15 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/01/22 13:04:14 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/01/22 14:52:38 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,7 +141,7 @@ char **add_args_to_cmd(char *input, t_tokh *v, t_tok *tdata, t_env *denv)
 	return (new);
 }
 
-char **add_here_to_cmd(char **token, char *input, t_tokh *v)
+char **add_here_to_cmd(char **token, char *input, t_tokh *v, t_tok *tdata)
 {
 	char	**to_add;
 	char	**new;
@@ -164,10 +164,12 @@ char **add_here_to_cmd(char **token, char *input, t_tokh *v)
 	// 	ft_printf("to_add[%d] = %fs\n", j, new[j]);
 	free_tab(token);
 	free_tab(to_add);
-	if (v->k == 0)
-    {
-		fd_printf(2, "minishell: syntax error near unexpected token `newline'\n");
-    }
+	(void) tdata;
+	// if (v->k == 0)
+ //    {
+	// 	t_heredoc(tdata, 0);
+	// 	fd_printf(2, "minishell: syntax error near unexpected token `newline'\n");
+ //    }
 	return (new);
 }
 
@@ -256,7 +258,7 @@ void fill_token(char *input, t_tok *tdata, t_env *denv)
 		{
 			v.l = f_lcmd_index(tdata, v.j);
 			// printf("HOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO\n");
-			tdata->tokens[v.l] = add_here_to_cmd(tdata->tokens[v.l] ,input, &v);
+			tdata->tokens[v.l] = add_here_to_cmd(tdata->tokens[v.l] ,input, &v, tdata);
 			tdata->tokens[v.l] = add_args_to_cmd(input, &v, tdata, denv);
 		}
 	}
@@ -509,6 +511,20 @@ int	quotes_position_check(t_tok *tdata)
 	return (TRUE);
 }
 
+char *fill_heredoc(char *input, t_tok tdata)
+{
+	char const *backn = ft_strchr(input, '\n');
+
+	if (!backn)
+		return (input);
+	tdata.heredoc = ft_split(backn, '\n');
+	for(int i = 0; tdata.heredoc[i]; i++)
+		printf("HEREDOC[%d] = %s\n", i, tdata.heredoc[i]);
+	input = ms_cut_at(input, '\n');	
+	return (input);
+}
+
+
 t_tok	parse_input(char *input, t_env *denv)
 {
 	t_tok	tdata;
@@ -516,6 +532,7 @@ t_tok	parse_input(char *input, t_env *denv)
 	// ft_printf("IN_PARSE\n");
 	// ms_dprint(denv->flist);
 	tdata.t_size = count_tokens(input);
+	input = fill_heredoc(input, tdata);
 	if (tdata.t_size == ERROR)
 		return (tdata);
 	tdata = init_tok(tdata.t_size);

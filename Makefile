@@ -2,7 +2,7 @@ NAME			:= minishell
 
 LIBFT			:= libftprintf/libftprintf.a
 CC 				:= cc
-LDFLAGS			:= -lreadline -lncurses
+LDFLAGS			:= -lreadline -lncurses -fsanitize=address
 CFLAGS 			:= -Wall -Wextra -Werror -g
 SRC 			:= source/main.c source/prompt.c source/get_env.c \
 				   source/free.c source/parse.c source/ms_h_lst.c \
@@ -27,6 +27,7 @@ SRC 			:= source/main.c source/prompt.c source/get_env.c \
 				   source/string_utils/ms_findstar.c \
 				   source/string_utils/ms_strstrchr.c \
 				   source/string_utils/ms_isws.c \
+				   source/string_utils/ms_cut_at.c \
 				   source/misc/ms_setint.c \
 				   source/misc/ms_setchar.c
 
