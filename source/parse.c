@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
+/*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 10:49:15 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/01/22 16:21:36 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/01/22 16:34:47 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -587,10 +587,10 @@ t_tok	parse_input(char *input, t_env *denv)
 	// ft_printf("IN_PARSE\n");
 	// ms_dprint(denv->flist);
 	tdata.t_size = count_tokens(input);
-	input = fill_heredoc(input, tdata);
 	if (tdata.t_size == ERROR)
 		return (tdata);
 	tdata = init_tok(tdata.t_size);
+	input = fill_heredoc(input, tdata);
 	printf("Token count : %d\n", tdata.t_size);
 	fill_token(input, &tdata, denv);
 	// ft_printf("Quote position error : %d\n", quotes_position_check(&tdata));

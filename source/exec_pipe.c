@@ -6,7 +6,7 @@
 /*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/26 15:06:31 by nbardavi          #+#    #+#             */
-/*   Updated: 2024/01/22 16:19:58 by nbardavi         ###   ########.fr       */
+/*   Updated: 2024/01/22 16:35:40 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,16 +128,16 @@ char *heredoc(t_pipe *d_pipe, t_tok *d_token, t_env *denv, int *i)
 	f_name = ft_sprintf("%fs%d", ".temp_heredoc", d_pipe->nbr_h++);
 	d_pipe->heredoc = open(f_name, O_WRONLY | O_CREAT, 0644);
 	save = ft_strdup("");
-	ft_printf("%fs", d_token->heredoc[0]);
-	// while(d_token->heredoc[d_pipe->h_i])
-	// {
-	// 	if (ft_strcmp(d_token->heredoc[d_pipe->h_i], limiter) == 0)
-	// 	{
-	// 		trigger = 1;
-	// 		break;
-	// 	}
-	// 	fd_printf(d_pipe->heredoc, "%fs", d_token->heredoc[d_pipe->h_i++]);
-	// }
+	while(d_token->heredoc && d_token->heredoc[d_pipe->h_i])
+	{
+		if (ft_strcmp(d_token->heredoc[d_pipe->h_i], limiter) == 0)
+		{
+			trigger = 1;
+			break;
+		}
+		ft_printf("%fs", d_token->heredoc[d_pipe->h_i]);
+		fd_printf(d_pipe->heredoc, "%fs", d_token->heredoc[d_pipe->h_i++]);
+	}
 	while(1 && trigger != 1)
 	{
 		input = readline("> ");
