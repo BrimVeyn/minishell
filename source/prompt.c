@@ -6,7 +6,7 @@
 /*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/23 16:11:18 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/01/19 08:46:04 by nbardavi         ###   ########.fr       */
+/*   Updated: 2024/01/22 16:06:32 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,7 +138,7 @@ void	prompt(t_env *denv)
 				free_tdata(&d_token);
 		}
 		i++;
-		free(input);
+		// free(input); //Ce free c'est un gros fdp
 	}
 	ms_free_env(denv);
 	free(input);
