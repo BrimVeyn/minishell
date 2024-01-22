@@ -6,7 +6,7 @@
 /*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/26 15:06:31 by nbardavi          #+#    #+#             */
-/*   Updated: 2024/01/22 16:35:40 by nbardavi         ###   ########.fr       */
+/*   Updated: 2024/01/22 16:45:56 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,7 +135,7 @@ char *heredoc(t_pipe *d_pipe, t_tok *d_token, t_env *denv, int *i)
 			trigger = 1;
 			break;
 		}
-		ft_printf("%fs", d_token->heredoc[d_pipe->h_i]);
+		save = ft_sprintf("%s%fs\n", save, d_token->heredoc[d_pipe->h_i]);
 		fd_printf(d_pipe->heredoc, "%fs", d_token->heredoc[d_pipe->h_i++]);
 	}
 	while(1 && trigger != 1)
