@@ -6,7 +6,7 @@
 /*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/26 15:06:31 by nbardavi          #+#    #+#             */
-/*   Updated: 2024/01/22 14:59:11 by nbardavi         ###   ########.fr       */
+/*   Updated: 2024/01/22 16:19:58 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,18 +58,25 @@ char *h_before(t_pipe *d_pipe, t_tok *d_token, t_env *denv, int *i)
 	char	*limiter;
 	char	*sasave;
 	int		cpt;
-	
+	int		trigger;
+
+	trigger = 0;
 	cpt = 1;
 	limiter = d_token->tokens[*i + 1][0];
 	cut_here(d_token, i);
 	f_name = ft_sprintf("%fs%d", ".temp_heredoc", d_pipe->nbr_h++);
 	d_pipe->heredoc = open(f_name, O_WRONLY | O_CREAT, 0644);
 	save = ft_strdup("");
-	// while(d_token->heredoc[d_pipe->h_i])
-	// {
-	// 	
-	// }
-	while(1)
+	while(d_token->heredoc[d_pipe->h_i])
+	{
+		if (ft_strcmp(d_token->heredoc[d_pipe->h_i], limiter) == 0)
+		{
+			trigger = 1;
+			break;
+		}
+		fd_printf(d_pipe->heredoc, "%fs", d_token->heredoc[d_pipe->h_i++]);
+	}
+	while(1 && trigger != 1)
 	{
 		input = readline("> ");
 		if (input == NULL)
@@ -94,6 +101,16 @@ char *h_before(t_pipe *d_pipe, t_tok *d_token, t_env *denv, int *i)
 	return (f_name);
 }
 
+void print_tokens(t_tok *d_token)
+{
+    for (int i = 0; d_token->tokens[i]; i++)
+    {
+        ft_printf("S->TYPE[%d] = %d\n", i, d_token->type[i]);
+        for (int j = 0; d_token->tokens[i][j]; j++)
+            ft_printf("S[%d][%d] = %fs\n", i, j, d_token->tokens[i][j]);
+    }
+}
+
 char *heredoc(t_pipe *d_pipe, t_tok *d_token, t_env *denv, int *i)
 {
 	char	*input;
@@ -102,18 +119,26 @@ char *heredoc(t_pipe *d_pipe, t_tok *d_token, t_env *denv, int *i)
 	char	*limiter;
 	char	*sasave;
 	int		cpt;
-	
+	int		trigger;
+
+	trigger = 0;
 	cpt = 1;
 	limiter = d_token->tokens[*i][check_here(d_token->tokens, *i) + 1];
 	cut_here(d_token, i);
 	f_name = ft_sprintf("%fs%d", ".temp_heredoc", d_pipe->nbr_h++);
 	d_pipe->heredoc = open(f_name, O_WRONLY | O_CREAT, 0644);
 	save = ft_strdup("");
+	ft_printf("%fs", d_token->heredoc[0]);
 	// while(d_token->heredoc[d_pipe->h_i])
 	// {
-	// 	
+	// 	if (ft_strcmp(d_token->heredoc[d_pipe->h_i], limiter) == 0)
+	// 	{
+	// 		trigger = 1;
+	// 		break;
+	// 	}
+	// 	fd_printf(d_pipe->heredoc, "%fs", d_token->heredoc[d_pipe->h_i++]);
 	// }
-	while(1)
+	while(1 && trigger != 1)
 	{
 		input = readline("> ");
 		if (input == NULL)
