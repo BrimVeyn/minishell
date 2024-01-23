@@ -6,7 +6,7 @@
 /*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/26 15:06:31 by nbardavi          #+#    #+#             */
-/*   Updated: 2024/01/22 16:45:56 by nbardavi         ###   ########.fr       */
+/*   Updated: 2024/01/23 08:46:33 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -1011,6 +1011,8 @@ void ms_main_pipe(t_tok d_token, t_env *denv)
 	
 	ft_printf("%s== Return ==\n", ft_strdup(BLUE));
 	i = 0;
+	if (d_token.tokens == NULL)
+		return;
 	init_d_pipe(&d_pipe);
 	p_count(&d_token, &d_pipe);
 	while(i < d_token.t_size)
