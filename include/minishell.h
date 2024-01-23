@@ -6,7 +6,7 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/23 14:09:29 by nbardavi          #+#    #+#             */
-/*   Updated: 2024/01/23 08:43:06 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/01/23 09:21:44 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef MINISHELL_H
@@ -178,7 +178,7 @@ typedef struct s_tokh
 
 t_h_lst		*ms_lst_new(char *content);
 t_tok		parse_input(char *input, t_env *denv);
-t_tok		init_tok(int tokcount, char **heredoc);
+t_tok init_tok(int tokcount, char **heredoc);
 t_tokvar	init_tokvar(char *symbol, int type);
 t_tokh		init_tokh(void);
 void		init_d_pipe(t_pipe *d_pipe);
