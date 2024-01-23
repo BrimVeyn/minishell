@@ -1,21 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   built_in.c                                         :+:      :+:    :+:   */
+/*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
+/*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/19 12:53:17 by nbardavi          #+#    #+#             */
-/*   Updated: 2024/01/19 13:00:33 by nbardavi         ###   ########.fr       */
+/*   Created: 2024/01/23 10:13:18 by bvan-pae          #+#    #+#             */
+/*   Updated: 2024/01/23 10:13:28 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include"../include/minishell.h"
-
-void b_pwd(char *pwd)
-{
-	printf("%s\n", pwd);
-}
+#include "../../include/minishell.h"
 
 void b_env(char **env)
 {
@@ -24,9 +19,4 @@ void b_env(char **env)
 	i = 0;
 	while(env[i])
 		printf("%s\n", env[i++]);
-}
-
-void b_exit(t_pipe *d_pipe)
-{
-	d_pipe->t_exit = 1;
 }

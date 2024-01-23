@@ -28,6 +28,7 @@ SRC 			:= source/main.c source/prompt.c source/get_env.c \
 				   source/string_utils/ms_strstrchr.c \
 				   source/string_utils/ms_isws.c \
 				   source/string_utils/ms_cut_at.c \
+				   source/string_utils/ms_getenv.c \
 				   source/misc/ms_setint.c \
 				   source/misc/ms_setchar.c
 

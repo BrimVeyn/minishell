@@ -6,7 +6,7 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 16:23:00 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/01/22 16:23:16 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/01/23 11:05:41 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,14 +79,17 @@ char	*r_dollarquestion(char *split, int *i, t_tok *tdata)
 	return (split);
 }
 
-char *r_dollar(char *split, int *i, int start, int end)
+char *r_dollar(char *split, int *i, int start, t_env *denv)
 {
 	char *p1;
 	char *var;
 	char *p2;
+	const int end = *i;
 
 	p1 = ft_substr(split, 0, start - 1);
-	var = getenv(ft_substr(split, start, end - start));
+	var = ms_getenv(ft_substr(split, start, end - start), denv);
+	// (void) denv;
+	// var = getenv(ft_substr(split, start, end - start));
 	p2 = ft_substr(split, end, (ft_strlen(split) - end));
 	*i = ft_strlen(split) - ft_strlen(p2);
 	if (!var)
@@ -96,7 +99,7 @@ char *r_dollar(char *split, int *i, int start, int end)
 	return (split);
 }
 
-char *r_env(char *split, t_tok *tdata)
+char *r_env(char *split, t_tok *tdata, t_env *denv)
 {
 	int	i;
 	int start;
@@ -113,7 +116,7 @@ char *r_env(char *split, t_tok *tdata)
 			start = i;
 			while (split[i] && ms_strstrchr(split[i], "\'$* ") == TRUE)
 				i++;
-			split = r_dollar(split, &i, start, i);
+			split = r_dollar(split, &i, start, denv);
 		}
 		i++;
 	}
@@ -193,9 +196,9 @@ void transform_split(char **split, t_tok *tdata, t_env *denv)
         {
 			// ft_printf("J === %d, char = %c\n", x[J], split[x[I]][x[J]]);
 			if (split[x[I]][x[J]] != '\'' && split[x[I]][x[J]] != '\"')
-				ms_starlab(&strl, ms_starlnew(r_env(ms_extract(split[x[I]], &x[J], ZERO), tdata), 0));
+				ms_starlab(&strl, ms_starlnew(r_env(ms_extract(split[x[I]], &x[J], ZERO), tdata, denv), 0));
 			else if (split[x[I]][x[J]] == '\"')
-				ms_starlab(&strl, ms_starlnew(r_env(ms_extract(split[x[I]], &x[J], '\"'), tdata), 0));
+				ms_starlab(&strl, ms_starlnew(r_env(ms_extract(split[x[I]], &x[J], '\"'), tdata, denv), 0));
 			else if (split[x[I]][x[J]] == '\'')
 				ms_starlab(&strl, ms_starlnew(ms_extract(split[x[I]], &x[J], '\''), 0));
         }
