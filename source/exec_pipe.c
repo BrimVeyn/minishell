@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_pipe.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
+/*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/26 15:06:31 by nbardavi          #+#    #+#             */
-/*   Updated: 2024/01/23 09:28:53 by nbardavi         ###   ########.fr       */
+/*   Updated: 2024/01/23 13:05:37 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,13 +37,26 @@ char *ms_getlast(t_env *denv)
 	return (lst->content);
 }
 
+void print_history(t_env *denv)
+{
+	t_h_lst *lst;
+
+	lst = denv->history;
+	while(lst != NULL)
+	{
+		ft_printf("content: %fs\n", lst->content);
+		lst = lst->next;
+		ft_printf("=======\n");
+	}
+}
+
 void reset_history(t_env *denv)
 {
 	t_h_lst *lst;
 
 	lst = denv->history;
 	rl_clear_history();
-	while(lst->next != NULL)
+	while(lst != NULL)
 	{
 		add_history(lst->content);
 		lst = lst->next;
@@ -65,17 +78,16 @@ char *h_before(t_pipe *d_pipe, t_tok *d_token, t_env *denv, int *i)
 	limiter = d_token->tokens[*i + 1][0];
 	cut_here(d_token, i);
 	f_name = ft_sprintf("%fs%d", ".temp_heredoc", d_pipe->nbr_h++);
-	d_pipe->heredoc = open(f_name, O_WRONLY | O_CREAT, 0644);
+	d_pipe->heredoc = open(f_name, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	save = ft_strdup("");
-
-	while(d_token->heredoc[d_pipe->h_i])
+	while(d_token->heredoc && d_token->heredoc[d_pipe->h_i])
 	{
 		if (ft_strcmp(d_token->heredoc[d_pipe->h_i], limiter) == 0)
 		{
 			trigger = 1;
 			break;
-		}
-		fd_printf(d_pipe->heredoc, "%fs", d_token->heredoc[d_pipe->h_i++]);
+		}	
+		save = ft_sprintf("%s%fs\n", save, d_token->heredoc[d_pipe->h_i++]);
 	}
 	while(1 && trigger != 1)
 	{
@@ -91,9 +103,16 @@ char *h_before(t_pipe *d_pipe, t_tok *d_token, t_env *denv, int *i)
 		save = ft_sprintf("%s%s\n", save, input);
 	}
 	sasave = ft_strdup(save);
-	save = ft_sprintf("%fs\n%s%fs", ms_getlast(denv), save, limiter);
-	ms_lst_b(&denv->history, ms_lst_new(save));
+	if (trigger == 0)
+		save = ft_sprintf("%fs\n%s%fs", ms_getlast(denv), save, limiter);
+	else
+	{
+		save = ft_sprintf("%fs", ms_getlast(denv));
+		ft_printf("Save trigger = 1: %fs\n", save);
+	}
+	ms_lst_b(&denv->history, ms_lst_new(ft_strdup(save)));
 	reset_history(denv);
+	ft_printf("Sasave : %fs\n", sasave);
 	fd_printf(d_pipe->heredoc, "%s", sasave);
 	add_history(save);
 	ft_printf("%fs\n", "===============");
@@ -112,6 +131,7 @@ void print_tokens(t_tok *d_token)
     }
 }
 
+
 char *heredoc(t_pipe *d_pipe, t_tok *d_token, t_env *denv, int *i)
 {
 	char	*input;
@@ -127,21 +147,16 @@ char *heredoc(t_pipe *d_pipe, t_tok *d_token, t_env *denv, int *i)
 	limiter = d_token->tokens[*i][check_here(d_token->tokens, *i) + 1];
 	cut_here(d_token, i);
 	f_name = ft_sprintf("%fs%d", ".temp_heredoc", d_pipe->nbr_h++);
-	d_pipe->heredoc = open(f_name, O_WRONLY | O_CREAT, 0644);
-	ft_printf("last history: %fs\n", ms_getlast(denv));
-	if (d_token->heredoc)
-		save = ms_getlast(denv);
-	else
-		save = ft_strdup("");
+	d_pipe->heredoc = open(f_name, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	save = ft_strdup("");
 	while(d_token->heredoc && d_token->heredoc[d_pipe->h_i])
 	{
 		if (ft_strcmp(d_token->heredoc[d_pipe->h_i], limiter) == 0)
 		{
 			trigger = 1;
 			break;
-		}
-		// save = ft_sprintf("%s%fs\n", save, d_token->heredoc[d_pipe->h_i]);
-		fd_printf(d_pipe->heredoc, "%fs", d_token->heredoc[d_pipe->h_i++]);
+		}	
+		save = ft_sprintf("%s%fs\n", save, d_token->heredoc[d_pipe->h_i++]);
 	}
 	while(1 && trigger != 1)
 	{
@@ -157,9 +172,16 @@ char *heredoc(t_pipe *d_pipe, t_tok *d_token, t_env *denv, int *i)
 		save = ft_sprintf("%s%s\n", save, input);
 	}
 	sasave = ft_strdup(save);
-	save = ft_sprintf("%fs\n%s%fs", ms_getlast(denv), save, limiter);
-	ms_lst_b(&denv->history, ms_lst_new(save));
+	if (trigger == 0)
+		save = ft_sprintf("%fs\n%s%fs", ms_getlast(denv), save, limiter);
+	else
+	{
+		save = ft_sprintf("%fs", ms_getlast(denv));
+		ft_printf("Save trigger = 1: %fs\n", save);
+	}
+	ms_lst_b(&denv->history, ms_lst_new(ft_strdup(save)));
 	reset_history(denv);
+	ft_printf("Sasave : %fs\n", sasave);
 	fd_printf(d_pipe->heredoc, "%s", sasave);
 	add_history(save);
 	ft_printf("%fs\n", "===============");
@@ -786,6 +808,24 @@ void ms_place_h(t_tok *d_token, char *f_name, int i)
 	d_token->tokens[i + 2] = u_char;
 }
 
+// void b_parse(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
+// {
+	// if (ft_strcmp(d_token->tokens[*i][0], "echo"))
+	// 	b_echo();
+	// if (ft_strcmp(d_token->tokens[*i][0], "env"))
+	// 	b_env();
+	// if (ft_strcmp(d_token->tokens[*i][0], "export"))
+	// 	b_export();
+	// if (ft_strcmp(d_token->tokens[*i][0], "unset"))
+	// 	b_unset();
+	// if (ft_strcmp(d_token->tokens[*i][0], "pwd"))
+	// 	b_pwd();
+	// if (ft_strcmp(d_token->tokens[*i][0], "cd"))
+	// 	b_cd();
+	// if (ft_strcmp(d_token->tokens[*i][0], "exit"))
+	// 	b_exit();
+// }
+
 void parse_type(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
 {
 	int j;
@@ -793,7 +833,13 @@ void parse_type(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
 
 	// ft_printf("i nbr:%d\n", *i);
 	p_here = check_here(d_token->tokens, *i);
-	
+	// p_redi = check_redi(d_token->tokens, *i);
+
+	// if (d_token->type[*i] == BUILTIN)
+	// {
+	// 	b_parse(d_token, d_pipe, denv, i);
+	// 	(*i)++;
+	// }
 	if (d_token->type[*i] == D_AL)
 	{
 		if (d_token->type[*i + 2] == CMD && d_token->t_size > 2)
@@ -808,8 +854,9 @@ void parse_type(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
 	}
 	if (d_token->type[*i] == S_AL)
 	{
-		if (access(d_token->tokens[*i + 1][0], F_OK) != 0 && access(d_token->tokens[*i + 1][0], X_OK) != 0)
+		// if (access(d_token->tokens[*i + 1][0], F_OK) != 0 && access(d_token->tokens[*i + 1][0], X_OK) != 0)
 			// exit_file(); // A FAIRE
+		ft_printf("hello\n");
 		d_pipe->input = open(d_token->tokens[*i + 1][0], O_RDONLY);
 	}
 
@@ -831,7 +878,7 @@ void parse_type(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
 			// 	dup2(d_pipe->input, STDIN_FILENO);
 			// 	j += 2;
 			// }
-			while(*i + j < d_token->t_size && (d_token->type[*i + 1 + j] == S_AR || d_token->type[*i + 1 + j] == S_AL || d_token->type[*i + 1 + j] == D_AR))
+			while(*i + j < d_token->t_size && (d_token->type[*i + 1 + j] == S_AR || d_token->type[*i + 1 + j] == D_AR))
 			{
 				if (d_token->type[*i + 1 + j] == S_AR)
 				{
@@ -841,14 +888,6 @@ void parse_type(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
 					dup2(d_pipe->output, STDOUT_FILENO);
 					close(d_pipe->output);
 					j +=2;
-				}
-				if (d_token->type[*i + 1 + j] == S_AL)
-				{
-					d_pipe->input = open(d_token->tokens[*i + 2 + j][0], O_RDONLY);
-					if (d_pipe->input == -1)
-						perror("Error: ");
-					dup2(d_pipe->input, STDIN_FILENO);
-					j += 2;
 				}
 				if (d_token->type[*i + 1 + j] == D_AR)
 				{	
@@ -941,12 +980,11 @@ void parse_type(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
 			// write(1, "SKIP OR\n", 9);
 		}
 	}
-	//if (d_token->type[i] == )
+	// if (d_token->type[i] == )
 	// {i
 	// 	if (access(d->token[i + 1][0], F_OK) != 0 && access(d->token[i + 1][0], X_OK) != 0)
 	// 		exit_file();
 	// 	d_pipe->output = open(d->token[i + 1][0], O_WRONLY);
-	// 
 }
 
 void p_count(t_tok *d_token, t_pipe *d_pipe)
