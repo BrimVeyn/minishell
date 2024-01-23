@@ -6,7 +6,7 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 16:40:08 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/01/22 16:40:42 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/01/23 08:47:03 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -488,15 +488,15 @@ int	quotes_position_check(t_tok *tdata)
 	return (TRUE);
 }
 
-char *fill_heredoc(char *input, t_tok *tdata)
+char *fill_heredoc(char *input, char **heredoc)
 {
 	char const *backn = ft_strchr(input, '\n');
 
 	if (!backn)
 		return (input);
-	tdata->heredoc = ft_split(backn, '\n');
-	for(int i = 0; tdata->heredoc[i]; i++)
-		printf("HEREDOC[%d] = %s\n", i, tdata->heredoc[i]);
+	heredoc = ft_split(backn, '\n');
+	// for(int i = 0; heredoc[i]; i++)
+	// 	printf("HEREDOC[%d] = %s\n", i, heredoc[i]);
 	input = ms_cut_at(input, '\n');	
 	return (input);
 }
@@ -584,14 +584,16 @@ int	missing_delimiter_check(t_tok *tdata)
 t_tok	parse_input(char *input, t_env *denv)
 {
 	t_tok	tdata;
+	char	**heredoc;
 
 	// ft_printf("IN_PARSE\n");
 	// ms_dprint(denv->flist);
+	heredoc = NULL;
+	input = fill_heredoc(input, heredoc);
 	tdata.t_size = count_tokens(input);
 	if (tdata.t_size == ERROR)
 		return (tdata);
-	tdata = init_tok(tdata.t_size);
-	input = fill_heredoc(input, &tdata);
+	tdata = init_tok(tdata.t_size, heredoc);
 	printf("Token count : %d\n", tdata.t_size);
 	fill_token(input, &tdata, denv);
 	// ft_printf("Quote position error : %d\n", quotes_position_check(&tdata));
