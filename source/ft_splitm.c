@@ -6,7 +6,7 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 16:23:00 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/01/23 11:05:41 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/01/23 14:55:47 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,7 +114,7 @@ char *r_env(char *split, t_tok *tdata, t_env *denv)
 			if (split[i + 1])
 				i++;
 			start = i;
-			while (split[i] && ms_strstrchr(split[i], "\'$* ") == TRUE)
+			while (split[i] && ms_strstrchr(split[i], "\'$* =") == TRUE)
 				i++;
 			split = r_dollar(split, &i, start, denv);
 		}
@@ -235,6 +235,8 @@ char	**ft_splitm(char *str, t_tok *tdata, t_env *denv)
 		return (dupdup());
 	}
 	fill_split(split, str);
+	for(int i = 0; split[i]; i++)
+		printf("SPLIT[%d] = %s\n", i, split[i]);
 	transform_split(split, tdata, denv);
 	// for(int k = 0; split[k]; k++)
 	// 	printf("STR[%d] %s\n", k, split[k]);

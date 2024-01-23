@@ -6,7 +6,7 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/23 14:09:29 by nbardavi          #+#    #+#             */
-/*   Updated: 2024/01/23 10:50:17 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/01/23 15:56:04 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef MINISHELL_H
@@ -218,7 +218,7 @@ char		*ms_starjoin(t_starlist **slist);
 char		**ms_dupdup(char **environ);
 char		**ms_joinstarstar(char **p1, char **p2);
 char		**ft_splitm(char *str, t_tok *tdata, t_env *denv);
-char		**join_tab(char **tab, char *entry);
+char		**ms_join_tab(char **tab, char *str);
 char		*get_pwd(t_env *data);
 char		*get_path(t_env *data);
 char		*get_usr(t_env *data);
@@ -241,7 +241,15 @@ void ms_setint(int *i, int value);
 void ms_setchar(char *c, int value);
 
 /*_.-=-._.-=-._.-=-._.-=-._.--._.-=-._.--._.-=-._.-=-._.-=-._.-=-._.-=-._*/
+/*_.-=-._.-=-._.-=-._.-=-._.- BUILTIN -._.-=-._.-=-._.-=-._.-=-._.-=-._*/
 
+
+void	b_export(char **args, t_env *denv);
+void	b_unset(char **args, t_env *denv);
+int		var_exist(char *var, t_env *denv);
+void	b_env(t_env *denv);
+
+/*_.-=-._.-=-._.-=-._.-=-._.--._.-=-._.--._.-=-._.-=-._.-=-._.-=-._.-=-._*/
 // Pas touche
 void	ms_free_env(t_env *denv);
 void t_heredoc(t_tok *d_token, int *i, char *limiter);

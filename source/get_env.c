@@ -6,7 +6,7 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/23 14:22:29 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/01/18 09:32:18 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/01/23 16:24:07 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ char *get_pwd(t_env *denv)
 	denv->pwd = NULL;
 	free(denv->pwd);
 	i = 0;
-	while (ft_strncmp(denv->f_env[i], "PWD=", 4) != 0)
+	while (ft_strlen(denv->f_env[i]) >= 4 && ft_strncmp(denv->f_env[i], "PWD=", 4) != 0)
 		i++;
 	denv->pwd = ft_substr(denv->f_env[i], 4, ft_strlen(denv->f_env[i]) - 4);
 	return (denv->pwd);
@@ -32,7 +32,7 @@ char *get_path(t_env *denv)
 	denv->path = NULL;
 	free(denv->path);
 	i = 0;
-	while (ft_strncmp(denv->f_env[i], "PATH=", 5) != 0)
+	while (ft_strlen(denv->f_env[i]) >= 5 && ft_strncmp(denv->f_env[i], "PATH=", 5) != 0)
 		i++;
 	denv->path = ft_substr(denv->f_env[i], 5, ft_strlen(denv->f_env[i]) - 5);
 	return (denv->path);
@@ -45,7 +45,7 @@ char *get_usr(t_env *denv)
 	denv->usr = NULL;
 	free(denv->usr);
 	i = 0;
-	while (ft_strncmp(denv->f_env[i], "USER=", 5) != 0)
+	while (ft_strlen(denv->f_env[i]) >= 5 && ft_strncmp(denv->f_env[i], "USER=", 5) != 0)
 		i++;
 	denv->usr = ft_substr(denv->f_env[i], 5, ft_strlen(denv->f_env[i]) - 5);
 	return (denv->usr);
@@ -70,8 +70,8 @@ t_env *update_env(t_env *denv)
 {
 	extern char **environ;
 
-	free_tab(denv->f_env);
-	denv->f_env = ms_dupdup(environ);
+	// free_tab(denv->f_env);
+	// denv->f_env = ms_dupdup(environ);
 	free(denv->usr);
 	denv->usr = get_usr(denv);
 	free(denv->pwd);

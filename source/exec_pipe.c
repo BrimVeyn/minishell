@@ -6,7 +6,7 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/26 15:06:31 by nbardavi          #+#    #+#             */
-/*   Updated: 2024/01/23 13:05:37 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/01/23 15:59:50 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -808,23 +808,24 @@ void ms_place_h(t_tok *d_token, char *f_name, int i)
 	d_token->tokens[i + 2] = u_char;
 }
 
-// void b_parse(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
-// {
+void b_parse(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
+{
+	(void) d_pipe;
 	// if (ft_strcmp(d_token->tokens[*i][0], "echo"))
 	// 	b_echo();
-	// if (ft_strcmp(d_token->tokens[*i][0], "env"))
-	// 	b_env();
-	// if (ft_strcmp(d_token->tokens[*i][0], "export"))
-	// 	b_export();
-	// if (ft_strcmp(d_token->tokens[*i][0], "unset"))
-	// 	b_unset();
+	if (!ft_strcmp(d_token->tokens[*i][0], "env"))
+		b_env(denv);
+	if (!ft_strcmp(d_token->tokens[*i][0], "export"))
+		b_export(d_token->tokens[*i], denv);
+	if (!ft_strcmp(d_token->tokens[*i][0], "unset"))
+		b_unset(d_token->tokens[*i], denv);
 	// if (ft_strcmp(d_token->tokens[*i][0], "pwd"))
 	// 	b_pwd();
 	// if (ft_strcmp(d_token->tokens[*i][0], "cd"))
 	// 	b_cd();
 	// if (ft_strcmp(d_token->tokens[*i][0], "exit"))
 	// 	b_exit();
-// }
+}
 
 void parse_type(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
 {
@@ -835,11 +836,11 @@ void parse_type(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
 	p_here = check_here(d_token->tokens, *i);
 	// p_redi = check_redi(d_token->tokens, *i);
 
-	// if (d_token->type[*i] == BUILTIN)
-	// {
-	// 	b_parse(d_token, d_pipe, denv, i);
-	// 	(*i)++;
-	// }
+	if (d_token->type[*i] == BUILTIN)
+	{
+		b_parse(d_token, d_pipe, denv, i);
+		// (*i)++;
+	}
 	if (d_token->type[*i] == D_AL)
 	{
 		if (d_token->type[*i + 2] == CMD && d_token->t_size > 2)

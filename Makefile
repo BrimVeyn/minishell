@@ -29,6 +29,10 @@ SRC 			:= source/main.c source/prompt.c source/get_env.c \
 				   source/string_utils/ms_isws.c \
 				   source/string_utils/ms_cut_at.c \
 				   source/string_utils/ms_getenv.c \
+				   source/string_utils/ms_join_tab.c \
+				   source/builtins/unset.c \
+				   source/builtins/export.c \
+				   source/builtins/env.c \
 				   source/misc/ms_setint.c \
 				   source/misc/ms_setchar.c
 
@@ -39,6 +43,7 @@ DOUBLE_DIR		:= double_linked_list
 STRING_DIR		:= string_utils
 STAR_DIR		:= star_list
 MISC_DIR		:= misc
+BUILTINS		:= builtins
 
 DEF_COLOR		:= \033[0;39m
 GRAY			:= \033[0;90m
@@ -75,7 +80,8 @@ fclean: clean
 	@printf "$(RED)Binary deleted !$(DEF_COLOR)\n"
 
 $(OBJDIR):
-	@mkdir -p $(OBJDIR) $(OBJDIR)/$(STAR_DIR) $(OBJDIR)/$(DOUBLE_DIR) $(OBJDIR)/$(STRING_DIR) $(OBJDIR)/$(MISC_DIR) 
+	@mkdir -p $(OBJDIR) $(OBJDIR)/$(STAR_DIR) $(OBJDIR)/$(DOUBLE_DIR) $(OBJDIR)/$(STRING_DIR) $(OBJDIR)/$(MISC_DIR) $(OBJDIR)/$(BUILTINS) 
+
 
 $(LIBFT) :
 	@make --no-print-directory -C libftprintf/
