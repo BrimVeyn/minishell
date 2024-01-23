@@ -5,10 +5,11 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/23 14:09:29 by nbardavi          #+#    #+#             */
-/*   Updated: 2024/01/23 15:56:04 by bvan-pae         ###   ########.fr       */
+/*   Created: 2024/01/23 16:25:44 by bvan-pae          #+#    #+#             */
+/*   Updated: 2024/01/23 16:26:15 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
@@ -235,6 +236,7 @@ char		*ms_cut_at(char *input, char c);
 char		*ms_getenv(char *var, t_env *denv);
 
 
+int ft_strlenlen(char **str);
 /*_.-=-._.-=-._.-=-._.-=-._.- MISC -._.-=-._.-=-._.-=-._.-=-._.-=-._*/
 
 void ms_setint(int *i, int value);
@@ -248,6 +250,7 @@ void	b_export(char **args, t_env *denv);
 void	b_unset(char **args, t_env *denv);
 int		var_exist(char *var, t_env *denv);
 void	b_env(t_env *denv);
+void	b_exit(t_pipe *d_pipe, char **args);
 
 /*_.-=-._.-=-._.-=-._.-=-._.--._.-=-._.--._.-=-._.-=-._.-=-._.-=-._.-=-._*/
 // Pas touche
@@ -260,7 +263,7 @@ void		init_sig();
 void		prompt(t_env *env);
 t_env		*update_env(t_env *denv);
 void		ms_lst_b(t_h_lst **lst, t_h_lst *newlst);
-void		ms_main_pipe(t_tok d_token, t_env *denv);
+int			ms_main_pipe(t_tok d_token, t_env *denv);
 void		ms_add_path(t_tok *tdata, t_env *denv);
 
 void		free_tab(char **tab);
