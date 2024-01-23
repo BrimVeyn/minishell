@@ -1,22 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env.c                                              :+:      :+:    :+:   */
+/*   ms_join_tab.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/23 10:13:18 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/01/23 13:49:55 by bvan-pae         ###   ########.fr       */
+/*   Created: 2024/01/23 15:24:43 by bvan-pae          #+#    #+#             */
+/*   Updated: 2024/01/23 15:25:20 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-void b_env(t_env *denv)
+char **ms_join_tab(char **tab, char *str)
 {
+	char **new;
 	int	i;
 
-	i = 0;
-	while(denv->f_env[i])
-		printf("%s\n", denv->f_env[i++]);
+	i = -1;
+	new = ft_calloc(ms_tablen(tab) + 2, sizeof(char *));
+	while (tab[++i])
+		new[i] = ft_strdup(tab[i]);
+	new[i] = ft_strdup(str);
+	// free_tab(tab);
+	return (new);
 }
