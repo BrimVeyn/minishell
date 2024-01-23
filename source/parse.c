@@ -6,7 +6,7 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 16:40:08 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/01/23 09:30:37 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/01/23 09:43:42 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -598,12 +598,12 @@ t_tok	parse_input(char *input, t_env *denv)
 	if (quotes_position_check(&tdata) == ERROR)
 	{
 		tdata.type[0] = ERROR;
-		for (int i = 0; tdata.tokens[i]; i++)
-		{
-			printf("S->TYPE[%d] = %d\n", i, tdata.type[i]);
-			for (int j = 0; tdata.tokens[i][j]; j++)
-				printf("S[%d][%d] = %s\n", i, j, tdata.tokens[i][j]);
-		}
+		// for (int i = 0; tdata.tokens[i]; i++)
+		// {
+		// 	printf("S->TYPE[%d] = %d\n", i, tdata.type[i]);
+		// 	for (int j = 0; tdata.tokens[i][j]; j++)
+		// 		printf("S[%d][%d] = %s\n", i, j, tdata.tokens[i][j]);
+		// }
 		return (tdata);
 	}
 	ms_add_path(&tdata, denv);

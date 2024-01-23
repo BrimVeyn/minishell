@@ -6,7 +6,7 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/28 09:31:25 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/01/19 10:37:04 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/01/23 10:12:53 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,19 @@ int	filetype(char *path)
 		// printf("%s est un type de fichier non pris en charge.\n", path);
 	}
 }
+
+int	ms_check_builtin(char *cmd)
+{
+	if (!ft_strcmp(cmd, "echo") ||
+		!ft_strcmp(cmd, "cd") ||
+		!ft_strcmp(cmd, "export") ||
+		!ft_strcmp(cmd, "unset") ||
+		!ft_strcmp(cmd, "env") ||
+		!ft_strcmp(cmd, "exit"))
+		return (TRUE);
+	return (ERROR);
+}
+
 
 char	*join_path(char *cmd, t_env *denv)
 {
@@ -73,9 +86,14 @@ void	ms_add_path(t_tok *tdata, t_env *denv)
 	{
 		if (tdata->type[i] == CMD)
         {
-			tdata->tokens[i][0] = join_path(tdata->tokens[i][0], denv);
-			if (!ft_strncmp(tdata->tokens[i][0], "WRONG", 5))
-				tdata->type[i] = WRONG;
+			if (ms_check_builtin(tdata->tokens[i][0]) == TRUE)
+				tdata->type[i] = BUILTIN;
+			else 
+            {
+				tdata->tokens[i][0] = join_path(tdata->tokens[i][0], denv);
+				if (!ft_strncmp(tdata->tokens[i][0], "WRONG", 5))
+					tdata->type[i] = WRONG;
+            }
         }
 		i++;
 	}
