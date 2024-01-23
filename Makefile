@@ -2,8 +2,8 @@ NAME			:= minishell
 
 LIBFT			:= libftprintf/libftprintf.a
 CC 				:= cc
-LDFLAGS			:= -lreadline -lncurses
-CFLAGS 			:= -Wall -Wextra -Werror -g3
+LDFLAGS			:= -lreadline -lncurses -fsanitize=address
+CFLAGS 			:= -Wall -Wextra -Werror -g
 SRC 			:= source/main.c source/prompt.c source/get_env.c \
 				   source/free.c source/parse.c source/ms_h_lst.c \
 				   source/exec_pipe.c source/path_parse.c source/inits.c \
