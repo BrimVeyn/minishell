@@ -6,7 +6,7 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 16:40:08 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/01/23 08:47:03 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/01/23 09:30:37 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -488,18 +488,7 @@ int	quotes_position_check(t_tok *tdata)
 	return (TRUE);
 }
 
-char *fill_heredoc(char *input, char **heredoc)
-{
-	char const *backn = ft_strchr(input, '\n');
 
-	if (!backn)
-		return (input);
-	heredoc = ft_split(backn, '\n');
-	// for(int i = 0; heredoc[i]; i++)
-	// 	printf("HEREDOC[%d] = %s\n", i, heredoc[i]);
-	input = ms_cut_at(input, '\n');	
-	return (input);
-}
 
 char **ms_joinstarstr(char **p1, char *p2)
 {
@@ -575,7 +564,7 @@ int	missing_delimiter_check(t_tok *tdata)
 	i = 0;
 	while (delimiters[i])
 	{
-		t_heredoc(tdata, 0, delimiters[0]);
+		t_heredoc(tdata, 0, delimiters[i]);
 		i++;
 	}
 	return (ERROR);	
@@ -589,7 +578,16 @@ t_tok	parse_input(char *input, t_env *denv)
 	// ft_printf("IN_PARSE\n");
 	// ms_dprint(denv->flist);
 	heredoc = NULL;
-	input = fill_heredoc(input, heredoc);
+	if (ft_strchr(input, '\n'))
+    {
+		heredoc = ft_split(ft_strchr(input, '\n'), '\n');
+		input = ms_cut_at(input, '\n');
+    }
+	// if (heredoc)
+	// {
+	// 	for(int i = 0; heredoc[i]; i++)
+	// 		printf("HEREDOC[%d] = %s\n", i, heredoc[i]);
+	// }
 	tdata.t_size = count_tokens(input);
 	if (tdata.t_size == ERROR)
 		return (tdata);
