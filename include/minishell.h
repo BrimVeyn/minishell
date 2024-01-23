@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
+/*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/23 14:09:29 by nbardavi          #+#    #+#             */
-/*   Updated: 2024/01/23 10:50:17 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/01/23 15:48:09 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef MINISHELL_H
@@ -235,12 +235,17 @@ char		*ms_cut_at(char *input, char c);
 char		*ms_getenv(char *var, t_env *denv);
 
 
+int ft_strlenlen(char **str);
 /*_.-=-._.-=-._.-=-._.-=-._.- MISC -._.-=-._.-=-._.-=-._.-=-._.-=-._*/
 
 void ms_setint(int *i, int value);
 void ms_setchar(char *c, int value);
 
 /*_.-=-._.-=-._.-=-._.-=-._.--._.-=-._.--._.-=-._.-=-._.-=-._.-=-._.-=-._*/
+
+
+/*_.-=-._.-=-._.-=-._.-=-._.- BUILTIN -._.-=-._.-=-._.-=-._.-=-._.-=-._*/
+void b_exit(t_pipe *d_pipe, char **args);
 
 // Pas touche
 void	ms_free_env(t_env *denv);
@@ -252,7 +257,7 @@ void		init_sig();
 void		prompt(t_env *env);
 t_env		*update_env(t_env *denv);
 void		ms_lst_b(t_h_lst **lst, t_h_lst *newlst);
-void		ms_main_pipe(t_tok d_token, t_env *denv);
+int			ms_main_pipe(t_tok d_token, t_env *denv);
 void		ms_add_path(t_tok *tdata, t_env *denv);
 
 void		free_tab(char **tab);

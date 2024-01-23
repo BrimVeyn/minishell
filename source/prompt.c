@@ -6,7 +6,7 @@
 /*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/23 16:11:18 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/01/23 10:10:33 by nbardavi         ###   ########.fr       */
+/*   Updated: 2024/01/23 16:24:15 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,7 +133,8 @@ void	prompt(t_env *denv)
 				ms_lst_b(&denv->history, ms_lst_new(ft_strdup(input)));
             add_history(input);
 			d_token = parse_input(input, denv);
-			ms_main_pipe(d_token, denv);
+			if (ms_main_pipe(d_token, denv) == 1)
+				break;
 			if (d_token.t_size != ERROR)
 				free_tdata(&d_token);
 		}
