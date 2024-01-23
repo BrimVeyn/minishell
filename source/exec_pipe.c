@@ -6,7 +6,7 @@
 /*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/26 15:06:31 by nbardavi          #+#    #+#             */
-/*   Updated: 2024/01/23 08:46:33 by nbardavi         ###   ########.fr       */
+/*   Updated: 2024/01/23 09:28:53 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ char *h_before(t_pipe *d_pipe, t_tok *d_token, t_env *denv, int *i)
 	f_name = ft_sprintf("%fs%d", ".temp_heredoc", d_pipe->nbr_h++);
 	d_pipe->heredoc = open(f_name, O_WRONLY | O_CREAT, 0644);
 	save = ft_strdup("");
+
 	while(d_token->heredoc[d_pipe->h_i])
 	{
 		if (ft_strcmp(d_token->heredoc[d_pipe->h_i], limiter) == 0)
@@ -127,7 +128,11 @@ char *heredoc(t_pipe *d_pipe, t_tok *d_token, t_env *denv, int *i)
 	cut_here(d_token, i);
 	f_name = ft_sprintf("%fs%d", ".temp_heredoc", d_pipe->nbr_h++);
 	d_pipe->heredoc = open(f_name, O_WRONLY | O_CREAT, 0644);
-	save = ft_strdup("");
+	ft_printf("last history: %fs\n", ms_getlast(denv));
+	if (d_token->heredoc)
+		save = ms_getlast(denv);
+	else
+		save = ft_strdup("");
 	while(d_token->heredoc && d_token->heredoc[d_pipe->h_i])
 	{
 		if (ft_strcmp(d_token->heredoc[d_pipe->h_i], limiter) == 0)
@@ -135,7 +140,7 @@ char *heredoc(t_pipe *d_pipe, t_tok *d_token, t_env *denv, int *i)
 			trigger = 1;
 			break;
 		}
-		save = ft_sprintf("%s%fs\n", save, d_token->heredoc[d_pipe->h_i]);
+		// save = ft_sprintf("%s%fs\n", save, d_token->heredoc[d_pipe->h_i]);
 		fd_printf(d_pipe->heredoc, "%fs", d_token->heredoc[d_pipe->h_i++]);
 	}
 	while(1 && trigger != 1)
