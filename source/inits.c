@@ -6,7 +6,7 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 16:22:41 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/01/22 16:22:42 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/01/23 08:42:47 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,14 +33,14 @@ t_tokh init_tokh(void)
 	return (self);
 }
 
-t_tok init_tok(int tokcount)
+t_tok init_tok(int tokcount, char **heredoc)
 {
 	t_tok self;
 
 	self.tokens = (char ***) ft_calloc(tokcount + 1, sizeof(char **));
 	self.type = (int *) ft_calloc(tokcount + 1, sizeof(int));
 	self.t_size = tokcount;
-	self.heredoc = NULL;
+	self.heredoc = heredoc;
 	return(self);
 }
 
