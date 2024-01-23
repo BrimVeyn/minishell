@@ -6,7 +6,7 @@
 /*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/23 15:16:24 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/01/19 10:46:18 by nbardavi         ###   ########.fr       */
+/*   Updated: 2024/01/23 15:55:33 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,5 +34,7 @@ int main(int ac, char *av[], char *env[])
 	denv.usr = get_usr(&denv);
 	denv.history = NULL;
 	prompt(&denv);
+	ft_printf("exitno :%d\n", exitno);
+	exit(exitno);
 	// free_env(&denv);
 }

@@ -2,7 +2,7 @@ NAME			:= minishell
 
 LIBFT			:= libftprintf/libftprintf.a
 CC 				:= cc
-LDFLAGS			:= -lreadline -lncurses -fsanitize=address
+LDFLAGS			:= -lreadline -lncurses
 CFLAGS 			:= -Wall -Wextra -Werror -g
 SRC 			:= source/main.c source/prompt.c source/get_env.c \
 				   source/free.c source/parse.c source/ms_h_lst.c \
@@ -34,7 +34,8 @@ SRC 			:= source/main.c source/prompt.c source/get_env.c \
 				   source/builtins/export.c \
 				   source/builtins/env.c \
 				   source/misc/ms_setint.c \
-				   source/misc/ms_setchar.c
+				   source/misc/ms_setchar.c \
+				   source/builtins/exit.c
 
 OBJ 			:= $(SRC:source/%.c=objects/%.o)
 
@@ -81,7 +82,6 @@ fclean: clean
 
 $(OBJDIR):
 	@mkdir -p $(OBJDIR) $(OBJDIR)/$(STAR_DIR) $(OBJDIR)/$(DOUBLE_DIR) $(OBJDIR)/$(STRING_DIR) $(OBJDIR)/$(MISC_DIR) $(OBJDIR)/$(BUILTINS) 
-
 
 $(LIBFT) :
 	@make --no-print-directory -C libftprintf/
