@@ -6,7 +6,7 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/23 14:09:29 by nbardavi          #+#    #+#             */
-/*   Updated: 2024/01/23 09:21:44 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/01/23 10:50:17 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef MINISHELL_H
@@ -56,6 +56,7 @@ enum
 	P_O = -10,
 	P_C = 10,
 	FAILE = 100, 
+	BUILTIN = 200,
 	SQUOTE = 39,
 	DQUOTE = 34,
 };
@@ -231,6 +232,7 @@ int			ms_strstrchr(char c, char *charset);
 int			ms_findstar(char *word);
 char		*ms_strtolower(char *str);
 char		*ms_cut_at(char *input, char c);
+char		*ms_getenv(char *var, t_env *denv);
 
 
 /*_.-=-._.-=-._.-=-._.-=-._.- MISC -._.-=-._.-=-._.-=-._.-=-._.-=-._*/
