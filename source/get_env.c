@@ -6,7 +6,7 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/23 14:22:29 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/01/23 16:24:07 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/01/24 14:11:36 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,16 @@
 
 char *get_pwd(t_env *denv)
 {
-	size_t	i;
+	char current_directory[PATH_MAX];
 
 	denv->pwd = NULL;
 	free(denv->pwd);
-	i = 0;
-	while (ft_strlen(denv->f_env[i]) >= 4 && ft_strncmp(denv->f_env[i], "PWD=", 4) != 0)
-		i++;
-	denv->pwd = ft_substr(denv->f_env[i], 4, ft_strlen(denv->f_env[i]) - 4);
+	denv->pwd = ms_find_var(denv, "PWD=");
+	if (!denv->pwd)
+    {
+		getcwd(current_directory, sizeof(current_directory));
+		denv->pwd = ft_strdup(current_directory);
+    }
 	return (denv->pwd);
 }
 
@@ -68,12 +70,12 @@ char **ms_dupdup(char **environ)
 
 t_env *update_env(t_env *denv)
 {
-	extern char **environ;
+	// extern char **environ;
 
 	// free_tab(denv->f_env);
 	// denv->f_env = ms_dupdup(environ);
-	free(denv->usr);
-	denv->usr = get_usr(denv);
+	// free(denv->usr);
+	// denv->usr = get_usr(denv);
 	free(denv->pwd);
 	denv->pwd = get_pwd(denv);
 	free(denv->path);

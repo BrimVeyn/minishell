@@ -6,13 +6,13 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 15:53:41 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/01/23 16:11:36 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/01/24 13:37:56 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-static char **del_var(char **f_env, int index)
+char **del_var(char **f_env, int index)
 {
 	char	**new;
 	int			i;
@@ -47,7 +47,7 @@ void	b_unset(char **args, t_env *denv)
 	{
 		if (i > 0 && args[i])
 		{
-			index = var_exist(args[i], denv);
+			index = ms_var_exist(args[i], denv);
 			if (index != ERROR)
 				denv->f_env = del_var(denv->f_env, index);
 		}

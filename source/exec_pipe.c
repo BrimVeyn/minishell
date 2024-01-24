@@ -6,7 +6,7 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 16:26:22 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/01/23 16:26:41 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/01/24 08:52:48 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -866,10 +866,10 @@ void b_parse(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
 		b_export(d_token->tokens[*i], denv);
 	if (!ft_strcmp(d_token->tokens[*i][0], "unset"))
 		b_unset(d_token->tokens[*i], denv);
-	// if (ft_strcmp(d_token->tokens[*i][0], "pwd"))
-	// 	b_pwd();
-	// if (ft_strcmp(d_token->tokens[*i][0], "cd"))
-	// 	b_cd();
+	if (!ft_strcmp(d_token->tokens[*i][0], "pwd"))
+		b_pwd(d_token->tokens[*i], denv);
+	if (!ft_strcmp(d_token->tokens[*i][0], "cd"))
+		b_cd(d_token->tokens[*i], denv);
 	// if (ft_strcmp(d_token->tokens[*i][0], "exit"))
 	// 	b_exit();
 	if (!ft_strcmp(d_token->tokens[*i][0], "exit"))

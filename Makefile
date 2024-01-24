@@ -33,6 +33,8 @@ SRC 			:= source/main.c source/prompt.c source/get_env.c \
 				   source/builtins/unset.c \
 				   source/builtins/export.c \
 				   source/builtins/env.c \
+				   source/builtins/pwd.c \
+				   source/builtins/cd.c \
 				   source/misc/ms_setint.c \
 				   source/misc/ms_setchar.c \
 				   source/builtins/exit.c
