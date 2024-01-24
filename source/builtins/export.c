@@ -6,13 +6,13 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 10:15:31 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/01/23 16:10:51 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/01/24 10:39:02 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-int	var_exist(char *var, t_env *denv)
+int	ms_var_exist(char *var, t_env *denv)
 {
 	char	 *tmp;
 	int			i;
@@ -45,7 +45,7 @@ static int invalid_identifier(char *identifier)
 	return (ERROR);
 }
 
-static char **replace_value(char **f_env, int index, char *arg)
+char **ms_replace_value(char **f_env, int index, char *arg)
 {
 	char	**new;
 	int			i;
@@ -87,13 +87,13 @@ void	b_export(char **args, t_env *denv)
 			value = ft_strchr(args[i], '=');
 			identifier = ft_strjoin_free(ms_cut_at(ft_strdup(args[i]), '='), ft_strdup("="));
 			ft_printf("identifier = %fs\n", identifier);
-			index = var_exist(args[i], denv);
+			index = ms_var_exist(args[i], denv);
 			if (value && invalid_identifier(identifier) == ERROR)
             {
 				if (index == ERROR)
 					denv->f_env = ms_join_tab(denv->f_env, args[i]);
 				else if (index != ERROR)
-					denv->f_env = replace_value(denv->f_env, index, args[i]);
+					denv->f_env = ms_replace_value(denv->f_env, index, args[i]);
             }
 		}
 		free(identifier);
