@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
+/*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 14:28:08 by nbardavi          #+#    #+#             */
-/*   Updated: 2024/01/17 13:55:40 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/01/24 15:22:08 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ void sigint_handler(int sig_num)
 
 void signal_ctrl()
 {
+	signal(SIGQUIT, SIG_IGN);
 	signal(SIGINT, sigint_handler);
 }
 

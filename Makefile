@@ -35,7 +35,12 @@ SRC 			:= source/main.c source/prompt.c source/get_env.c \
 				   source/builtins/env.c \
 				   source/misc/ms_setint.c \
 				   source/misc/ms_setchar.c \
-				   source/builtins/exit.c
+				   source/builtins/exit.c \
+				   source/exec/type_parse.c \
+				   source/exec/handle_cmds.c \
+				   source/exec/handle_type.c \
+				   source/exec/handle_pipe.c \
+				   source/exec/handle_paran.c 
 
 OBJ 			:= $(SRC:source/%.c=objects/%.o)
 
@@ -45,6 +50,7 @@ STRING_DIR		:= string_utils
 STAR_DIR		:= star_list
 MISC_DIR		:= misc
 BUILTINS		:= builtins
+EXEC			:= exec
 
 DEF_COLOR		:= \033[0;39m
 GRAY			:= \033[0;90m
@@ -81,7 +87,7 @@ fclean: clean
 	@printf "$(RED)Binary deleted !$(DEF_COLOR)\n"
 
 $(OBJDIR):
-	@mkdir -p $(OBJDIR) $(OBJDIR)/$(STAR_DIR) $(OBJDIR)/$(DOUBLE_DIR) $(OBJDIR)/$(STRING_DIR) $(OBJDIR)/$(MISC_DIR) $(OBJDIR)/$(BUILTINS) 
+	@mkdir -p $(OBJDIR) $(OBJDIR)/$(STAR_DIR) $(OBJDIR)/$(DOUBLE_DIR) $(OBJDIR)/$(STRING_DIR) $(OBJDIR)/$(MISC_DIR) $(OBJDIR)/$(BUILTINS) $(OBJDIR)/$(EXEC) 
 
 $(LIBFT) :
 	@make --no-print-directory -C libftprintf/
