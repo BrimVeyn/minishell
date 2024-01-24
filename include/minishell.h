@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
+/*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 16:25:44 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/01/23 16:26:15 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/01/24 14:51:34 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,6 +129,7 @@ typedef struct s_pipe
 	//
 	int h_i;
 	int t_exit;
+	int	t_r;
 }			t_pipe;
 
 typedef struct s_lst
@@ -252,6 +253,23 @@ int		var_exist(char *var, t_env *denv);
 void	b_env(t_env *denv);
 void	b_exit(t_pipe *d_pipe, char **args);
 
+
+/*_.-=-._.-=-._.-=-._.-=-._.--._.-=-._.--._.-=-._.-=-._.-=-._.-=-._.-=-._*/
+/*_.-=-._.-=-._.-=-._.-=-._.- TYPE PARSE -._.-=-._.-=-._.-=-._.-=-._.-=-._*/
+
+void handle_d_al(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i);
+void handle_or(t_pipe *d_pipe);
+void handle_po(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i);
+void	handle_pc(t_pipe *d_pipe);
+void handle_wrong(t_tok *d_token, t_pipe *d_pipe);
+void handle_and(t_pipe *d_pipe);
+
+void cmd_pipe(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i);
+void cmd_here(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i);
+void cmd_redi(t_tok *d_token, t_pipe *d_pipe, int *i, int j);
+void cmd_reset_fd(t_pipe *d_pipe);
+void handle_cmd(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i);
+
 /*_.-=-._.-=-._.-=-._.-=-._.--._.-=-._.--._.-=-._.-=-._.-=-._.-=-._.-=-._*/
 // Pas touche
 void	ms_free_env(t_env *denv);
@@ -268,5 +286,22 @@ void		ms_add_path(t_tok *tdata, t_env *denv);
 
 void		free_tab(char **tab);
 void		free_tdata(t_tok *tdata);
+
+int check_here(char ***tokens, int i);
+char *heredoc(t_pipe *d_pipe, t_tok *d_token, t_env *denv, int *i);
+void b_parse(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i);
+void	b_redi(t_tok *d_token, t_pipe *d_pipe, int i);
+void p_while(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i);
+void	w_exec_pipe(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i);
+void exec_cmd(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i);
+void	apply_redi(t_tok *d_token, t_pipe *d_pipe,int i);
+char *h_before(t_pipe *d_pipe, t_tok *d_token, t_env *denv, int *i);
+void ms_place_h(t_tok *d_token, char *f_name, int i);
+void	parse_type(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i);
+int next_ope(t_tok *d_token, int i);
+int previous_ope(t_tok *d_token, int i);
+
+void print_tokens(t_tok *d_token);
+void p_parse_type(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i);
 
 #endif
