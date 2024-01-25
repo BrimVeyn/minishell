@@ -47,6 +47,7 @@ SRC 			:= source/main.c source/prompt.c source/get_env.c \
 				   source/parsing/end_check.c \
 				   source/parsing/delimiter_check.c \
 				   source/parsing/add_to_cmd.c \
+				   source/parsing/fill_tokens.c \
 				   source/parsing/parenthesis_check.c \
 				   source/parsing/utils.c \
 
