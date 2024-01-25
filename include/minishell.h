@@ -6,7 +6,7 @@
 /*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 16:25:44 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/01/24 14:51:34 by nbardavi         ###   ########.fr       */
+/*   Updated: 2024/01/25 14:41:11 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,8 @@
 # define WHITE "\001\e[0m\002"
 # define RED "\033[38;2;255;70;100m"
 # define BLUE "\e[1;34m"
-#define RESET "\e[0m"
-/*_.-=-._.-=-._.-=-._.-=-._.- Enum -._.-=-._.-=-._.-=-._.-=-._.-=-._*/
+# define RESET "\e[0m"
+/*_.-=-._.-=-._.-=-._.-=-._.- Enums -._.-=-._.-=-._.-=-._.-=-._.-=-._*/
 
 enum
 {
@@ -57,6 +57,7 @@ enum
 	P_O = -10,
 	P_C = 10,
 	FAILE = 100, 
+	DIRECTORY = 1000,
 	BUILTIN = 200,
 	SQUOTE = 39,
 	DQUOTE = 34,
@@ -101,7 +102,7 @@ typedef struct s_starlist
 	char	*str;
 	int		type;
 	struct	s_starlist *next;
-} t_starlist;
+}	t_starlist;
 
 typedef struct s_pipe
 {
@@ -130,6 +131,12 @@ typedef struct s_pipe
 	int h_i;
 	int t_exit;
 	int	t_r;
+	//heredoc
+	int h_cpt;
+	int h_trigger;
+	int h_before;
+	//BUILTIN
+	int b_pipefd[2];
 }			t_pipe;
 
 typedef struct s_lst
@@ -191,6 +198,7 @@ void		init_d_pipe(t_pipe *d_pipe);
 t_dlist		*ms_dlstnew(void *str, int i);
 t_dlist		*ms_dlstmap(t_dlist **lst, char *word, void (*f)(t_dlist *, char *));
 t_dlist		*ms_match_check(t_dlist *el);
+t_dlist		*get_flist(t_env *denv);
 int			ms_dlstlen(t_dlist **flist);
 void		ms_dlstab(t_dlist **lst, t_dlist *new);
 void		ms_dlstdelone(t_dlist **lst);
@@ -217,17 +225,16 @@ char		*ms_starjoin(t_starlist **slist);
 /*_.-=-._.-=-._.-=-._.-=-._.--._.-=-._.--._.-=-._.-=-._.-=-._.-=-._.-=-._*/
 /*_.-=-._.-=-._.-=-._.-=-._.- STRING_UTILS -._.-=-._.-=-._.-=-._.-=-._.-=-._*/
 
-char		**ms_dupdup(char **environ);
-char		**ms_joinstarstar(char **p1, char **p2);
 char		**ft_splitm(char *str, t_tok *tdata, t_env *denv);
-char		**ms_join_tab(char **tab, char *str);
 char		*get_pwd(t_env *data);
 char		*get_path(t_env *data);
 char		*get_usr(t_env *data);
-t_dlist		*get_flist(t_env *denv);
 char		*ft_strtrimf(char const *s1, char const *set);
 void		free_startab(char ***tokens);
 
+char		**ms_join_tab(char **tab, char *str);
+char		**ms_dupdup(char **environ);
+char		**ms_joinstarstar(char **p1, char **p2);
 int			ms_isws(char c);
 int			ms_tablen(char **tab);
 int			ms_strstrchr(char c, char *charset);
@@ -235,23 +242,29 @@ int			ms_findstar(char *word);
 char		*ms_strtolower(char *str);
 char		*ms_cut_at(char *input, char c);
 char		*ms_getenv(char *var, t_env *denv);
+int			ft_strlenlen(char **str);
 
 
-int ft_strlenlen(char **str);
 /*_.-=-._.-=-._.-=-._.-=-._.- MISC -._.-=-._.-=-._.-=-._.-=-._.-=-._*/
 
-void ms_setint(int *i, int value);
-void ms_setchar(char *c, int value);
+int			ms_filetype(char *path);
+void		ms_setint(int *i, int value);
+void		ms_setchar(char *c, int value);
 
 /*_.-=-._.-=-._.-=-._.-=-._.--._.-=-._.--._.-=-._.-=-._.-=-._.-=-._.-=-._*/
 /*_.-=-._.-=-._.-=-._.-=-._.- BUILTIN -._.-=-._.-=-._.-=-._.-=-._.-=-._*/
 
 
-void	b_export(char **args, t_env *denv);
-void	b_unset(char **args, t_env *denv);
-int		var_exist(char *var, t_env *denv);
-void	b_env(t_env *denv);
-void	b_exit(t_pipe *d_pipe, char **args);
+void		b_export(char **args, t_env *denv);
+void		b_unset(char **args, t_env *denv);
+void		b_env(t_env *denv);
+void		b_exit(t_pipe *d_pipe, char **args);
+void		b_pwd(char **args, t_env *denv);
+void		b_cd(char **args, t_env *denv);
+int			ms_var_exist(char *var, t_env *denv);
+char		**ms_replace_value(char **f_env, int index, char *arg);
+char		**del_var(char **f_env, int index);
+char		*ms_find_var(t_env *denv, char *var);
 
 
 /*_.-=-._.-=-._.-=-._.-=-._.--._.-=-._.--._.-=-._.-=-._.-=-._.-=-._.-=-._*/
@@ -270,12 +283,60 @@ void cmd_redi(t_tok *d_token, t_pipe *d_pipe, int *i, int j);
 void cmd_reset_fd(t_pipe *d_pipe);
 void handle_cmd(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i);
 
-/*_.-=-._.-=-._.-=-._.-=-._.--._.-=-._.--._.-=-._.-=-._.-=-._.-=-._.-=-._*/
-// Pas touche
-void	ms_free_env(t_env *denv);
+void	pipe_parse(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i);
+void	exec_pipe(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i);
+void	cmd_exec_pipe(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i);
+void	handle_cmd_pipe(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i);
+
+int previous_ope(t_tok *d_token, int i);
+int next_ope(t_tok *d_token, int i);
+
+void p_count(t_tok *d_token, t_pipe *d_pipe);
+
+void p_redi(t_tok *d_token, t_pipe *d_pipe, int *i);
+void handle_pc_paran(t_pipe *d_pipe);
+void p_redi(t_tok *d_token, t_pipe *d_pipe, int *i);
+void p_while(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i);
+
+void ms_h_unlink(t_pipe *d_pipe);
+void ms_place_h(t_tok *d_token, char *f_name, int i);
+char *ms_getlast(t_env *denv);
+void reset_history(t_env *denv);
+
+void	print_history(t_env *denv);
+void	print_tokens(t_tok *d_token);
+void	print_tok(t_tok *d_token);
+
+int ft_strlenlen(char **str);
+
+void handle_built(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i);
+void	b_redi(t_tok *d_token, t_pipe *d_pipe, int i);
+void b_parse(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i);
+/*_.-=-._.-=-._.-=-._.-=-._.- HEREDOC -._.-=-._.-=-._.-=-._.-=-._.-=-._*/
+
+char *h_exec(t_pipe *d_pipe, char *save, char *limiter);
+char *h_redo(t_pipe *d_pipe, t_tok *d_token, char *limiter);
+char *h_handle(t_pipe *d_pipe, t_tok *d_token, t_env *denv, int *i);
+char *heredoc(t_pipe *d_pipe, t_tok *d_token, t_env *denv, int *i);
 void t_heredoc(t_tok *d_token, int *i, char *limiter);
 
-//
+char *h_create_file(t_pipe *d_pipe);
+int check_here(char ***tokens, int i);
+void reset_history(t_env *denv);
+void ms_h_unlink(t_pipe *d_pipe);
+void ms_place_h(t_tok *d_token, char *f_name, int i);
+char *ms_getlast(t_env *denv);
+
+void c_execve(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i);
+/*_.-=-._.-=-._.-=-._.-=-._.- FREE && EXIT -._.-=-._.-=-._.-=-._.-=-._.-=-._*/
+
+void ms_free_history(t_h_lst **head);
+void ms_free_env(t_env *denv);
+void ms_free_pipe(t_pipe *d_pipe);
+
+/*_.-=-._.-=-._.-=-._.-=-._.--._.-=-._.--._.-=-._.-=-._.-=-._.-=-._.-=-._*/
+/*_.-=-._.-=-._.-=-._.-=-._.--._.-=-._.--._.-=-._.-=-._.-=-._.-=-._.-=-._*/
+
 void		init_sig();
 
 void		prompt(t_env *env);
@@ -287,21 +348,23 @@ void		ms_add_path(t_tok *tdata, t_env *denv);
 void		free_tab(char **tab);
 void		free_tdata(t_tok *tdata);
 
-int check_here(char ***tokens, int i);
-char *heredoc(t_pipe *d_pipe, t_tok *d_token, t_env *denv, int *i);
-void b_parse(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i);
+int		check_here(char ***tokens, int i);
+void	b_parse(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i);
 void	b_redi(t_tok *d_token, t_pipe *d_pipe, int i);
-void p_while(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i);
+void	p_while(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i);
 void	w_exec_pipe(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i);
-void exec_cmd(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i);
+void	exec_cmd(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i);
 void	apply_redi(t_tok *d_token, t_pipe *d_pipe,int i);
-char *h_before(t_pipe *d_pipe, t_tok *d_token, t_env *denv, int *i);
-void ms_place_h(t_tok *d_token, char *f_name, int i);
+char	*h_before(t_pipe *d_pipe, t_tok *d_token, t_env *denv, int *i);
+void	ms_place_h(t_tok *d_token, char *f_name, int i);
 void	parse_type(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i);
-int next_ope(t_tok *d_token, int i);
-int previous_ope(t_tok *d_token, int i);
+int		next_ope(t_tok *d_token, int i);
+int		previous_ope(t_tok *d_token, int i);
 
 void print_tokens(t_tok *d_token);
 void p_parse_type(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i);
 
+void	cut_here(t_tok *d_token, int *i);
+char *ms_getlast(t_env *denv);
+void reset_history(t_env *denv);
 #endif

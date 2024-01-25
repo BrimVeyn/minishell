@@ -6,7 +6,7 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/28 09:31:25 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/01/23 13:57:34 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/01/24 16:23:44 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,21 +14,18 @@
 #include <unistd.h>
 #include <sys/stat.h>
 
-int	filetype(char *path)	
+int	ms_filetype(char *path)	
 {
 	struct stat path_stat;
 
-	stat(path, &path_stat);
+	if (stat(path, &path_stat))
+		return (ERROR);
 	if (S_ISREG(path_stat.st_mode)) 
-	{
 		return (FAILE);
-		// printf("%s est un fichier régulier.\n", path);
-	} 
+	else if (S_ISDIR(path_stat.st_mode))
+		return (DIRECTORY);
 	else 
-	{
 		return(ERROR);
-		// printf("%s est un type de fichier non pris en charge.\n", path);
-	}
 }
 
 int	ms_check_builtin(char *cmd)
@@ -38,7 +35,8 @@ int	ms_check_builtin(char *cmd)
 		!ft_strcmp(cmd, "export") ||
 		!ft_strcmp(cmd, "unset") ||
 		!ft_strcmp(cmd, "env") ||
-		!ft_strcmp(cmd, "exit"))
+		!ft_strcmp(cmd, "exit") ||
+		!ft_strcmp(cmd, "pwd"))
 		return (TRUE);
 	return (ERROR);
 }
@@ -52,7 +50,7 @@ char	*join_path(char *cmd, t_env *denv)
 
 	i = 0;
 	// printf("This is the cmd : %s\n", cmd);
-	if (!access(cmd, X_OK) && filetype(cmd) == FAILE)
+	if (!access(cmd, X_OK) && ms_filetype(cmd) == FAILE)
 		return (cmd);
 	paths = ft_split(denv->path, ':');
 	if (!ft_strncmp(cmd, "", 2))
@@ -63,7 +61,7 @@ char	*join_path(char *cmd, t_env *denv)
 	while (paths[i])
 	{
 		cmd_cpy = ft_strjoin_s2(paths[i], ft_strjoin_s2("/", ft_strdup(cmd)));
-		if (!access(cmd_cpy, X_OK) && filetype(cmd_cpy) == FAILE)
+		if (!access(cmd_cpy, X_OK) && ms_filetype(cmd_cpy) == FAILE)
 		{
 			free_tab(paths);
 			free(cmd);
