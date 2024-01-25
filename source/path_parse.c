@@ -6,7 +6,7 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/28 09:31:25 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/01/24 16:23:44 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/01/25 15:32:53 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ char	*join_path(char *cmd, t_env *denv)
 	if (!ft_strncmp(cmd, "", 2))
     {
 		fd_printf(2, "'': command not found\n");
-		return (NULL);
+		return (free(cmd), ft_strdup("WRONG"));
     }
 	while (paths[i])
 	{

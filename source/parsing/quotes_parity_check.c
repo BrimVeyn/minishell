@@ -6,7 +6,7 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 13:49:14 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/01/25 13:49:44 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/01/25 15:48:26 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,8 @@ int quotes_parity_check(char *str)
 		if (str[i] == DQUOTE)
 			quotes_check_helper(&quotes[0], DQUOTE, &i, str);
 		if (str[i] == SQUOTE)
-			quotes_check_helper(&quotes[0], DQUOTE, &i, str);
-		if (str[i] != SQUOTE && str[i] != DQUOTE)
+			quotes_check_helper(&quotes[1], SQUOTE, &i, str);
+		if (str[i] && str[i] != SQUOTE && str[i] != DQUOTE)
 			i++;
 	}
 	if (quotes[0] % 2 != 0)

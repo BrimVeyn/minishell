@@ -6,7 +6,7 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 16:23:00 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/01/25 13:42:00 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/01/25 16:29:21 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,24 +39,23 @@ static int count_words(char *str)
 
 void	fill_split(char **split, char *str)
 {
-	int		x[3];
+	int		x[5];
 	int		trigger;
-	char	qt;
 
-	if (ms_setint(&x[I], 0), ms_setint(&x[J], 0), ms_setchar(&qt, 0), str)
+	if (ms_setint(&x[I], 0), ms_setint(&x[J], 0), ms_setint(&x[3], 0), ms_setint(&x[4], 0), str)
 		(void) str;
 	while (ms_setint(&x[K], 0), str[x[I]])
 	{
 		trigger = 0;
-		while ((str[x[I]] && !ms_isws(str[x[I]])) || (str[x[I]] && (qt & DQ || qt & SQ)))
+		while ((str[x[I]] && !ms_isws(str[x[I]])) || (str[x[I]] && (x[3] || x[4])))
 		{
-			qt ^= (str[x[I]] == DQUOTE) << SQ;
-			qt ^= (str[x[I]] == SQUOTE) << DQ;
+			x[3] ^= (str[x[I]] == DQUOTE);
+			x[4] ^= (str[x[I]] == SQUOTE);
 			trigger = 1;
 			x[K]++;
 			x[I]++;
 		}
-        if (trigger == 1 && !(qt & DQ) && !(qt & SQ))
+        if (trigger == 1 && !(x[3]) && !(x[4]))
 		{
 			split[x[J]] = ft_substr(str, x[I] - x[K], x[K]);
 			x[J]++;
@@ -115,7 +114,8 @@ char *r_env(char *split, t_tok *tdata, t_env *denv)
 			if (split[i + 1])
 				i++;
 			start = i;
-			while (split[i] && ft_isalnum(split[i]))//ms_strstrchr(split[i], "\'$* =") == TRUE)
+			
+			while (split[i] && ft_isalnum(split[i]))
 				i++;
 			split = r_dollar(split, &i, start, denv);
 		}
@@ -258,7 +258,7 @@ char	**ft_splitm(char *str, t_tok *tdata, t_env *denv)
 	// printf("EXITNO  %d\n", tdata->exitno);
 	// ft_printf("%d %d", quotes[0], quotes[1]);
 	wc = count_words(str);
-	// printf("STR = %s, WC = %d\n", str, wc);
+	printf("STR = %s, WC = %d\n", str, wc);
 	// printf("SQ = %d, DQ = %d\n", quotes[0], quotes[1]);
 	// printf("WC = %d\n", wc);
 	split = (char **) ft_calloc(count_words(str) + 1, sizeof(char *));
@@ -267,8 +267,8 @@ char	**ft_splitm(char *str, t_tok *tdata, t_env *denv)
 		return (dupdup());
 	}
 	fill_split(split, str);
-	// for(int i = 0; split[i]; i++)
-	// 	printf("SPLIT[%d] = %s\n", i, split[i]);
+	for(int i = 0; split[i]; i++)
+		printf("SPLIT[%d] = %s\n", i, split[i]);
 	transform_split(split, tdata, denv);
 	// for(int k = 0; split[k]; k++)
 	// 	printf("STR[%d] %s\n", k, split[k]);
