@@ -30,14 +30,25 @@ SRC 			:= source/main.c source/prompt.c source/get_env.c \
 				   source/string_utils/ms_cut_at.c \
 				   source/string_utils/ms_getenv.c \
 				   source/string_utils/ms_join_tab.c \
+				   source/string_utils/ms_joinstarstar.c \
+				   source/string_utils/ms_tablen.c \
 				   source/builtins/unset.c \
 				   source/builtins/export.c \
 				   source/builtins/env.c \
 				   source/builtins/pwd.c \
 				   source/builtins/cd.c \
+				   source/builtins/exit.c \
 				   source/misc/ms_setint.c \
 				   source/misc/ms_setchar.c \
-				   source/builtins/exit.c
+				   source/parsing/missing_delimiter_check.c \
+				   source/parsing/quotes_position_check.c \
+				   source/parsing/quotes_parity_check.c \
+				   source/parsing/start_check.c \
+				   source/parsing/end_check.c \
+				   source/parsing/delimiter_check.c \
+				   source/parsing/add_to_cmd.c \
+				   source/parsing/parenthesis_check.c \
+				   source/parsing/utils.c \
 
 OBJ 			:= $(SRC:source/%.c=objects/%.o)
 
@@ -47,6 +58,7 @@ STRING_DIR		:= string_utils
 STAR_DIR		:= star_list
 MISC_DIR		:= misc
 BUILTINS		:= builtins
+PARSING_DIR		:= parsing
 
 DEF_COLOR		:= \033[0;39m
 GRAY			:= \033[0;90m
@@ -83,7 +95,7 @@ fclean: clean
 	@printf "$(RED)Binary deleted !$(DEF_COLOR)\n"
 
 $(OBJDIR):
-	@mkdir -p $(OBJDIR) $(OBJDIR)/$(STAR_DIR) $(OBJDIR)/$(DOUBLE_DIR) $(OBJDIR)/$(STRING_DIR) $(OBJDIR)/$(MISC_DIR) $(OBJDIR)/$(BUILTINS) 
+	@mkdir -p $(OBJDIR) $(OBJDIR)/$(STAR_DIR) $(OBJDIR)/$(DOUBLE_DIR) $(OBJDIR)/$(STRING_DIR) $(OBJDIR)/$(MISC_DIR) $(OBJDIR)/$(BUILTINS)  $(OBJDIR)/$(PARSING_DIR) 
 
 $(LIBFT) :
 	@make --no-print-directory -C libftprintf/

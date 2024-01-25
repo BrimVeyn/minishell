@@ -6,11 +6,12 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 16:23:00 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/01/24 08:45:06 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/01/25 13:42:00 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
+#include <readline/tilde.h>
 
 static int count_words(char *str)
 {
@@ -114,7 +115,7 @@ char *r_env(char *split, t_tok *tdata, t_env *denv)
 			if (split[i + 1])
 				i++;
 			start = i;
-			while (split[i] && ms_strstrchr(split[i], "\'$* =") == TRUE)
+			while (split[i] && ft_isalnum(split[i]))//ms_strstrchr(split[i], "\'$* =") == TRUE)
 				i++;
 			split = r_dollar(split, &i, start, denv);
 		}
@@ -182,6 +183,37 @@ char *ms_extract(char *split, int *j, char c)
 	return (new);
 }
 
+int	tild_index(char *word)
+{
+	int	i;
+
+	i = 0;
+	while (word[i] && word[i] != '~')
+		i++;
+	return (i);
+}
+
+char *tild_expand(char *word, t_env *denv)
+{
+	char *new;
+
+	if (!ft_strchr(word, '~') || tild_index(word) != 0)
+		return (word);
+	if (ft_strlen(word) == 1)
+	{
+		new = ft_strjoin_free(ft_strdup("/home/"), ft_strdup(denv->usr));
+		free(word);
+		return (new);
+	}
+	else if (!ft_strncmp(word, "~/", 2)) 
+	{
+		new = ft_strjoin_free(ft_strdup("/home/"), ft_strdup(denv->usr));
+		new = ft_strjoin_free(new, ft_substr(word, 1, ft_strlen(word) - 1));
+		return (free(word), new);
+	}
+	return (word);
+}
+
 void transform_split(char **split, t_tok *tdata, t_env *denv)
 {
 	t_starlist *strl;
@@ -192,9 +224,9 @@ void transform_split(char **split, t_tok *tdata, t_env *denv)
 	while (ms_setint(&x[J], ZERO), split[x[I]])
 	{
 		// ft_printf("--------------------------------\n");
+		split[x[I]] = tild_expand(split[x[I]], denv);
 		while (split[x[I]][x[J]])
         {
-			// ft_printf("J === %d, char = %c\n", x[J], split[x[I]][x[J]]);
 			if (split[x[I]][x[J]] != '\'' && split[x[I]][x[J]] != '\"')
 				ms_starlab(&strl, ms_starlnew(r_env(ms_extract(split[x[I]], &x[J], ZERO), tdata, denv), 0));
 			else if (split[x[I]][x[J]] == '\"')
