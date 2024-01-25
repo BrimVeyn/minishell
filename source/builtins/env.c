@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
+/*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 10:13:18 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/01/23 13:49:55 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/01/25 14:27:45 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,4 +19,5 @@ void b_env(t_env *denv)
 	i = 0;
 	while(denv->f_env[i])
 		printf("%s\n", denv->f_env[i++]);
+	exit(EXIT_SUCCESS);
 }

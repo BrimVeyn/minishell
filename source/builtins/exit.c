@@ -6,7 +6,7 @@
 /*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 10:13:39 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/01/23 15:51:50 by nbardavi         ###   ########.fr       */
+/*   Updated: 2024/01/25 13:39:39 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,16 +32,15 @@ void b_exit(t_pipe *d_pipe, char **args)
 {
 	if (ft_strlenlen(args) == 1)
 	{
+		exitno = 0;
 		d_pipe->t_exit = 1;
-		return;
 	}
-	if (ms_is_nbr(args[1]) == 0) //Si premier arg est un chiffre
+	else if (ms_is_nbr(args[1]) == 0)
 	{
 		if (ft_strlenlen(args) > 2)
 		{
 			printf("minishell: exit: too many arguments");
 			exitno = 1;
-			return;
 		}
 		else
 		{
@@ -49,11 +48,12 @@ void b_exit(t_pipe *d_pipe, char **args)
 			exitno = (unsigned char)ft_atoi(args[1]);
 		}
 	}
-	else //Si premier arg n'est pas un chiffre
+	else
 	{
 		printf("minishell: exit: %s: numeric argument required\n", args[1]);
 		exitno = 2;
 		d_pipe->t_exit = 1;
 	}
+	exit(exitno);
 	
 }
