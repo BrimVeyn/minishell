@@ -6,7 +6,7 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 13:25:59 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/01/25 13:28:19 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/01/25 16:09:50 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int	ms_is_empty(char ***tokens)
 		j = 0;
 		while (tokens[i][j])
 		{
-			if (!ft_strncmp(tokens[i][j], "\0", 1))
+			if ((!ft_strncmp(tokens[i][j], "\0", 1) && j == 0) || (j != 0 && !ft_strncmp(tokens[i][j], "\0", 1) && !ft_strncmp(tokens[i][j - 1], "<<", 2)))
 				return (ERROR);
 			j++;
 		}
@@ -79,7 +79,6 @@ int	missing_delimiter_check(t_tok *tdata)
 
 	if (ms_is_empty(tdata->tokens) == TRUE)
 		return (TRUE);
-
 	delimiters = get_delimiters(tdata->tokens, tdata->type);
 	i = 0;
 	while (delimiters[i])
@@ -87,5 +86,7 @@ int	missing_delimiter_check(t_tok *tdata)
 		t_heredoc(tdata, 0, delimiters[i]);
 		i++;
 	}
+	fd_printf(2, "minishell: syntax error near unexpected token `newline'\n");
+	tdata->type[0] = WRONG;
 	return (ERROR);	
 }
