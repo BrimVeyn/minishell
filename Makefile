@@ -39,6 +39,7 @@ SRC 			:= source/main.c source/prompt.c source/get_env.c \
 				   source/builtins/pwd.c \
 				   source/builtins/cd.c \
 				   source/builtins/exit.c \
+				   source/builtins/echo.c \
 				   source/misc/ms_setint.c \
 				   source/misc/ms_setchar.c \
 				   source/parsing/missing_delimiter_check.c \
