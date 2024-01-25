@@ -6,7 +6,7 @@
 /*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 10:49:59 by nbardavi          #+#    #+#             */
-/*   Updated: 2024/01/25 14:39:53 by nbardavi         ###   ########.fr       */
+/*   Updated: 2024/01/25 16:30:00 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,9 +40,14 @@ void exec_id0(t_pipe *d_pipe, t_tok *d_token, int id, int *i)
 void c_execve(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
 {
 	if (d_token->type[*i] == BUILTIN)
-		b_parse(d_token, d_pipe, denv, i);
+	{
+		ft_printf("gros con\n");
+		handle_built(d_token, d_pipe, denv, i);
+	}
 	else
+	{
 		execve(d_token->tokens[*i][0], d_token->tokens[*i], denv->f_env);
+	}
 }
 
 void exec_cmd(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
@@ -69,7 +74,7 @@ void exec_cmd(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
 	close(d_pipe->old_stdin);
 	close(d_pipe->old_stdout);
 	c_execve(d_token, d_pipe, denv, i);
-	perror("execve failed");
+	perror("execve failed connard");
 	exit(EXIT_FAILURE);//TEMPORAIRE -> LEAKS, FONCTION SPECIAL A FAIRE
 }
 

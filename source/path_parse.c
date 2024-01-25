@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   path_parse.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
+/*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/28 09:31:25 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/01/24 16:23:44 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/01/25 15:40:49 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	ms_filetype(char *path)
 int	ms_check_builtin(char *cmd)
 {
 	if (!ft_strcmp(cmd, "cd") ||
-		// !ft_strcmp(cmd, "echo") ||
+		!ft_strcmp(cmd, "echo") ||
 		!ft_strcmp(cmd, "export") ||
 		!ft_strcmp(cmd, "unset") ||
 		!ft_strcmp(cmd, "env") ||

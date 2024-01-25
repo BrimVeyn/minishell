@@ -6,7 +6,7 @@
 /*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 13:22:39 by nbardavi          #+#    #+#             */
-/*   Updated: 2024/01/25 14:42:49 by nbardavi         ###   ########.fr       */
+/*   Updated: 2024/01/25 16:26:15 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,8 @@ void	b_redi(t_tok *d_token, t_pipe *d_pipe, int i)
 
 void b_parse(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
 {
-	// if (ft_strcmp(d_token->tokens[*i][0], "echo"))
-	// 	b_echo();
+	if (!ft_strcmp(d_token->tokens[*i][0], "echo"))
+		b_echo(d_token, i);
 	if (!ft_strcmp(d_token->tokens[*i][0], "env"))
 		b_env(denv);
 	if (!ft_strcmp(d_token->tokens[*i][0], "export"))
@@ -37,27 +37,31 @@ void b_parse(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
 		b_pwd(d_token->tokens[*i], denv);
 	if (!ft_strcmp(d_token->tokens[*i][0], "cd"))
 		b_cd(d_token->tokens[*i], denv);
-	// if (ft_strcmp(d_token->tokens[*i][0], "exit"))
-	// 	b_exit();
 	if (!ft_strcmp(d_token->tokens[*i][0], "exit"))
-		b_exit(d_pipe,d_token->tokens[*i]);
+		b_exit(d_pipe, d_token->tokens[*i]);
 }
 
 void handle_built(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
 {
 	int id;
-	
+	char *buffer;
+
+	buffer = ft_calloc(2, sizeof(char));
 	pipe(d_pipe->b_pipefd);
 	id = fork();
 	if (id > 0)
 	{
 		waitpid(id, &exitno, 0);
+		close(d_pipe->b_pipefd[1]);
+		if (read(d_pipe->b_pipefd[0], buffer, 1) == 1)
+			d_pipe->t_exit = 1;
+		close(d_pipe->b_pipefd[0]);
 		// ft_printf("t.exit: %d\n", d_pipe->t_exit);
 	}
 	else if (id == 0)
 	{
 		close(d_pipe->b_pipefd[0]);
 		b_parse(d_token, d_pipe, denv, i);
-		// close(d_pipe->b_pipefd[1]);
+		close(d_pipe->b_pipefd[1]);
 	}
 }
