@@ -32,6 +32,7 @@ SRC 			:= source/main.c source/prompt.c source/get_env.c \
 				   source/string_utils/ms_join_tab.c \
 				   source/string_utils/ms_joinstarstar.c \
 				   source/string_utils/ms_tablen.c \
+				   source/builtins/b_exec.c \
 				   source/builtins/unset.c \
 				   source/builtins/export.c \
 				   source/builtins/env.c \
@@ -50,6 +51,20 @@ SRC 			:= source/main.c source/prompt.c source/get_env.c \
 				   source/parsing/fill_tokens.c \
 				   source/parsing/parenthesis_check.c \
 				   source/parsing/utils.c \
+				   source/exec/type_parse.c \
+				   source/exec/handle_cmds.c \
+				   source/exec/handle_type.c \
+				   source/exec/handle_pipe.c \
+				   source/exec/handle_paran.c \
+				   source/exec/heredoc.c \
+				   source/exec/heredoc_utils.c \
+				   source/exec/heredoc_utils2.c \
+				   source/exec/exec_cmd.c \
+				   source/exec/paran_utils.c \
+				   source/exec/pipe_utils.c \
+				   source/exec/free_exec.c \
+				   source/utils_exec/debug.c \
+				   source/utils_exec/utils.c \
 
 OBJ 			:= $(SRC:source/%.c=objects/%.o)
 
@@ -60,6 +75,8 @@ STAR_DIR		:= star_list
 MISC_DIR		:= misc
 BUILTINS		:= builtins
 PARSING_DIR		:= parsing
+EXEC			:= exec
+UTILS_EXEC      := utils_exec
 
 DEF_COLOR		:= \033[0;39m
 GRAY			:= \033[0;90m
@@ -96,7 +113,7 @@ fclean: clean
 	@printf "$(RED)Binary deleted !$(DEF_COLOR)\n"
 
 $(OBJDIR):
-	@mkdir -p $(OBJDIR) $(OBJDIR)/$(STAR_DIR) $(OBJDIR)/$(DOUBLE_DIR) $(OBJDIR)/$(STRING_DIR) $(OBJDIR)/$(MISC_DIR) $(OBJDIR)/$(BUILTINS)  $(OBJDIR)/$(PARSING_DIR) 
+	@mkdir -p $(OBJDIR) $(OBJDIR)/$(STAR_DIR) $(OBJDIR)/$(DOUBLE_DIR) $(OBJDIR)/$(STRING_DIR) $(OBJDIR)/$(MISC_DIR) $(OBJDIR)/$(BUILTINS)  $(OBJDIR)/$(PARSING_DIR) $(OBJDIR)/$(EXEC) $(OBJDIR)/$(UTILS_EXEC)
 
 $(LIBFT) :
 	@make --no-print-directory -C libftprintf/

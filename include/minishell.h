@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/23 16:25:44 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/01/25 14:40:42 by bvan-pae         ###   ########.fr       */
+/*   Created: 2024/01/25 14:52:35 by bvan-pae          #+#    #+#             */
+/*   Updated: 2024/01/25 14:52:59 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,6 +130,13 @@ typedef struct s_pipe
 	//
 	int h_i;
 	int t_exit;
+	int	t_r;
+	//heredoc
+	int h_cpt;
+	int h_trigger;
+	int h_before;
+	//BUILTIN
+	int b_pipefd[2];
 }			t_pipe;
 
 typedef struct s_lst
@@ -263,6 +270,7 @@ char		**ms_replace_value(char **f_env, int index, char *arg);
 char		**del_var(char **f_env, int index);
 char		*ms_find_var(t_env *denv, char *var);
 
+
 /*_.-=-._.-=-._.-=-._.-=-._.--._.-=-._.--._.-=-._.-=-._.-=-._.-=-._.-=-._*/
 /*_.-=-._.-=-._.-=-._.-=-._.- PARSING -._.-=-._.-=-._.-=-._.-=-._.-=-._*/
 
@@ -285,14 +293,75 @@ int			delimiter_check(char *input);
 
 
 /*_.-=-._.-=-._.-=-._.-=-._.--._.-=-._.--._.-=-._.-=-._.-=-._.-=-._.-=-._*/
+/*_.-=-._.-=-._.-=-._.-=-._.- TYPE PARSE -._.-=-._.-=-._.-=-._.-=-._.-=-._*/
 
+void handle_d_al(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i);
+void handle_or(t_pipe *d_pipe);
+void handle_po(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i);
+void	handle_pc(t_pipe *d_pipe);
+void handle_wrong(t_tok *d_token, t_pipe *d_pipe);
+void handle_and(t_pipe *d_pipe);
 
+void cmd_pipe(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i);
+void cmd_here(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i);
+void cmd_redi(t_tok *d_token, t_pipe *d_pipe, int *i, int j);
+void cmd_reset_fd(t_pipe *d_pipe);
+void handle_cmd(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i);
 
-	// Pas touche
-void	ms_free_env(t_env *denv);
+void	pipe_parse(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i);
+void	exec_pipe(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i);
+void	cmd_exec_pipe(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i);
+void	handle_cmd_pipe(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i);
+
+int previous_ope(t_tok *d_token, int i);
+int next_ope(t_tok *d_token, int i);
+
+void p_count(t_tok *d_token, t_pipe *d_pipe);
+
+void p_redi(t_tok *d_token, t_pipe *d_pipe, int *i);
+void handle_pc_paran(t_pipe *d_pipe);
+void p_redi(t_tok *d_token, t_pipe *d_pipe, int *i);
+void p_while(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i);
+
+void ms_h_unlink(t_pipe *d_pipe);
+void ms_place_h(t_tok *d_token, char *f_name, int i);
+char *ms_getlast(t_env *denv);
+void reset_history(t_env *denv);
+
+void	print_history(t_env *denv);
+void	print_tokens(t_tok *d_token);
+void	print_tok(t_tok *d_token);
+
+int ft_strlenlen(char **str);
+
+void handle_built(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i);
+void	b_redi(t_tok *d_token, t_pipe *d_pipe, int i);
+void b_parse(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i);
+/*_.-=-._.-=-._.-=-._.-=-._.- HEREDOC -._.-=-._.-=-._.-=-._.-=-._.-=-._*/
+
+char *h_exec(t_pipe *d_pipe, char *save, char *limiter);
+char *h_redo(t_pipe *d_pipe, t_tok *d_token, char *limiter);
+char *h_handle(t_pipe *d_pipe, t_tok *d_token, t_env *denv, int *i);
+char *heredoc(t_pipe *d_pipe, t_tok *d_token, t_env *denv, int *i);
 void t_heredoc(t_tok *d_token, int *i, char *limiter);
 
-//
+char *h_create_file(t_pipe *d_pipe);
+int check_here(char ***tokens, int i);
+void reset_history(t_env *denv);
+void ms_h_unlink(t_pipe *d_pipe);
+void ms_place_h(t_tok *d_token, char *f_name, int i);
+char *ms_getlast(t_env *denv);
+
+void c_execve(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i);
+/*_.-=-._.-=-._.-=-._.-=-._.- FREE && EXIT -._.-=-._.-=-._.-=-._.-=-._.-=-._*/
+
+void ms_free_history(t_h_lst **head);
+void ms_free_env(t_env *denv);
+void ms_free_pipe(t_pipe *d_pipe);
+
+/*_.-=-._.-=-._.-=-._.-=-._.--._.-=-._.--._.-=-._.-=-._.-=-._.-=-._.-=-._*/
+/*_.-=-._.-=-._.-=-._.-=-._.--._.-=-._.--._.-=-._.-=-._.-=-._.-=-._.-=-._*/
+
 void		init_sig();
 
 void		prompt(t_env *env);
@@ -304,4 +373,23 @@ void		ms_add_path(t_tok *tdata, t_env *denv);
 void		free_tab(char **tab);
 void		free_tdata(t_tok *tdata);
 
+int		check_here(char ***tokens, int i);
+void	b_parse(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i);
+void	b_redi(t_tok *d_token, t_pipe *d_pipe, int i);
+void	p_while(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i);
+void	w_exec_pipe(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i);
+void	exec_cmd(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i);
+void	apply_redi(t_tok *d_token, t_pipe *d_pipe,int i);
+char	*h_before(t_pipe *d_pipe, t_tok *d_token, t_env *denv, int *i);
+void	ms_place_h(t_tok *d_token, char *f_name, int i);
+void	parse_type(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i);
+int		next_ope(t_tok *d_token, int i);
+int		previous_ope(t_tok *d_token, int i);
+
+void print_tokens(t_tok *d_token);
+void p_parse_type(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i);
+
+void	cut_here(t_tok *d_token, int *i);
+char *ms_getlast(t_env *denv);
+void reset_history(t_env *denv);
 #endif
