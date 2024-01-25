@@ -6,7 +6,7 @@
 /*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 10:12:28 by nbardavi          #+#    #+#             */
-/*   Updated: 2024/01/24 13:55:27 by nbardavi         ###   ########.fr       */
+/*   Updated: 2024/01/25 10:29:38 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,8 @@ void cmd_here(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
 	p_here = check_here(d_token->tokens, *i);
 	while(p_here > -1)
 	{
-		d_token->tokens[*i][p_here] = heredoc(d_pipe, d_token, denv, i);
+		d_pipe->h_before = 1;
+		d_token->tokens[*i][p_here] = h_handle(d_pipe, d_token, denv, i);
 		p_here = check_here(d_token->tokens, *i);
 	}
 }
@@ -91,7 +92,6 @@ void handle_cmd(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
 		cmd_here(d_token, d_pipe, denv, i);
 	if ((d_token->t_size > *i && d_token->type[*i + 1] == PIPE) || (*i > 0 && d_token->type[*i - 1] == PIPE))
 	{
-		// ft_printf("env:%s\n", )
 		w_exec_pipe(d_token, d_pipe, denv, i);
 		d_pipe->t_r = 1;
 	}
