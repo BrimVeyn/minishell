@@ -6,27 +6,16 @@
 /*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 10:38:01 by nbardavi          #+#    #+#             */
-/*   Updated: 2024/01/24 14:11:10 by nbardavi         ###   ########.fr       */
+/*   Updated: 2024/01/25 14:42:01 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-void print_env(char **env)
-{
-	int i = 0;
 
-	while(env[i])
-	{
-		ft_printf("%fs\n", env[i++]);
-	}
-	ft_printf("env fini\n");
-}
-
-void	exec_pipe(t_tok *d_token, t_pipe *d_pipe, char *env[], int *i)
+void	b_exec_pipe(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
 {
-	// print_env(env);
-	// print_tokens(d_token);
+	ft_printf("\nHELLO\n");
 	pipe(d_pipe->pipefd);
 	d_pipe->f_id[d_pipe->f_cpt] = fork();
 	if (d_pipe->f_id[d_pipe->f_cpt] > 0)
@@ -47,7 +36,35 @@ void	exec_pipe(t_tok *d_token, t_pipe *d_pipe, char *env[], int *i)
 			dup2(d_pipe->output, STDOUT_FILENO);
 		close(d_pipe->pipefd[1]);
 		close(d_pipe->output);
-		execve(d_token->tokens[*i][0], d_token->tokens[*i], env);
+		b_parse(d_token, d_pipe, denv, i);
+		perror("\nexecve failed");
+		exit (EXIT_FAILURE);
+	}
+}
+
+void	exec_pipe(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
+{
+	pipe(d_pipe->pipefd);
+	d_pipe->f_id[d_pipe->f_cpt] = fork();
+	if (d_pipe->f_id[d_pipe->f_cpt] > 0)
+	{
+		close(d_pipe->pipefd[1]);
+		dup2(d_pipe->pipefd[0], STDIN_FILENO);
+		close(d_pipe->pipefd[0]);
+	}
+	else if (d_pipe->f_id[d_pipe->f_cpt] == 0)
+	{
+		close(d_pipe->pipefd[0]);
+		close(d_pipe->input);
+		if (previous_ope(d_token, *i) != PIPE)
+			dup2(d_pipe->input, STDIN_FILENO);
+		if (next_ope(d_token, *i) == PIPE)
+			dup2(d_pipe->pipefd[1], STDOUT_FILENO);
+		else
+			dup2(d_pipe->output, STDOUT_FILENO);
+		close(d_pipe->pipefd[1]);
+		close(d_pipe->output);
+		c_execve(d_token, d_pipe, denv, i);
 		perror("\nexecve failed");
 		exit (EXIT_FAILURE);
 	}
@@ -55,12 +72,11 @@ void	exec_pipe(t_tok *d_token, t_pipe *d_pipe, char *env[], int *i)
 
 void cmd_exec_pipe(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
 {
-	// print_tokens(d_token);
 	if(d_pipe->output == -1)
 		d_pipe->output = d_pipe->old_stdout;
 	if(d_pipe->input == -1)
 		d_pipe->input = d_pipe->old_stdin;
-	exec_pipe(d_token, d_pipe, denv->f_env, i);
+	exec_pipe(d_token, d_pipe, denv, i);
 	if (d_pipe->output == d_pipe->old_stdout)
 		d_pipe->output = -1;
 	if (d_pipe->input == d_pipe->old_stdin)
@@ -83,10 +99,7 @@ void handle_cmd_pipe(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
 
 	p_here = check_here(d_token->tokens, *i);
 	if (*i < d_token->t_size)
-	{
-		ft_printf("JE SUIS LA FDP");
 		cmd_redi(d_token, d_pipe, i, 0);
-	}
 	// print_tokens(d_token);
 	if (p_here > -1)
 		cmd_here(d_token, d_pipe, denv, i);
@@ -100,7 +113,7 @@ void pipe_parse(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
 
 	p_here = check_here(d_token->tokens, *i);
 	if (d_token->type[*i] == BUILTIN)
-		b_parse(d_token, d_pipe, denv, i);
+		b_exec_pipe(d_token, d_pipe, denv, i);
 	else if (d_token->type[*i] == D_AL)
 		handle_d_al(d_token, d_pipe, denv, i);
 	else if (d_token->type[*i] == S_AL)

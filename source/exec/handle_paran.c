@@ -6,7 +6,7 @@
 /*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 14:09:49 by nbardavi          #+#    #+#             */
-/*   Updated: 2024/01/24 15:29:56 by nbardavi         ###   ########.fr       */
+/*   Updated: 2024/01/25 13:46:07 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,13 @@
 
 void handle_pc_paran(t_pipe *d_pipe)
 {
-	if (d_pipe->or_return == 1)
+	if (d_pipe->failed == 1)
+		d_pipe->p_return[d_pipe->p_cpt] = 0;
+	else
 		d_pipe->p_return[d_pipe->p_cpt] = 1;
 	d_pipe->p_nbr--;
 	d_pipe->p_cpt--;
+	d_pipe->p_trig = 1;
 }
 
 void p_parse_type(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
@@ -30,7 +33,7 @@ void p_parse_type(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
 	else if (d_token->type[*i] == P_C)
 		handle_pc_paran(d_pipe);
 	else if (d_token->type[*i] == BUILTIN)
-		b_parse(d_token, d_pipe, denv, i);
+		handle_built(d_token, d_pipe, denv, i);
 	else if (d_token->type[*i] == D_AL)
 		handle_d_al(d_token, d_pipe, denv, i);
 	else if (d_token->type[*i] == S_AL)
@@ -43,7 +46,7 @@ void p_parse_type(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
 		handle_and(d_pipe);
 	else if (d_token->type[*i] == OR)
 		handle_or(d_pipe);
-	// ft_printf("Hello");
+	// ft_printf("Hello %d", *i);
 }
 
 void p_redi(t_tok *d_token, t_pipe *d_pipe, int *i)
@@ -66,7 +69,6 @@ void p_redi(t_tok *d_token, t_pipe *d_pipe, int *i)
 		dup2(d_pipe->input, STDIN_FILENO);
 	}
 }
-
 
 void p_while(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
 {
