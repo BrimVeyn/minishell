@@ -51,6 +51,7 @@ SRC 			:= source/main.c source/prompt.c source/get_env.c \
 				   source/parsing/fill_tokens.c \
 				   source/parsing/parenthesis_check.c \
 				   source/parsing/utils.c \
+				   source/parsing/count_tokens.c \
 				   source/exec/type_parse.c \
 				   source/exec/handle_cmds.c \
 				   source/exec/handle_type.c \

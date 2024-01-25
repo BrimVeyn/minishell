@@ -6,7 +6,7 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 14:52:35 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/01/25 14:52:59 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/01/25 15:37:11 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,13 @@ enum
 	COUNT = 2,
 	IX = 3,
 	TRIGGER = 4,
+};
+
+enum
+{
+	TRI = 1,
+	COUNTER = 2,
+	DCOUNTER = 3,
 };
 
 
@@ -274,22 +281,22 @@ char		*ms_find_var(t_env *denv, char *var);
 /*_.-=-._.-=-._.-=-._.-=-._.--._.-=-._.--._.-=-._.-=-._.-=-._.-=-._.-=-._*/
 /*_.-=-._.-=-._.-=-._.-=-._.- PARSING -._.-=-._.-=-._.-=-._.-=-._.-=-._*/
 
+t_tokvar	ms_tiktok(char *ptr);
 int			missing_delimiter_check(t_tok *tdata);
 int			quotes_position_check(t_tok *tdata);
 int			quotes_parity_check(char *str);
 int			start_check(char *input, t_tokvar tokvar, int i);
 int			end_check(char *input, t_tokvar tokvar, int i);
 int			parenthesis_check(char *input);
-t_tokvar	ms_tiktok(char *ptr);
-void		fill_token(char *input, t_tok *tdata, t_env *denv);
-
-void		extract_delimiter(char *input, t_tok *tdata, t_tokh *v);
-char		*grep_word(char *input, t_tokh *v);
+int			delimiter_check(char *input);
+int			count_tokens(char *input);
 int			ms_wl2(char *ptr);
 int			f_lcmd_index(t_tok *tdata, int j);
+void		fill_token(char *input, t_tok *tdata, t_env *denv);
+void		extract_delimiter(char *input, t_tok *tdata, t_tokh *v);
+char		*grep_word(char *input, t_tokh *v);
 char		**add_args_to_cmd(char *input, t_tokh *v, t_tok *tdata, t_env *denv);
 char		**add_here_to_cmd(char **token, char *input, t_tokh *v, t_tok *tdata);
-int			delimiter_check(char *input);
 
 
 /*_.-=-._.-=-._.-=-._.-=-._.--._.-=-._.--._.-=-._.-=-._.-=-._.-=-._.-=-._*/
