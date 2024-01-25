@@ -6,7 +6,7 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 16:25:44 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/01/24 14:02:23 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/01/25 14:40:42 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,15 +154,6 @@ typedef struct s_env
 	t_h_lst	*history;
 }			t_env;
 
-typedef struct s_tok
-{
-	char	***tokens;
-	int		t_size;
-	int 	*type;
-	int		exitno;
-	char	**heredoc;
-}			t_tok;
-
 typedef struct s_tokvar
 {
 	char	*str;
@@ -170,13 +161,24 @@ typedef struct s_tokvar
 	int		len;
 }			t_tokvar;
 
+typedef struct s_tok
+{
+	char		***tokens;
+	int			t_size;
+	int			*type;
+	int			exitno;
+	char		**heredoc;
+}				t_tok;
+
+
 typedef struct s_tokh
 {
-	int		i;
-	int		j;
-	int		k;
-	int		l;
-	int		tri;
+	int			i;
+	int			j;
+	int			k;
+	int			l;
+	int			tri;
+	t_tokvar	tokvar;
 }			t_tokh;
 
 t_h_lst		*ms_lst_new(char *content);
@@ -228,6 +230,7 @@ void		free_startab(char ***tokens);
 char		**ms_join_tab(char **tab, char *str);
 char		**ms_dupdup(char **environ);
 char		**ms_joinstarstar(char **p1, char **p2);
+int			ms_tablen(char **tab);
 int			ms_isws(char c);
 int			ms_tablen(char **tab);
 int			ms_strstrchr(char c, char *charset);
@@ -235,6 +238,7 @@ int			ms_findstar(char *word);
 char		*ms_strtolower(char *str);
 char		*ms_cut_at(char *input, char c);
 char		*ms_getenv(char *var, t_env *denv);
+char		**ms_joinstarstar(char **p1, char **p2);
 int			ft_strlenlen(char **str);
 
 
@@ -260,7 +264,31 @@ char		**del_var(char **f_env, int index);
 char		*ms_find_var(t_env *denv, char *var);
 
 /*_.-=-._.-=-._.-=-._.-=-._.--._.-=-._.--._.-=-._.-=-._.-=-._.-=-._.-=-._*/
-// Pas touche
+/*_.-=-._.-=-._.-=-._.-=-._.- PARSING -._.-=-._.-=-._.-=-._.-=-._.-=-._*/
+
+int			missing_delimiter_check(t_tok *tdata);
+int			quotes_position_check(t_tok *tdata);
+int			quotes_parity_check(char *str);
+int			start_check(char *input, t_tokvar tokvar, int i);
+int			end_check(char *input, t_tokvar tokvar, int i);
+int			parenthesis_check(char *input);
+t_tokvar	ms_tiktok(char *ptr);
+void		fill_token(char *input, t_tok *tdata, t_env *denv);
+
+void		extract_delimiter(char *input, t_tok *tdata, t_tokh *v);
+char		*grep_word(char *input, t_tokh *v);
+int			ms_wl2(char *ptr);
+int			f_lcmd_index(t_tok *tdata, int j);
+char		**add_args_to_cmd(char *input, t_tokh *v, t_tok *tdata, t_env *denv);
+char		**add_here_to_cmd(char **token, char *input, t_tokh *v, t_tok *tdata);
+int			delimiter_check(char *input);
+
+
+/*_.-=-._.-=-._.-=-._.-=-._.--._.-=-._.--._.-=-._.-=-._.-=-._.-=-._.-=-._*/
+
+
+
+	// Pas touche
 void	ms_free_env(t_env *denv);
 void t_heredoc(t_tok *d_token, int *i, char *limiter);
 

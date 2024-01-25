@@ -6,7 +6,7 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 15:53:41 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/01/24 13:37:56 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/01/25 12:39:27 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ char **del_var(char **f_env, int index)
 		i++; 
 	while (f_env[i])
 	{
-		ft_printf("i = %d, index = %d", i, index);
+		// ft_printf("i = %d, index = %d", i, index);
 		new[i - 1] = ft_strdup(f_env[i]);
 		i++;
 	}
