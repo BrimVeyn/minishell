@@ -6,7 +6,7 @@
 /*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 09:26:32 by nbardavi          #+#    #+#             */
-/*   Updated: 2024/01/26 11:11:23 by nbardavi         ###   ########.fr       */
+/*   Updated: 2024/01/26 13:11:52 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,9 +85,9 @@ int ms_main_pipe(t_tok d_token, t_env *denv)
 		d_pipe.t_r = 0;
 		if (d_token.type[0] == -1)
 			break;
+		printf("%d %d\n", d_token.type[i], i);
 		parse_type(&d_token, &d_pipe, denv, &i);
 		i++;
-		printf("t_exit %d\n", d_pipe.t_exit);
 		if (d_pipe.t_exit == 1)
 			break;
 	}

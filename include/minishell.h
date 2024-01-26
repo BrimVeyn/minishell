@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
+/*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/26 11:25:00 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/01/26 11:25:01 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/01/26 13:18:54 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -378,6 +378,7 @@ void c_execve(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i);
 void ms_free_history(t_h_lst **head);
 void ms_free_env(t_env *denv);
 void ms_free_pipe(t_pipe *d_pipe);
+void free_tpe(t_tok *dt, t_pipe *dp, t_env *de);
 
 /*_.-=-._.-=-._.-=-._.-=-._.--._.-=-._.--._.-=-._.-=-._.-=-._.-=-._.-=-._*/
 /*_.-=-._.-=-._.-=-._.-=-._.--._.-=-._.--._.-=-._.-=-._.-=-._.-=-._.-=-._*/

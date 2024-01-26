@@ -6,7 +6,7 @@
 /*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 10:49:59 by nbardavi          #+#    #+#             */
-/*   Updated: 2024/01/26 10:21:05 by nbardavi         ###   ########.fr       */
+/*   Updated: 2024/01/26 14:27:59 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,17 +48,17 @@ void c_execve(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
 {
 	if (d_token->type[*i] == BUILTIN)
 	{
-		ft_printf("gros con\n");
 		handle_built(d_token, d_pipe, denv, i);
 		close(d_pipe->b_pipefd[1]);
-		exit(exitno);//TEMPORAIRE -> LEAKS, FONCTION SPECIAL A FAIRE
+		free_tpe(d_token, d_pipe, denv);
+		exit(exitno);
 	}
 	else
 	{
-		execve(d_token->tokens[*i][0], d_token->tokens[*i], denv->f_env);
-		perror("execve failed connard");
 		close(d_pipe->b_pipefd[1]);
-		exit(exitno);//TEMPORAIRE -> LEAKS, FONCTION SPECIAL A FAIRE
+		execve(d_token->tokens[*i][0], d_token->tokens[*i], denv->f_env);
+		perror("execve failed");
+		exit(exitno);
 	}
 }
 
