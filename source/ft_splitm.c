@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_splitm.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
+/*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 16:23:00 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/01/25 13:42:00 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/01/26 11:21:14 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,8 @@ void	fill_split(char **split, char *str)
 	}
 }
 
+extern int exitno;
+
 char	*r_dollarquestion(char *split, int *i, t_tok *tdata)
 {
 	char *p1;
@@ -73,7 +75,7 @@ char	*r_dollarquestion(char *split, int *i, t_tok *tdata)
 	char *p2;
 
 	p1 = ft_substr(split, 0, *i);
-	var = ft_itoa(tdata->exitno);
+	var = ft_itoa(exitno);
 	p2 = ft_substr(split, *i + 2, (ft_strlen(split) - (*i + 2)));
 	*i += ft_strlen(var);
 	split = ft_sprintf("%s%s%s", p1, var, p2);

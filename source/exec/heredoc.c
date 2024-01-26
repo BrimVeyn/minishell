@@ -6,12 +6,11 @@
 /*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 08:59:09 by nbardavi          #+#    #+#             */
-/*   Updated: 2024/01/25 10:44:56 by nbardavi         ###   ########.fr       */
+/*   Updated: 2024/01/26 11:04:16 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
-
 
 char *heredoc(t_pipe *d_pipe, t_tok *d_token, t_env *denv, int *i)
 {
@@ -41,6 +40,8 @@ char *heredoc(t_pipe *d_pipe, t_tok *d_token, t_env *denv, int *i)
 	return (f_name);
 }
 
+extern int exitno;
+
 void t_heredoc(t_tok *d_token, int *i, char *limiter)
 {
 	char	*input;
@@ -61,7 +62,7 @@ void t_heredoc(t_tok *d_token, int *i, char *limiter)
 			break;
 		cpt++;
 	}
-	d_token->exitno = 0;
+	exitno = 0;
 }
 
 char *h_handle(t_pipe *d_pipe, t_tok *d_token, t_env *denv, int *i)

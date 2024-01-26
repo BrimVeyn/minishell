@@ -6,7 +6,7 @@
 /*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 10:38:01 by nbardavi          #+#    #+#             */
-/*   Updated: 2024/01/25 16:18:20 by nbardavi         ###   ########.fr       */
+/*   Updated: 2024/01/26 09:32:35 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,13 +82,11 @@ void pipe_parse(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
 	int p_here;
 
 	p_here = check_here(d_token->tokens, *i);
-	if (d_token->type[*i] == BUILTIN)
-		handle_built(d_token, d_pipe, denv, i);
-	else if (d_token->type[*i] == D_AL)
+	if (d_token->type[*i] == D_AL)
 		handle_d_al(d_token, d_pipe, denv, i);
 	else if (d_token->type[*i] == S_AL)
 		b_redi(d_token, d_pipe, *i);
-	else if ((d_token->type[*i] == CMD && d_pipe->skip_and == 0) || d_token->type[*i] == WRONG)
+	else if ((d_token->type[*i] == CMD && d_pipe->skip_and == 0) || d_token->type[*i] == WRONG || d_token->type[*i] == BUILTIN)
 		handle_cmd_pipe(d_token, d_pipe, denv, i);
 	else if (d_token->type[*i] == P_O)
 		handle_po(d_token, d_pipe, denv, i);

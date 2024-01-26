@@ -6,11 +6,12 @@
 /*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 10:13:39 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/01/25 15:58:37 by nbardavi         ###   ########.fr       */
+/*   Updated: 2024/01/26 10:12:47 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include"../../include/minishell.h"
+#include <stdlib.h>
 
 extern int exitno;
 
@@ -33,7 +34,7 @@ void b_exit(t_pipe *d_pipe, char **args)
 	if (ft_strlenlen(args) == 1)
 	{
 		exitno = 0;
-		fd_printf(d_pipe->b_pipefd[1], "1", 1);
+		fd_printf(d_pipe->b_pipefd[1], "1");
 	}
 	else if (ms_is_nbr(args[1]) == 0)
 	{
@@ -54,5 +55,5 @@ void b_exit(t_pipe *d_pipe, char **args)
 		exitno = 2;
 		fd_printf(d_pipe->b_pipefd[1], "1");
 	}
-	exit(exitno);	
+	exit(exitno);
 }

@@ -6,7 +6,7 @@
 /*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 14:52:35 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/01/25 16:17:28 by nbardavi         ###   ########.fr       */
+/*   Updated: 2024/01/26 11:16:22 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -173,7 +173,6 @@ typedef struct s_tok
 	char		***tokens;
 	int			t_size;
 	int			*type;
-	int			exitno;
 	char		**heredoc;
 }				t_tok;
 
@@ -300,7 +299,7 @@ void handle_d_al(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i);
 void handle_or(t_pipe *d_pipe);
 void handle_po(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i);
 void	handle_pc(t_pipe *d_pipe);
-void handle_wrong(t_tok *d_token, t_pipe *d_pipe);
+void	handle_wrong(t_pipe *d_pipe);
 void handle_and(t_pipe *d_pipe);
 
 void cmd_pipe(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i);
