@@ -5,9 +5,9 @@ CC 				:= cc
 LDFLAGS			:= -lreadline -lncurses
 CFLAGS 			:= -Wall -Wextra -Werror -g
 SRC 			:= source/main.c source/prompt.c source/get_env.c \
-				   source/free.c source/parse.c source/ms_h_lst.c \
-				   source/exec_pipe.c source/path_parse.c source/inits.c \
-				   source/ft_strtrimfree.c source/ft_splitm.c source/signals.c \
+				   source/ms_h_lst.c \
+				   source/exec_pipe.c source/inits.c \
+				   source/ft_splitm.c source/signals.c \
 				   source/double_linked_list/ms_dlstaddback.c \
 				   source/double_linked_list/ms_dlstclear.c \
 				   source/double_linked_list/ms_dlstdelone.c \
@@ -28,6 +28,7 @@ SRC 			:= source/main.c source/prompt.c source/get_env.c \
 				   source/string_utils/ms_strstrchr.c \
 				   source/string_utils/ms_isws.c \
 				   source/string_utils/ms_cut_at.c \
+				   source/string_utils/ms_strtrimfree.c \
 				   source/string_utils/ms_getenv.c \
 				   source/string_utils/ms_join_tab.c \
 				   source/string_utils/ms_joinstarstar.c \
@@ -39,8 +40,8 @@ SRC 			:= source/main.c source/prompt.c source/get_env.c \
 				   source/builtins/pwd.c \
 				   source/builtins/cd.c \
 				   source/builtins/exit.c \
-				   source/misc/ms_setint.c \
-				   source/misc/ms_setchar.c \
+				   source/parsing/parse_input.c \
+				   source/parsing/path_parse.c \
 				   source/parsing/missing_delimiter_check.c \
 				   source/parsing/quotes_position_check.c \
 				   source/parsing/quotes_parity_check.c \
@@ -52,6 +53,7 @@ SRC 			:= source/main.c source/prompt.c source/get_env.c \
 				   source/parsing/parenthesis_check.c \
 				   source/parsing/utils.c \
 				   source/parsing/count_tokens.c \
+				   source/parsing/count_tokens_helpers.c \
 				   source/exec/type_parse.c \
 				   source/exec/handle_cmds.c \
 				   source/exec/handle_type.c \
@@ -66,6 +68,9 @@ SRC 			:= source/main.c source/prompt.c source/get_env.c \
 				   source/exec/free_exec.c \
 				   source/utils_exec/debug.c \
 				   source/utils_exec/utils.c \
+				   source/misc/ms_setint.c \
+				   source/misc/ms_setchar.c \
+				   source/misc/ms_free.c \
 
 OBJ 			:= $(SRC:source/%.c=objects/%.o)
 

@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strtrimfree.c                                   :+:      :+:    :+:   */
+/*   ms_strtrimfree.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/06 15:34:52 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/01/08 10:50:39 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/01/26 09:27:20 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
+#include "../../include/minishell.h"
 
 int	ft_istr(char const *str, char const c)
 {
@@ -23,11 +23,11 @@ int	ft_istr(char const *str, char const c)
 	return (0);
 }
 
-char	*ft_strtrimf(char const *s1, char const *set)
+char	*ms_strtrimf(char const *s1, char const *set)
 {
-	char	*end;
-	char	*new;
-	const char *ptr = s1;
+	char		*end;
+	char		*new;
+	const char	*ptr = s1;
 
 	while (*s1 && ft_istr(set, *s1))
 		s1++;
@@ -37,6 +37,6 @@ char	*ft_strtrimf(char const *s1, char const *set)
 	while (end > s1 && ft_istr(set, *end))
 		end--;
 	new = ft_substr(s1, 0, end - s1 + 1);
-	free((char*)ptr);
+	free((char *)ptr);
 	return (new);
 }

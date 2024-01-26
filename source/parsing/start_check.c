@@ -6,7 +6,7 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 13:33:04 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/01/25 13:34:07 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/01/26 08:57:01 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int start_check(char *input, t_tokvar tokvar, int i)
 	int icpy;
 
 	icpy = i;
-	if (tokvar.type == P_O || tokvar.type == P_C || tokvar.type == S_AL)
+	if (tokvar.type == P_O || tokvar.type == P_C || tokvar.type == S_AL || tokvar.type == D_AL)
 		return(TRUE);
 	if (icpy != 0)
 	{

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   inits.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
+/*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 16:22:41 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/01/25 14:27:24 by nbardavi         ###   ########.fr       */
+/*   Updated: 2024/01/26 08:44:58 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@ t_tokh init_tokh(void)
 	self.j = 0;
 	self.k = 0;
 	self.tri = 0;
+	self.quotes[0] = 0;
+	self.quotes[1] = 0;
 	return (self);
 }
 

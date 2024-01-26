@@ -17,7 +17,7 @@ int	ms_findstar(char *word)
 	int	i;
 
 	i = -1;
-	while(word[++i])
+	while (word[++i])
 		if (word[i] == '*')
 			return (TRUE);
 	return (ERROR);
