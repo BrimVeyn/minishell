@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/26 11:25:16 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/01/26 14:21:19 by bvan-pae         ###   ########.fr       */
+/*   Created: 2024/01/26 14:40:51 by bvan-pae          #+#    #+#             */
+/*   Updated: 2024/01/26 14:41:01 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,12 +114,7 @@ void	prompt(t_env *denv)
 		prompt = ms_form_prompt(denv);
 		input = readline(prompt);
 		free(prompt);
-		// if (g_exitno == 130)
-		// {
-		// 	d_token.g_exitno = g_exitno;
-		// 	g_exitno = -1;
-		// 	continue;
-		// }
+
 		if (input == NULL)
 		{
 			printf("exit\n");

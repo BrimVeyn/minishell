@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/25 10:49:59 by nbardavi          #+#    #+#             */
-/*   Updated: 2024/01/26 14:21:19 by bvan-pae         ###   ########.fr       */
+/*   Created: 2024/01/26 14:41:53 by bvan-pae          #+#    #+#             */
+/*   Updated: 2024/01/26 14:42:13 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,16 +48,16 @@ void c_execve(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
 {
 	if (d_token->type[*i] == BUILTIN)
 	{
-		ft_printf("gros con\n");
 		handle_built(d_token, d_pipe, denv, i);
 		close(d_pipe->b_pipefd[1]);
+		free_tpe(d_token, d_pipe, denv);
 		exit(g_exitno);//TEMPORAIRE -> LEAKS, FONCTION SPECIAL A FAIRE
 	}
 	else
 	{
-		execve(d_token->tokens[*i][0], d_token->tokens[*i], denv->f_env);
-		perror("execve failed connard");
 		close(d_pipe->b_pipefd[1]);
+		execve(d_token->tokens[*i][0], d_token->tokens[*i], denv->f_env);
+		perror("execve failed");
 		exit(g_exitno);//TEMPORAIRE -> LEAKS, FONCTION SPECIAL A FAIRE
 	}
 }
