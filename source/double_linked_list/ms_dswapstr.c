@@ -12,7 +12,7 @@
 
 #include "../../include/minishell.h"
 
-void ms_dswapstr(t_dlist *current, t_dlist *next)
+void	ms_dswapstr(t_dlist *current, t_dlist *next)
 {
 	char	*tmp;
 

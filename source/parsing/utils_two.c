@@ -1,39 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ms_dlsort.c                                        :+:      :+:    :+:   */
+/*   utils_two.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/18 12:14:12 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/01/26 10:08:16 by bvan-pae         ###   ########.fr       */
+/*   Created: 2024/01/26 11:18:21 by bvan-pae          #+#    #+#             */
+/*   Updated: 2024/01/26 11:18:52 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-void	ms_dlsort(t_dlist **flist)
+int	tild_index(char *word)
 {
-	t_dlist		*current;
-	int			i;
-	int const	list_len = ms_dlstlen(flist);
-	char		*cstrcpy;
-	char		*nstrcpy;
+	int	i;
 
 	i = 0;
-	while (i < list_len)
-	{
-		current = *flist;
-		while (current->next)
-		{
-			cstrcpy = ms_strtolower(current->str);
-			nstrcpy = ms_strtolower(current->next->str);
-			if (ft_strcmp(cstrcpy, nstrcpy) > 0)
-				ms_dswapstr(current, current->next);
-			current = current->next;
-			free(cstrcpy);
-			free(nstrcpy);
-		}
+	while (word[i] && word[i] != '~')
 		i++;
-	}
+	return (i);
+}
+
+char	**dupdup(void)
+{
+	char **self;
+	
+	self = ft_calloc(2, sizeof(char *));
+	self[0] = ft_calloc(2, sizeof(char));
+	return (self);
 }

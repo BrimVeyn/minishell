@@ -12,15 +12,16 @@
 
 #include "../../include/minishell.h"
 
-int count_tokens(char *input)
+int	count_tokens(char *input)
 {
-	int x[4];
+	int	x[4];
 
 	x[I] = 0;
 	x[COUNTER] = 0;
 	x[TRI] = 0;
 	x[DCOUNTER] = 0;
-	if (parenthesis_check(input) == ERROR || quotes_parity_check(input) == ERROR)
+	if (parenthesis_check(input) == ERROR
+		|| quotes_parity_check(input) == ERROR)
 		return (ERROR);
 	while (input[x[I]])
 		if (count_tokens_helper4(x, input) == ERROR)

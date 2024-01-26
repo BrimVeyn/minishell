@@ -6,7 +6,7 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 14:52:35 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/01/26 09:31:34 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/01/26 11:21:49 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -236,7 +236,7 @@ char		*ms_starjoin(t_starlist **slist);
 /*_.-=-._.-=-._.-=-._.-=-._.--._.-=-._.--._.-=-._.-=-._.-=-._.-=-._.-=-._*/
 /*_.-=-._.-=-._.-=-._.-=-._.- STRING_UTILS -._.-=-._.-=-._.-=-._.-=-._.-=-._*/
 
-char		**ft_splitm(char *str, t_tok *tdata, t_env *denv);
+char		**ft_splitm(char *str, t_env *denv);
 char		*get_pwd(t_env *data);
 char		*get_path(t_env *data);
 char		*get_usr(t_env *data);
@@ -288,7 +288,7 @@ int			missing_delimiter_check(t_tok *tdata);
 int			quotes_position_check(t_tok *tdata);
 int			quotes_parity_check(char *str);
 int			start_check(char *input, t_tokvar tokvar, int i);
-int			end_check(char *input, t_tokvar tokvar, int i);
+int			end_check(char *input, int i);
 int			parenthesis_check(char *input);
 int			delimiter_check(char *input);
 int			count_tokens(char *input);
@@ -300,6 +300,15 @@ void		extract_delimiter(char *input, t_tok *tdata, t_tokh *v);
 char		*grep_word(char *input, t_tokh *v);
 char		**add_args_to_cmd(char *input, t_tokh *v, t_tok *tdata, t_env *denv);
 char		**add_here_to_cmd(char **token, char *input, t_tokh *v, t_tok *tdata);
+char		*r_dollarquestion(char *split, int *i);
+char		*r_dollar(char *split, int *i, int start, t_env *denv);
+char		*r_env(char *split, t_env *denv);
+char		*ms_extract(char *split, int *j, char c);
+char		*tild_expand(char *word, t_env *denv);
+t_dlist		*ms_wildcard_expand(t_starlist *current, t_dlist *flist);
+char		*w_expand(char *word, t_env *denv);
+int			tild_index(char *word);
+char		**dupdup(void);
 
 
 /*_.-=-._.-=-._.-=-._.-=-._.--._.-=-._.--._.-=-._.-=-._.-=-._.-=-._.-=-._*/

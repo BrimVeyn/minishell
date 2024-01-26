@@ -12,9 +12,9 @@
 
 #include "../../include/minishell.h"
 
-void ms_del_hidden(t_dlist *el, char *to_match)
+void	ms_del_hidden(t_dlist *el, char *to_match)
 {
-	(void) to_match;
+	(void)to_match;
 	if (el->str[0] == '.')
 		el->i = ERROR;
 }
@@ -30,9 +30,9 @@ void	ms_matchstart(t_dlist *el, char *to_match)
 		el->i = ERROR;
 }
 
-void  ms_matchmid(t_dlist *el, char *to_match)
+void	ms_matchmid(t_dlist *el, char *to_match)
 {
-	int tm_len;
+	int	tm_len;
 	int	str_len;
 	int	valid;
 
@@ -42,18 +42,18 @@ void  ms_matchmid(t_dlist *el, char *to_match)
 	while (el->str[el->i] && el->i <= str_len - tm_len)
 	{
 		if (!ft_strncmp(&el->str[el->i], to_match, tm_len))
-        {
+		{
 			el->i += tm_len;
 			valid = 1;
-			break;
-        }
+			break ;
+		}
 		el->i++;
 	}
-	if (valid == 0) 
+	if (valid == 0)
 		el->i = ERROR;
 }
 
-void ms_matchend(t_dlist *el, char *to_match)
+void	ms_matchend(t_dlist *el, char *to_match)
 {
 	int	tm_len;
 	int	str_len;
@@ -67,4 +67,3 @@ void ms_matchend(t_dlist *el, char *to_match)
 	else
 		el->i = ERROR;
 }
-
