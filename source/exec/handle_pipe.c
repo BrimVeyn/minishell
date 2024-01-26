@@ -3,43 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   handle_pipe.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
+/*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 10:38:01 by nbardavi          #+#    #+#             */
-/*   Updated: 2024/01/25 14:55:52 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/01/26 09:32:35 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
-
-
-void	b_exec_pipe(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
-{
-	pipe(d_pipe->pipefd);
-	d_pipe->f_id[d_pipe->f_cpt] = fork();
-	if (d_pipe->f_id[d_pipe->f_cpt] > 0)
-	{
-		close(d_pipe->pipefd[1]);
-		dup2(d_pipe->pipefd[0], STDIN_FILENO);
-		close(d_pipe->pipefd[0]);
-	}
-	else if (d_pipe->f_id[d_pipe->f_cpt] == 0)
-	{
-		close(d_pipe->pipefd[0]);
-		close(d_pipe->input);
-		if (previous_ope(d_token, *i) != PIPE)
-			dup2(d_pipe->input, STDIN_FILENO);
-		if (next_ope(d_token, *i) == PIPE)
-			dup2(d_pipe->pipefd[1], STDOUT_FILENO);
-		else
-			dup2(d_pipe->output, STDOUT_FILENO);
-		close(d_pipe->pipefd[1]);
-		close(d_pipe->output);
-		b_parse(d_token, d_pipe, denv, i);
-		perror("\nexecve failed");
-		exit (EXIT_FAILURE);
-	}
-}
 
 void	exec_pipe(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
 {
@@ -111,13 +82,11 @@ void pipe_parse(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
 	int p_here;
 
 	p_here = check_here(d_token->tokens, *i);
-	if (d_token->type[*i] == BUILTIN)
-		b_exec_pipe(d_token, d_pipe, denv, i);
-	else if (d_token->type[*i] == D_AL)
+	if (d_token->type[*i] == D_AL)
 		handle_d_al(d_token, d_pipe, denv, i);
 	else if (d_token->type[*i] == S_AL)
 		b_redi(d_token, d_pipe, *i);
-	else if ((d_token->type[*i] == CMD && d_pipe->skip_and == 0) || d_token->type[*i] == WRONG)
+	else if ((d_token->type[*i] == CMD && d_pipe->skip_and == 0) || d_token->type[*i] == WRONG || d_token->type[*i] == BUILTIN)
 		handle_cmd_pipe(d_token, d_pipe, denv, i);
 	else if (d_token->type[*i] == P_O)
 		handle_po(d_token, d_pipe, denv, i);
