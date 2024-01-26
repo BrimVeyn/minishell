@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/25 14:52:35 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/01/26 11:21:49 by bvan-pae         ###   ########.fr       */
+/*   Created: 2024/01/26 11:25:00 by bvan-pae          #+#    #+#             */
+/*   Updated: 2024/01/26 11:25:01 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -181,7 +181,6 @@ typedef struct s_tok
 	char		***tokens;
 	int			t_size;
 	int			*type;
-	int			exitno;
 	char		**heredoc;
 }				t_tok;
 
@@ -278,6 +277,7 @@ int			ms_var_exist(char *var, t_env *denv);
 char		**ms_replace_value(char **f_env, int index, char *arg);
 char		**del_var(char **f_env, int index);
 char		*ms_find_var(t_env *denv, char *var);
+void b_echo(t_tok *d_token, int *i);
 
 
 /*_.-=-._.-=-._.-=-._.-=-._.--._.-=-._.--._.-=-._.-=-._.-=-._.-=-._.-=-._*/
@@ -318,7 +318,7 @@ void handle_d_al(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i);
 void handle_or(t_pipe *d_pipe);
 void handle_po(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i);
 void	handle_pc(t_pipe *d_pipe);
-void handle_wrong(t_tok *d_token, t_pipe *d_pipe);
+void	handle_wrong(t_pipe *d_pipe);
 void handle_and(t_pipe *d_pipe);
 
 void cmd_pipe(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i);
@@ -353,9 +353,9 @@ void	print_tok(t_tok *d_token);
 
 int ft_strlenlen(char **str);
 
-void handle_built(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i);
+void	handle_built(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i);
 void	b_redi(t_tok *d_token, t_pipe *d_pipe, int i);
-void b_parse(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i);
+void	b_parse(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i);
 /*_.-=-._.-=-._.-=-._.-=-._.- HEREDOC -._.-=-._.-=-._.-=-._.-=-._.-=-._*/
 
 char *h_exec(t_pipe *d_pipe, char *save, char *limiter);
@@ -372,6 +372,7 @@ void ms_place_h(t_tok *d_token, char *f_name, int i);
 char *ms_getlast(t_env *denv);
 
 void c_execve(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i);
+
 /*_.-=-._.-=-._.-=-._.-=-._.- FREE && EXIT -._.-=-._.-=-._.-=-._.-=-._.-=-._*/
 
 void ms_free_history(t_h_lst **head);
@@ -393,7 +394,6 @@ void		free_tab(char **tab);
 void		free_tdata(t_tok *tdata);
 
 int		check_here(char ***tokens, int i);
-void	b_parse(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i);
 void	b_redi(t_tok *d_token, t_pipe *d_pipe, int i);
 void	p_while(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i);
 void	w_exec_pipe(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i);

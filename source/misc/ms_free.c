@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/26 15:14:38 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/01/26 09:30:16 by bvan-pae         ###   ########.fr       */
+/*   Created: 2024/01/26 11:26:10 by bvan-pae          #+#    #+#             */
+/*   Updated: 2024/01/26 11:26:10 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,5 +56,6 @@ void	free_startab(char ***tokens)
 void	free_tdata(t_tok *tdata)
 {
 	free_startab(tdata->tokens);
+	free_tab(tdata->heredoc);
 	free(tdata->type);
 }
