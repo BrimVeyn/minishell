@@ -17,7 +17,7 @@ int	ms_strstrchr(char c, char *charset)
 	int	i;
 
 	i = -1;
-	while(charset[++i])
+	while (charset[++i])
 		if (c == charset[i])
 			return (ERROR);
 	return (TRUE);

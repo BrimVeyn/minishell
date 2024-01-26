@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse.c                                            :+:      :+:    :+:   */
+/*   parse_input.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 16:40:08 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/01/25 16:12:19 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/01/26 09:25:56 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
+#include "../../include/minishell.h"
 
 t_tokvar ms_tiktok(char *ptr)
 {
@@ -50,7 +50,6 @@ t_tok	parse_input(char *input, t_env *denv)
 	if (tdata.t_size == ERROR)
 		return (tdata);
 	tdata = init_tok(tdata.t_size, heredoc);
-	printf("Token count : %d\n", tdata.t_size);
 	fill_token(input, &tdata, denv);
 	if (quotes_position_check(&tdata) == ERROR)
 	{
@@ -60,11 +59,11 @@ t_tok	parse_input(char *input, t_env *denv)
 	ms_add_path(&tdata, denv);
 	if (missing_delimiter_check(&tdata) == ERROR)
 		return (tdata);
-	for (int i = 0; tdata.tokens[i]; i++)
-	{
-		printf("S->TYPE[%d] = %d\n", i, tdata.type[i]);
-		for (int j = 0; tdata.tokens[i][j]; j++)
-			printf("S[%d][%d] = %s\n", i, j, tdata.tokens[i][j]);
-	}
 	return (tdata);
 }
+// for (int i = 0; tdata.tokens[i]; i++)
+// {
+// 	ft_printf("S->TYPE[%d] = %d\n", i, tdata.type[i]);
+// 	for (int j = 0; tdata.tokens[i][j]; j++)
+// 		ft_printf("S[%d][%d] = %fs\n", i, j, tdata.tokens[i][j]);
+// }

@@ -6,13 +6,11 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/28 09:31:25 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/01/25 15:32:53 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/01/26 09:31:39 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
-#include <unistd.h>
-#include <sys/stat.h>
+#include "../../include/minishell.h"
 
 int	ms_filetype(char *path)	
 {

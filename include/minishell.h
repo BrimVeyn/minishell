@@ -6,7 +6,7 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 14:52:35 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/01/25 15:37:11 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/01/26 09:31:34 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@
 #include <readline/readline.h>
 #include <readline/history.h>
 #include <sys/ioctl.h>
+#include <sys/stat.h>
 
 # define VIOLET "\001\e[38;2;189;147;249m\002"
 # define GREEN "\001\e[38;2;80;255;125m\002"
@@ -192,6 +193,7 @@ typedef struct s_tokh
 	int			k;
 	int			l;
 	int			tri;
+	int			quotes[2];
 	t_tokvar	tokvar;
 }			t_tokh;
 
@@ -238,9 +240,9 @@ char		**ft_splitm(char *str, t_tok *tdata, t_env *denv);
 char		*get_pwd(t_env *data);
 char		*get_path(t_env *data);
 char		*get_usr(t_env *data);
-char		*ft_strtrimf(char const *s1, char const *set);
 void		free_startab(char ***tokens);
 
+char		*ms_strtrimf(char const *s1, char const *set);
 char		**ms_join_tab(char **tab, char *str);
 char		**ms_dupdup(char **environ);
 char		**ms_joinstarstar(char **p1, char **p2);
@@ -290,6 +292,7 @@ int			end_check(char *input, t_tokvar tokvar, int i);
 int			parenthesis_check(char *input);
 int			delimiter_check(char *input);
 int			count_tokens(char *input);
+int			count_tokens_helper4(int *x, char *input);
 int			ms_wl2(char *ptr);
 int			f_lcmd_index(t_tok *tdata, int j);
 void		fill_token(char *input, t_tok *tdata, t_env *denv);
