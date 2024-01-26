@@ -3,14 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
+/*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 14:57:36 by nbardavi          #+#    #+#             */
-/*   Updated: 2024/01/25 15:43:42 by nbardavi         ###   ########.fr       */
+/*   Updated: 2024/01/26 14:43:51 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
+
+extern int g_exitno;
 
 int flag_echo(char *flag)
 {
@@ -20,10 +22,11 @@ int flag_echo(char *flag)
 	if (flag[0] != '-')
 		return (0);
 	i++;
-	while(flag[0])
+	while(flag[i])
 	{
-		if (flag[0] != 'n')
+		if (flag[i] != 'n')
 			return(0);
+		i++;
 	}
 	return (1);
 }
@@ -36,15 +39,13 @@ void b_echo(t_tok *d_token, int *i)
 
 	j = 1;
 	t = 0;
-	flag = flag_echo(d_token->tokens[*i][0]);
+	flag = flag_echo(d_token->tokens[*i][j]);
 	j += flag;
 	while(d_token->tokens[*i][j])
 	{
 		if (t == 0)
-		{
 			if (flag_echo(d_token->tokens[*i][j]) == 0)
 				t = 1;
-		}
 		if (t == 1)
 		{
 			t = 1;
@@ -54,5 +55,5 @@ void b_echo(t_tok *d_token, int *i)
 	}
 	if (flag == 0)
 		printf("\n");
-	exit(EXIT_SUCCESS);
+	g_exitno = 0;
 }

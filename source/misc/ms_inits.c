@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/22 16:22:41 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/01/26 13:55:47 by bvan-pae         ###   ########.fr       */
+/*   Created: 2024/01/26 14:42:22 by bvan-pae          #+#    #+#             */
+/*   Updated: 2024/01/26 14:42:23 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,9 +61,10 @@ void init_d_pipe(t_pipe *d_pipe)
 	d_pipe->p_trig = 0;
 	d_pipe->h_i = 0;
 	d_pipe->t_exit = 0;
+	d_pipe->b_pipefd[0] = -1;
+	d_pipe->b_pipefd[1] = -1;
 	d_pipe->old_stdin = dup(STDIN_FILENO);
 	d_pipe->old_stdout = dup(STDOUT_FILENO);
-	// d_pipe->heredoc = ft_calloc(1000, sizeof(int)); //TEMPORAIRE
 	d_pipe->fork_id = ft_calloc(1000, sizeof(int)); //TEMPORAIRE
 	d_pipe->f_id = ft_calloc(1000, sizeof(int)); //TEMPORAIRE
 }
