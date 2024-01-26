@@ -6,7 +6,7 @@
 /*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 09:26:32 by nbardavi          #+#    #+#             */
-/*   Updated: 2024/01/25 14:42:39 by nbardavi         ###   ########.fr       */
+/*   Updated: 2024/01/26 11:11:23 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,17 +39,19 @@ void	parse_type(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
 	else if (d_token->type[*i] == P_C && d_pipe->t_r == 0)
 		handle_pc(d_pipe);
 	else if (d_token->type[*i] == WRONG)
-		handle_wrong(d_token, d_pipe);
+		handle_wrong(d_pipe);
 	else if (d_token->type[*i] == AND)
 		handle_and(d_pipe);
 	else if (d_token->type[*i] == OR)
 		handle_or(d_pipe);
 }
 
+extern int exitno;
+
 void	w_exec_pipe(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
 {
 	int j;
-
+	
 	j = 0;
 	d_pipe->f_cpt = 0;
 	dup2(d_pipe->input, STDIN_FILENO);
@@ -62,7 +64,7 @@ void	w_exec_pipe(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
 	dup2(d_pipe->old_stdin, STDIN_FILENO);
 	while(d_pipe->f_cpt >= j)
 	{
-		waitpid(d_pipe->f_id[d_pipe->f_cpt], &d_token->exitno, 0);
+		waitpid(d_pipe->f_id[d_pipe->f_cpt], &exitno, 0);
 		j++;
 	}
 	d_pipe->p_trig = 1;
@@ -85,6 +87,7 @@ int ms_main_pipe(t_tok d_token, t_env *denv)
 			break;
 		parse_type(&d_token, &d_pipe, denv, &i);
 		i++;
+		printf("t_exit %d\n", d_pipe.t_exit);
 		if (d_pipe.t_exit == 1)
 			break;
 	}

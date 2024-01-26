@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
+/*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/26 15:14:38 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/01/19 14:11:12 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/01/26 11:19:18 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,5 +56,6 @@ void	free_startab(char ***tokens)
 void	free_tdata(t_tok *tdata)
 {
 	free_startab(tdata->tokens);
+	free_tab(tdata->heredoc);
 	free(tdata->type);
 }
