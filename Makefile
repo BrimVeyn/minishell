@@ -46,6 +46,7 @@ SRC 			:= source/main.c source/prompt.c source/get_env.c \
 				   source/parsing/utils_two.c \
 				   source/parsing/replace_env.c \
 				   source/parsing/path_parse.c \
+				   source/builtins/echo.c \
 				   source/parsing/missing_delimiter_check.c \
 				   source/parsing/quotes_position_check.c \
 				   source/parsing/quotes_parity_check.c \

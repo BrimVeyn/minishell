@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_paran.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
+/*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 14:09:49 by nbardavi          #+#    #+#             */
-/*   Updated: 2024/01/25 13:46:07 by nbardavi         ###   ########.fr       */
+/*   Updated: 2024/01/26 11:26:02 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void p_parse_type(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
 	else if (d_token->type[*i] == CMD && d_pipe->skip_and == 0)
 		handle_cmd(d_token, d_pipe, denv, i);
 	else if (d_token->type[*i] == WRONG)
-		handle_wrong(d_token, d_pipe);
+		handle_wrong(d_pipe);
 	else if (d_token->type[*i] == AND)
 		handle_and(d_pipe);
 	else if (d_token->type[*i] == OR)

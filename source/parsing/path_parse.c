@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/28 09:31:25 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/01/26 10:30:01 by bvan-pae         ###   ########.fr       */
+/*   Created: 2024/01/26 11:25:26 by bvan-pae          #+#    #+#             */
+/*   Updated: 2024/01/26 11:25:43 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ int	ms_check_builtin(char *cmd)
 		|| !ft_strcmp(cmd, "unset")
 		|| !ft_strcmp(cmd, "env")
 		|| !ft_strcmp(cmd, "exit")
+		|| !ft_strcmp(cmd, "echo")
 		|| !ft_strcmp(cmd, "pwd"))
 		return (TRUE);
 	return (ERROR);
