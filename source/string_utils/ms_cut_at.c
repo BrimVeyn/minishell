@@ -12,10 +12,10 @@
 
 #include "../../include/minishell.h"
 
-char *ms_cut_at(char *input, char c)
+char	*ms_cut_at(char *input, char c)
 {
-	int	i;
-	char *new;
+	int		i;
+	char	*new;
 
 	i = 0;
 	while (input[i] && input[i] != c)

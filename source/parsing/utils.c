@@ -6,7 +6,7 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 13:51:50 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/01/25 14:17:37 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/01/26 09:28:58 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,8 @@ void	extract_delimiter(char *input, t_tok *tdata, t_tokh *v)
 	}
 	tdata->tokens[v->j] = (char **) ft_calloc (2, sizeof(char *));
 	tdata->tokens[v->j][0] = ft_substr(input, v->i - len, len); 
-	tmp = ft_strtrimf(tdata->tokens[v->j][0], "'");
-	tmp = ft_strtrimf(tmp, "\"");
+	tmp = ms_strtrimf(tdata->tokens[v->j][0], "'");
+	tmp = ms_strtrimf(tmp, "\"");
 	tdata->tokens[v->j][0] = tmp;
 	tdata->type[v->j] = DELIMITER;
 	v->j++;

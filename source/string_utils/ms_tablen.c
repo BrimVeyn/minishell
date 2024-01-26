@@ -12,14 +12,14 @@
 
 #include "../../include/minishell.h"
 
-int ms_tablen(char **tab)
+int	ms_tablen(char **tab)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	if (!tab)
 		return (0);
-	while(tab[i])
+	while (tab[i])
 		i++;
-	return(i);
+	return (i);
 }

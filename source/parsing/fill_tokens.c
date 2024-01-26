@@ -6,7 +6,7 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 14:40:02 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/01/25 14:40:43 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/01/26 08:52:49 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,10 @@ void fill_token_helper2(t_tok *tdata, t_tokh *v, t_env *denv, char *input)
 	v->j++;
 }
 
-void fill_token_helper3(t_tokh *v)
+void fill_token_helper3(t_tokh *v, char *input)
 {
+	v->quotes[0] ^= (input[v->i] == DQUOTE);
+	v->quotes[1] ^= (input[v->i] == SQUOTE);
 	v->tri = 1;
 	v->k++;
 	v->i++;
@@ -67,8 +69,8 @@ void fill_token(char *input, t_tok *tdata, t_env *denv)
 			v.i++;
 		v.k = 0;
 		v.tri = 0;
-		while (input[v.i] && ms_tiktok(&input[v.i]).type == CMD)
-			fill_token_helper3(&v);
+		while ((input[v.i] && ms_tiktok(&input[v.i]).type == CMD) || (input[v.i] && (v.quotes[0] == TRUE || v.quotes[1] == TRUE)))
+			fill_token_helper3(&v, input);
 		if (v.tri == 1)
 			fill_token_helper2(tdata, &v, denv, input);
 		while ((ms_tiktok(&input[v.i]).type == S_AL || ms_tiktok(&input[v.i]).type == D_AL) && v.i > 0)

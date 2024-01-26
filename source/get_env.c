@@ -6,7 +6,7 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/23 14:22:29 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/01/24 14:11:36 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/01/26 09:50:00 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,12 +70,6 @@ char **ms_dupdup(char **environ)
 
 t_env *update_env(t_env *denv)
 {
-	// extern char **environ;
-
-	// free_tab(denv->f_env);
-	// denv->f_env = ms_dupdup(environ);
-	// free(denv->usr);
-	// denv->usr = get_usr(denv);
 	free(denv->pwd);
 	denv->pwd = get_pwd(denv);
 	free(denv->path);
