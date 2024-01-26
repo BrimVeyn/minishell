@@ -3,15 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
+/*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 08:53:03 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/01/25 12:44:56 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/01/26 13:48:22 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 #include <unistd.h>
+
+extern int exitno;
 
 char *ms_find_var(t_env *denv, char *var)
 {
@@ -50,8 +52,8 @@ static	void cd_minus(t_env *denv)
 	if (!newpwd)
 	{
 		fd_printf(2, "minishell: cd: OLDPWD not set\n");
+		exitno = 1;
 		return ;
-		//exit(EXIT_FAILURE);
 	}
 	// fd_printf(2,"newpwd %fs\n", newpwd);
 	// fd_printf(2,"oldpwd %fs\n", oldpwd);
@@ -92,8 +94,7 @@ static	void cd_minus(t_env *denv)
 		free(tmp);
     }
 	free(newpwd);
-
-	//exit(EXIT_SUCCESS);	
+	exitno = 0;
 }
 
 
@@ -117,8 +118,8 @@ void	b_cd(char **args, t_env *denv)
 	if (ms_tablen(args) > 2)
 	{
 		fd_printf(2, "minishell: cd: too many arguments\n");
+		exitno = 1;
 		return ;
-		// exit(EXIT_FAILURE);
 	}
 	else if (ms_tablen(args) == 1)
 	{
@@ -157,11 +158,11 @@ void	b_cd(char **args, t_env *denv)
 			free(tmp);
         }
 		free(newoldpwd);
-		// exit(EXIT_SUCCESS);
+		exitno = 0;
 	}
 	else
     {
 		fd_printf(2, "minishell: cd: %fs: No such file or directory\n", args[1]);
-		// exit(EXIT_FAILURE);
+		exitno = 1;
     }
 }

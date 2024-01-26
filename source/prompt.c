@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prompt.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
+/*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/26 11:25:16 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/01/26 11:25:17 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/01/26 14:19:43 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,12 +114,6 @@ void	prompt(t_env *denv)
 		prompt = ms_form_prompt(denv);
 		input = readline(prompt);
 		free(prompt);
-		// if (exitno == 130)
-		// {
-		// 	d_token.exitno = exitno;
-		// 	exitno = -1;
-		// 	continue;
-		// }
 		if (input == NULL)
 		{
 			printf("exit\n");
