@@ -12,24 +12,28 @@
 
 #include "../../include/minishell.h"
 
-char *ms_dlstjoin(t_dlist **dlist)
+char	*ms_dlstjoin(t_dlist **dlist)
 {
-    if (!dlist || !*dlist) return NULL;
+	t_dlist	*current;
+	char	*new;
+	char	*temp;
 
-    t_dlist *current = *dlist;
-    char *new = ft_strdup("");
-    char *temp;
-
-    while (current != NULL) {
-        temp = ft_strjoin(new, current->str);
-        free(new);
-        new = temp;
-        if (current->next != NULL) {
-            temp = ft_strjoin(new, " ");
-            free(new);
-            new = temp;
-        }
-        current = current->next;
-    }
-    return new;
+	if (!dlist || !*dlist)
+		return (NULL);
+	current = *dlist;
+	new = ft_strdup("");
+	while (current != NULL)
+	{
+		temp = ft_strjoin(new, current->str);
+		free(new);
+		new = temp;
+		if (current->next != NULL)
+		{
+			temp = ft_strjoin(new, " ");
+			free(new);
+			new = temp;
+		}
+		current = current->next;
+	}
+	return (new);
 }

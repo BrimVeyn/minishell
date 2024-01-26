@@ -6,11 +6,13 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 13:49:14 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/01/25 15:48:26 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/01/26 10:34:24 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
+
+extern int exitno;
 
 void	quotes_check_helper(int *quotes, int c, int *i, char *str)
 {
@@ -25,7 +27,19 @@ void	quotes_check_helper(int *quotes, int c, int *i, char *str)
 	}
 }
 
-int quotes_parity_check(char *str)
+int quotes_check_helper2(int *quotes)
+{
+	if (quotes[0] % 2 != 0)
+		fd_printf(2, "minishell: parsing error: unclosed double quotes\n");
+	else if (quotes[1] % 2 != 0)
+		fd_printf(2, "minishell: parsing error: unclosed single quotes\n");
+	else
+		return (ZERO);
+	exitno = 2;
+	return (ERROR);
+}
+
+int	quotes_parity_check(char *str)
 {
 	int	i;
 	int	quotes[2];
@@ -42,11 +56,7 @@ int quotes_parity_check(char *str)
 		if (str[i] && str[i] != SQUOTE && str[i] != DQUOTE)
 			i++;
 	}
-	if (quotes[0] % 2 != 0)
-		fd_printf(2, "minishell: parsing error: unclosed double quotes\n");
-	else if (quotes[1] % 2 != 0)
-		fd_printf(2, "minishell: parsing error: unclosed single quotes\n");
-	else 
-		return (0);
-	return (ERROR);
+	if (quotes_check_helper2(quotes) == ERROR)
+		return (ERROR);
+	return (ZERO);
 }

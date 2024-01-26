@@ -14,7 +14,7 @@
 
 int	ms_dlstlen(t_dlist **flist)
 {
-	t_dlist *current;
+	t_dlist	*current;
 	int		i;
 
 	current = *flist;
@@ -26,4 +26,3 @@ int	ms_dlstlen(t_dlist **flist)
 	}
 	return (i);
 }
-
