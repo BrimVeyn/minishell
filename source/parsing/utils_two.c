@@ -24,8 +24,8 @@ int	tild_index(char *word)
 
 char	**dupdup(void)
 {
-	char **self;
-	
+	char	**self;
+
 	self = ft_calloc(2, sizeof(char *));
 	self[0] = ft_calloc(2, sizeof(char));
 	return (self);

@@ -6,13 +6,13 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 13:49:14 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/01/26 10:34:24 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/01/26 14:21:19 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-extern int exitno;
+extern int	g_exitno;
 
 void	quotes_check_helper(int *quotes, int c, int *i, char *str)
 {
@@ -27,7 +27,7 @@ void	quotes_check_helper(int *quotes, int c, int *i, char *str)
 	}
 }
 
-int quotes_check_helper2(int *quotes)
+int	quotes_check_helper2(int *quotes)
 {
 	if (quotes[0] % 2 != 0)
 		fd_printf(2, "minishell: parsing error: unclosed double quotes\n");
@@ -35,7 +35,7 @@ int quotes_check_helper2(int *quotes)
 		fd_printf(2, "minishell: parsing error: unclosed single quotes\n");
 	else
 		return (ZERO);
-	exitno = 2;
+	g_exitno = 2;
 	return (ERROR);
 }
 
