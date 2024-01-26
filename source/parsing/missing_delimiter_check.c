@@ -6,13 +6,13 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 13:25:59 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/01/26 10:35:50 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/01/26 14:25:13 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-extern int exitno;
+extern int	g_exitno;
 
 char	**ms_joinstarstr(char **p1, char *p2)
 {
@@ -93,7 +93,7 @@ int	missing_delimiter_check(t_tok *tdata)
 		i++;
 	}
 	fd_printf(2, "minishell: syntax error near unexpected token `newline'\n");
-	exitno = 2;
+	g_exitno = 2;
 	tdata->type[0] = WRONG;
 	return (ERROR);
 }

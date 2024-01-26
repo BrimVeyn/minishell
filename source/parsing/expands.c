@@ -6,11 +6,34 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/26 11:15:52 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/01/26 11:23:51 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/01/26 14:39:26 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
+
+t_dlist	*get_flist(t_env *denv)
+{
+	struct dirent	*entry;
+	DIR				*dir;
+	t_dlist			*head;
+
+	head = NULL;
+	dir = opendir(denv->pwd);
+	if (dir == NULL)
+	{
+		perror("opendir");
+		exit(EXIT_FAILURE);
+	}
+	entry = readdir(dir);
+	while (entry != NULL)
+	{
+		ms_dlstab(&head, ms_dlstnew(ft_strdup(entry->d_name), 0));
+		entry = readdir(dir);
+	}
+	closedir(dir);
+	return (head);
+}
 
 char *ms_extract(char *split, int *j, char c)
 {
@@ -29,9 +52,9 @@ char *ms_extract(char *split, int *j, char c)
 	return (new);
 }
 
-char *tild_expand(char *word, t_env *denv)
+char	*tild_expand(char *word, t_env *denv)
 {
-	char *new;
+	char	*new;
 
 	if (!ft_strchr(word, '~') || tild_index(word) != 0)
 		return (word);
@@ -41,7 +64,7 @@ char *tild_expand(char *word, t_env *denv)
 		free(word);
 		return (new);
 	}
-	else if (!ft_strncmp(word, "~/", 2)) 
+	else if (!ft_strncmp(word, "~/", 2))
 	{
 		new = ft_strjoin_free(ft_strdup("/home/"), ft_strdup(denv->usr));
 		new = ft_strjoin_free(new, ft_substr(word, 1, ft_strlen(word) - 1));
@@ -50,13 +73,13 @@ char *tild_expand(char *word, t_env *denv)
 	return (word);
 }
 
-t_dlist *ms_wildcard_expand(t_starlist *current, t_dlist *flist)
+t_dlist	*ms_wildcard_expand(t_starlist *current, t_dlist *flist)
 {
 	while (current)
 	{
 		if (current->type == START)
 			flist = ms_dlstmap(&flist, current->str, &ms_matchstart);
-		else if (current->type == MID) 
+		else if (current->type == MID)
 			flist = ms_dlstmap(&flist, current->str, &ms_matchmid);
 		else if (current->type == END)
 			flist = ms_dlstmap(&flist, current->str, &ms_matchend);

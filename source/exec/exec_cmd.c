@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   exec_cmd.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
+/*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 10:49:59 by nbardavi          #+#    #+#             */
-/*   Updated: 2024/01/26 10:21:05 by nbardavi         ###   ########.fr       */
+/*   Updated: 2024/01/26 14:21:19 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-extern int exitno;
+extern int g_exitno;
 
 void exec_id0(t_pipe *d_pipe, t_tok *d_token, int id, int *i)
 {
@@ -21,10 +21,10 @@ void exec_id0(t_pipe *d_pipe, t_tok *d_token, int id, int *i)
 	buffer = malloc(2);
 	close(d_pipe->b_pipefd[1]);
 	signal(SIGINT, SIG_IGN);
-	waitpid(id, &exitno ,0);
+	waitpid(id, &g_exitno ,0);
 	init_sig();
 	d_pipe->failed = 0;
-	if (exitno != 0)
+	if (g_exitno != 0)
 		d_pipe->failed = 1;
 	if (d_pipe->failed == 1 && *i < d_token->t_size)
 	{
@@ -51,14 +51,14 @@ void c_execve(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
 		ft_printf("gros con\n");
 		handle_built(d_token, d_pipe, denv, i);
 		close(d_pipe->b_pipefd[1]);
-		exit(exitno);//TEMPORAIRE -> LEAKS, FONCTION SPECIAL A FAIRE
+		exit(g_exitno);//TEMPORAIRE -> LEAKS, FONCTION SPECIAL A FAIRE
 	}
 	else
 	{
 		execve(d_token->tokens[*i][0], d_token->tokens[*i], denv->f_env);
 		perror("execve failed connard");
 		close(d_pipe->b_pipefd[1]);
-		exit(exitno);//TEMPORAIRE -> LEAKS, FONCTION SPECIAL A FAIRE
+		exit(g_exitno);//TEMPORAIRE -> LEAKS, FONCTION SPECIAL A FAIRE
 	}
 }
 

@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   b_exec.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
+/*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 13:22:39 by nbardavi          #+#    #+#             */
-/*   Updated: 2024/01/26 10:13:28 by nbardavi         ###   ########.fr       */
+/*   Updated: 2024/01/26 14:21:19 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-extern int exitno;
+extern int g_exitno;
 
 void	b_redi(t_tok *d_token, t_pipe *d_pipe, int i)
 {
@@ -52,7 +52,7 @@ void handle_built(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
 	// id = fork();
 	// if (id > 0)
 	// {
-	// 	waitpid(id, &exitno, 0);
+	// 	waitpid(id, &g_exitno, 0);
 	// 	close(d_pipe->b_pipefd[1]);
 	// 	if (read(d_pipe->b_pipefd[0], buffer, 1) == 1)
 	// 		d_pipe->t_exit = 1;

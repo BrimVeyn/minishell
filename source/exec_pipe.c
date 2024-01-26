@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   exec_pipe.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
+/*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 16:26:22 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/01/25 13:25:41 by nbardavi         ###   ########.fr       */
+/*   Updated: 2024/01/26 14:21:19 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-extern int exitno;
+extern int g_exitno;
 
 void	apply_redi(t_tok *d_token, t_pipe *d_pipe,int i)
 {

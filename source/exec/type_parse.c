@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   type_parse.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
+/*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 09:26:32 by nbardavi          #+#    #+#             */
-/*   Updated: 2024/01/26 11:11:23 by nbardavi         ###   ########.fr       */
+/*   Updated: 2024/01/26 14:21:19 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void	parse_type(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
 		handle_or(d_pipe);
 }
 
-extern int exitno;
+extern int g_exitno;
 
 void	w_exec_pipe(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
 {
@@ -64,7 +64,7 @@ void	w_exec_pipe(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
 	dup2(d_pipe->old_stdin, STDIN_FILENO);
 	while(d_pipe->f_cpt >= j)
 	{
-		waitpid(d_pipe->f_id[d_pipe->f_cpt], &exitno, 0);
+		waitpid(d_pipe->f_id[d_pipe->f_cpt], &g_exitno, 0);
 		j++;
 	}
 	d_pipe->p_trig = 1;

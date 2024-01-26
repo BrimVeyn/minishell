@@ -6,7 +6,7 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/26 11:25:00 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/01/26 11:25:01 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/01/26 14:20:07 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -198,7 +198,7 @@ typedef struct s_tokh
 
 t_h_lst		*ms_lst_new(char *content);
 t_tok		parse_input(char *input, t_env *denv);
-t_tok init_tok(int tokcount, char **heredoc);
+t_tok		init_tok(int tokcount, char **heredoc);
 t_tokvar	init_tokvar(char *symbol, int type);
 t_tokh		init_tokh(void);
 void		init_d_pipe(t_pipe *d_pipe);
@@ -209,28 +209,28 @@ t_dlist		*ms_dlstnew(void *str, int i);
 t_dlist		*ms_dlstmap(t_dlist **lst, char *word, void (*f)(t_dlist *, char *));
 t_dlist		*ms_match_check(t_dlist *el);
 t_dlist		*get_flist(t_env *denv);
-int			ms_dlstlen(t_dlist **flist);
+char		*ms_dlstjoin(t_dlist **dlist);
 void		ms_dlstab(t_dlist **lst, t_dlist *new);
 void		ms_dlstdelone(t_dlist **lst);
 void		ms_dlstdel(t_dlist *el);
 void		ms_dlstclear(t_dlist **head);
 void		ms_dprint(t_dlist **lst);
-char		*ms_dlstjoin(t_dlist **dlist);
 void		ms_matchstart(t_dlist *el, char *to_match);
 void		ms_matchmid(t_dlist *el, char *to_match);
 void		ms_matchend(t_dlist *el, char *to_match);
 void		ms_del_hidden(t_dlist *el, char *to_match);
 void		ms_dswapstr(t_dlist *current, t_dlist *next);
 void		ms_dlsort(t_dlist **flist);
+int			ms_dlstlen(t_dlist **flist);
 
 /*_.-=-._.-=-._.-=-._.-=-._.--._.-=-._.--._.-=-._.-=-._.-=-._.-=-._.-=-._*/
 /*_.-=-._.-=-._.-=-._.-=-._.- STAR_LIST -._.-=-._.-=-._.-=-._.-=-._.-=-._*/
 
-t_starlist	*ms_starlnew(void *str, int i);
+t_starlist	*ms_snew(void *str, int i);
 t_starlist	*ms_starsplit(char *string);
-void		ms_starlab(t_starlist **lst, t_starlist *new);
-void		ms_starclear(t_starlist **head);
 char		*ms_starjoin(t_starlist **slist);
+void		ms_sab(t_starlist **lst, t_starlist *new);
+void		ms_starclear(t_starlist **head);
 
 /*_.-=-._.-=-._.-=-._.-=-._.--._.-=-._.--._.-=-._.-=-._.-=-._.-=-._.-=-._*/
 /*_.-=-._.-=-._.-=-._.-=-._.- STRING_UTILS -._.-=-._.-=-._.-=-._.-=-._.-=-._*/
@@ -239,51 +239,60 @@ char		**ft_splitm(char *str, t_env *denv);
 char		*get_pwd(t_env *data);
 char		*get_path(t_env *data);
 char		*get_usr(t_env *data);
-void		free_startab(char ***tokens);
-
 char		*ms_strtrimf(char const *s1, char const *set);
 char		**ms_join_tab(char **tab, char *str);
 char		**ms_dupdup(char **environ);
+char		**ms_joinstarstar(char **p1, char **p2);
+char		*ms_strtolower(char *str);
+char		*ms_cut_at(char *input, char c);
+char		*ms_getenv(char *var, t_env *denv);
 char		**ms_joinstarstar(char **p1, char **p2);
 int			ms_tablen(char **tab);
 int			ms_isws(char c);
 int			ms_tablen(char **tab);
 int			ms_strstrchr(char c, char *charset);
 int			ms_findstar(char *word);
-char		*ms_strtolower(char *str);
-char		*ms_cut_at(char *input, char c);
-char		*ms_getenv(char *var, t_env *denv);
-char		**ms_joinstarstar(char **p1, char **p2);
 int			ft_strlenlen(char **str);
-
 
 /*_.-=-._.-=-._.-=-._.-=-._.- MISC -._.-=-._.-=-._.-=-._.-=-._.-=-._*/
 
-int			ms_filetype(char *path);
 void		ms_setint(int *i, int value);
 void		ms_setchar(char *c, int value);
+void		free_startab(char ***tokens);
+int			ms_filetype(char *path);
 
 /*_.-=-._.-=-._.-=-._.-=-._.--._.-=-._.--._.-=-._.-=-._.-=-._.-=-._.-=-._*/
 /*_.-=-._.-=-._.-=-._.-=-._.- BUILTIN -._.-=-._.-=-._.-=-._.-=-._.-=-._*/
 
-
+void		b_echo(t_tok *d_token, int *i);
 void		b_export(char **args, t_env *denv);
 void		b_unset(char **args, t_env *denv);
 void		b_env(t_env *denv);
 void		b_exit(t_pipe *d_pipe, char **args);
 void		b_pwd(char **args, t_env *denv);
 void		b_cd(char **args, t_env *denv);
-int			ms_var_exist(char *var, t_env *denv);
 char		**ms_replace_value(char **f_env, int index, char *arg);
 char		**del_var(char **f_env, int index);
 char		*ms_find_var(t_env *denv, char *var);
-void b_echo(t_tok *d_token, int *i);
-
+int			ms_var_exist(char *var, t_env *denv);
 
 /*_.-=-._.-=-._.-=-._.-=-._.--._.-=-._.--._.-=-._.-=-._.-=-._.-=-._.-=-._*/
 /*_.-=-._.-=-._.-=-._.-=-._.- PARSING -._.-=-._.-=-._.-=-._.-=-._.-=-._*/
 
 t_tokvar	ms_tiktok(char *ptr);
+t_dlist		*ms_wildcard_expand(t_starlist *current, t_dlist *flist);
+void		fill_token(char *input, t_tok *tdata, t_env *denv);
+void		extract_delimiter(char *input, t_tok *tdata, t_tokh *v);
+char		*grep_word(char *input, t_tokh *v);
+char		**add_args_to_cmd(char *input, t_tokh *v, t_tok *tdata, t_env *denv);
+char		**add_here_to_cmd(char **token, char *input, t_tokh *v, t_tok *tdata);
+char		*r_dollarquestion(char *split, int *i);
+char		*r_dollar(char *split, int *i, int start, t_env *denv);
+char		*r_env(char *split, t_env *denv);
+char		*ms_extract(char *split, int *j, char c);
+char		*tild_expand(char *word, t_env *denv);
+char		*w_expand(char *word, t_env *denv);
+char		**dupdup(void);
 int			missing_delimiter_check(t_tok *tdata);
 int			quotes_position_check(t_tok *tdata);
 int			quotes_parity_check(char *str);
@@ -295,21 +304,7 @@ int			count_tokens(char *input);
 int			count_tokens_helper4(int *x, char *input);
 int			ms_wl2(char *ptr);
 int			f_lcmd_index(t_tok *tdata, int j);
-void		fill_token(char *input, t_tok *tdata, t_env *denv);
-void		extract_delimiter(char *input, t_tok *tdata, t_tokh *v);
-char		*grep_word(char *input, t_tokh *v);
-char		**add_args_to_cmd(char *input, t_tokh *v, t_tok *tdata, t_env *denv);
-char		**add_here_to_cmd(char **token, char *input, t_tokh *v, t_tok *tdata);
-char		*r_dollarquestion(char *split, int *i);
-char		*r_dollar(char *split, int *i, int start, t_env *denv);
-char		*r_env(char *split, t_env *denv);
-char		*ms_extract(char *split, int *j, char c);
-char		*tild_expand(char *word, t_env *denv);
-t_dlist		*ms_wildcard_expand(t_starlist *current, t_dlist *flist);
-char		*w_expand(char *word, t_env *denv);
 int			tild_index(char *word);
-char		**dupdup(void);
-
 
 /*_.-=-._.-=-._.-=-._.-=-._.--._.-=-._.--._.-=-._.-=-._.-=-._.-=-._.-=-._*/
 /*_.-=-._.-=-._.-=-._.-=-._.- TYPE PARSE -._.-=-._.-=-._.-=-._.-=-._.-=-._*/

@@ -6,7 +6,7 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/26 11:25:16 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/01/26 11:25:17 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/01/26 14:21:19 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include <readline/history.h>
 #include <sys/ioctl.h>
 
-extern int exitno;
+extern int g_exitno;
 
 char	*rm_last_slash(char *path, int total_slash)
 {
@@ -114,10 +114,10 @@ void	prompt(t_env *denv)
 		prompt = ms_form_prompt(denv);
 		input = readline(prompt);
 		free(prompt);
-		// if (exitno == 130)
+		// if (g_exitno == 130)
 		// {
-		// 	d_token.exitno = exitno;
-		// 	exitno = -1;
+		// 	d_token.g_exitno = g_exitno;
+		// 	g_exitno = -1;
 		// 	continue;
 		// }
 		if (input == NULL)

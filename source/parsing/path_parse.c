@@ -6,13 +6,13 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/26 11:25:26 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/01/26 11:25:43 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/01/26 14:21:19 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-extern int exitno;
+extern int	g_exitno;
 
 int	ms_filetype(char *path)
 {
@@ -30,13 +30,9 @@ int	ms_filetype(char *path)
 
 int	ms_check_builtin(char *cmd)
 {
-	if (!ft_strcmp(cmd, "cd")
-		|| !ft_strcmp(cmd, "export")
-		|| !ft_strcmp(cmd, "unset")
-		|| !ft_strcmp(cmd, "env")
-		|| !ft_strcmp(cmd, "exit")
-		|| !ft_strcmp(cmd, "echo")
-		|| !ft_strcmp(cmd, "pwd"))
+	if (!ft_strcmp(cmd, "cd") || !ft_strcmp(cmd, "export") || !ft_strcmp(cmd,
+			"unset") || !ft_strcmp(cmd, "env") || !ft_strcmp(cmd, "exit")
+		|| !ft_strcmp(cmd, "echo") || !ft_strcmp(cmd, "pwd"))
 		return (TRUE);
 	return (ERROR);
 }
@@ -84,10 +80,10 @@ void	ms_add_path(t_tok *tdata, t_env *denv)
 			{
 				tdata->tokens[i][0] = join_path(tdata->tokens[i][0], denv);
 				if (!ft_strncmp(tdata->tokens[i][0], "WRONG", 5))
-                {
-					exitno = 127;
+				{
+					g_exitno = 127;
 					tdata->type[i] = WRONG;
-                }
+				}
 			}
 		}
 		i++;

@@ -4,9 +4,9 @@ LIBFT			:= libftprintf/libftprintf.a
 CC 				:= cc
 LDFLAGS			:= -lreadline -lncurses
 CFLAGS 			:= -Wall -Wextra -Werror -g 
-SRC 			:= source/main.c source/prompt.c source/get_env.c \
+SRC 			:= source/main.c source/prompt.c \
 				   source/ms_h_lst.c \
-				   source/exec_pipe.c source/inits.c \
+				   source/exec_pipe.c \
 				   source/signals.c \
 				   source/double_linked_list/ms_dlstaddback.c \
 				   source/double_linked_list/ms_dlstclear.c \
@@ -47,14 +47,15 @@ SRC 			:= source/main.c source/prompt.c source/get_env.c \
 				   source/parsing/replace_env.c \
 				   source/parsing/path_parse.c \
 				   source/builtins/echo.c \
+				   source/parsing/get_env.c \
 				   source/parsing/missing_delimiter_check.c \
 				   source/parsing/quotes_position_check.c \
 				   source/parsing/quotes_parity_check.c \
 				   source/parsing/start_check.c \
 				   source/parsing/end_check.c \
 				   source/parsing/delimiter_check.c \
-				   source/parsing/add_to_cmd.c \
 				   source/parsing/fill_tokens.c \
+				   source/parsing/add_to_cmd.c \
 				   source/parsing/parenthesis_check.c \
 				   source/parsing/utils.c \
 				   source/parsing/count_tokens.c \
@@ -75,6 +76,7 @@ SRC 			:= source/main.c source/prompt.c source/get_env.c \
 				   source/utils_exec/utils.c \
 				   source/misc/ms_setint.c \
 				   source/misc/ms_setchar.c \
+				   source/misc/ms_inits.c \
 				   source/misc/ms_free.c \
 
 OBJ 			:= $(SRC:source/%.c=objects/%.o)
