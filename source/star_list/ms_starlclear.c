@@ -14,7 +14,7 @@
 
 void	ms_starclear(t_starlist **head)
 {
-	t_starlist *tmp;
+	t_starlist	*tmp;
 
 	while (*head)
 	{

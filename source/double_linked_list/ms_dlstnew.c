@@ -16,7 +16,7 @@ t_dlist	*ms_dlstnew(void *str, int i)
 {
 	t_dlist	*new;
 
-	new = (t_dlist *) ft_calloc(2, sizeof(t_dlist));
+	new = (t_dlist *)ft_calloc(2, sizeof(t_dlist));
 	if (new == NULL)
 		return (NULL);
 	new->str = str;

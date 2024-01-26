@@ -14,9 +14,9 @@
 
 int	parenthesis_check(char *input)
 {
-	int p;
+	int	p;
 	int	i;
-	
+
 	i = 0;
 	p = 0;
 	while (input[i])
@@ -25,16 +25,16 @@ int	parenthesis_check(char *input)
 		p -= (input[i] == ')');
 		i++;
 		if (p < 0)
-        {
+		{
 			fd_printf(2, "minishell: syntax error near unexpected token `)'\n");
 			return (ERROR);
-        }
+		}
 	}
 	if (p == 0)
 		return (1);
 	else
-    {
+	{
 		fd_printf(2, "minishell: syntax error near unexpected token `('\n");
 		return (ERROR);
-    }
+	}
 }

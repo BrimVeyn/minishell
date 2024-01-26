@@ -14,8 +14,8 @@
 
 int	delimiter_check(char *input)
 {
-	int len;
-	int i;
+	int	len;
+	int	i;
 
 	len = 0;
 	i = 0;
@@ -27,8 +27,10 @@ int	delimiter_check(char *input)
 		i++;
 	}
 	if (len == 0 && !input[i])
-		fd_printf(2, "minishell: syntax error near unexpected token `newline'\n");
-	else if (len ==  0 && input[i] && ms_tiktok(&input[i]).type != CMD)
-		fd_printf(2, "minishell: syntax error near unexpected token `%fs'\n", ms_tiktok(&input[i]).str);
+		fd_printf(2,
+			"minishell: syntax error near unexpected token `newline'\n");
+	else if (len == 0 && input[i] && ms_tiktok(&input[i]).type != CMD)
+		fd_printf(2, "minishell: syntax error near unexpected token `%fs'\n",
+			ms_tiktok(&input[i]).str);
 	return (len);
 }
