@@ -6,7 +6,7 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 16:23:00 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/01/26 14:30:59 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/01/26 15:24:27 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,5 @@ char	**ft_splitm(char *str, t_env *denv)
 	// for(int i = 0; split[i]; i++)
 	// 	printf("SPLIT[%d] = %s\n", i, split[i]);
 	transform_split(split, denv);
-	// for(int k = 0; split[k]; k++)
-	// 	printf("STR[%d] %s\n", k, split[k]);
 	return (split);
 }

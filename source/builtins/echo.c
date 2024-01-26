@@ -6,7 +6,7 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 14:57:36 by nbardavi          #+#    #+#             */
-/*   Updated: 2024/01/26 14:43:51 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/01/26 15:24:17 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void b_echo(t_tok *d_token, int *i)
 		if (t == 1)
 		{
 			t = 1;
-			printf("%s ", d_token->tokens[*i][j]);
+			printf("%s", d_token->tokens[*i][j]);
 		}
 		j++;
 	}
