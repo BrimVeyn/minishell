@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/25 13:22:39 by nbardavi          #+#    #+#             */
-/*   Updated: 2024/01/26 14:21:19 by bvan-pae         ###   ########.fr       */
+/*   Created: 2024/01/26 14:41:10 by bvan-pae          #+#    #+#             */
+/*   Updated: 2024/01/26 14:41:18 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,24 +44,5 @@ void b_parse(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
 void handle_built(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
 {
 	b_parse(d_token, d_pipe, denv, i);
-	// int id;
-	// char *buffer;
-	//
-	// buffer = ft_calloc(2, sizeof(char));
-	// pipe(d_pipe->b_pipefd);
-	// id = fork();
-	// if (id > 0)
-	// {
-	// 	waitpid(id, &g_exitno, 0);
-	// 	close(d_pipe->b_pipefd[1]);
-	// 	if (read(d_pipe->b_pipefd[0], buffer, 1) == 1)
-	// 		d_pipe->t_exit = 1;
-	// 	close(d_pipe->b_pipefd[0]);
-	// }
-	// else if (id == 0)
-	// {
-	// 	close(d_pipe->b_pipefd[0]);
-	// 	b_parse(d_token, d_pipe, denv, i);
-	// 	close(d_pipe->b_pipefd[1]);
-	// }
+
 }
