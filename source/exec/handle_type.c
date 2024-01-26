@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   handle_type.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
+/*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 10:11:19 by nbardavi          #+#    #+#             */
-/*   Updated: 2024/01/26 10:29:29 by nbardavi         ###   ########.fr       */
+/*   Updated: 2024/01/26 14:21:19 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-extern int exitno;
+extern int g_exitno;
 
 void	handle_po(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
 {
@@ -28,7 +28,7 @@ void	handle_pc(t_pipe *d_pipe)
 
 void	handle_wrong(t_pipe *d_pipe)
 {
-	exitno = 127;
+	g_exitno = 127;
 	d_pipe->failed = 1;
 }
 
