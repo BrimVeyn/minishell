@@ -6,12 +6,11 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 08:53:03 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/01/26 14:43:42 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/01/29 10:30:02 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
-#include <unistd.h>
 
 extern int g_exitno;
 
@@ -37,15 +36,12 @@ char *ms_find_var(t_env *denv, char *var)
 static	void cd_minus(t_env *denv)
 {
 	char	*oldpwd;
-	int		i;
 	int		index[2];
 	char	*newpwd;
 	char	*tmp;
 
-	// getcwd(oldpwd, sizeof(oldpwd));
 	update_env(denv);
 	oldpwd = denv->pwd;
-	i = 0;
 	newpwd = ms_find_var(denv, "OLDPWD=");
 	index[0] = ms_var_exist("PWD=", denv);
 	index[1] = ms_var_exist("OLDPWD=", denv);
@@ -55,15 +51,12 @@ static	void cd_minus(t_env *denv)
 		g_exitno = 1;
 		return ;
 	}
-	// fd_printf(2,"newpwd %fs\n", newpwd);
-	// fd_printf(2,"oldpwd %fs\n", oldpwd);
 	if (!ft_strncmp(newpwd, "~", 2))
 	{
 		tmp = ft_substr(newpwd, 1, ft_strlen(newpwd) - 1);
 		newpwd = ft_strjoin(ft_strjoin_free(ft_strdup("/home/"), ft_strdup(denv->usr)), tmp);
 		free(tmp);
 	}
-	// ft_printf("newpwd = %fs", newpwd);
 	if (index[1] != ERROR && ms_filetype(newpwd) != DIRECTORY)
 	{
 		fd_printf(2, "minishell: cd: %fs: No such file or directory\n", newpwd);
@@ -85,8 +78,6 @@ static	void cd_minus(t_env *denv)
     }
 	if (index[0] == ERROR && index[1] != ERROR)
 		denv->f_env = del_var(denv->f_env, index[1]);
-	// else if (index[1] != ERROR && ms_filetype(oldpwd) != DIRECTORY)
-	// 	fd_printf(2, "minishell: cd: %fs: No such file or directory\n", oldpwd);
 	else if (index[1] == ERROR)
     {
 		tmp = ft_strjoin("OLDPWD=", oldpwd);
@@ -97,16 +88,6 @@ static	void cd_minus(t_env *denv)
 	g_exitno = 0;
 }
 
-
-void	cd_no_args(t_env *denv)
-{
-	(void) denv;
-	chdir("/home/bvan-pae/");
-
-
-}
-
-
 void	b_cd(char **args, t_env *denv)
 {
 	int		index[2];
@@ -115,6 +96,7 @@ void	b_cd(char **args, t_env *denv)
 	char	*tmp;
 
 	newoldpwd = NULL;
+	tmp = NULL;
 	if (ms_tablen(args) > 2)
 	{
 		fd_printf(2, "minishell: cd: too many arguments\n");
@@ -123,7 +105,8 @@ void	b_cd(char **args, t_env *denv)
 	}
 	else if (ms_tablen(args) == 1)
 	{
-		cd_no_args(denv);
+		chdir(ms_getenv("HOME", denv));
+		g_exitno = 0;
 		return ;
 	}
 	if (ft_strlen(args[1]) == 1 && args[1][0] == '-')
@@ -134,14 +117,13 @@ void	b_cd(char **args, t_env *denv)
 		index[1] = ms_var_exist("OLDPWD=", denv);
 		if (index[0] != ERROR)
 			newoldpwd = ft_strdup(denv->f_env[index[0]]);
-		// ft_printf("newoldpwd = %fs", newoldpwd);
 		chdir(args[1]);
 		getcwd(current_directory, sizeof(current_directory));
 		if (index[0] != ERROR)
         {
 			tmp = ft_strjoin("PWD=", current_directory);
 			denv->f_env = ms_replace_value(denv->f_env, index[0], tmp);
-			free(tmp);
+			// free(tmp);
         }
 		else if (index[0] == ERROR && index[1] != ERROR)
 			denv->f_env = del_var(denv->f_env, index[1]);
@@ -149,15 +131,16 @@ void	b_cd(char **args, t_env *denv)
         {
 			tmp = ft_strjoin("OLD", newoldpwd);
 			denv->f_env = ms_replace_value(denv->f_env, index[1], tmp);
-			free(tmp);
+			// free(tmp);
         }
 		else if (newoldpwd)
         {
 			tmp = ft_strjoin("OLD", newoldpwd);
 			denv->f_env = ms_join_tab(denv->f_env, tmp);
-			free(tmp);
+			// free(tmp);
         }
 		free(newoldpwd);
+		free(tmp);
 		g_exitno = 0;
 	}
 	else
