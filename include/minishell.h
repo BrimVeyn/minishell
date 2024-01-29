@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/26 14:40:38 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/01/29 10:42:44 by bvan-pae         ###   ########.fr       */
+/*   Created: 2024/01/29 10:44:25 by bvan-pae          #+#    #+#             */
+/*   Updated: 2024/01/29 10:44:25 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -268,7 +268,7 @@ void		b_echo(t_tok *d_token, int *i);
 void		b_export(char **args, t_env *denv);
 void		b_unset(char **args, t_env *denv);
 void		b_env(t_env *denv);
-void		b_exit(t_pipe *d_pipe, char **args);
+void		b_exit(char **args);
 void		b_pwd(char **args, t_env *denv);
 void		b_cd(char **args, t_env *denv);
 char		**ms_replace_value(char **f_env, int index, char *arg);
@@ -350,7 +350,8 @@ int ft_strlenlen(char **str);
 
 void	handle_built(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i);
 void	b_redi(t_tok *d_token, t_pipe *d_pipe, int i);
-void	b_parse(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i);
+void	b_parse(t_tok *d_token, t_env *denv, int *i);
+void	b_parse_nf(t_tok *d_token, t_env *denv, int *i);
 /*_.-=-._.-=-._.-=-._.-=-._.- HEREDOC -._.-=-._.-=-._.-=-._.-=-._.-=-._*/
 
 char *h_exec(t_pipe *d_pipe, char *save, char *limiter);
