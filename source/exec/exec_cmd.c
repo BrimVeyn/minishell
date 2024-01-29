@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_cmd.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
+/*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/26 14:41:53 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/01/26 14:42:13 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/01/29 10:39:47 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ void exec_id0(t_pipe *d_pipe, t_tok *d_token, int id, int *i)
 	char *buffer;
 
 	buffer = malloc(2);
-	close(d_pipe->b_pipefd[1]);
 	signal(SIGINT, SIG_IGN);
 	waitpid(id, &g_exitno ,0);
 	init_sig();
@@ -37,10 +36,7 @@ void exec_id0(t_pipe *d_pipe, t_tok *d_token, int id, int *i)
 			d_pipe->failed = 0;
 		}
 	}
-	if (d_token->type[*i] == BUILTIN && read(d_pipe->b_pipefd[0], buffer, 1) == 1)
-		d_pipe->t_exit = 1;
 	free(buffer);
-	close(d_pipe->b_pipefd[0]);
 	return;
 }
 
@@ -51,14 +47,14 @@ void c_execve(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
 		handle_built(d_token, d_pipe, denv, i);
 		close(d_pipe->b_pipefd[1]);
 		free_tpe(d_token, d_pipe, denv);
-		exit(g_exitno);//TEMPORAIRE -> LEAKS, FONCTION SPECIAL A FAIRE
+		exit(g_exitno);
 	}
 	else
 	{
 		close(d_pipe->b_pipefd[1]);
 		execve(d_token->tokens[*i][0], d_token->tokens[*i], denv->f_env);
 		perror("execve failed");
-		exit(g_exitno);//TEMPORAIRE -> LEAKS, FONCTION SPECIAL A FAIRE
+		exit(g_exitno);
 	}
 }
 
@@ -68,14 +64,20 @@ void exec_cmd(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
 	int id;
 
 	j = 0;
-	pipe(d_pipe->b_pipefd);
+	if (ft_strcmp(d_token->tokens[*i][j], "cd") == 0 ||
+		ft_strcmp(d_token->tokens[*i][j], "export") == 0 ||
+		ft_strcmp(d_token->tokens[*i][j], "exit") == 0 ||
+		ft_strcmp(d_token->tokens[*i][j], "unset") == 0)
+	{
+		b_parse_nf(d_token, denv, i);	
+		return;
+	}
 	id = fork();
 	if (id != 0)
 	{
 		exec_id0(d_pipe, d_token, id, i);
 		return;
 	}
-	close(d_pipe->b_pipefd[0]);
 	while(d_token->tokens[*i][j])
 	{
 		if (d_token->type[*i] == D_AL)

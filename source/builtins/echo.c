@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
+/*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 14:57:36 by nbardavi          #+#    #+#             */
-/*   Updated: 2024/01/26 14:43:51 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/01/29 09:37:05 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,17 @@ int flag_echo(char *flag)
 	int i;
 
 	i = 0;
+	if (ft_strlen(flag) == 0)
+		return(0);
 	if (flag[0] != '-')
 		return (0);
 	i++;
+	if (!flag)
+		return (0);
 	while(flag[i])
 	{
 		if (flag[i] != 'n')
-			return(0);
+			return (0);
 		i++;
 	}
 	return (1);
