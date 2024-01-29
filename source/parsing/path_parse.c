@@ -6,7 +6,7 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/26 11:25:26 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/01/26 14:21:19 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/01/29 16:06:56 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,13 @@ int	ms_filetype(char *path)
 {
 	struct stat	path_stat;
 
-	if (stat(path, &path_stat))
-		return (ERROR);
+	stat(path, &path_stat);
 	if (S_ISREG(path_stat.st_mode))
 		return (FAILE);
 	else if (S_ISDIR(path_stat.st_mode))
 		return (DIRECTORY);
+	else if (ft_strchr(path, '/'))
+		return (TRUE);
 	else
 		return (ERROR);
 }
@@ -46,11 +47,28 @@ char	*join_path(char *cmd, t_env *denv)
 	i = 0;
 	if (!access(cmd, X_OK) && ms_filetype(cmd) == FAILE)
 		return (cmd);
+	if (access(cmd, X_OK) && ms_filetype(cmd) == TRUE)
+	{
+		fd_printf(2, "minishell: %fs: No such file or directory\n", cmd);
+		return (free(cmd), ft_strdup("WRONG"));
+	}
+	if (!access(cmd, X_OK) && ms_filetype(cmd) == DIRECTORY)
+	{
+		fd_printf(2, "minishell: %fs: Is a directory\n", cmd);
+		return (free(cmd), ft_strdup("WRONG"));
+	}
 	paths = ft_split(denv->path, ':');
+	if (!cmd)
+		return (ft_strdup("WRONG"));
+	if (cmd[0] == -19)
+    {
+		ft_printf("cmd = |%fs|\n", cmd);
+		return (ft_strdup("WRONG"));
+    }
 	if (!ft_strncmp(cmd, "", 2))
 	{
 		fd_printf(2, "'': command not found\n");
-		return (free(cmd), ft_strdup("WRONG"));
+		return (free_tab(paths), free(cmd), ft_strdup("WRONG"));
 	}
 	while (paths[i])
 	{

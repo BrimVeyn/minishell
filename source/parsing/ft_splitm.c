@@ -6,7 +6,7 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 16:23:00 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/01/29 10:43:21 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/01/29 10:47:42 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@ static int	count_words(char *str)
 	while (str[x[IX]])
 	{
 		x[TRIGGER] = 0;
-		while ((str[x[IX]] && !ms_isws(str[x[IX]]))
-			|| (str[x[IX]] && (x[DQ] || x[SQ])))
+		while ((str[x[IX]] && !ms_isws(str[x[IX]])) || (str[x[IX]] && (x[DQ]
+					|| x[SQ])))
 		{
 			x[DQ] ^= (str[x[IX]] == DQUOTE);
 			x[SQ] ^= (str[x[IX]] == SQUOTE);
@@ -50,8 +50,8 @@ void	fill_split(char **split, char *str)
 	while (ms_setint(&x[K], 0), str[x[I]])
 	{
 		x[5] = 0;
-		while ((str[x[I]] && !ms_isws(str[x[I]]))
-			|| (str[x[I]] && (x[3] || x[4])))
+		while ((str[x[I]] && !ms_isws(str[x[I]])) || (str[x[I]] && (x[3]
+					|| x[4])))
 		{
 			x[3] ^= (str[x[I]] == DQUOTE);
 			x[4] ^= (str[x[I]] == SQUOTE);
@@ -82,9 +82,11 @@ void	transform_split(char **split, t_env *denv)
 		while (split[x[I]][x[J]])
 		{
 			if (split[x[I]][x[J]] != '\'' && split[x[I]][x[J]] != '\"')
-				ms_sab(&strl, ms_snew(r_env(ms_xt(split[x[I]], &x[J], ZERO), denv), 0));
+				ms_sab(&strl, ms_snew(r_env(ms_xt(split[x[I]], &x[J], ZERO),
+							denv), 0));
 			else if (split[x[I]][x[J]] == '\"')
-				ms_sab(&strl, ms_snew(r_env(ms_xt(split[x[I]], &x[J], '\"'), denv), 0));
+				ms_sab(&strl, ms_snew(r_env(ms_xt(split[x[I]], &x[J], '\"'),
+							denv), 0));
 			else if (split[x[I]][x[J]] == '\'')
 				ms_sab(&strl, ms_snew(ms_xt(split[x[I]], &x[J], '\''), 0));
 		}
@@ -100,20 +102,13 @@ char	**ft_splitm(char *str, t_env *denv)
 	char	**split;
 	int		wc;
 
-	// printf("EXITNO  %d\n", tdata->g_exitno);
-	// ft_printf("%d %d", quotes[0], quotes[1]);
 	wc = count_words(str);
-	// printf("STR = %s, WC = %d\n", str, wc);
-	// printf("SQ = %d, DQ = %d\n", quotes[0], quotes[1]);
-	// printf("WC = %d\n", wc);
 	split = (char **)ft_calloc(count_words(str) + 1, sizeof(char *));
 	if (!split)
 	{
 		return (dupdup());
 	}
 	fill_split(split, str);
-	// for(int i = 0; split[i]; i++)
-	// 	printf("SPLIT[%d] = %s\n", i, split[i]);
 	transform_split(split, denv);
 	return (split);
 }

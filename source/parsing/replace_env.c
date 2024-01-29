@@ -6,7 +6,7 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/26 11:19:26 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/01/26 14:27:27 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/01/29 16:08:49 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,11 @@ char	*r_dollar(char *split, int *i, int start, t_env *denv)
 
 	p1 = ft_substr(split, 0, start - 1);
 	var = ms_getenv(ft_substr(split, start, end - start), denv);
+	if (var[0] == -19)
+	{
+		free(var);
+		var = ft_strdup("");
+	}
 	p2 = ft_substr(split, end, (ft_strlen(split) - end));
 	*i = ft_strlen(split) - ft_strlen(p2);
 	if (!var)
@@ -52,7 +57,8 @@ char	*r_env(char *split, t_env *denv)
 	int	start;
 
 	i = 0;
-	while (split[i])
+	// ft_printf("|%fs|\n", split);
+	while (split && split[i])
 	{
 		if (!ft_strncmp(&split[i], "$?", 2))
 			split = r_dollarquestion(split, &i);

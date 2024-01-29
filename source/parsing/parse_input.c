@@ -6,7 +6,7 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 16:40:08 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/01/29 10:43:38 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/01/29 14:10:09 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,12 +57,12 @@ t_tok	parse_input(char *input, t_env *denv)
 		return (tdata);
 	}
 	ms_add_path(&tdata, denv);
-	// for (int i = 0; tdata.tokens[i]; i++)
-	// {
-	// 	ft_printf("S->TYPE[%d] = %d\n", i, tdata.type[i]);
-	// 	for (int j = 0; tdata.tokens[i][j]; j++)
-	// 		ft_printf("S[%d][%d] = |%fs|\n", i, j, tdata.tokens[i][j]);
-	// }
+	for (int i = 0; tdata.tokens[i]; i++)
+	{
+		ft_printf("S->TYPE[%d] = %d\n", i, tdata.type[i]);
+		for (int j = 0; tdata.tokens[i][j]; j++)
+			ft_printf("S[%d][%d] = |%fs|\n", i, j, tdata.tokens[i][j]);
+	}
 	if (missing_delimiter_check(&tdata) == ERROR)
 		return (tdata);
 	return (tdata);

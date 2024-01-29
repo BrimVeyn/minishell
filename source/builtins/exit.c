@@ -10,26 +10,26 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include"../../include/minishell.h"
+#include "../../include/minishell.h"
 #include <stdlib.h>
 
-extern int g_exitno;
+extern int	g_exitno;
 
-int ms_is_nbr(char *str)
+int	ms_is_nbr(char *str)
 {
-	int i;
+	int	i;
 
 	i = 0;
-	while(str[i])
+	while (str[i])
 	{
 		if (str[i] < '0' || str[i] > '9')
-			return(1);
+			return (1);
 		i++;
 	}
-	return(0);
+	return (0);
 }
 
-void b_exit(char **args)
+void	b_exit(char **args)
 {
 	if (ft_strlenlen(args) == 1)
 		exit(0);
