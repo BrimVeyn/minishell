@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
+/*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 10:15:31 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/01/24 10:39:02 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/01/29 14:22:38 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ void	b_export(char **args, t_env *denv)
 		{
 			value = ft_strchr(args[i], '=');
 			identifier = ft_strjoin_free(ms_cut_at(ft_strdup(args[i]), '='), ft_strdup("="));
-			ft_printf("identifier = %fs\n", identifier);
+			// ft_printf("identifier = %fs\n", identifier);
 			index = ms_var_exist(args[i], denv);
 			if (value && invalid_identifier(identifier) == ERROR)
             {

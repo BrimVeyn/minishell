@@ -12,11 +12,10 @@
 
 #include "../../include/minishell.h"
 
-
-int next_ope(t_tok *d_token, int i)
+int	next_ope(t_tok *d_token, int i)
 {
 	i++;
-	while(i < d_token->t_size)
+	while (i < d_token->t_size)
 	{
 		if (d_token->type[i] == AND)
 			return (AND);
@@ -25,16 +24,16 @@ int next_ope(t_tok *d_token, int i)
 		else if (d_token->type[i] == OR)
 			return (OR);
 		else if (d_token->type[i] == WRONG)
-			return (WRONG); 
+			return (WRONG);
 		i++;
 	}
 	return (-42);
 }
 
-int previous_ope(t_tok *d_token, int i)
+int	previous_ope(t_tok *d_token, int i)
 {
 	i--;
-	while(i >= 0)
+	while (i >= 0)
 	{
 		if (d_token->type[i] == CMD)
 			return (CMD);

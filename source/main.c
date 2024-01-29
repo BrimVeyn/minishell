@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
+/*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/23 15:16:24 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/01/26 14:45:20 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/01/29 14:39:04 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,9 @@ int main(int ac, char *av[], char *env[])
 	denv.path = get_path(&denv);
 	denv.usr = get_usr(&denv);
 	denv.history = NULL;
+	denv.debug = 0;
+	if (ac > 1 && ft_strcmp(av[1], "-d") == 0)
+		denv.debug = 1;
 	prompt(&denv);
 	// ft_printf("g_exitno :%d\n", g_exitno);
 	exit(g_exitno);

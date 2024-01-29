@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
+/*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 10:45:26 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/01/29 10:46:05 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/01/29 15:25:19 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,8 @@ void b_echo(t_tok *d_token, int *i)
 		{
 			t = 1;
 			printf("%s", d_token->tokens[*i][j]);
+			if (!d_token->tokens[*i][j + 2])
+				printf("m");
 		}
 		j++;
 	}

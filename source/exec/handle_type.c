@@ -12,7 +12,7 @@
 
 #include "../../include/minishell.h"
 
-extern int g_exitno;
+extern int	g_exitno;
 
 void	handle_po(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
 {
