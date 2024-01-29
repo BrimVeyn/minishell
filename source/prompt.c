@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prompt.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
+/*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/26 14:40:51 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/01/26 14:41:01 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/01/29 12:07:21 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,7 @@ void	prompt(t_env *denv)
 		denv = update_env(denv);
 		signal_ctrl();
 		prompt = ms_form_prompt(denv);
-		input = readline(prompt);
+		input = readline("Minishell:");
 		free(prompt);
 
 		if (input == NULL)

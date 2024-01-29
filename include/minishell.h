@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
+/*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 10:44:25 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/01/29 10:44:25 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/01/29 14:38:47 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -167,6 +167,7 @@ typedef struct s_env
 	char	*path;
 	char	*usr;
 	t_h_lst	*history;
+	int		debug;
 }			t_env;
 
 typedef struct s_tokvar
