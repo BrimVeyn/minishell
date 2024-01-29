@@ -12,7 +12,7 @@
 
 #include "../../include/minishell.h"
 
-void ms_setchar(char *c, int value)
+void	ms_setchar(char *c, int value)
 {
 	*c = value;
 }

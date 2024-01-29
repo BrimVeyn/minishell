@@ -6,7 +6,7 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/26 14:40:38 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/01/26 14:40:40 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/01/29 10:42:44 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -289,7 +289,7 @@ char		**add_here_to_cmd(char **token, char *input, t_tokh *v, t_tok *tdata);
 char		*r_dollarquestion(char *split, int *i);
 char		*r_dollar(char *split, int *i, int start, t_env *denv);
 char		*r_env(char *split, t_env *denv);
-char		*ms_extract(char *split, int *j, char c);
+char		*ms_xt(char *split, int *j, char c);
 char		*tild_expand(char *word, t_env *denv);
 char		*w_expand(char *word, t_env *denv);
 char		**dupdup(void);

@@ -12,7 +12,7 @@
 
 #include "../../include/minishell.h"
 
-void ms_setint(int *i, int value)
+void	ms_setint(int *i, int value)
 {
 	*i = value;
 }

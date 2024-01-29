@@ -6,7 +6,7 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/26 11:15:52 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/01/26 15:28:08 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/01/29 10:42:34 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,11 +35,12 @@ t_dlist	*get_flist(t_env *denv)
 	return (head);
 }
 
-char *ms_extract(char *split, int *j, char c)
+char	*ms_xt(char *split, int *j, char c)
 {
-	int const start = *j + (c != ZERO);
-	char *new;
+	int		start;
+	char	*new;
 
+	start = *j + (c != ZERO);
 	(*j) += (c != ZERO);
 	if (c == ZERO)
 		while (split[*j] && (split[*j] != '\'' && split[*j] != '\"'))

@@ -6,7 +6,7 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/26 11:26:10 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/01/26 14:21:19 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/01/29 10:33:09 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	free_tab(char **tab)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (tab[i])
@@ -24,14 +24,6 @@ void	free_tab(char **tab)
 	}
 	free(tab);
 }
-
-// typedef struct s_tok
-// {
-// 	char	***tokens;
-// 	int		t_size;
-// 	int 	*type;
-// 	int		g_exitno;
-// }			t_tok;
 
 void	free_startab(char ***tokens)
 {
@@ -56,6 +48,5 @@ void	free_startab(char ***tokens)
 void	free_tdata(t_tok *tdata)
 {
 	free_startab(tdata->tokens);
-	// free_tab(tdata->heredoc);
 	free(tdata->type);
 }

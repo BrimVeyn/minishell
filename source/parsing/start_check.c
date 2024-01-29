@@ -6,7 +6,7 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 13:33:04 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/01/26 14:29:32 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/01/29 10:36:25 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	ms_wl(char *ptr)
 
 int	start_check_helper(char *input, int i)
 {
-	if (input[i + 1] 
+	if (input[i + 1]
 		&& ms_tiktok(&input[i + ms_tiktok(&input[i]).len]).type != CMD)
 	{
 		fd_printf(2, "minishell: syntax error near unexpected token `%fs'\n",

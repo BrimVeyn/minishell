@@ -6,7 +6,7 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/26 14:41:10 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/01/26 14:41:18 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/01/29 09:40:36 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,5 +44,4 @@ void b_parse(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
 void handle_built(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
 {
 	b_parse(d_token, d_pipe, denv, i);
-
 }
