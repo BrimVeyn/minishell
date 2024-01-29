@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/25 14:57:36 by nbardavi          #+#    #+#             */
-/*   Updated: 2024/01/26 15:24:17 by bvan-pae         ###   ########.fr       */
+/*   Created: 2024/01/29 10:45:26 by bvan-pae          #+#    #+#             */
+/*   Updated: 2024/01/29 10:46:05 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,17 @@ int flag_echo(char *flag)
 	int i;
 
 	i = 0;
+	if (ft_strlen(flag) == 0)
+		return(0);
 	if (flag[0] != '-')
 		return (0);
 	i++;
+	if (!flag)
+		return (0);
 	while(flag[i])
 	{
 		if (flag[i] != 'n')
-			return(0);
+			return (0);
 		i++;
 	}
 	return (1);
