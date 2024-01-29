@@ -12,14 +12,14 @@
 
 #include "../../include/minishell.h"
 
-extern int g_exitno;
+extern int	g_exitno;
 
-void b_env(t_env *denv)
+void	b_env(t_env *denv)
 {
 	int	i;
 
 	i = 0;
-	while(denv->f_env[i])
+	while (denv->f_env[i])
 		printf("%s\n", denv->f_env[i++]);
 	g_exitno = 0;
 }

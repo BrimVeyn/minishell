@@ -12,10 +12,10 @@
 
 #include "../../include/minishell.h"
 
-char **del_var(char **f_env, int index)
+char	**del_var(char **f_env, int index)
 {
 	char	**new;
-	int			i;
+	int		i;
 
 	new = ft_calloc(ms_tablen(f_env) + 1, sizeof(char *));
 	if (!new)
@@ -27,7 +27,7 @@ char **del_var(char **f_env, int index)
 		i++;
 	}
 	if (i == index)
-		i++; 
+		i++;
 	while (f_env[i])
 	{
 		// ft_printf("i = %d, index = %d", i, index);
@@ -39,8 +39,8 @@ char **del_var(char **f_env, int index)
 
 void	b_unset(char **args, t_env *denv)
 {
-	int		i;
-	int		index;
+	int	i;
+	int	index;
 
 	i = 0;
 	while (args[i])

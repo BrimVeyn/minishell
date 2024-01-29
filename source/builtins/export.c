@@ -6,7 +6,7 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 10:15:31 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/01/24 10:39:02 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/01/29 11:02:24 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 int	ms_var_exist(char *var, t_env *denv)
 {
-	char	 *tmp;
-	int			i;
+	char	*tmp;
+	int		i;
 
 	i = 0;
 	tmp = ms_cut_at(ft_strdup(var), '=');
@@ -28,27 +28,29 @@ int	ms_var_exist(char *var, t_env *denv)
 	return (free(tmp), ERROR);
 }
 
-static int invalid_identifier(char *identifier)
+static int	invalid_identifier(char *identifier)
 {
 	int	i;
 
 	i = 0;
 	while (identifier[i])
 	{
-		if (ft_isalnum(identifier[i]) == ZERO && identifier[i] != '_' && i != (int) ft_strlen(identifier) - 1)
-        {
-			fd_printf(2, "minishell: export: `%fs': not a valid identifier\n", identifier);
+		if (ft_isalnum(identifier[i]) == ZERO && identifier[i] != '_'
+			&& i != (int)ft_strlen(identifier) - 1)
+		{
+			fd_printf(2, "minishell: export: `%fs': not a valid identifier\n",
+				identifier);
 			return (TRUE);
-        }
+		}
 		i++;
 	}
 	return (ERROR);
 }
 
-char **ms_replace_value(char **f_env, int index, char *arg)
+char	**ms_replace_value(char **f_env, int index, char *arg)
 {
 	char	**new;
-	int			i;
+	int		i;
 
 	new = ft_calloc(ms_tablen(f_env) + 1, sizeof(char *));
 	if (!new)
@@ -60,7 +62,7 @@ char **ms_replace_value(char **f_env, int index, char *arg)
 		i++;
 	}
 	if (i == index)
-		new[i++] = ft_strdup(arg); 
+		new[i++] = ft_strdup(arg);
 	while (f_env[i])
 	{
 		new[i] = ft_strdup(f_env[i]);
@@ -69,34 +71,37 @@ char **ms_replace_value(char **f_env, int index, char *arg)
 	return (free_tab(f_env), new);
 }
 
+void	b_export_helper(int *i, char **args, t_env *denv)
+{
+	char		*value;
+	char	*identifier;
+	int			index;
+
+	identifier = NULL;
+	if (i > 0 && args[*i])
+	{
+		value = ft_strchr(args[*i], '=');
+		identifier = ft_strjoin_free(ms_cut_at(ft_strdup(args[*i]), '='),
+				ft_strdup("="));
+		index = ms_var_exist(args[*i], denv);
+		if (value && invalid_identifier(identifier) == ERROR)
+		{
+			if (index == ERROR)
+				denv->f_env = ms_join_tab(denv->f_env, args[*i]);
+			else if (index != ERROR)
+				denv->f_env = ms_replace_value(denv->f_env, index, args[*i]);
+		}
+	}
+	free(identifier);
+	(*i)++;
+}
+
 
 void	b_export(char **args, t_env *denv)
 {
 	int		i;
-	int		index;
-	char	*identifier;
-	char	*value;
 
-	identifier = NULL;
-	value = NULL;
 	i = 0;
 	while (args[i])
-	{
-		if (i > 0 && args[i])
-		{
-			value = ft_strchr(args[i], '=');
-			identifier = ft_strjoin_free(ms_cut_at(ft_strdup(args[i]), '='), ft_strdup("="));
-			ft_printf("identifier = %fs\n", identifier);
-			index = ms_var_exist(args[i], denv);
-			if (value && invalid_identifier(identifier) == ERROR)
-            {
-				if (index == ERROR)
-					denv->f_env = ms_join_tab(denv->f_env, args[i]);
-				else if (index != ERROR)
-					denv->f_env = ms_replace_value(denv->f_env, index, args[i]);
-            }
-		}
-		free(identifier);
-		i++;
-	}
+		b_export_helper(&i, args, denv);
 }

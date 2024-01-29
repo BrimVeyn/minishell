@@ -18,7 +18,7 @@
 
 #include "../../include/minishell.h"
 
-extern int g_exitno;
+extern int	g_exitno;
 
 void	b_redi(t_tok *d_token, t_pipe *d_pipe, int i)
 {
@@ -29,7 +29,7 @@ void	b_redi(t_tok *d_token, t_pipe *d_pipe, int i)
 	d_pipe->input = open(d_token->tokens[i + 1][0], O_RDONLY);
 }
 
-void b_parse_nf(t_tok *d_token, t_env *denv, int *i)
+void	b_parse_nf(t_tok *d_token, t_env *denv, int *i)
 {
 	if (!ft_strcmp(d_token->tokens[*i][0], "export"))
 		b_export(d_token->tokens[*i], denv);
@@ -41,7 +41,7 @@ void b_parse_nf(t_tok *d_token, t_env *denv, int *i)
 		b_exit(d_token->tokens[*i]);
 }
 
-void b_parse(t_tok *d_token, t_env *denv, int *i)
+void	b_parse(t_tok *d_token, t_env *denv, int *i)
 {
 	if (!ft_strcmp(d_token->tokens[*i][0], "echo"))
 		b_echo(d_token, i);
@@ -51,7 +51,7 @@ void b_parse(t_tok *d_token, t_env *denv, int *i)
 		b_pwd(d_token->tokens[*i], denv);
 }
 
-void handle_built(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
+void	handle_built(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
 {
 	(void)d_pipe;
 	b_parse(d_token, denv, i);
