@@ -36,15 +36,15 @@ void	exec_pipe(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
 		close(d_pipe->output);
 		c_execve(d_token, d_pipe, denv, i);
 		perror("\nexecve failed");
-		exit (EXIT_FAILURE);
+		exit(EXIT_FAILURE);
 	}
 }
 
-void cmd_exec_pipe(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
+void	cmd_exec_pipe(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
 {
-	if(d_pipe->output == -1)
+	if (d_pipe->output == -1)
 		d_pipe->output = d_pipe->old_stdout;
-	if(d_pipe->input == -1)
+	if (d_pipe->input == -1)
 		d_pipe->input = d_pipe->old_stdin;
 	exec_pipe(d_token, d_pipe, denv, i);
 	if (d_pipe->output == d_pipe->old_stdout)
@@ -63,9 +63,9 @@ void cmd_exec_pipe(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
 	}
 }
 
-void handle_cmd_pipe(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
+void	handle_cmd_pipe(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
 {
-	int  p_here;
+	int	p_here;
 
 	p_here = check_here(d_token->tokens, *i);
 	if (*i < d_token->t_size)
@@ -77,16 +77,17 @@ void handle_cmd_pipe(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
 		cmd_exec_pipe(d_token, d_pipe, denv, i);
 }
 
-void pipe_parse(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
+void	pipe_parse(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
 {
-	int p_here;
+	int	p_here;
 
 	p_here = check_here(d_token->tokens, *i);
 	if (d_token->type[*i] == D_AL)
 		handle_d_al(d_token, d_pipe, denv, i);
 	else if (d_token->type[*i] == S_AL)
 		b_redi(d_token, d_pipe, *i);
-	else if ((d_token->type[*i] == CMD && d_pipe->skip_and == 0) || d_token->type[*i] == WRONG || d_token->type[*i] == BUILTIN)
+	else if ((d_token->type[*i] == CMD && d_pipe->skip_and == 0)
+		|| d_token->type[*i] == WRONG || d_token->type[*i] == BUILTIN)
 		handle_cmd_pipe(d_token, d_pipe, denv, i);
 	else if (d_token->type[*i] == P_O)
 		handle_po(d_token, d_pipe, denv, i);

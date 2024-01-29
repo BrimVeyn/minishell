@@ -12,12 +12,12 @@
 
 #include "../../include/minishell.h"
 
-void ms_h_unlink(t_pipe *d_pipe)
+void	ms_h_unlink(t_pipe *d_pipe)
 {
-	char *temp;
+	char	*temp;
 
 	d_pipe->nbr_h--;
-	while(d_pipe->nbr_h > -1)
+	while (d_pipe->nbr_h > -1)
 	{
 		temp = ft_sprintf("%fs%d", ".temp_heredoc", d_pipe->nbr_h);
 		unlink(temp);
@@ -27,20 +27,20 @@ void ms_h_unlink(t_pipe *d_pipe)
 	}
 }
 
-void ms_place_h(t_tok *d_token, char *f_name, int i)
+void	ms_place_h(t_tok *d_token, char *f_name, int i)
 {
-	int j;
-	int k;
-	char **u_char;
+	int		j;
+	int		k;
+	char	**u_char;
 
 	j = 0;
 	k = 0;
-	while(d_token->tokens[i + 2][j])
+	while (d_token->tokens[i + 2][j])
 		j++;
 	u_char = ft_calloc(j + 2, sizeof(char *));
 	j = 0;
-	while(d_token->tokens[i + 2][j])
-	{	
+	while (d_token->tokens[i + 2][j])
+	{
 		u_char[j] = ft_strdup(d_token->tokens[i + 2][j]);
 		j++;
 	}
@@ -49,23 +49,23 @@ void ms_place_h(t_tok *d_token, char *f_name, int i)
 	d_token->tokens[i + 2] = u_char;
 }
 
-char *ms_getlast(t_env *denv)
+char	*ms_getlast(t_env *denv)
 {
-	t_h_lst *lst;
+	t_h_lst	*lst;
 
 	lst = denv->history;
-	while(lst->next != NULL)
+	while (lst->next != NULL)
 		lst = lst->next;
 	return (lst->content);
 }
 
-void reset_history(t_env *denv)
+void	reset_history(t_env *denv)
 {
-	t_h_lst *lst;
+	t_h_lst	*lst;
 
 	lst = denv->history;
 	rl_clear_history();
-	while(lst != NULL)
+	while (lst != NULL)
 	{
 		add_history(lst->content);
 		lst = lst->next;
