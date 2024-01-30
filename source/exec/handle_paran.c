@@ -12,7 +12,7 @@
 
 #include "../../include/minishell.h"
 
-void handle_pc_paran(t_pipe *d_pipe)
+void	handle_pc_paran(t_pipe *d_pipe)
 {
 	if (d_pipe->failed == 1)
 		d_pipe->p_return[d_pipe->p_cpt] = 0;
@@ -23,7 +23,7 @@ void handle_pc_paran(t_pipe *d_pipe)
 	d_pipe->p_trig = 1;
 }
 
-void p_parse_type(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
+void	p_parse_type(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
 {
 	int	p_here;
 
@@ -49,32 +49,34 @@ void p_parse_type(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
 	// ft_printf("Hello %d", *i);
 }
 
-void p_redi(t_tok *d_token, t_pipe *d_pipe, int *i)
+void	p_redi(t_tok *d_token, t_pipe *d_pipe, int *i)
 {
-	int j;
+	int	j;
 
 	j = 0;
 	while (d_token->type[*i + j] != P_C)
 		j++;
 	if (d_token->type[*i + j + 1] == S_AR)
 	{
-		d_pipe->p_redi_fd = open(d_token->tokens[*i + 2 +j][0], O_WRONLY | O_CREAT | O_TRUNC, 0644);
+		d_pipe->p_redi_fd = open(d_token->tokens[*i + 2 + j][0],
+				O_WRONLY | O_CREAT | O_TRUNC, 0644);
 		dup2(d_pipe->p_redi_fd, STDOUT_FILENO);
 	}
 	else
 		d_pipe->p_redi_fd = d_pipe->old_stdout;
 	if (d_token->type[*i + j + 1] == S_AL)
 	{
-		d_pipe->input = open(d_token->tokens[*i + 2 + j][0], O_WRONLY | O_CREAT | O_TRUNC, 0644);
+		d_pipe->input = open(d_token->tokens[*i + 2 + j][0],
+				O_WRONLY | O_CREAT | O_TRUNC, 0644);
 		dup2(d_pipe->input, STDIN_FILENO);
 	}
 }
 
-void p_while(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
+void	p_while(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
 {
 	(*i)++;
 	p_redi(d_token, d_pipe, i);
-	while(d_pipe->p_nbr > 0)
+	while (d_pipe->p_nbr > 0)
 	{
 		p_parse_type(d_token, d_pipe, denv, i);
 		if (d_pipe->p_trig == 0)

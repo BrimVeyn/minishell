@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
+/*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 08:59:09 by nbardavi          #+#    #+#             */
-/*   Updated: 2024/01/26 14:21:19 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/01/29 11:03:29 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-char *heredoc(t_pipe *d_pipe, t_tok *d_token, t_env *denv, int *i)
+char	*heredoc(t_pipe *d_pipe, t_tok *d_token, t_env *denv, int *i)
 {
 	char	*save;
 	char	*f_name;
@@ -40,9 +40,9 @@ char *heredoc(t_pipe *d_pipe, t_tok *d_token, t_env *denv, int *i)
 	return (f_name);
 }
 
-extern int g_exitno;
+extern int	g_exitno;
 
-void t_heredoc(t_tok *d_token, int *i, char *limiter)
+void	t_heredoc(t_tok *d_token, int *i, char *limiter)
 {
 	char	*input;
 	int		cpt;
@@ -50,25 +50,24 @@ void t_heredoc(t_tok *d_token, int *i, char *limiter)
 	cpt = 1;
 	if (limiter == NULL)
 		limiter = d_token->tokens[*i + 1][0];
-	while(1)
+	while (1)
 	{
 		input = readline("> ");
 		if (input == NULL)
 		{
 			printf("minishell: warning: here-document at line %d delimited by end-of-file (wanted '%s')\n", cpt, limiter);
-			return;
+			return ;
 		}
 		else if (ft_strcmp(limiter, input) == 0)
-			break;
+			break ;
 		cpt++;
 	}
 	g_exitno = 0;
 }
 
-char *h_handle(t_pipe *d_pipe, t_tok *d_token, t_env *denv, int *i)
+char	*h_handle(t_pipe *d_pipe, t_tok *d_token, t_env *denv, int *i)
 {
 	d_pipe->h_trigger = 0;
 	d_pipe->h_cpt = 0;
-
-	return (heredoc(d_pipe, d_token, denv, i));	
+	return (heredoc(d_pipe, d_token, denv, i));
 }
