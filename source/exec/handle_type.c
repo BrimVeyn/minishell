@@ -6,7 +6,7 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 10:11:19 by nbardavi          #+#    #+#             */
-/*   Updated: 2024/01/26 14:21:19 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/01/30 14:25:35 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	handle_pc(t_pipe *d_pipe)
 
 void	handle_wrong(t_pipe *d_pipe)
 {
-	g_exitno = 127;
+	// g_exitno = 127;
 	d_pipe->failed = 1;
 }
 
