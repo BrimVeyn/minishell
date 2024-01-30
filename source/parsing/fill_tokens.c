@@ -6,7 +6,7 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 14:40:02 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/01/30 12:34:12 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/01/30 15:44:51 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ void	fill_token_helper4(t_tokh *v, char *input, t_tok *tdata, t_env *denv)
 	if (v->tri == 1)
 		fill_token_helper2(tdata, v, denv, input);
 	while ((ms_tiktok(&input[v->i]).type == S_AL
-			|| ms_tiktok(&input[v->i]).type == D_AL) && v->i > 0)
+			|| ms_tiktok(&input[v->i]).type == D_AL || ms_tiktok(&input[v->i]).type == S_AR || ms_tiktok(&input[v->i]).type == D_AR) && v->i > 0)
 	{
 		v->l = f_lcmd_index(tdata, v->j);
 		tdata->tokens[v->l] = add_here_to_cmd(tdata->tokens[v->l], input, v,

@@ -6,7 +6,7 @@
 /*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 10:38:01 by nbardavi          #+#    #+#             */
-/*   Updated: 2024/01/30 10:54:10 by nbardavi         ###   ########.fr       */
+/*   Updated: 2024/01/30 15:19:16 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,12 +53,12 @@ void	cmd_exec_pipe(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
 		d_pipe->input = -1;
 	if (d_pipe->input != -1)
 	{
-		dup2(d_pipe->old_stdin, STDIN_FILENO);
+		dup2(d_pipe->old_stdin, STDIN_FILENO && d_pipe->t_cat == 0);
 		d_pipe->input = -1;
 	}
 	if (d_pipe->output != -1)
 	{
-		dup2(d_pipe->old_stdout, STDOUT_FILENO);
+		dup2(d_pipe->old_stdout, STDOUT_FILENO && d_pipe->t_cat == 0);
 		d_pipe->output = -1;
 	}
 }
