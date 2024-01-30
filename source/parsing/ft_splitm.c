@@ -6,7 +6,7 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 16:23:00 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/01/30 16:29:53 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/01/30 17:11:44 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,26 +81,12 @@ int	check_dollar(char **split, t_env *denv)
 	return (TRUE);
 }
 
-void	transform_split(char **split, t_env *denv)
+void	move_split_index(char **split, int *flag)
 {
-	t_starlist	*strl;
-	int			x[2];
-	int			flag;
-	int			i;
+	int	i;
 
-	x[I] = 0;
-	flag = 0;
-	strl = NULL;
-	if (check_dollar(split, denv) == ERROR)
-	{
-		flag = 1;
-		free(split[x[I]]);
-		split[x[I]] = ft_strdup_char(-19);
-		if (split[1] == NULL)
-			return ;
-	}
 	i = 1;
-	if (split[i] && flag == 1)
+	if (split[i] && *flag == 1)
 	{
 		while (split[i])
 		{
@@ -109,8 +95,32 @@ void	transform_split(char **split, t_env *denv)
 		}
 		split[i - 1] = NULL;
 	}
-	// for(int i = 0; split[i]; i++)
-	// 	ft_printf("split[i] = %fs\n", split[i]);
+}
+
+void empty_var_setter(t_env *denv, char **split, int *x)
+{
+	int	flag;
+
+	flag = 0;
+	if (check_dollar(split, denv) == ERROR)
+	{
+		flag = 1;
+		free(split[x[I]]);
+		split[x[I]] = ft_strdup_char(-19);
+		move_split_index(split, &flag);
+		if (split[1] == NULL)
+			return ;
+	}
+}
+
+void	transform_split(char **split, t_env *denv)
+{
+	t_starlist	*strl;
+	int			x[2];
+
+	x[I] = 0;
+	strl = NULL;
+	empty_var_setter(denv, split, x);
 	while (ms_setint(&x[J], ZERO), split[x[I]])
 	{
 		split[x[I]] = tild_expand(split[x[I]], denv);

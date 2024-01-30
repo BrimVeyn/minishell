@@ -6,7 +6,7 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/26 11:19:26 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/01/30 14:36:08 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/01/30 16:57:08 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,9 +40,7 @@ char	*r_dollar(char *split, int *i, int start, t_env *denv)
 	var = ms_getenv(ft_substr(split, start, end - start), denv);
 	p2 = ft_substr(split, end, (ft_strlen(split) - end));
 	*i = ft_strlen(split) - ft_strlen(p2) - (end - start) - 1;
-	// ft_printf("p1,var,p2 -- |%fs||%fs||%fs|\n", p1, var, p2);
 	tmp = ft_sprintf("%s%s%s", p1, var, p2);
-	// free(split);
 	return (tmp);
 }
 
