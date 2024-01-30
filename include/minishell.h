@@ -6,7 +6,7 @@
 /*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 10:44:25 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/01/30 12:40:10 by nbardavi         ###   ########.fr       */
+/*   Updated: 2024/01/30 14:26:56 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,6 +135,7 @@ typedef struct s_pipe
 	int f_cpt;
 	int	*f_id;
 	int p_trig;
+	int t_cat;
 	//
 	int h_i;
 	int t_exit;
@@ -397,7 +398,7 @@ void	b_redi(t_tok *d_token, t_pipe *d_pipe, int i);
 void	p_while(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i);
 void	w_exec_pipe(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i);
 void	exec_cmd(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i);
-void	apply_redi(t_tok *d_token, t_pipe *d_pipe,int i);
+int		apply_redi(t_tok *d_token, t_pipe *d_pipe,int i);
 char	*h_before(t_pipe *d_pipe, t_tok *d_token, t_env *denv, int *i);
 void	ms_place_h(t_tok *d_token, char *f_name, int i);
 void	parse_type(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i);
