@@ -6,7 +6,7 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/26 11:25:26 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/01/30 15:27:53 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/01/30 16:05:33 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,33 +47,12 @@ char	*join_path(char *cmd, t_env *denv)
 	char	*cmd_cpy;
 
 	i = 0;
-	if (cmd[0] == -19)
-	{
-		return (free(cmd), ft_strdup("WRONG"));
-	}
 	if (!access(cmd, X_OK) && ms_filetype(cmd) == FAILE)
 		return (cmd);
-	if (access(cmd, X_OK) && ms_filetype(cmd) == TRUE)
-	{
-		fd_printf(2, "minishell: %fs: No such file or directory\n", cmd);
-		g_exitno = 127;
-		return (free(cmd), ft_strdup("WRONG"));
-	}
-	if (!access(cmd, X_OK) && ms_filetype(cmd) == DIRECTORY && ft_strchr(cmd, '/'))
-	{
-		fd_printf(2, "minishell: %fs: Is a directory\n", cmd);
-		g_exitno = 126;
-		return (free(cmd), ft_strdup("WRONG"));
-	}
-	paths = ft_split(denv->path, ':');
-	if (!cmd)
+	if (empty_var(cmd) == ERROR || no_such_file(cmd) == ERROR 
+		|| is_a_directory(cmd) == ERROR || command_not_found(cmd) == ERROR || !cmd)
 		return (ft_strdup("WRONG"));
-	if (!ft_strncmp(cmd, "", 2))
-	{
-		fd_printf(2, "'': command not found\n");
-		g_exitno = 127;
-		return (free_tab(paths), free(cmd), ft_strdup("WRONG"));
-	}
+	paths = ft_split(denv->path, ':');
 	while (paths[i])
 	{
 		cmd_cpy = ft_strjoin_s2(paths[i], ft_strjoin_s2("/", ft_strdup(cmd)));
@@ -82,16 +61,11 @@ char	*join_path(char *cmd, t_env *denv)
 		free(cmd_cpy);
 		i++;
 	}
-	free_tab(paths);
-	if (access(cmd, X_OK) && ms_filetype(cmd) == FAILE && ft_strchr(cmd, '/'))
-	{
-		fd_printf(2, "minishell: %fs: Permission denied\n", cmd);
-		g_exitno = 126;
-		return (free(cmd), ft_strdup("WRONG"));
-	}
+	if (permission_denied(cmd) == ERROR)
+		return (ft_strdup("WRONG"));
 	fd_printf(2, "%fs: command not found\n", cmd);
 	g_exitno = 127;
-	return (free(cmd), ft_strdup("WRONG"));
+	return (free_tab(paths), free(cmd), ft_strdup("WRONG"));
 }
 
 void	ms_add_path(t_tok *tdata, t_env *denv)
