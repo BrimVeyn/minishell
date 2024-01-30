@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
+/*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 10:44:25 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/01/30 12:40:10 by nbardavi         ###   ########.fr       */
+/*   Updated: 2024/01/30 16:15:10 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,6 +135,7 @@ typedef struct s_pipe
 	int f_cpt;
 	int	*f_id;
 	int p_trig;
+	int t_cat;
 	//
 	int h_i;
 	int t_exit;
@@ -285,6 +286,12 @@ t_tokvar	ms_tiktok(char *ptr);
 t_dlist		*ms_wildcard_expand(t_starlist *current, t_dlist *flist);
 void		fill_token(char *input, t_tok *tdata, t_env *denv);
 void		extract_delimiter(char *input, t_tok *tdata, t_tokh *v);
+void		ms_add_path(t_tok *tdata, t_env *denv);
+int			no_such_file(char *cmd);
+int			is_a_directory(char *cmd);
+int			command_not_found(char *cmd);
+int			permission_denied(char *cmd);
+int			empty_var(char *cmd);
 char		*grep_word(char *input, t_tokh *v);
 char		**add_args_to_cmd(char *input, t_tokh *v, t_tok *tdata, t_env *denv);
 char		**add_here_to_cmd(char **token, char *input, t_tokh *v, t_tok *tdata);
@@ -303,7 +310,12 @@ int			end_check(char *input, int i);
 int			parenthesis_check(char *input);
 int			delimiter_check(char *input);
 int			count_tokens(char *input);
+int			count_tokens_helper(int *x, char *input, t_tokvar *tokvar);
+int			count_tokens_helper2(int *x, char *input, t_tokvar *tokvar);
+void		count_tokens_helper3(int *x, char *input);
 int			count_tokens_helper4(int *x, char *input);
+void		count_tokens_helper5(int *x, int *quotes, char *input);
+void		count_tokens_helper6(int *x, char *input);
 int			ms_wl2(char *ptr);
 int			f_lcmd_index(t_tok *tdata, int j);
 int			tild_index(char *word);
@@ -387,7 +399,6 @@ void		prompt(t_env *env);
 t_env		*update_env(t_env *denv);
 void		ms_lst_b(t_h_lst **lst, t_h_lst *newlst);
 int			ms_main_pipe(t_tok d_token, t_env *denv);
-void		ms_add_path(t_tok *tdata, t_env *denv);
 
 void		free_tab(char **tab);
 void		free_tdata(t_tok *tdata);
@@ -397,7 +408,7 @@ void	b_redi(t_tok *d_token, t_pipe *d_pipe, int i);
 void	p_while(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i);
 void	w_exec_pipe(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i);
 void	exec_cmd(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i);
-void	apply_redi(t_tok *d_token, t_pipe *d_pipe,int i);
+int		apply_redi(t_tok *d_token, t_pipe *d_pipe,int i);
 char	*h_before(t_pipe *d_pipe, t_tok *d_token, t_env *denv, int *i);
 void	ms_place_h(t_tok *d_token, char *f_name, int i);
 void	parse_type(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i);
