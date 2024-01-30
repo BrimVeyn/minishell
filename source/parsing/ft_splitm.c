@@ -6,7 +6,7 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 16:23:00 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/01/29 10:47:42 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/01/30 09:55:51 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,20 @@ void	fill_split(char **split, char *str)
 	}
 }
 
+int	check_dollar(char **split, t_env *denv)
+{
+	char *tmp;
+	char *a_tmp;
+	
+	tmp = NULL;
+	a_tmp = NULL;
+	if (split[0][0] == '$')
+		tmp = r_env(split[0], denv);
+	if (tmp && ft_strlen(tmp) == 0)
+		return (free(tmp), free(a_tmp), ERROR);
+	return (free(tmp), free(a_tmp), TRUE);
+}
+
 void	transform_split(char **split, t_env *denv)
 {
 	t_starlist	*strl;
@@ -76,6 +90,11 @@ void	transform_split(char **split, t_env *denv)
 
 	x[I] = 0;
 	strl = NULL;
+	if (check_dollar(split, denv) == ERROR)
+	{
+		free(split[x[0]]);
+		split[x[0]] = ft_strdup_char(-19);
+	}
 	while (ms_setint(&x[J], ZERO), split[x[I]])
 	{
 		split[x[I]] = tild_expand(split[x[I]], denv);
