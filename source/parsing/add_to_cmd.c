@@ -6,7 +6,7 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 14:17:10 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/01/30 12:41:05 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/01/30 17:19:45 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ char	**add_here_to_cmd(char **token, char *input, t_tokh *v, t_tok *tdata)
 		v->k++;
 		v->i++;
 	}
-	delimiter = ft_substr(input, v->i - v->k, v->k);
+	delimiter = ms_strtrimf(ft_substr(input, v->i - v->k, v->k), "\'\"");
 	to_add[0] = d_al;
 	to_add[1] = delimiter;
 	// for (int i = 0; token[i]; i++)

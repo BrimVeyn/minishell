@@ -14,10 +14,11 @@
 
 int	parenthesis_check(char *input)
 {
-	int q[4];
+	int	q[4];
 
-	if (ms_setint(&q[0], 0), ms_setint(&q[1], 0), ms_setint(&q[2], 0), ms_setint(&q[3], 0), input)
-		(void) q[3];
+	if (ms_setint(&q[0], 0), ms_setint(&q[1], 0), ms_setint(&q[2], 0),
+		ms_setint(&q[3], 0), input)
+		(void)q[3];
 	while (input[q[3]])
 	{
 		q[0] ^= (input[q[3]] == '"');

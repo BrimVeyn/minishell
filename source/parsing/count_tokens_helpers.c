@@ -56,7 +56,7 @@ void	count_tokens_helper5(int *x, int *quotes, char *input)
 void	count_tokens_helper6(int *x, char *input)
 {
 	while (input[x[I]] && (ms_tiktok(&input[x[I]]).type == D_AL
-			|| ms_tiktok(&input[x[I]]).type == S_AL 
+			|| ms_tiktok(&input[x[I]]).type == S_AL
 			|| ms_tiktok(&input[x[I]]).type == S_AR
 			|| ms_tiktok(&input[x[I]]).type == D_AR))
 		count_tokens_helper3(x, input);

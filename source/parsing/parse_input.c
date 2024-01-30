@@ -6,7 +6,7 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 16:11:25 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/01/30 16:31:53 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/01/30 17:01:49 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,15 +49,8 @@ t_tok	parse_input(char *input, t_env *denv)
 	tdata.t_size = count_tokens(input);
 	if (tdata.t_size == ERROR)
 		return (tdata);
-	// ft_printf("WC = %d\n", tdata.t_size);
 	tdata = init_tok(tdata.t_size, heredoc);
 	fill_token(input, &tdata, denv);
-	// for (int i = 0; tdata.tokens[i]; i++)
-	// {
-	// 	ft_printf("S->TYPE[%d] = %d\n", i, tdata.type[i]);
-	// 	for (int j = 0; tdata.tokens[i][j]; j++)
-	// 		ft_printf("S[%d][%d] = |%fs|\n", i, j, tdata.tokens[i][j]);
-	// }
 	if (quotes_position_check(&tdata) == ERROR)
 	{
 		tdata.type[0] = ERROR;
@@ -68,3 +61,9 @@ t_tok	parse_input(char *input, t_env *denv)
 		return (tdata);
 	return (tdata);
 }
+// for (int i = 0; tdata.tokens[i]; i++)
+// {
+// 	ft_printf("S->TYPE[%d] = %d\n", i, tdata.type[i]);
+// 	for (int j = 0; tdata.tokens[i][j]; j++)
+// 		ft_printf("S[%d][%d] = |%fs|\n", i, j, tdata.tokens[i][j]);
+// }

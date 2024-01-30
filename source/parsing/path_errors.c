@@ -12,7 +12,7 @@
 
 #include "../../include/minishell.h"
 
-extern int g_exitno;
+extern int	g_exitno;
 
 int	no_such_file(char *cmd)
 {
@@ -27,7 +27,8 @@ int	no_such_file(char *cmd)
 
 int	is_a_directory(char *cmd)
 {
-	if (!access(cmd, X_OK) && ms_filetype(cmd) == DIRECTORY && ft_strchr(cmd, '/'))
+	if (!access(cmd, X_OK) && ms_filetype(cmd) == DIRECTORY && ft_strchr(cmd,
+			'/'))
 	{
 		fd_printf(2, "minishell: %fs: Is a directory\n", cmd);
 		g_exitno = 126;
@@ -36,7 +37,7 @@ int	is_a_directory(char *cmd)
 	return (TRUE);
 }
 
-int command_not_found(char *cmd)
+int	command_not_found(char *cmd)
 {
 	if (!ft_strncmp(cmd, "", 2))
 	{
@@ -47,7 +48,7 @@ int command_not_found(char *cmd)
 	return (TRUE);
 }
 
-int permission_denied(char *cmd)
+int	permission_denied(char *cmd)
 {
 	if (access(cmd, X_OK) && ms_filetype(cmd) == FAILE && ft_strchr(cmd, '/'))
 	{
@@ -58,7 +59,7 @@ int permission_denied(char *cmd)
 	return (TRUE);
 }
 
-int empty_var(char *cmd)
+int	empty_var(char *cmd)
 {
 	if (cmd[0] == -19)
 		return (ERROR);
