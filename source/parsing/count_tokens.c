@@ -35,7 +35,7 @@ int	count_tokens_helper4(int *x, char *input)
 		count_tokens_helper5(x, quotes, input);
 	if (x[TRI] == 1)
 		x[COUNTER] += 1;
-	count_tokens_helper6(x , input);
+	count_tokens_helper6(x, input);
 	return (TRUE);
 }
 
