@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   unset.c                                            :+:      :+:    :+:   */
+/*   ms_replace_value.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/23 15:53:41 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/01/30 17:33:07 by bvan-pae         ###   ########.fr       */
+/*   Created: 2024/01/30 17:31:29 by bvan-pae          #+#    #+#             */
+/*   Updated: 2024/01/30 17:31:45 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-char	**del_var(char **f_env, int index)
+char	**ms_replace_value(char **f_env, int index, char *arg)
 {
 	char	**new;
 	int		i;
@@ -27,29 +27,11 @@ char	**del_var(char **f_env, int index)
 		i++;
 	}
 	if (i == index)
-		i++;
+		new[i++] = ft_strdup(arg);
 	while (f_env[i])
 	{
-		new[i - 1] = ft_strdup(f_env[i]);
+		new[i] = ft_strdup(f_env[i]);
 		i++;
 	}
 	return (free_tab(f_env), new);
-}
-
-void	b_unset(char **args, t_env *denv)
-{
-	int	i;
-	int	index;
-
-	i = 0;
-	while (args[i])
-	{
-		if (i > 0 && args[i])
-		{
-			index = ms_var_exist(args[i], denv);
-			if (index != ERROR)
-				denv->f_env = del_var(denv->f_env, index);
-		}
-		i++;
-	}
 }
