@@ -6,7 +6,7 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/26 11:25:26 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/01/30 08:36:26 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/01/30 10:25:24 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ char	*join_path(char *cmd, t_env *denv)
 	i = 0;
 	if (cmd[0] == -19)
 	{
-		ft_printf("cmd = |%fs|\n", cmd);
+		// ft_printf("cmd = |%fs|\n", cmd);
 		return (ft_strdup("WRONG"));
 	}
 	if (!access(cmd, X_OK) && ms_filetype(cmd) == FAILE)
