@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
+/*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 09:35:44 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/01/26 14:43:18 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/01/29 14:33:11 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,6 @@ void	b_pwd(char **args, t_env *denv)
 	(void)denv;
 	(void)args;
 	getcwd(current_directory, sizeof(current_directory));
-	ft_printf("%fs\n", current_directory);
+	printf("%s\n", current_directory);
 	g_exitno = 0;
 }

@@ -6,7 +6,7 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/26 11:25:26 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/01/29 16:06:56 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/01/30 08:36:26 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,11 @@ char	*join_path(char *cmd, t_env *denv)
 	char	*cmd_cpy;
 
 	i = 0;
+	if (cmd[0] == -19)
+	{
+		ft_printf("cmd = |%fs|\n", cmd);
+		return (ft_strdup("WRONG"));
+	}
 	if (!access(cmd, X_OK) && ms_filetype(cmd) == FAILE)
 		return (cmd);
 	if (access(cmd, X_OK) && ms_filetype(cmd) == TRUE)
@@ -60,11 +65,6 @@ char	*join_path(char *cmd, t_env *denv)
 	paths = ft_split(denv->path, ':');
 	if (!cmd)
 		return (ft_strdup("WRONG"));
-	if (cmd[0] == -19)
-    {
-		ft_printf("cmd = |%fs|\n", cmd);
-		return (ft_strdup("WRONG"));
-    }
 	if (!ft_strncmp(cmd, "", 2))
 	{
 		fd_printf(2, "'': command not found\n");
