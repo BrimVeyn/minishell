@@ -6,7 +6,7 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/26 11:25:26 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/01/30 16:05:33 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/01/30 16:19:39 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	ms_check_builtin(char *cmd)
 {
 	if (!ft_strcmp(cmd, "cd") || !ft_strcmp(cmd, "export") || !ft_strcmp(cmd,
 			"unset") || !ft_strcmp(cmd, "env") || !ft_strcmp(cmd, "exit")
-		|| !ft_strcmp(cmd, "echo") 
+		|| !ft_strcmp(cmd, "echo")
 		|| !ft_strcmp(cmd, "pwd")
 		|| !ft_strcmp(cmd, "robin"))
 		return (TRUE);
@@ -49,8 +49,9 @@ char	*join_path(char *cmd, t_env *denv)
 	i = 0;
 	if (!access(cmd, X_OK) && ms_filetype(cmd) == FAILE)
 		return (cmd);
-	if (empty_var(cmd) == ERROR || no_such_file(cmd) == ERROR 
-		|| is_a_directory(cmd) == ERROR || command_not_found(cmd) == ERROR || !cmd)
+	if (empty_var(cmd) == ERROR || no_such_file(cmd) == ERROR
+		|| is_a_directory(cmd) == ERROR
+		|| command_not_found(cmd) == ERROR || !cmd)
 		return (ft_strdup("WRONG"));
 	paths = ft_split(denv->path, ':');
 	while (paths[i])
@@ -83,10 +84,7 @@ void	ms_add_path(t_tok *tdata, t_env *denv)
 			{
 				tdata->tokens[i][0] = join_path(tdata->tokens[i][0], denv);
 				if (!ft_strncmp(tdata->tokens[i][0], "WRONG", 5))
-				{
-					// g_exitno = 127;
 					tdata->type[i] = WRONG;
-				}
 			}
 		}
 		i++;
