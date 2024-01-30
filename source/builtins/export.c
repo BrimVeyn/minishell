@@ -6,11 +6,13 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 16:09:44 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/01/29 16:10:08 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/01/30 13:12:40 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
+
+extern int g_exitno;
 
 int	ms_var_exist(char *var, t_env *denv)
 {
@@ -35,13 +37,8 @@ static int	invalid_identifier(char *identifier)
 	i = 0;
 	while (identifier[i])
 	{
-		if (ft_isalnum(identifier[i]) == ZERO && identifier[i] != '_'
-			&& i != (int)ft_strlen(identifier) - 1)
-		{
-			fd_printf(2, "minishell: export: `%fs': not a valid identifier\n",
-				identifier);
+		if (ft_isalpha(identifier[i]) == ZERO && identifier[i] != '_' && i != (int)ft_strlen(identifier))
 			return (TRUE);
-		}
 		i++;
 	}
 	return (ERROR);
@@ -81,10 +78,18 @@ void	b_export_helper(int *i, char **args, t_env *denv)
 	if (i > 0 && args[*i])
 	{
 		value = ft_strchr(args[*i], '=');
-		identifier = ft_strjoin_free(ms_cut_at(ft_strdup(args[*i]), '='),
-				ft_strdup("="));
+		identifier = ms_cut_at(ft_strdup(args[*i]), '=');
+		// ft_printf("IDENTIFIER = %fs\n", identifier);
 		index = ms_var_exist(args[*i], denv);
-		if (value && invalid_identifier(identifier) == ERROR)
+		if (invalid_identifier(identifier) == TRUE || !ft_strncmp("", identifier, 2))
+        {
+			fd_printf(2, "minishell: export: `%fs': not a valid identifier\n",
+				identifier);
+			g_exitno = 1;
+			(*i)++;
+			return ;
+        }
+		if (value)
 		{
 			if (index == ERROR)
 				denv->f_env = ms_join_tab(denv->f_env, args[*i]);
@@ -101,7 +106,7 @@ void	b_export(char **args, t_env *denv)
 {
 	int		i;
 
-	i = 0;
+	i = 1;
 	while (args[i])
 		b_export_helper(&i, args, denv);
 }
