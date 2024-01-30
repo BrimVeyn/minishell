@@ -6,7 +6,7 @@
 /*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 10:12:28 by nbardavi          #+#    #+#             */
-/*   Updated: 2024/01/30 10:54:27 by nbardavi         ###   ########.fr       */
+/*   Updated: 2024/01/30 15:13:10 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	check_redi(char ***tokens, int i)
 	j = 0;
 	while (tokens[i][j])
 	{
-		if (ft_strcmp(">", tokens[i][j]) == 0)
+		if (ft_strcmp("<", tokens[i][j]) == 0)
 			return (1);
 		j++;
 	}
@@ -46,7 +46,8 @@ int	cmd_redi(t_tok *d_token, t_pipe *d_pipe, int *i, int j)
 	if (d_token->type[*i + 1] == P_C)
 		j++;
 	if (check_redi(d_token->tokens, *i) == 1)
-		apply_redi(d_token, d_pipe, *i);
+		if (apply_redi(d_token, d_pipe, *i) == 1)
+			return(1);
 	while (*i + j < d_token->t_size && (d_token->type[*i + 1 + j] == S_AR
 			|| d_token->type[*i + 1 + j] == D_AR))
 	{
