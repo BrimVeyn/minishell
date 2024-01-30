@@ -6,7 +6,7 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 10:44:25 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/01/30 16:15:10 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/01/30 17:31:58 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -249,6 +249,7 @@ char		*ms_strtolower(char *str);
 char		*ms_cut_at(char *input, char c);
 char		*ms_getenv(char *var, t_env *denv);
 char		**ms_joinstarstar(char **p1, char **p2);
+char		**ms_replace_value(char **f_env, int index, char *arg);
 int			ms_tablen(char **tab);
 int			ms_isws(char c);
 int			ms_tablen(char **tab);
@@ -316,6 +317,8 @@ void		count_tokens_helper3(int *x, char *input);
 int			count_tokens_helper4(int *x, char *input);
 void		count_tokens_helper5(int *x, int *quotes, char *input);
 void		count_tokens_helper6(int *x, char *input);
+int			count_words(char *str);
+void		fill_split(char **split, char *str);
 int			ms_wl2(char *ptr);
 int			f_lcmd_index(t_tok *tdata, int j);
 int			tild_index(char *word);
