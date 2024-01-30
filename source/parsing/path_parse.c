@@ -6,7 +6,7 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/26 11:25:26 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/01/30 12:44:40 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/01/30 15:27:53 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,9 +56,10 @@ char	*join_path(char *cmd, t_env *denv)
 	if (access(cmd, X_OK) && ms_filetype(cmd) == TRUE)
 	{
 		fd_printf(2, "minishell: %fs: No such file or directory\n", cmd);
+		g_exitno = 127;
 		return (free(cmd), ft_strdup("WRONG"));
 	}
-	if (!access(cmd, X_OK) && ms_filetype(cmd) == DIRECTORY)
+	if (!access(cmd, X_OK) && ms_filetype(cmd) == DIRECTORY && ft_strchr(cmd, '/'))
 	{
 		fd_printf(2, "minishell: %fs: Is a directory\n", cmd);
 		g_exitno = 126;
@@ -70,6 +71,7 @@ char	*join_path(char *cmd, t_env *denv)
 	if (!ft_strncmp(cmd, "", 2))
 	{
 		fd_printf(2, "'': command not found\n");
+		g_exitno = 127;
 		return (free_tab(paths), free(cmd), ft_strdup("WRONG"));
 	}
 	while (paths[i])
@@ -81,7 +83,14 @@ char	*join_path(char *cmd, t_env *denv)
 		i++;
 	}
 	free_tab(paths);
+	if (access(cmd, X_OK) && ms_filetype(cmd) == FAILE && ft_strchr(cmd, '/'))
+	{
+		fd_printf(2, "minishell: %fs: Permission denied\n", cmd);
+		g_exitno = 126;
+		return (free(cmd), ft_strdup("WRONG"));
+	}
 	fd_printf(2, "%fs: command not found\n", cmd);
+	g_exitno = 127;
 	return (free(cmd), ft_strdup("WRONG"));
 }
 
@@ -101,7 +110,7 @@ void	ms_add_path(t_tok *tdata, t_env *denv)
 				tdata->tokens[i][0] = join_path(tdata->tokens[i][0], denv);
 				if (!ft_strncmp(tdata->tokens[i][0], "WRONG", 5))
 				{
-					g_exitno = 127;
+					// g_exitno = 127;
 					tdata->type[i] = WRONG;
 				}
 			}
