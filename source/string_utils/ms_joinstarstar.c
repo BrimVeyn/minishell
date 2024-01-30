@@ -6,7 +6,7 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 13:40:28 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/01/25 13:40:37 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/01/30 12:41:11 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,9 @@ char	**ms_joinstarstar(char **p1, char **p2)
 	while (p1[++i])
 		new[i] = ft_strdup(p1[i]);
 	while (p2[++j])
-		new[i++] = ft_strdup(p2[j]);
+    {
+		new[i] = ft_strdup(p2[j]);
+		i++;
+    }
 	return (new);
 }

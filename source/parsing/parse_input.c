@@ -6,7 +6,7 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 16:11:25 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/01/30 10:25:04 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/01/30 12:44:03 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ t_tok	parse_input(char *input, t_env *denv)
 	tdata.t_size = count_tokens(input);
 	if (tdata.t_size == ERROR)
 		return (tdata);
+	// ft_printf("WC = %d\n", tdata.t_size);
 	tdata = init_tok(tdata.t_size, heredoc);
 	fill_token(input, &tdata, denv);
 	if (quotes_position_check(&tdata) == ERROR)

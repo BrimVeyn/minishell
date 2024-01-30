@@ -6,7 +6,7 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 16:23:00 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/01/30 10:04:07 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/01/30 12:29:36 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ int	check_dollar(char **split, t_env *denv)
 	
 	tmp = NULL;
 	a_tmp = NULL;
-	if (split[0][0] == '$')
+	if (split[0] && split[0][0] == '$')
 		tmp = r_env(split[0], denv);
 	if (tmp && ft_strlen(tmp) == 0)
 		return (free(tmp), free(a_tmp), ERROR);
@@ -94,6 +94,7 @@ void	transform_split(char **split, t_env *denv)
 	{
 		free(split[x[0]]);
 		split[x[0]] = ft_strdup_char(-19);
+		return ;
 	}
 	while (ms_setint(&x[J], ZERO), split[x[I]])
 	{
@@ -122,6 +123,7 @@ char	**ft_splitm(char *str, t_env *denv)
 	int		wc;
 
 	wc = count_words(str);
+	// ft_printf("SPLIT WC = %d\n", wc);
 	split = (char **)ft_calloc(count_words(str) + 1, sizeof(char *));
 	if (!split)
 	{
