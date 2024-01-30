@@ -24,7 +24,7 @@ int	ms_is_nbr(char *str)
 		i++;
 	if (str[i] == '+' && i == 0)
 		i++;
-	while(str[i])
+	while (str[i])
 	{
 		if (str[i] < '0' || str[i] > '9')
 			return (1);
@@ -46,7 +46,8 @@ void	b_exit(char **args)
 	}
 	else
 	{
-		fd_printf(2, "minishell: exit: %fs: numeric argument required\n", args[1]);
+		fd_printf(2, "minishell: exit: %fs: numeric argument required\n",
+			args[1]);
 		exit(2);
 	}
 	g_exitno = 1;

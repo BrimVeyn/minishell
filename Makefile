@@ -33,6 +33,7 @@ SRC 			:= source/main.c source/prompt.c \
 				   source/string_utils/ms_join_tab.c \
 				   source/string_utils/ms_joinstarstar.c \
 				   source/string_utils/ms_tablen.c \
+				   source/string_utils/ms_replace_value.c \
 				   source/builtins/b_exec.c \
 				   source/builtins/unset.c \
 				   source/builtins/export.c \
@@ -43,6 +44,7 @@ SRC 			:= source/main.c source/prompt.c \
 				   source/builtins/robin.c \
 				   source/parsing/parse_input.c \
 				   source/parsing/ft_splitm.c \
+				   source/parsing/fill_splitm.c \
 				   source/parsing/expands.c \
 				   source/parsing/utils_two.c \
 				   source/parsing/replace_env.c \

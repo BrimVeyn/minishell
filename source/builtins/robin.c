@@ -3,23 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   robin.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
+/*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/30 12:38:43 by nbardavi          #+#    #+#             */
-/*   Updated: 2024/01/30 14:19:24 by nbardavi         ###   ########.fr       */
+/*   Updated: 2024/01/30 17:34:16 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-extern int g_exitno;
+extern int	g_exitno;
 
-void b_robin(void)
+void	b_robin(void)
 {
-	int id;
-	char **cmd;
+	int		id;
+	char	**cmd;
 
-	cmd = ft_calloc(3, sizeof(char*));
+	cmd = ft_calloc(3, sizeof(char *));
 	cmd[0] = ft_strdup("/usr/bin/cat");
 	cmd[1] = ft_strdup("/home/nbardavi/Desktop/minishell/source/builtins/rrettien.ansi.txt");
 	id = fork();
