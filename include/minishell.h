@@ -6,7 +6,7 @@
 /*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 10:44:25 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/01/29 14:38:47 by nbardavi         ###   ########.fr       */
+/*   Updated: 2024/01/30 12:40:10 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -272,6 +272,7 @@ void		b_env(t_env *denv);
 void		b_exit(char **args);
 void		b_pwd(char **args, t_env *denv);
 void		b_cd(char **args, t_env *denv);
+void		b_robin(void);
 char		**ms_replace_value(char **f_env, int index, char *arg);
 char		**del_var(char **f_env, int index);
 char		*ms_find_var(t_env *denv, char *var);
@@ -317,11 +318,11 @@ void	handle_pc(t_pipe *d_pipe);
 void	handle_wrong(t_pipe *d_pipe);
 void handle_and(t_pipe *d_pipe);
 
-void cmd_pipe(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i);
-void cmd_here(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i);
-void cmd_redi(t_tok *d_token, t_pipe *d_pipe, int *i, int j);
-void cmd_reset_fd(t_pipe *d_pipe);
-void handle_cmd(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i);
+void	cmd_pipe(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i);
+void	cmd_here(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i);
+int		cmd_redi(t_tok *d_token, t_pipe *d_pipe, int *i, int j);
+void	cmd_reset_fd(t_pipe *d_pipe);
+void	handle_cmd(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i);
 
 void	pipe_parse(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i);
 void	exec_pipe(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i);
