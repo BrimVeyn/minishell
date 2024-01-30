@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_cmds.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
+/*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 10:12:28 by nbardavi          #+#    #+#             */
-/*   Updated: 2024/01/30 16:32:46 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/01/30 17:10:21 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ int	cmd_redi(t_tok *d_token, t_pipe *d_pipe, int *i, int j)
 	k = 0;
 	file_name = NULL;
 	// ft_printf("len new: %d", ft_strlenlen(d_token->tokens[*i]));
-	new = ft_calloc(ft_strlenlen(d_token->tokens[*i]), sizeof(char *));
+	new = ft_calloc(ft_strlenlen(d_token->tokens[*i]) + 1, sizeof(char *));
 	failure = 0;
 	if (d_token->type[*i + 1] == P_C)
 		j++;
@@ -104,7 +104,6 @@ int	cmd_redi(t_tok *d_token, t_pipe *d_pipe, int *i, int j)
 			if (d_pipe->input != -1)
 				close(d_pipe->input);
 			d_pipe->input = open(d_token->tokens[*i][j], O_RDONLY);
-			printf("valeur fd: %d\n", d_pipe->input);
 		}
 		else
 			new[k++] = ft_strdup(d_token->tokens[*i][j]);
