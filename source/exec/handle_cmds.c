@@ -6,7 +6,7 @@
 /*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 10:12:28 by nbardavi          #+#    #+#             */
-/*   Updated: 2024/01/30 17:10:21 by nbardavi         ###   ########.fr       */
+/*   Updated: 2024/01/30 17:34:00 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,10 +78,12 @@ int	cmd_redi(t_tok *d_token, t_pipe *d_pipe, int *i, int j)
 			d_pipe->output = open(d_token->tokens[*i][++j], O_WRONLY | O_CREAT | O_APPEND, 0644);
 			if (d_pipe->output == -1)
 			{
+				fd_printf(2, "mauvais file");
 				failure = D_AR;
 				file_name = ft_sprintf("%s", d_token->tokens[*i][j]);
 			}
-			dup2(d_pipe->output, STDOUT_FILENO);
+			else
+				dup2(d_pipe->output, STDOUT_FILENO);
 		}
 		else if (!ft_strcmp(d_token->tokens[*i][j], ">"))
 		{
