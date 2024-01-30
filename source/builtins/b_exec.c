@@ -3,18 +3,12 @@
 /*                                                        :::      ::::::::   */
 /*   b_exec.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
+/*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/29 10:44:50 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/01/29 10:45:15 by bvan-pae         ###   ########.fr       */
+/*   Created: 2024/01/30 12:33:30 by nbardavi          #+#    #+#             */
+/*   Updated: 2024/01/30 12:39:49 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   b_exec.c                                           :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
 
 #include "../../include/minishell.h"
 
@@ -49,6 +43,8 @@ void	b_parse(t_tok *d_token, t_env *denv, int *i)
 		b_env(denv);
 	if (!ft_strcmp(d_token->tokens[*i][0], "pwd"))
 		b_pwd(d_token->tokens[*i], denv);
+	if (!ft_strcmp(d_token->tokens[*i][0], "robin"))
+		b_robin();
 }
 
 void	handle_built(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)

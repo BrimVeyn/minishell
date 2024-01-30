@@ -6,7 +6,7 @@
 /*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 10:12:28 by nbardavi          #+#    #+#             */
-/*   Updated: 2024/01/29 14:19:32 by nbardavi         ###   ########.fr       */
+/*   Updated: 2024/01/30 10:54:27 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int	check_redi(char ***tokens, int i)
 
 extern int g_exitno;
 
-void	cmd_redi(t_tok *d_token, t_pipe *d_pipe, int *i, int j)
+int	cmd_redi(t_tok *d_token, t_pipe *d_pipe, int *i, int j)
 {
 	if (d_token->type[*i + 1] == P_C)
 		j++;
@@ -55,9 +55,9 @@ void	cmd_redi(t_tok *d_token, t_pipe *d_pipe, int *i, int j)
 			d_pipe->output = open(d_token->tokens[*i + 2 + j][0], O_WRONLY | O_CREAT | O_TRUNC, 0644);
 			if (d_pipe->output == -1)
 			{
-				perror("Error: ");
+				fd_printf(2, "minishell: %fs: %fs\n", d_token->tokens[*i + 2 + j][0], strerror(errno));
 				g_exitno = 1;
-				return;
+				return (1);
 			}
 			dup2(d_pipe->output, STDOUT_FILENO);
 			close(d_pipe->output);
@@ -68,14 +68,15 @@ void	cmd_redi(t_tok *d_token, t_pipe *d_pipe, int *i, int j)
 			d_pipe->output = open(d_token->tokens[*i + 2 + j][0], O_WRONLY | O_CREAT | O_APPEND, 0644);
 			if (d_pipe->output == -1)
 			{
-				perror("Error: ");
+				fd_printf(2, "minishell: %fs: %fs\n", d_token->tokens[*i + 2 + j][0], strerror(errno));
 				g_exitno = 1;
-				return;
+				return (1);
 			}
 			dup2(d_pipe->output, STDOUT_FILENO);
 			j += 2;
 		}
 	}
+	return (0);
 }
 
 void	cmd_reset_fd(t_pipe *d_pipe)
@@ -98,7 +99,8 @@ void	handle_cmd(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
 
 	p_here = check_here(d_token->tokens, *i);
 	if (*i < d_token->t_size)
-		cmd_redi(d_token, d_pipe, i, 0);
+		if (cmd_redi(d_token, d_pipe, i, 0) == 1)
+			return;
 	if (p_here > -1)
 		cmd_here(d_token, d_pipe, denv, i);
 	if ((d_token->t_size > *i && d_token->type[*i + 1] == PIPE) || (*i > 0
