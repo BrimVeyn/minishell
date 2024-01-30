@@ -6,7 +6,7 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 13:38:07 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/01/25 13:38:24 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/01/30 13:39:31 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,19 @@
 int	parenthesis_check(char *input)
 {
 	int	p;
+	int q[2];
 	int	i;
 
 	i = 0;
 	p = 0;
+	q[0] = 0;
+	q[1] = 0;
 	while (input[i])
 	{
-		p += (input[i] == '(');
-		p -= (input[i] == ')');
+		q[0] ^= (input[i] == '"');
+		q[1] ^= (input[i] == '\'');
+		p += (input[i] == '(' && !q[1] && !q[0]);
+		p -= (input[i] == ')' && !q[1] && !q[0]);
 		i++;
 		if (p < 0)
 		{

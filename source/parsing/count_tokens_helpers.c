@@ -6,7 +6,7 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/26 08:50:44 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/01/30 12:43:50 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/01/30 12:51:33 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int	count_tokens_helper2(int *x, char *input, t_tokvar *tokvar)
 
 void	count_tokens_helper3(int *x, char *input)
 {
-	ft_printf("OH ENCULE\n");
+	// ft_printf("OH ENCULE\n");
 	x[I] += 2;
 	while (input[x[I]] && !ms_isws(input[x[I]]))
 		x[I]++;
