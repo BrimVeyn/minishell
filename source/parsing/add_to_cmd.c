@@ -6,7 +6,7 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 14:17:10 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/01/30 17:22:28 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/01/31 09:50:45 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,28 @@ char	**add_args_to_cmd(char *input, t_tokh *v, t_tok *tdata, t_env *denv)
 	return (new);
 }
 
-char	**add_here_to_cmd(char **token, char *input, t_tokh *v, t_tok *tdata)
+char *iterate_through_word(char *input, t_tokh *v)
+{
+	int q[2];
+
+	q[0] = 0;
+	q[1] = 0;
+	while (input[v->i] && ((!ms_isws(input[v->i]) && ms_tiktok(&input[v->i]).type == CMD) || (q[0] || q[1])))
+	{
+		q[0] ^= (input[v->i] == '\"');
+		q[1] ^= (input[v->i] == '\'');
+		v->k++;
+		v->i++;
+	}
+	if (q[0] == 0)
+		return (ms_strtrimf(ft_substr(input, v->i - v->k, v->k), "\""));
+	else if (q[1] == 0)
+		return (ms_strtrimf(ft_substr(input, v->i - v->k, v->k), "\'"));
+	else
+		return (ft_substr(input, v->i - v->k, v->k));
+}
+
+char	**add_here_to_cmd(char **token, char *input, t_tokh *v)
 {
 	char	**to_add;
 	char	**new;
@@ -43,17 +64,11 @@ char	**add_here_to_cmd(char **token, char *input, t_tokh *v, t_tok *tdata)
 	v->i += ms_tiktok(&input[v->i]).len;
 	while (ms_isws(input[v->i]))
 		v->i++;
-	while (input[v->i] && !ms_isws(input[v->i]))
-	{
-		v->k++;
-		v->i++;
-	}
-	delimiter = ms_strtrimf(ft_substr(input, v->i - v->k, v->k), "\'\"");
+	delimiter = iterate_through_word(input, v);
 	to_add[0] = d_al;
 	to_add[1] = delimiter;
 	new = ms_joinstarstar(token, to_add);
 	free_tab(token);
 	free_tab(to_add);
-	(void)tdata;
 	return (new);
 }
