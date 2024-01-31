@@ -6,7 +6,7 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 13:51:50 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/01/31 10:46:41 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/01/31 12:48:27 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ char	*grep_word(char *input, t_tokh *v)
 	q[0] = 0;
 	q[1] = 0;
 	len = 0;
+	ft_printf("FDP\n");
 	while (input[v->i] && ms_isws(input[v->i]))
 		v->i++;
 	while (input[v->i] && ((!ms_isws(input[v->i]) && ms_tiktok(&input[v->i]).type == CMD) || (q[0] || q[1])))

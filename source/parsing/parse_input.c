@@ -6,7 +6,7 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 16:11:25 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/01/31 10:52:37 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/01/31 12:50:28 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ t_tok	parse_input(char *input, t_env *denv)
 		input = ms_cut_at(input, '\n');
 	}
 	tdata.t_size = count_tokens(input);
-	ft_printf("COUNT = %d\n", tdata.t_size);
+	// ft_printf("COUNT = %d\n", tdata.t_size);
 	if (tdata.t_size == ERROR)
 		return (tdata);
 	tdata = init_tok(tdata.t_size, heredoc);

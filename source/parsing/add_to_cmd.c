@@ -6,7 +6,7 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 14:17:10 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/01/31 10:51:50 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/01/31 14:32:47 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,13 +30,40 @@ char	**add_args_to_cmd(char *input, t_tokh *v, t_tok *tdata, t_env *denv)
 	return (new);
 }
 
+char *ms_trim(char *input, char c)
+{
+	int	i;
+	int	j;
+	int	ct;
+	char *new;
+
+	i = 0;
+	ct = 0;
+	while (input[i])
+    {
+		if (input[i] != c)
+			ct++;
+		i++;
+    }
+	new = (char *) ft_calloc(ct + 1, sizeof(char));
+	i = 0;
+	j = 0;
+	while (input[i])
+	{
+		if (input[i] != c)
+			new[j++] = input[i];
+		i++;
+	}
+	return (free(input), new);
+}
+
 char *iterate_through_word(char *input, t_tokh *v)
 {
 	int q[2];
 
 	q[0] = 0;
 	q[1] = 0;
-	while (input[v->i] && ((ms_tiktok(&input[v->i]).type == CMD) || (q[0] == 1 || q[1] == 1)))
+	while (input[v->i] && ((!ms_isws(input[v->i]) && ms_tiktok(&input[v->i]).type == CMD) || (q[0] == 1 || q[1] == 1)))
 	{
 		q[0] ^= (input[v->i] == '\"');
 		q[1] ^= (input[v->i] == '\'');
@@ -44,14 +71,14 @@ char *iterate_through_word(char *input, t_tokh *v)
 		v->i++;
 	}
 	if (q[0] == 0)
-		return (ms_strtrimf(ft_substr(input, v->i - v->k, v->k), "\""));
+		return (ms_trim(ft_substr(input, v->i - v->k, v->k), '\"'));
 	else if (q[1] == 0)
-		return (ms_strtrimf(ft_substr(input, v->i - v->k, v->k), "\'"));
+		return (ms_trim(ft_substr(input, v->i - v->k, v->k), '\''));
 	else
 		return (ft_substr(input, v->i - v->k, v->k));
 }
 
-char	**add_here_to_cmd(char **token, char *input, t_tokh *v)
+char	**add_here_to_cmd(t_tok *tdata, char **token, char *input, t_tokh *v)
 {
 	char	**to_add;
 	char	**new;
@@ -65,7 +92,8 @@ char	**add_here_to_cmd(char **token, char *input, t_tokh *v)
 	while (ms_isws(input[v->i]))
 		v->i++;
 	delimiter = iterate_through_word(input, v);
-	// ft_printf("SALOPE = %fs", delimiter);
+	if (!ft_strncmp("", delimiter, 2))
+		tdata->type[v->l] = WRONG;
 	to_add[0] = d_al;
 	to_add[1] = delimiter;
 	new = ms_joinstarstar(token, to_add);
