@@ -6,7 +6,7 @@
 /*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 10:12:28 by nbardavi          #+#    #+#             */
-/*   Updated: 2024/01/30 20:24:58 by nbardavi         ###   ########.fr       */
+/*   Updated: 2024/01/31 09:25:11 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,6 +105,7 @@ int	cmd_redi(t_tok *d_token, t_pipe *d_pipe, int *i, int j)
 		{
 			if (access(d_token->tokens[*i][++j], F_OK | R_OK))
 			{
+				// ft_printf("Failure <\n");
 				failure = S_AL;
 				file_name = ft_sprintf("%s", d_token->tokens[*i][j]);
 				break;
