@@ -6,7 +6,7 @@
 /*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/26 14:41:53 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/01/30 19:05:47 by nbardavi         ###   ########.fr       */
+/*   Updated: 2024/01/31 15:13:21 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,10 @@ void	exec_id0(t_pipe *d_pipe, t_tok *d_token, int id, int *i)
 	buffer = malloc(2);
 	signal(SIGINT, SIG_IGN);
 	waitpid(id, &g_exitno, 0);
-	if (WIFEXITED(g_exitno)) 
-		g_exitno = WEXITSTATUS(g_exitno);
+	// if (WIFEXITED(g_exitno)) 
+	// 	g_exitno = WEXITSTATUS(g_exitno);
 	init_sig();
+	// fd_printf(1, "exit no: %d", g_exitno);
 	d_pipe->failed = 0;
 	if (g_exitno != 0)
 		d_pipe->failed = 1;
@@ -61,6 +62,23 @@ void	c_execve(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
 	}
 }
 
+void handle_signs(t_pipe *d_pipe, t_tok *d_token, int *i)
+{
+	if (g_exitno != 0)
+		d_pipe->failed = 1;
+	if (d_pipe->failed == 1 && *i < d_token->t_size)
+	{
+		if (d_token->type[*i + 1] != OR)
+		{
+			if (d_token->type[*i + 1] == P_C)
+				if (d_pipe->p_cpt >= 0)
+					d_pipe->p_return[d_pipe->p_cpt] = 1;
+			d_pipe->or_return = 1;
+			d_pipe->failed = 0;
+		}
+	}
+}
+
 void	exec_cmd(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
 {
 	int	j;
@@ -73,6 +91,7 @@ void	exec_cmd(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
 		|| ft_strcmp(d_token->tokens[*i][j], "unset") == 0)
 	{
 		b_parse_nf(d_token, denv, i);
+		handle_signs(d_pipe, d_token, i);
 		return ;
 	}
 	id = fork();

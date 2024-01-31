@@ -6,7 +6,7 @@
 /*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 10:12:28 by nbardavi          #+#    #+#             */
-/*   Updated: 2024/01/31 10:41:13 by nbardavi         ###   ########.fr       */
+/*   Updated: 2024/01/31 16:01:04 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,18 +44,16 @@ extern int g_exitno;
 void r_parse_error(int failure, char *file_name, t_pipe *d_pipe)
 {
 	if (failure == D_AR || failure == S_AR)
-	{
-		g_exitno = 1;
 		fd_printf(2, "minishell: %fs: %fs\n", file_name, strerror(errno));
-	}
 	if (failure == S_AL)
 	{
 		d_pipe->t_cat  = 1;
 		d_pipe->redi = 0;
 		d_pipe->input = open("/dev/null", O_RDONLY);
-		g_exitno = 1;
 		fd_printf(2, "minishell: %fs: %fs\n", file_name, strerror(errno));
 	}
+	g_exitno = 1 << 8;
+	// ft_printf("parse_error exitno %d\n", g_exitno);
 }
 
 int	cmd_redi(t_tok *d_token, t_pipe *d_pipe, int *i, int j)
@@ -124,8 +122,10 @@ int	cmd_redi(t_tok *d_token, t_pipe *d_pipe, int *i, int j)
 	if (failure != 0)
 	{
 		r_parse_error(failure, file_name, d_pipe);
+		ft_printf("cmd redi erreur exitno %d\n", g_exitno);
 		return(1);
 	}
+	ft_printf("cmd redi_pas erreur exitno %d\n", g_exitno);
 	if (d_pipe->input != -1)
 		dup2(d_pipe->input, STDIN_FILENO);
 	return(0);
@@ -203,6 +203,7 @@ void	handle_cmd(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
 		&& d_pipe->or_return == 0)
 		exec_cmd(d_token, d_pipe, denv, i);
 	cmd_reset_fd(d_pipe);
+	// ft_printf("handle cmd exitno= %d\n", g_exitno);
 }
 
 void	cmd_pipe(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
