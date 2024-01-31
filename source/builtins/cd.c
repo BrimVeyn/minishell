@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
+/*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 08:53:03 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/01/29 10:30:02 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/01/31 15:39:38 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,7 @@ void	b_cd(char **args, t_env *denv)
 	if (ms_tablen(args) > 2)
 	{
 		fd_printf(2, "minishell: cd: too many arguments\n");
-		g_exitno = 1;
+		g_exitno = 1 << 8;
 		return ;
 	}
 	else if (ms_tablen(args) == 1)
@@ -149,6 +149,6 @@ void	b_cd(char **args, t_env *denv)
 	{
 		fd_printf(2, "minishell: cd: %fs: No such file or directory\n",
 			args[1]);
-		g_exitno = 1;
+		g_exitno = 1 << 8;
 	}
 }

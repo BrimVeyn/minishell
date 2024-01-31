@@ -6,11 +6,13 @@
 /*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 10:38:01 by nbardavi          #+#    #+#             */
-/*   Updated: 2024/01/31 10:40:02 by nbardavi         ###   ########.fr       */
+/*   Updated: 2024/01/31 15:42:42 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
+
+extern int g_exitno;
 
 void	exec_pipe(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
 {
@@ -74,6 +76,7 @@ void	cmd_exec_pipe(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
 	}
 }
 
+
 void	handle_cmd_pipe(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
 {
 	int	p_here;
@@ -81,7 +84,10 @@ void	handle_cmd_pipe(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
 	p_here = check_here(d_token->tokens, *i);
 	if (*i < d_token->t_size)
 		if (cmd_redi(d_token, d_pipe, i, 0) == 1)
+		{
+			// ft_printf("exitno= %d", g_exitno);
 			return;
+		}
 	// print_tokens(d_token);
 	if (p_here > -1)
 		cmd_here(d_token, d_pipe, denv, i);
