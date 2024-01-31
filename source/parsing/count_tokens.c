@@ -6,7 +6,7 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 15:36:10 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/01/30 16:16:01 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/01/31 11:00:52 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,7 @@ int	count_tokens_helper4(int *x, char *input)
 			return (ERROR);
 	while (input[x[I]] && ms_isws(input[x[I]]))
 		x[I]++;
-	while ((input[x[I]] && ms_tiktok(&input[x[I]]).type == CMD) || (input[x[I]]
-			&& (quotes[0] == TRUE || quotes[1] == TRUE)))
+	while (input[x[I]] && ((ms_tiktok(&input[x[I]]).type == CMD) || (quotes[0] == TRUE || quotes[1] == TRUE)))
 		count_tokens_helper5(x, quotes, input);
 	if (x[TRI] == 1)
 		x[COUNTER] += 1;
