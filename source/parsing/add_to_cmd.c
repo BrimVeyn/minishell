@@ -6,7 +6,7 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 14:17:10 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/01/31 09:50:45 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/01/31 10:51:50 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ char *iterate_through_word(char *input, t_tokh *v)
 
 	q[0] = 0;
 	q[1] = 0;
-	while (input[v->i] && ((!ms_isws(input[v->i]) && ms_tiktok(&input[v->i]).type == CMD) || (q[0] || q[1])))
+	while (input[v->i] && ((ms_tiktok(&input[v->i]).type == CMD) || (q[0] == 1 || q[1] == 1)))
 	{
 		q[0] ^= (input[v->i] == '\"');
 		q[1] ^= (input[v->i] == '\'');
@@ -65,6 +65,7 @@ char	**add_here_to_cmd(char **token, char *input, t_tokh *v)
 	while (ms_isws(input[v->i]))
 		v->i++;
 	delimiter = iterate_through_word(input, v);
+	// ft_printf("SALOPE = %fs", delimiter);
 	to_add[0] = d_al;
 	to_add[1] = delimiter;
 	new = ms_joinstarstar(token, to_add);
