@@ -6,7 +6,7 @@
 /*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 10:38:01 by nbardavi          #+#    #+#             */
-/*   Updated: 2024/01/31 09:31:21 by nbardavi         ###   ########.fr       */
+/*   Updated: 2024/01/31 10:40:02 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ void	exec_pipe(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
 	if (d_pipe->f_id[d_pipe->f_cpt] > 0)
 	{
 		close(d_pipe->pipefd[1]);
+		// fd_printf(1, "input pipe\ncommande : %fs\n", d_token->tokens[*i][0]);
 		dup2(d_pipe->pipefd[0], STDIN_FILENO);
 		close(d_pipe->pipefd[0]);
 	}
@@ -29,24 +30,28 @@ void	exec_pipe(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
 		if (previous_ope(d_token, *i) != PIPE)
 			dup2(d_pipe->input, STDIN_FILENO);
 		if (next_ope(d_token, *i) == PIPE && d_pipe->output == d_pipe->old_stdout)
+		{
+			// fd_printf(1, "output pipe\ncommande : %fs\n", d_token->tokens[*i][0]);
 			dup2(d_pipe->pipefd[1], STDOUT_FILENO);
+		}
 		else
+		{
+			// fd_printf(1, "output STDOUT\ncommande : %fs\n", d_token->tokens[*i][0]);
 			dup2(d_pipe->output, STDOUT_FILENO);
+		}
 		close(d_pipe->pipefd[1]);
 		close(d_pipe->output);
 		c_execve(d_token, d_pipe, denv, i);
-		perror("\nexecve failed");
-		exit(EXIT_FAILURE);
 	}
 }
 
 void	cmd_exec_pipe(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
 {
+	// ft_printf("input:%d\noutput:%d\n", d_pipe->input, d_pipe->output);
 	if (d_pipe->output == -1)
 		d_pipe->output = d_pipe->old_stdout;
 	if (d_pipe->input == -1)
 		d_pipe->input = d_pipe->old_stdin;
-	// ft_printf("input:%d\noutput:%d\n", d_pipe->input, d_pipe->output);
 	exec_pipe(d_token, d_pipe, denv, i);
 	if (d_pipe->output == d_pipe->old_stdout)
 		d_pipe->output = -1;
@@ -54,7 +59,12 @@ void	cmd_exec_pipe(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
 		d_pipe->input = -1;
 	if (d_pipe->input != -1)
 	{
-		dup2(d_pipe->old_stdin, STDIN_FILENO);
+		if (d_pipe->redi == 0)
+		{
+			dup2(d_pipe->old_stdin, STDIN_FILENO);
+		}
+		else
+			d_pipe->redi = 0;
 		d_pipe->input = -1;
 	}
 	if (d_pipe->output != -1)
