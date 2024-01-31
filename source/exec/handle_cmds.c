@@ -6,7 +6,7 @@
 /*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 10:12:28 by nbardavi          #+#    #+#             */
-/*   Updated: 2024/01/30 17:10:21 by nbardavi         ###   ########.fr       */
+/*   Updated: 2024/01/31 09:25:11 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,8 +80,10 @@ int	cmd_redi(t_tok *d_token, t_pipe *d_pipe, int *i, int j)
 			{
 				failure = D_AR;
 				file_name = ft_sprintf("%s", d_token->tokens[*i][j]);
+				break;
 			}
-			dup2(d_pipe->output, STDOUT_FILENO);
+			else
+				dup2(d_pipe->output, STDOUT_FILENO);
 		}
 		else if (!ft_strcmp(d_token->tokens[*i][j], ">"))
 		{
@@ -90,16 +92,23 @@ int	cmd_redi(t_tok *d_token, t_pipe *d_pipe, int *i, int j)
 			{
 				failure = S_AR;
 				file_name = ft_sprintf("%s", d_token->tokens[*i][j]);
+				break;
+				// ft_printf("d_pipe->output: %d\n", d_pipe->output);
 			}
-			dup2(d_pipe->output, STDOUT_FILENO);
-			close(d_pipe->output);
+			else
+			{
+				dup2(d_pipe->output, STDOUT_FILENO);
+				close(d_pipe->output);
+			}
 		}
 		else if (!ft_strcmp(d_token->tokens[*i][j], "<"))
 		{
 			if (access(d_token->tokens[*i][++j], F_OK | R_OK))
 			{
+				// ft_printf("Failure <\n");
 				failure = S_AL;
 				file_name = ft_sprintf("%s", d_token->tokens[*i][j]);
+				break;
 			}
 			if (d_pipe->input != -1)
 				close(d_pipe->input);
