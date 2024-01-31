@@ -6,7 +6,7 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/30 16:30:36 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/01/30 16:30:37 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/01/31 11:04:49 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,11 +38,19 @@ int	count_tokens_helper2(int *x, char *input, t_tokvar *tokvar)
 
 void	count_tokens_helper3(int *x, char *input)
 {
-	x[I] += 2;
-	while (input[x[I]] && !ms_isws(input[x[I]]))
+	int q[2];
+
+	q[0] = 0;
+	q[1] = 0;
+	x[I] += ms_tiktok(&input[x[I]]).len;
+	while (input[x[I]] && ms_isws(input[x[I]]))
 		x[I]++;
-	while (input[x[I]] && ms_tiktok(&input[x[I]]).type == CMD)
+	while (input[x[I]] && ((ms_tiktok(&input[x[I]]).type == CMD) || (q[0] == 1 || q[1] == 1)))
+	{
+		q[0] ^= (input[x[I]] == '\"');
+		q[1] ^= (input[x[I]] == '\'');
 		x[I]++;
+    }
 }
 
 void	count_tokens_helper5(int *x, int *quotes, char *input)

@@ -6,7 +6,7 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 14:40:02 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/01/31 08:44:04 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/01/31 10:46:18 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,7 @@ void	fill_token_helper(t_tok *tdata, t_tokh *v, t_env *denv, char *input)
 	tdata->type[v->j] = v->tokvar.type;
 	v->j++;
 	v->i += v->tokvar.len;
-	if (input[v->i] && ms_wl2(&input[v->i - v->tokvar.len])
-		&& ms_tiktok(&input[v->i]).type == CMD)
+	if (input[v->i] && ms_wl2(&input[v->i - v->tokvar.len]) && ms_tiktok(&input[v->i]).type == CMD)
 	{
 		tdata->tokens[v->j] = (char **)ft_calloc(2, sizeof(char *));
 		tdata->tokens[v->j][0] = grep_word(input, v);
