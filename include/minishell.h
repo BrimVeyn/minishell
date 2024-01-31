@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/29 10:44:25 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/01/31 11:18:38 by nbardavi         ###   ########.fr       */
+/*   Created: 2024/01/31 14:34:20 by nbardavi          #+#    #+#             */
+/*   Updated: 2024/01/31 14:34:23 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -296,7 +296,7 @@ int			permission_denied(char *cmd);
 int			empty_var(char *cmd);
 char		*grep_word(char *input, t_tokh *v);
 char		**add_args_to_cmd(char *input, t_tokh *v, t_tok *tdata, t_env *denv);
-char		**add_here_to_cmd(char **token, char *input, t_tokh *v);
+char		**add_here_to_cmd(t_tok *tdata, char **token, char *input, t_tokh *v);
 char		*r_dollarquestion(char *split, int *i);
 char		*r_dollar(char *split, int *i, int start, t_env *denv);
 char		*r_env(char *split, t_env *denv);

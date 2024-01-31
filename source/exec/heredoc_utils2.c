@@ -6,7 +6,7 @@
 /*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 12:59:29 by nbardavi          #+#    #+#             */
-/*   Updated: 2024/01/25 13:13:50 by nbardavi         ###   ########.fr       */
+/*   Updated: 2024/01/31 15:27:03 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	ms_h_unlink(t_pipe *d_pipe)
 		temp = ft_sprintf("%fs%d", ".temp_heredoc", d_pipe->nbr_h);
 		unlink(temp);
 		free(temp);
-		ft_printf("nbr_h: %d\n", d_pipe->nbr_h);
+		// ft_printf("nbr_h: %d\n", d_pipe->nbr_h);
 		d_pipe->nbr_h--;
 	}
 }

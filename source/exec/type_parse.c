@@ -6,7 +6,7 @@
 /*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/26 14:41:42 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/01/30 20:43:23 by nbardavi         ###   ########.fr       */
+/*   Updated: 2024/01/31 16:04:06 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,10 +68,11 @@ void	w_exec_pipe(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
 	while (d_pipe->f_cpt >= j)
 	{
 		waitpid(d_pipe->f_id[d_pipe->f_cpt], &g_exitno, 0);
-		if (WIFEXITED(g_exitno)) 
-			g_exitno = WEXITSTATUS(g_exitno);
+		// if (WIFEXITED(g_exitno)) 
+			// g_exitno = WEXITSTATUS(g_exitno);
 		j++;
 	}
+	fd_printf(2, "w_exec_pipe exitno= %d\n", g_exitno);
 	d_pipe->p_trig = 1;
 }
 
@@ -108,6 +109,10 @@ int	ms_main_pipe(t_tok d_token, t_env *denv)
 	ms_h_unlink(&d_pipe);
 	// ms_free_env(denv);
 	ms_free_pipe(&d_pipe);
+	// ft_printf("main avant transfo exitno %d\n", g_exitno);
+	if (WIFEXITED(g_exitno)) 
+		g_exitno = WEXITSTATUS(g_exitno);
+	// ft_printf("final exitno %d\n", g_exitno);
 	if (d_pipe.t_exit == 1)
 		return (1);
 	return (0);

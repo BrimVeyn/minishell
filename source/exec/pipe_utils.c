@@ -6,7 +6,7 @@
 /*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 13:10:04 by nbardavi          #+#    #+#             */
-/*   Updated: 2024/01/25 13:11:54 by nbardavi         ###   ########.fr       */
+/*   Updated: 2024/01/31 14:53:20 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	next_ope(t_tok *d_token, int i)
 	{
 		if (d_token->type[i] == AND)
 			return (AND);
-		else if (d_token->type[i] == PIPE)
+		if (d_token->type[i] == PIPE)
 			return (PIPE);
 		else if (d_token->type[i] == OR)
 			return (OR);
