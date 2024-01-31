@@ -6,7 +6,7 @@
 /*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 10:44:25 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/01/31 10:36:37 by nbardavi         ###   ########.fr       */
+/*   Updated: 2024/01/31 11:18:38 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -275,7 +275,7 @@ void		b_env(t_env *denv);
 void		b_exit(char **args);
 void		b_pwd(char **args, t_env *denv);
 void		b_cd(char **args, t_env *denv);
-void		b_robin(void);
+void		b_robin(char **cmds);
 char		**ms_replace_value(char **f_env, int index, char *arg);
 char		**del_var(char **f_env, int index);
 char		*ms_find_var(t_env *denv, char *var);

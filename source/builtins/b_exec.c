@@ -6,7 +6,7 @@
 /*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/30 12:33:30 by nbardavi          #+#    #+#             */
-/*   Updated: 2024/01/30 12:39:49 by nbardavi         ###   ########.fr       */
+/*   Updated: 2024/01/31 11:18:52 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ void	b_parse(t_tok *d_token, t_env *denv, int *i)
 	if (!ft_strcmp(d_token->tokens[*i][0], "pwd"))
 		b_pwd(d_token->tokens[*i], denv);
 	if (!ft_strcmp(d_token->tokens[*i][0], "robin"))
-		b_robin();
+		b_robin(d_token->tokens[*i]);
 }
 
 void	handle_built(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
