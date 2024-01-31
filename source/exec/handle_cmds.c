@@ -6,7 +6,7 @@
 /*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 10:12:28 by nbardavi          #+#    #+#             */
-/*   Updated: 2024/01/31 09:25:11 by nbardavi         ###   ########.fr       */
+/*   Updated: 2024/01/31 10:41:13 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ void r_parse_error(int failure, char *file_name, t_pipe *d_pipe)
 	if (failure == S_AL)
 	{
 		d_pipe->t_cat  = 1;
+		d_pipe->redi = 0;
 		d_pipe->input = open("/dev/null", O_RDONLY);
 		g_exitno = 1;
 		fd_printf(2, "minishell: %fs: %fs\n", file_name, strerror(errno));
@@ -112,6 +113,7 @@ int	cmd_redi(t_tok *d_token, t_pipe *d_pipe, int *i, int j)
 			}
 			if (d_pipe->input != -1)
 				close(d_pipe->input);
+			d_pipe->redi = 1;
 			d_pipe->input = open(d_token->tokens[*i][j], O_RDONLY);
 		}
 		else

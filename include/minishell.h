@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
+/*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 10:44:25 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/01/31 08:26:26 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/01/31 10:36:37 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,6 +136,7 @@ typedef struct s_pipe
 	int	*f_id;
 	int p_trig;
 	int t_cat;
+	int redi;
 	//
 	int h_i;
 	int t_exit;
