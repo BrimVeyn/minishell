@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
+/*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 10:44:25 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/01/31 10:36:37 by nbardavi         ###   ########.fr       */
+/*   Updated: 2024/01/31 13:04:24 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -296,7 +296,7 @@ int			permission_denied(char *cmd);
 int			empty_var(char *cmd);
 char		*grep_word(char *input, t_tokh *v);
 char		**add_args_to_cmd(char *input, t_tokh *v, t_tok *tdata, t_env *denv);
-char		**add_here_to_cmd(char **token, char *input, t_tokh *v);
+char		**add_here_to_cmd(t_tok *tdata, char **token, char *input, t_tokh *v);
 char		*r_dollarquestion(char *split, int *i);
 char		*r_dollar(char *split, int *i, int start, t_env *denv);
 char		*r_env(char *split, t_env *denv);
