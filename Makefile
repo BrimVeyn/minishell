@@ -2,7 +2,7 @@ NAME			:= minishell
 
 LIBFT			:= libftprintf/libftprintf.a
 CC 				:= cc
-LDFLAGS			:= -lreadline -lncurses
+LDFLAGS			:= -lreadline -lncurses -lX11
 CFLAGS 			:= -g
 SRC 			:= source/main.c source/prompt.c \
 				   source/ms_h_lst.c \
