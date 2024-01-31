@@ -6,7 +6,7 @@
 /*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 10:38:01 by nbardavi          #+#    #+#             */
-/*   Updated: 2024/01/30 15:19:16 by nbardavi         ###   ########.fr       */
+/*   Updated: 2024/01/31 09:31:21 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	exec_pipe(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
 		close(d_pipe->input);
 		if (previous_ope(d_token, *i) != PIPE)
 			dup2(d_pipe->input, STDIN_FILENO);
-		if (next_ope(d_token, *i) == PIPE)
+		if (next_ope(d_token, *i) == PIPE && d_pipe->output == d_pipe->old_stdout)
 			dup2(d_pipe->pipefd[1], STDOUT_FILENO);
 		else
 			dup2(d_pipe->output, STDOUT_FILENO);
@@ -46,6 +46,7 @@ void	cmd_exec_pipe(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
 		d_pipe->output = d_pipe->old_stdout;
 	if (d_pipe->input == -1)
 		d_pipe->input = d_pipe->old_stdin;
+	// ft_printf("input:%d\noutput:%d\n", d_pipe->input, d_pipe->output);
 	exec_pipe(d_token, d_pipe, denv, i);
 	if (d_pipe->output == d_pipe->old_stdout)
 		d_pipe->output = -1;
@@ -53,12 +54,12 @@ void	cmd_exec_pipe(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
 		d_pipe->input = -1;
 	if (d_pipe->input != -1)
 	{
-		dup2(d_pipe->old_stdin, STDIN_FILENO && d_pipe->t_cat == 0);
+		dup2(d_pipe->old_stdin, STDIN_FILENO);
 		d_pipe->input = -1;
 	}
 	if (d_pipe->output != -1)
 	{
-		dup2(d_pipe->old_stdout, STDOUT_FILENO && d_pipe->t_cat == 0);
+		dup2(d_pipe->old_stdout, STDOUT_FILENO);
 		d_pipe->output = -1;
 	}
 }
