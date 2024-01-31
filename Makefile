@@ -3,7 +3,7 @@ NAME			:= minishell
 LIBFT			:= libftprintf/libftprintf.a
 CC 				:= cc
 LDFLAGS			:= -lreadline -lncurses
-CFLAGS 			:= -Wall -Wextra -Werror -g
+CFLAGS 			:= -g
 SRC 			:= source/main.c source/prompt.c \
 				   source/ms_h_lst.c \
 				   source/exec_pipe.c \

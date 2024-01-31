@@ -6,7 +6,7 @@
 /*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/26 14:41:53 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/01/30 17:07:15 by nbardavi         ###   ########.fr       */
+/*   Updated: 2024/01/30 19:05:47 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@ void	exec_id0(t_pipe *d_pipe, t_tok *d_token, int id, int *i)
 	buffer = malloc(2);
 	signal(SIGINT, SIG_IGN);
 	waitpid(id, &g_exitno, 0);
+	if (WIFEXITED(g_exitno)) 
+		g_exitno = WEXITSTATUS(g_exitno);
 	init_sig();
 	d_pipe->failed = 0;
 	if (g_exitno != 0)
