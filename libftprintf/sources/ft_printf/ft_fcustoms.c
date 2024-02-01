@@ -12,9 +12,9 @@
 
 #include "../../header/ft_printf.h"
 
-char *ft_strdup_char(char c)
+char	*ft_strdup_char(char c)
 {
-	char *returnvalue;
+	char	*returnvalue;
 
 	returnvalue = ft_calloc(2, sizeof(char));
 	returnvalue[0] = c;

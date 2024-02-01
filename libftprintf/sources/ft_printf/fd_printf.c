@@ -28,7 +28,8 @@ static int	print_and_free3(char *str, int fd)
 	return (0);
 }
 
-static int	handle_format3(const char *txt, unsigned int *i, va_list args, int fd)
+static int	handle_format3(const char *txt, unsigned int *i, va_list args,
+		int fd)
 {
 	int		nbf;
 	char	*temp;
