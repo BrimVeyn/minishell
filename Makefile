@@ -40,6 +40,9 @@ SRC 			:= source/main.c source/prompt.c \
 				   source/builtins/env.c \
 				   source/builtins/pwd.c \
 				   source/builtins/cd.c \
+				   source/builtins/cd_h.c \
+				   source/builtins/cd_h2.c \
+				   source/builtins/cd_h3.c \
 				   source/builtins/exit.c \
 				   source/builtins/robin.c \
 				   source/parsing/parse_input.c \

@@ -6,7 +6,7 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/30 16:30:36 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/01/31 11:04:49 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/02/01 11:32:05 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,6 @@ int	count_tokens_helper(int *x, char *input, t_tokvar *tokvar)
 {
 	x[COUNTER] += 1;
 	if (start_check(input, *tokvar, x[I]) == ERROR)
-		return (ERROR);
-	if (end_check(input, x[I]) == ERROR)
 		return (ERROR);
 	x[I] += tokvar->len;
 	return (TRUE);
@@ -38,19 +36,20 @@ int	count_tokens_helper2(int *x, char *input, t_tokvar *tokvar)
 
 void	count_tokens_helper3(int *x, char *input)
 {
-	int q[2];
+	int	q[2];
 
 	q[0] = 0;
 	q[1] = 0;
 	x[I] += ms_tiktok(&input[x[I]]).len;
 	while (input[x[I]] && ms_isws(input[x[I]]))
 		x[I]++;
-	while (input[x[I]] && ((ms_tiktok(&input[x[I]]).type == CMD) || (q[0] == 1 || q[1] == 1)))
+	while (input[x[I]] && ((ms_tiktok(&input[x[I]]).type == CMD) || (q[0] == 1
+				|| q[1] == 1)))
 	{
 		q[0] ^= (input[x[I]] == '\"');
 		q[1] ^= (input[x[I]] == '\'');
 		x[I]++;
-    }
+	}
 }
 
 void	count_tokens_helper5(int *x, int *quotes, char *input)

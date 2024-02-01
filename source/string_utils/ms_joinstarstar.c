@@ -26,9 +26,9 @@ char	**ms_joinstarstar(char **p1, char **p2)
 	while (p1[++i])
 		new[i] = ft_strdup(p1[i]);
 	while (p2[++j])
-    {
+	{
 		new[i] = ft_strdup(p2[j]);
 		i++;
-    }
+	}
 	return (new);
 }

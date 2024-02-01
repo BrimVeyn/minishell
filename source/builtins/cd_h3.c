@@ -1,40 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils_two.c                                        :+:      :+:    :+:   */
+/*   cd_h3.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/26 11:18:21 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/02/01 09:48:30 by bvan-pae         ###   ########.fr       */
+/*   Created: 2024/02/01 10:27:21 by bvan-pae          #+#    #+#             */
+/*   Updated: 2024/02/01 10:28:10 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-int	tild_index(char *word)
-{
-	int	i;
+extern int	g_exitno;
 
-	i = 0;
-	while (word[i] && word[i] != '~')
-		i++;
-	return (i);
+void	opt_1(char *newoldpwd, char *tmp, t_env *denv, int *index)
+{
+	tmp = ft_strjoin("OLD", newoldpwd);
+	denv->f_env = ms_replace_value(denv->f_env, index[1], tmp);
 }
 
-char	**dupdup(void)
+void	opt_2(char *newoldpwd, char *tmp, t_env *denv, int *index)
 {
-	char	**self;
-
-	self = ft_calloc(2, sizeof(char *));
-	self[0] = ft_calloc(2, sizeof(char));
-	return (self);
+	tmp = ft_strjoin("OLD", newoldpwd);
+	denv->f_env = ms_join_tab(denv->f_env, tmp);
 }
 
-void	check_emptyness(t_tok *tdata, char *input, t_tokh *v)
+void	error_1(char **args)
 {
-	while (ms_isws(input[v->i]))
-		v->i++;
-	if (!input[v->i])
-		tdata->type[v->j - 1] = WRONG;
+	fd_printf(2, "minishell: cd: %fs: No such file or directory\n", args[1]);
+	g_exitno = 1;
 }

@@ -6,7 +6,7 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 10:44:25 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/01/31 13:04:24 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/02/01 10:30:10 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -274,8 +274,20 @@ void		b_unset(char **args, t_env *denv);
 void		b_env(t_env *denv);
 void		b_exit(char **args);
 void		b_pwd(char **args, t_env *denv);
-void		b_cd(char **args, t_env *denv);
 void		b_robin(void);
+void		b_cd(char **args, t_env *denv);
+void		no_old_pwd(void);
+void		cd_tild(char *newpwd, t_env *denv);
+void		error_3(char *newpwd);
+void		no_pwd(char *newpwd, char *tmp, t_env *denv, int *index);
+void		oldpwdt(char *oldpwd, char *tmp, t_env *denv, int *index);
+void		nooldpwd(char *tmp, char *oldpwd, t_env *denv);
+void		fill_this(t_env *denv, char *oldpwd, char *newpwd, int *index);
+int			too_many_args(char **args);
+int			no_args(char **args, t_env *denv);
+void		opt_1(char *newoldpwd, char *tmp, t_env *denv, int *index);
+void		opt_2(char *newoldpwd, char *tmp, t_env *denv, int *index);
+void		error_1(char **args);
 char		**ms_replace_value(char **f_env, int index, char *arg);
 char		**del_var(char **f_env, int index);
 char		*ms_find_var(t_env *denv, char *var);
@@ -286,6 +298,7 @@ int			ms_var_exist(char *var, t_env *denv);
 
 t_tokvar	ms_tiktok(char *ptr);
 t_dlist		*ms_wildcard_expand(t_starlist *current, t_dlist *flist);
+void		check_emptyness(t_tok *tdata, char *input, t_tokh *v);
 void		fill_token(char *input, t_tok *tdata, t_env *denv);
 void		extract_delimiter(char *input, t_tok *tdata, t_tokh *v);
 void		ms_add_path(t_tok *tdata, t_env *denv);
