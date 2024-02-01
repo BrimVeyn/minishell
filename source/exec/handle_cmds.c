@@ -6,7 +6,7 @@
 /*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 10:12:28 by nbardavi          #+#    #+#             */
-/*   Updated: 2024/02/01 10:37:32 by nbardavi         ###   ########.fr       */
+/*   Updated: 2024/02/01 14:30:07 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,6 @@ void	handle_cmd(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
 		&& d_pipe->or_return == 0)
 		exec_cmd(d_token, d_pipe, denv, i);
 	cmd_reset_fd(d_pipe);
-	// ft_printf("handle cmd exitno= %d\n", g_exitno);
 }
 
 void	cmd_pipe(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)

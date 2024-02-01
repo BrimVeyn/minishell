@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_splitm.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
+/*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 16:23:00 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/02/01 11:55:25 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/02/01 14:24:39 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,6 @@ void	transform_split(char **split, t_env *denv)
 char	**ft_splitm(char *str, t_env *denv)
 {
 	char	**split;
-	int		wc;
 
 	split = (char **)ft_calloc(count_words(str) + 1, sizeof(char *));
 	if (!split)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd_h2.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
+/*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 10:26:36 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/02/01 11:25:07 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/02/01 14:37:33 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,8 @@ void	nooldpwd(char *tmp, char *oldpwd, t_env *denv)
 
 void	fill_this(t_env *denv, char *oldpwd, char *newpwd, int *index)
 {
-	oldpwd = denv->pwd;
+	printf("pwd: %s\n", denv->pwd);
+	oldpwd = ft_strdup(denv->pwd);
 	newpwd = ms_find_var(denv, "OLDPWD=");
 	index[0] = ms_var_exist("PWD=", denv);
 	index[1] = ms_var_exist("OLDPWD=", denv);

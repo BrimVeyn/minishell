@@ -6,7 +6,7 @@
 /*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/26 14:40:51 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/02/01 11:24:09 by nbardavi         ###   ########.fr       */
+/*   Updated: 2024/02/01 12:52:10 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,23 +98,24 @@ char	*ms_form_prompt(t_env *denv)
 
 void signal_ctrl();
 
-void	prompt(t_env *denv)
+void init_prompt(t_env **denv, char **input)
+{
+	char	*prompt; 
+
+	*denv = update_env(*denv);
+	signal_ctrl();
+	prompt = ms_form_prompt(*denv);
+	*input = readline("Minishell:");
+	free(prompt);
+}
+
+void	prompt(t_env *denv, int i)
 {
 	char	*input;
-	char	*prompt;
-	int		i;
 	t_tok	d_token;
 
-	i = 0;
-	// init_sig();
-	while (1)
+	while (init_prompt(&denv, &input), i++ > -1)
 	{
-		denv = update_env(denv);
-		signal_ctrl();
-		prompt = ms_form_prompt(denv);
-		input = readline("Minishell:");
-		free(prompt);
-
 		if (input == NULL)
 		{
 			printf("exit\n");
@@ -133,9 +134,6 @@ void	prompt(t_env *denv)
 			if (d_token.t_size != ERROR)
 				free_tdata(&d_token);
 		}
-		i++;
-		// free(input); //Ce free c'est un gros fdp
 	}
-	ms_free_env(denv);
-	free(input);
+	return (ms_free_env(denv), free(input));
 }

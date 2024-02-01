@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
+/*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 11:50:19 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/02/01 11:50:39 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/02/01 14:36:26 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,9 @@ static void	cd_minus(t_env *denv)
 	char	*newpwd;
 	char	*tmp;
 
+	newpwd = NULL;
+	tmp = NULL;
+	oldpwd = NULL;
 	update_env(denv);
 	fill_this(denv, oldpwd, newpwd, index);
 	if (!newpwd)
@@ -64,7 +67,7 @@ void	valid_file(char *newoldpwd, char **args, t_env *denv, int *index)
 	if (index[0] != ERROR && index[1] != ERROR)
 		opt_1(newoldpwd, tmp, denv, index);
 	else if (newoldpwd)
-		opt_2(newoldpwd, tmp, denv, index);
+		opt_2(newoldpwd, tmp, denv);
 	g_exitno = 0;
 	return (chdir(args[1]), free(newoldpwd), free(tmp));
 }
@@ -72,7 +75,6 @@ void	valid_file(char *newoldpwd, char **args, t_env *denv, int *index)
 void	b_cd(char **args, t_env *denv)
 {
 	int		index[2];
-	char	current_directory[PATH_MAX];
 	char	*newoldpwd;
 	char	*tmp;
 

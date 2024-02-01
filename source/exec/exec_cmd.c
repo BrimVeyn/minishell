@@ -6,11 +6,12 @@
 /*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/26 14:41:53 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/02/01 11:06:44 by nbardavi         ###   ########.fr       */
+/*   Updated: 2024/02/01 12:27:58 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
+#include <signal.h>
 #include <unistd.h>
 
 extern int	g_exitno;
@@ -43,6 +44,7 @@ void	exec_id0(t_pipe *d_pipe, t_tok *d_token, int id, int *i)
 
 void	c_execve(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
 {
+	signal(SIGQUIT, SIG_DFL);
 	if (d_token->type[*i] == BUILTIN)
 	{
 		handle_built(d_token, d_pipe, denv, i);
