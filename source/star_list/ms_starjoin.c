@@ -6,7 +6,7 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 12:26:05 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/01/18 11:38:47 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/02/01 11:35:38 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,7 @@ char	*ms_starjoin(t_starlist **slist)
 	new = ft_strdup("");
 	while (current != NULL)
 	{
-		temp = ft_strjoin(new, current->str);
-		free(new);
-		new = temp;
+		new = ft_strjoin_s2(current->str, new);
 		current = current->next;
 	}
 	return (new);

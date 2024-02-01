@@ -6,7 +6,7 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/26 11:15:52 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/01/30 09:00:49 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/02/01 11:32:58 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ char	*w_expand(char *word, t_env *denv)
 	int			dot_trigger;
 	char		*newword;
 
-	if (ms_findstar(word) == ERROR || !word)
+	if (!word || ms_findstar(word) == ERROR)
 		return (word);
 	dot_trigger = (word[0] != '.');
 	flist = get_flist(denv);

@@ -6,7 +6,7 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 16:23:00 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/01/31 08:51:56 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/02/01 11:19:12 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,12 +92,9 @@ char	**ft_splitm(char *str, t_env *denv)
 	char	**split;
 	int		wc;
 
-	wc = count_words(str);
 	split = (char **)ft_calloc(count_words(str) + 1, sizeof(char *));
 	if (!split)
-	{
 		return (dupdup());
-	}
 	fill_split(split, str);
 	transform_split(split, denv);
 	return (split);

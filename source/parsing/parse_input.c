@@ -6,7 +6,7 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 16:11:25 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/01/31 12:50:28 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/02/01 09:30:40 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,6 @@ t_tok	parse_input(char *input, t_env *denv)
 		input = ms_cut_at(input, '\n');
 	}
 	tdata.t_size = count_tokens(input);
-	// ft_printf("COUNT = %d\n", tdata.t_size);
 	if (tdata.t_size == ERROR)
 		return (tdata);
 	tdata = init_tok(tdata.t_size, heredoc);
@@ -62,9 +61,3 @@ t_tok	parse_input(char *input, t_env *denv)
 		return (tdata);
 	return (tdata);
 }
-// for (int i = 0; tdata.tokens[i]; i++)
-// {
-// 	ft_printf("S->TYPE[%d] = %d\n", i, tdata.type[i]);
-// 	for (int j = 0; tdata.tokens[i][j]; j++)
-// 		ft_printf("S[%d][%d] = |%fs|\n", i, j, tdata.tokens[i][j]);
-// }

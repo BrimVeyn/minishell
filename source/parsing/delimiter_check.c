@@ -6,7 +6,7 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 14:15:17 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/01/31 11:05:29 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/02/01 11:32:51 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int	delimiter_check(char *input)
 {
 	int	len;
 	int	i;
-	int q[2];
+	int	q[2];
 
 	len = 0;
 	i = 0;
@@ -24,7 +24,8 @@ int	delimiter_check(char *input)
 	q[1] = 0;
 	while (ms_isws(input[i]))
 		i++;
-	while (input[i] && ((ms_tiktok(&input[i]).type == CMD) || (q[0] == 1 || q[1] == 1)))
+	while (input[i] && ((ms_tiktok(&input[i]).type == CMD) || (q[0] == 1
+				|| q[1] == 1)))
 	{
 		q[0] ^= (input[i] == '\"');
 		q[1] ^= (input[i] == '\'');
@@ -37,5 +38,5 @@ int	delimiter_check(char *input)
 	else if (len == 0 && input[i] && ms_tiktok(&input[i]).type != CMD)
 		fd_printf(2, "minishell: syntax error near unexpected token `%fs'\n",
 			ms_tiktok(&input[i]).str);
-	return (len);
+	return (i);
 }
