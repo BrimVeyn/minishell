@@ -6,7 +6,7 @@
 /*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 11:49:13 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/02/01 14:24:01 by nbardavi         ###   ########.fr       */
+/*   Updated: 2024/02/01 14:52:59 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -292,7 +292,7 @@ int			no_args(char **args, t_env *denv);
 void		opt_1(char *newoldpwd, char *tmp, t_env *denv, int *index);
 void		opt_2(char *newoldpwd, char *tmp, t_env *denv);
 void		error_1(char **args);
-void		b_robin(char **cmds);
+void		b_robin(void);
 char		**ms_replace_value(char **f_env, int index, char *arg);
 char		**del_var(char **f_env, int index);
 char		*ms_find_var(t_env *denv, char *var);
@@ -388,6 +388,8 @@ void	handle_built(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i);
 void	b_redi(t_tok *d_token, t_pipe *d_pipe, int i);
 void	b_parse(t_tok *d_token, t_env *denv, int *i);
 void	b_parse_nf(t_tok *d_token, t_env *denv, int *i);
+char	*ms_form_prompt(t_env *denv);
+
 /*_.-=-._.-=-._.-=-._.-=-._.- HEREDOC -._.-=-._.-=-._.-=-._.-=-._.-=-._*/
 
 char *h_exec(t_pipe *d_pipe, char *save, char *limiter);
