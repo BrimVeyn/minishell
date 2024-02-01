@@ -126,12 +126,12 @@ $(OBJDIR)/%.o: source/%.c
 
 clean:
 	@rm -rf $(OBJDIR)
-	@make --no-print-directory clean -C libftprintf/
+	@make --no-print-directory -C libftprintf/ clean 
 	@printf "$(RED)Objects deleted !$(DEF_COLOR)\n"
 
 fclean: clean
 	@rm -rf $(NAME)
-	@make --no-print-directory fclean -C libftprintf/
+	@make --no-print-directory -C libftprintf/ fclean
 	@printf "$(RED)Binary deleted !$(DEF_COLOR)\n"
 
 $(OBJDIR):

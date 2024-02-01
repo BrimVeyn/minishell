@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd_h3.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
+/*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 10:27:21 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/02/01 14:23:37 by nbardavi         ###   ########.fr       */
+/*   Updated: 2024/02/01 14:46:32 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ void	opt_1(char *newoldpwd, char *tmp, t_env *denv, int *index)
 {
 	tmp = ft_strjoin("OLD", newoldpwd);
 	denv->f_env = ms_replace_value(denv->f_env, index[1], tmp);
+	free(tmp);
 }
 
 void	opt_2(char *newoldpwd, char *tmp, t_env *denv)

@@ -3,17 +3,28 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
+/*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 11:50:19 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/02/01 14:36:26 by nbardavi         ###   ########.fr       */
+/*   Updated: 2024/02/01 14:54:16 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
-#include <linux/limits.h>
 
 extern int	g_exitno;
+
+static void	cd_minus_h(t_env *denv, int *index, char *newpwd, char *oldpwd)
+{
+	if (index[0] != ERROR)
+		no_pwd(newpwd, denv, index);
+	if (index[1] != ERROR)
+		oldpwdt(oldpwd, denv, index);
+	if (index[0] == ERROR && index[1] != ERROR)
+		denv->f_env = del_var(denv->f_env, index[1]);
+	else if (index[1] == ERROR)
+		nooldpwd(oldpwd, denv);
+}
 
 static void	cd_minus(t_env *denv)
 {
@@ -22,11 +33,11 @@ static void	cd_minus(t_env *denv)
 	char	*newpwd;
 	char	*tmp;
 
-	newpwd = NULL;
 	tmp = NULL;
-	oldpwd = NULL;
-	update_env(denv);
-	fill_this(denv, oldpwd, newpwd, index);
+	oldpwd = denv->pwd;
+	newpwd = ms_find_var(denv, "OLDPWD=");
+	index[0] = ms_var_exist("PWD=", denv);
+	index[1] = ms_var_exist("OLDPWD=", denv);
 	if (!newpwd)
 		return (no_old_pwd());
 	if (!ft_strncmp(newpwd, "~", 2))
@@ -34,14 +45,7 @@ static void	cd_minus(t_env *denv)
 	if (index[1] != ERROR && ms_filetype(newpwd) != DIRECTORY)
 		return (error_3(newpwd));
 	chdir(newpwd);
-	if (index[0] != ERROR)
-		no_pwd(newpwd, tmp, denv, index);
-	if (index[1] != ERROR)
-		oldpwdt(oldpwd, tmp, denv, index);
-	if (index[0] == ERROR && index[1] != ERROR)
-		denv->f_env = del_var(denv->f_env, index[1]);
-	else if (index[1] == ERROR)
-		nooldpwd(tmp, oldpwd, denv);
+	cd_minus_h(denv, index, newpwd, oldpwd);
 	free(newpwd);
 	g_exitno = 0;
 }
@@ -81,7 +85,6 @@ void	b_cd(char **args, t_env *denv)
 	newoldpwd = NULL;
 	tmp = NULL;
 	if (too_many_args(args) == ERROR || no_args(args, denv) == TRUE)
-
 		return ;
 	if (ft_strlen(args[1]) == 1 && args[1][0] == '-')
 		cd_minus(denv);
