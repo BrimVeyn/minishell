@@ -34,8 +34,8 @@ char	*ft_strjoin_free(char const *s1, char const *s2)
 		j++;
 	}
 	cat[i + j] = 0;
-	free((void*)s1);
-	free((void*)s2);
+	free((void *)s1);
+	free((void *)s2);
 	return (cat);
 }
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_input.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
+/*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 11:50:57 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/02/01 14:39:53 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/02/01 14:46:24 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,9 @@ t_tokvar	ms_tiktok(char *ptr)
 	return (init_tokvar("", CMD));
 }
 
-int coherence_check_helper(char *input, t_tok *tdata, int *i)
+int	coherence_check_helper(char *input, t_tok *tdata, int *i)
 {
-	char *tmp;
+	char	*tmp;
 
 	tmp = ms_tiktok(&input[*i]).str;
 	*i += ms_tiktok(&input[*i]).len;
@@ -46,14 +46,14 @@ int coherence_check_helper(char *input, t_tok *tdata, int *i)
 	if (!input[*i] || (input[*i] && ms_tiktok(&input[*i]).type != CMD))
 	{
 		tdata->t_size = ERROR;
-		fd_printf(2,
-			"minishell: syntax error near unexpected token `%fs'\n", tmp);
+		fd_printf(2, "minishell: syntax error near unexpected token `%fs'\n",
+			tmp);
 		return (ERROR);
 	}
-	return (TRUE);	
+	return (TRUE);
 }
 
-int coherence_check(char *input, t_tok *tdata)
+int	coherence_check(char *input, t_tok *tdata)
 {
 	int	i;
 	int	q[2];

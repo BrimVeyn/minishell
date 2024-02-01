@@ -85,7 +85,7 @@ char	*iterate_through_word(char *input, t_tokh *v)
 		return (ft_substr(input, v->i - v->k, v->k));
 }
 
-char **empty_token (char **token, char **to_add)
+char	**empty_token(char **token, char **to_add)
 {
 	free_tab(token);
 	to_add[0] = ft_strdup("WRONG");
@@ -100,7 +100,7 @@ char	**add_here_to_cmd(t_tok *tdata, char **token, char *input, t_tokh *v)
 	char	*d_al;
 	char	*delimiter;
 
-	to_add = (char **) ft_calloc(3, sizeof(char *));
+	to_add = (char **)ft_calloc(3, sizeof(char *));
 	d_al = ft_strdup(ms_tiktok((&input[v->i])).str);
 	v->i += ms_tiktok(&input[v->i]).len;
 	while (ms_isws(input[v->i]))
