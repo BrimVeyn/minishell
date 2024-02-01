@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd_h2.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
+/*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 10:26:36 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/02/01 14:37:33 by nbardavi         ###   ########.fr       */
+/*   Updated: 2024/02/01 14:49:29 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,27 +14,22 @@
 
 extern int	g_exitno;
 
-void	oldpwdt(char *oldpwd, char *tmp, t_env *denv, int *index)
+void	oldpwdt(char *oldpwd, t_env *denv, int *index)
 {
+	char	*tmp;
+
 	tmp = ft_strjoin("OLDPWD=", oldpwd);
 	denv->f_env = ms_replace_value(denv->f_env, index[1], tmp);
 	free(tmp);
 }
 
-void	nooldpwd(char *tmp, char *oldpwd, t_env *denv)
+void	nooldpwd(char *oldpwd, t_env *denv)
 {
+	char	*tmp;
+
 	tmp = ft_strjoin("OLDPWD=", oldpwd);
 	denv->f_env = ms_join_tab(denv->f_env, tmp);
 	free(tmp);
-}
-
-void	fill_this(t_env *denv, char *oldpwd, char *newpwd, int *index)
-{
-	printf("pwd: %s\n", denv->pwd);
-	oldpwd = ft_strdup(denv->pwd);
-	newpwd = ms_find_var(denv, "OLDPWD=");
-	index[0] = ms_var_exist("PWD=", denv);
-	index[1] = ms_var_exist("OLDPWD=", denv);
 }
 
 int	too_many_args(char **args)
@@ -50,7 +45,7 @@ int	too_many_args(char **args)
 
 int	no_args(char **args, t_env *denv)
 {
-	char *tmp;
+	char	*tmp;
 
 	if (ms_tablen(args) == 1)
 	{
