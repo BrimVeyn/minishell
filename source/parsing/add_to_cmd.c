@@ -6,7 +6,7 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 14:17:10 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/02/01 08:46:11 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/02/01 12:04:29 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ char	**add_args_to_cmd(char *input, t_tokh *v, t_tok *tdata, t_env *denv)
 {
 	char	**to_add;
 	char	**new;
+	char	*fdp;
 
 	v->k = 0;
 	while (input[v->i] && ms_tiktok(&input[v->i]).type == CMD)
@@ -25,11 +26,12 @@ char	**add_args_to_cmd(char *input, t_tokh *v, t_tok *tdata, t_env *denv)
 		v->k++;
 		v->i++;
 	}
-	to_add = ft_splitm(ft_substr(input, v->i - v->k, v->k), denv);
+	fdp = ft_substr(input, v->i - v->k, v->k);
+	to_add = ft_splitm(fdp, denv);
 	new = ms_joinstarstar(tdata->tokens[v->l], to_add);
 	free_tab(tdata->tokens[v->l]);
 	free_tab(to_add);
-	return (new);
+	return (free(fdp), new);
 }
 
 char	*ms_trim(char *input, char c)

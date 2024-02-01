@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/29 10:44:25 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/02/01 10:30:10 by bvan-pae         ###   ########.fr       */
+/*   Created: 2024/02/01 11:49:13 by bvan-pae          #+#    #+#             */
+/*   Updated: 2024/02/01 11:50:11 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,6 +147,11 @@ typedef struct s_pipe
 	int h_before;
 	//BUILTIN
 	int b_pipefd[2];
+	int *tab_wait;
+	int cpt_wait;
+	//redi
+	char *file_name;
+	int failure;
 }			t_pipe;
 
 typedef struct s_lst
@@ -274,7 +279,6 @@ void		b_unset(char **args, t_env *denv);
 void		b_env(t_env *denv);
 void		b_exit(char **args);
 void		b_pwd(char **args, t_env *denv);
-void		b_robin(void);
 void		b_cd(char **args, t_env *denv);
 void		no_old_pwd(void);
 void		cd_tild(char *newpwd, t_env *denv);
@@ -288,6 +292,7 @@ int			no_args(char **args, t_env *denv);
 void		opt_1(char *newoldpwd, char *tmp, t_env *denv, int *index);
 void		opt_2(char *newoldpwd, char *tmp, t_env *denv, int *index);
 void		error_1(char **args);
+void		b_robin(char **cmds);
 char		**ms_replace_value(char **f_env, int index, char *arg);
 char		**del_var(char **f_env, int index);
 char		*ms_find_var(t_env *denv, char *var);
@@ -399,6 +404,7 @@ void ms_place_h(t_tok *d_token, char *f_name, int i);
 char *ms_getlast(t_env *denv);
 
 void c_execve(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i);
+void r_parse_error(t_pipe *d_pipe);
 
 /*_.-=-._.-=-._.-=-._.-=-._.- FREE && EXIT -._.-=-._.-=-._.-=-._.-=-._.-=-._*/
 

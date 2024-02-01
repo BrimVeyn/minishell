@@ -2,7 +2,7 @@ NAME			:= minishell
 
 LIBFT			:= libftprintf/libftprintf.a
 CC 				:= cc
-LDFLAGS			:= -lreadline -lncurses
+LDFLAGS			:= -lreadline -lncurses -lX11
 CFLAGS 			:= -g
 SRC 			:= source/main.c source/prompt.c \
 				   source/ms_h_lst.c \
@@ -79,6 +79,8 @@ SRC 			:= source/main.c source/prompt.c \
 				   source/exec/paran_utils.c \
 				   source/exec/pipe_utils.c \
 				   source/exec/free_exec.c \
+				   source/exec/redirect.c\
+				   source/exec/redirect2.c\
 				   source/utils_exec/debug.c \
 				   source/utils_exec/utils.c \
 				   source/misc/ms_setint.c \

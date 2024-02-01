@@ -6,7 +6,7 @@
 /*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/26 14:41:42 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/01/30 20:43:23 by nbardavi         ###   ########.fr       */
+/*   Updated: 2024/02/01 11:11:53 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	handle_d_al(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
 {
-	if (d_token->type[*i + 2] == CMD && d_token->t_size > 2)
+	if (d_token->t_size > 2 && d_token->type[*i + 2] == CMD)
 	{
 		d_pipe->h_before = 2;
 		ms_place_h(d_token, h_handle(d_pipe, d_token, denv, i), *i);
@@ -68,17 +68,28 @@ void	w_exec_pipe(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
 	while (d_pipe->f_cpt >= j)
 	{
 		waitpid(d_pipe->f_id[d_pipe->f_cpt], &g_exitno, 0);
-		if (WIFEXITED(g_exitno)) 
-			g_exitno = WEXITSTATUS(g_exitno);
 		j++;
 	}
 	d_pipe->p_trig = 1;
 }
 
-void ms_reset_fd(t_pipe d_pipe)
+void	ms_reset_fd(t_pipe d_pipe)
 {
 	dup2(d_pipe.old_stdout, STDOUT_FILENO);
 	dup2(d_pipe.old_stdin, STDIN_FILENO);
+}
+
+int	end_main(t_tok d_token, t_pipe d_pipe, t_env *denv)
+{
+	ms_reset_fd(d_pipe);
+	ms_h_unlink(&d_pipe);
+	// ms_free_env(denv);
+	ms_free_pipe(&d_pipe);
+	if (WIFEXITED(g_exitno))
+		g_exitno = WEXITSTATUS(g_exitno);
+	if (d_pipe.t_exit == 1)
+		return (1);
+	return (0);
 }
 
 int	ms_main_pipe(t_tok d_token, t_env *denv)
@@ -91,24 +102,17 @@ int	ms_main_pipe(t_tok d_token, t_env *denv)
 		return (0);
 	init_d_pipe(&d_pipe);
 	p_count(&d_token, &d_pipe);
-	if (denv->debug == 1)
-		print_tok(&d_token);
+	print_tokens(&d_token);
+	printf("nbr token:%d\n", d_token.t_size);
 	while (i < d_token.t_size)
 	{
 		d_pipe.t_r = 0;
 		if (d_token.type[0] == -1)
 			break ;
-		// printf("%d %d\n", d_token.type[i], i);
 		parse_type(&d_token, &d_pipe, denv, &i);
 		i++;
 		if (d_pipe.t_exit == 1)
 			break ;
 	}
-	ms_reset_fd(d_pipe);
-	ms_h_unlink(&d_pipe);
-	// ms_free_env(denv);
-	ms_free_pipe(&d_pipe);
-	if (d_pipe.t_exit == 1)
-		return (1);
-	return (0);
+	return (end_main(d_token, d_pipe, denv));
 }

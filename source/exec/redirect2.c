@@ -1,27 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   paran_utils.c                                      :+:      :+:    :+:   */
+/*   redirect2.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/25 13:04:03 by nbardavi          #+#    #+#             */
-/*   Updated: 2024/02/01 11:06:57 by nbardavi         ###   ########.fr       */
+/*   Created: 2024/02/01 10:36:37 by nbardavi          #+#    #+#             */
+/*   Updated: 2024/02/01 11:27:41 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-void	p_count(t_tok *d_token, t_pipe *d_pipe)
-{
-	int	i;
+extern int	g_exitno;
 
-	i = 0;
-	while (i < d_token->t_size)
+void	r_parse_error(t_pipe *d_pipe)
+{
+	if (d_pipe->failure == D_AR || d_pipe->failure == S_AR)
+		fd_printf(2, "minishell: %fs: %fs\n", d_pipe->file_name,
+			strerror(errno));
+	if (d_pipe->failure == S_AL)
 	{
-		if (d_token->type[i] == P_O)
-			d_pipe->p_nbr++;
-		i++;
+		d_pipe->t_cat = 1;
+		d_pipe->redi = 0;
+		d_pipe->input = open("/dev/null", O_RDONLY);
+		fd_printf(2, "minishell: %fs: %fs\n", d_pipe->file_name,
+			strerror(errno));
 	}
-	d_pipe->p_return = ft_calloc(d_pipe->p_nbr, sizeof(int));
+	g_exitno = 1 << 8;
 }
