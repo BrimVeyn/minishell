@@ -7,6 +7,7 @@ CFLAGS 			:= -g -Wall -Wextra -Werror
 SRC 			:= source/main.c source/prompt.c \
 				   source/ms_h_lst.c \
 				   source/signals.c \
+				   source/prompt2.c \
 				   source/double_linked_list/ms_dlstaddback.c \
 				   source/double_linked_list/ms_dlstclear.c \
 				   source/double_linked_list/ms_dlstdelone.c \
@@ -81,7 +82,6 @@ SRC 			:= source/main.c source/prompt.c \
 				   source/exec/free_exec.c \
 				   source/exec/redirect.c\
 				   source/exec/redirect2.c\
-				   source/utils_exec/debug.c \
 				   source/utils_exec/utils.c \
 				   source/misc/ms_setint.c \
 				   source/misc/ms_setchar.c \

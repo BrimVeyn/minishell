@@ -88,8 +88,8 @@ char		*to_hexa_p(unsigned long long nbr);
 
 /*_.-=-._.-=-._.-=-._.-=-._.- Main -._.-=-._.-=-._.-=-._.-=-._.-=-._*/
 
-int		fd_printf(int fd, const char *txt, ...);
-char	*check_p(const char *txt, unsigned int i, va_list args);
+int			fd_printf(int fd, const char *txt, ...);
+char		*check_p(const char *txt, unsigned int i, va_list args);
 int			ft_printf(const char *txt, ...);
 char		*ft_sprintf(char *txt, ...);
 char		*exec_flags(const char *txt, int i, va_list args);
@@ -98,7 +98,7 @@ char		*exec_flags2(const char *txt, int i, va_list args,
 
 /*_.-=-._.-=-._.-=-._.-=-._.- Free_utils -._.-=-._.-=-._.-=-._.-=-._.-=-._*/
 
-char	*ft_strjoin_free(char const *s1, char const *s2);
-char	*ft_strdup_char(char c);
+char		*ft_strjoin_free(char const *s1, char const *s2);
+char		*ft_strdup_char(char c);
 
 #endif

@@ -18,7 +18,7 @@
 # include <stdlib.h>
 # include <string.h>
 
-// definitions 
+// definitions
 
 # define SIZE_MAX (18446744073709551615UL)
 
@@ -95,6 +95,6 @@ int					ft_atoi(const char *theString);
 
 // Fonctions Customs
 
-int ft_strcmp(const char *s1, const char *s2);
+int					ft_strcmp(const char *s1, const char *s2);
 
 #endif

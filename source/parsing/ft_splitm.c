@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_splitm.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
+/*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 14:40:00 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/02/01 14:40:07 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/02/01 14:45:13 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,8 +66,6 @@ void	transform_split(char **split, t_env *denv)
 	x[I] = 0;
 	strl = NULL;
 	empty_var_setter(denv, split, x);
-	// for(int i = 0; split[i]; i++)
-	// 	ft_printf("split[%d] = %fs\n", i, split[i]);
 	while (ms_setint(&x[J], ZERO), split[x[I]])
 	{
 		split[x[I]] = tild_expand(split[x[I]], denv);

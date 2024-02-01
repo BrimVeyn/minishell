@@ -16,20 +16,20 @@ char		*exec_flags(const char *txt, int i, va_list args);
 
 static char	*print_and_free2(char *str, char *returnchar)
 {
-	char *returnvalue;
+	char	*returnvalue;
 
-	
 	if (str)
 	{
 		returnvalue = ft_strjoin(returnchar, str);
 		free(returnchar);
 		free(str);
-		return(returnvalue);
+		return (returnvalue);
 	}
 	return (0);
 }
 
-static char	*handle_format2(const char *txt, unsigned int *i, va_list args, char* returnchar)
+static char	*handle_format2(const char *txt, unsigned int *i, va_list args,
+		char *returnchar)
 {
 	int		nbf;
 	char	*temp;
@@ -51,7 +51,7 @@ char	*ft_sprintf(char *txt, ...)
 	va_list			args;
 	unsigned int	i;
 	int				count;
-	char	*returnchar;
+	char			*returnchar;
 
 	returnchar = ft_strdup("");
 	va_start(args, txt);

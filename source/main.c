@@ -3,27 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
+/*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/23 15:16:24 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/02/01 12:46:58 by nbardavi         ###   ########.fr       */
+/*   Updated: 2024/02/01 15:01:18 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-int g_exitno;
+int	g_exitno;
 
-// void free_env(t_env *env)
-// {
-// 	free(env->usr);
-// 	free(env->path);
-// 	free(env->pwd);
-// }
-
-int main(int ac, char *av[], char *env[])
+int	main(int ac, char *av[], char *env[])
 {
-	t_env denv;
+	t_env	denv;
 
 	(void) av;
 	if (!env || ac >= 2)
@@ -37,7 +30,5 @@ int main(int ac, char *av[], char *env[])
 	if (ac > 1 && ft_strcmp(av[1], "-d") == 0)
 		denv.debug = 1;
 	prompt(&denv, 0);
-	// ft_printf("g_exitno :%d\n", g_exitno);
 	exit(g_exitno);
-	// free_env(&denv);
 }
