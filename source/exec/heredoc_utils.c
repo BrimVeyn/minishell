@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
+/*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 10:40:47 by nbardavi          #+#    #+#             */
-/*   Updated: 2024/02/01 12:02:52 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/02/01 15:59:52 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ char	*h_exec(t_pipe *d_pipe, char *save, char *limiter)
 		if (input == NULL)
 		{
 			fd_printf(2, "minishell:");
-			fd_printf(2, "warning: here-document at line %d", d_pipe->h_cpt);
+			fd_printf(2, "warning: here-document at line %d ", d_pipe->h_cpt);
 			fd_printf(2, "delimited by end-of-file (wanted '%s')\n", limiter);
 			return (NULL);
 		}
@@ -61,7 +61,7 @@ char	*h_exec(t_pipe *d_pipe, char *save, char *limiter)
 	return (save);
 }
 
-// Si erreur, j bug
+// Si erreur, j bug ou free
 void	cut_here(t_tok *d_token, int *i)
 {
 	char	**new;
