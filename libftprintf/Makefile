@@ -58,10 +58,12 @@ sources/libft/ft_strtrim.c \
 sources/libft/ft_substr.c \
 sources/libft/ft_tolower.c \
 sources/libft/ft_toupper.c
+
 OBJS = $(SRCS:sources/%.c=objets/%.o)
 AR = ar rcs
 LIB = ranlib
 OBJDEST = ./objets
+OBJDIR = objets
 
 DEF_COLOR		:= \033[0;39m
 GRAY			:= \033[0;90m
@@ -75,7 +77,7 @@ WHITE			:= \033[0;97m
 
 all: $(NAME)
 
-$(NAME): $(OBJS)
+$(NAME): $(OBJDIR) $(OBJS)
 	@echo "$(GREEN)Making binary: $(NAME)"
 	@printf "$(MAGENTA)"
 	@$(AR) $(NAME) $(OBJS)
@@ -87,6 +89,9 @@ $(OBJDEST)/%.o: sources/%.c
 	@printf "$(BLUE)"
 	@$(CC) $(CFLAGS) -c $< -o $@
 	@printf "$(DEF_COLOR)"
+
+$(OBJDIR):
+	@mkdir -p $(OBJDIR) $(OBJDIR)
 
 clean:
 	@rm -f $(OBJS)
