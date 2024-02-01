@@ -6,16 +6,16 @@
 /*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/26 14:40:51 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/02/01 12:52:10 by nbardavi         ###   ########.fr       */
+/*   Updated: 2024/02/01 14:49:24 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
-#include <readline/readline.h>
 #include <readline/history.h>
+#include <readline/readline.h>
 #include <sys/ioctl.h>
 
-extern int g_exitno;
+extern int	g_exitno;
 
 char	*rm_last_slash(char *path, int total_slash)
 {
@@ -85,55 +85,14 @@ char	*ms_form_prompt(t_env *denv)
 
 	full_home = ft_strjoin("/home/", denv->usr);
 	if (ft_strncmp(denv->pwd, full_home, ft_strlen(full_home)) == 0)
-		temp_home = ft_sprintf("~%s", ft_substr_free(ft_strdup(denv->pwd), ft_strlen(full_home), ft_strlen(denv->pwd)));
+		temp_home = ft_sprintf("~%s", ft_substr_free(ft_strdup(denv->pwd),
+					ft_strlen(full_home), ft_strlen(denv->pwd)));
 	else
 		temp_home = ft_sprintf("%s", ft_strdup(denv->pwd));
 	free(full_home);
 	full_home = ft_strdup_free(temp_home);
 	full_home = cut_size(full_home);
-	prompt = ft_sprintf("%s%fs%s%fs ❯ %fs", get_time(), GREEN, full_home, VIOLET,
-			WHITE);
+	prompt = ft_sprintf("%s%fs%s%fs ❯ %fs", get_time(), GREEN, full_home,
+			VIOLET, WHITE);
 	return (prompt);
-}
-
-void signal_ctrl();
-
-void init_prompt(t_env **denv, char **input)
-{
-	char	*prompt; 
-
-	*denv = update_env(*denv);
-	signal_ctrl();
-	prompt = ms_form_prompt(*denv);
-	*input = readline("Minishell:");
-	free(prompt);
-}
-
-void	prompt(t_env *denv, int i)
-{
-	char	*input;
-	t_tok	d_token;
-
-	while (init_prompt(&denv, &input), i++ > -1)
-	{
-		if (input == NULL)
-		{
-			printf("exit\n");
-			break ;
-		}
-		if (input && *input)
-		{
-			if (i == 0)
-				denv->history = ms_lst_new(ft_strdup(input));
-			else
-				ms_lst_b(&denv->history, ms_lst_new(ft_strdup(input)));
-            add_history(input);
-			d_token = parse_input(input, denv);
-			if (ms_main_pipe(d_token, denv) == 1)
-				break;
-			if (d_token.t_size != ERROR)
-				free_tdata(&d_token);
-		}
-	}
-	return (ms_free_env(denv), free(input));
 }
