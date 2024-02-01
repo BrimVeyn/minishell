@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
+/*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 11:50:19 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/02/01 14:54:16 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/02/01 17:21:17 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,7 @@ static void	cd_minus(t_env *denv)
 	char	*oldpwd;
 	int		index[2];
 	char	*newpwd;
-	char	*tmp;
 
-	tmp = NULL;
 	oldpwd = denv->pwd;
 	newpwd = ms_find_var(denv, "OLDPWD=");
 	index[0] = ms_var_exist("PWD=", denv);
@@ -80,10 +78,8 @@ void	b_cd(char **args, t_env *denv)
 {
 	int		index[2];
 	char	*newoldpwd;
-	char	*tmp;
 
 	newoldpwd = NULL;
-	tmp = NULL;
 	if (too_many_args(args) == ERROR || no_args(args, denv) == TRUE)
 		return ;
 	if (ft_strlen(args[1]) == 1 && args[1][0] == '-')
