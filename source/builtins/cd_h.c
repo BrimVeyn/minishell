@@ -6,7 +6,7 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 10:26:03 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/02/01 10:27:59 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/02/01 14:50:14 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,8 +56,10 @@ void	error_3(char *newpwd)
 	free(newpwd);
 }
 
-void	no_pwd(char *newpwd, char *tmp, t_env *denv, int *index)
+void	no_pwd(char *newpwd, t_env *denv, int *index)
 {
+	char	*tmp;
+
 	tmp = ft_strjoin("PWD=", newpwd);
 	denv->f_env = ms_replace_value(denv->f_env, index[0], tmp);
 	free(tmp);
