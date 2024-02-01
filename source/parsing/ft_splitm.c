@@ -6,7 +6,7 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 16:23:00 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/02/01 11:55:25 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/02/01 14:16:09 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,8 @@ void	transform_split(char **split, t_env *denv)
 	x[I] = 0;
 	strl = NULL;
 	empty_var_setter(denv, split, x);
+	// for(int i = 0; split[i]; i++)
+	// 	ft_printf("split[%d] = %fs\n", i, split[i]);
 	while (ms_setint(&x[J], ZERO), split[x[I]])
 	{
 		split[x[I]] = tild_expand(split[x[I]], denv);
@@ -92,6 +94,7 @@ char	**ft_splitm(char *str, t_env *denv)
 	char	**split;
 	int		wc;
 
+	wc = count_words(str);
 	split = (char **)ft_calloc(count_words(str) + 1, sizeof(char *));
 	if (!split)
 		return (dupdup());

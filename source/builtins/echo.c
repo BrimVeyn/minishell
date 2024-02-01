@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
+/*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/30 12:46:13 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/01/31 16:06:29 by nbardavi         ###   ########.fr       */
+/*   Updated: 2024/02/01 14:16:26 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,5 +62,5 @@ void	b_echo(t_tok *d_token, int *i)
 	if (flag == 0)
 		printf("\n");
 	g_exitno = 0;
-	ft_printf("echo exitno:%d\n", g_exitno);
+	// ft_printf("echo exitno:%d\n", g_exitno);
 }

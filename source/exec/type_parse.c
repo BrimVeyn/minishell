@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   type_parse.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
+/*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/26 14:41:42 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/02/01 11:11:53 by nbardavi         ###   ########.fr       */
+/*   Updated: 2024/02/01 12:25:09 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,8 +102,6 @@ int	ms_main_pipe(t_tok d_token, t_env *denv)
 		return (0);
 	init_d_pipe(&d_pipe);
 	p_count(&d_token, &d_pipe);
-	print_tokens(&d_token);
-	printf("nbr token:%d\n", d_token.t_size);
 	while (i < d_token.t_size)
 	{
 		d_pipe.t_r = 0;
