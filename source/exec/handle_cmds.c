@@ -60,7 +60,7 @@ void	handle_cmd(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
 	p_here = check_here(d_token->tokens, *i);
 	if (*i < d_token->t_size)
 		if (cmd_redi(d_token, d_pipe, i, 0) == 1)
-			return;
+			return ;
 	if (p_here > -1)
 		cmd_here(d_token, d_pipe, denv, i);
 	if ((d_token->t_size > *i && d_token->type[*i + 1] == PIPE) || (*i > 0

@@ -61,7 +61,7 @@ char	*h_exec(t_pipe *d_pipe, char *save, char *limiter)
 	return (save);
 }
 
-//Si erreur, j bug
+// Si erreur, j bug
 void	cut_here(t_tok *d_token, int *i)
 {
 	char	**new;
@@ -70,8 +70,8 @@ void	cut_here(t_tok *d_token, int *i)
 	int		l;
 	int		t;
 
-	if (ms_setint(&k, 0), ms_setint(&l, 0), ms_setint(&j, 0),
-		ms_setint(&t, 0), 1)
+	if (ms_setint(&k, 0), ms_setint(&l, 0), ms_setint(&j, 0), ms_setint(&t, 0),
+		1)
 		(void)l;
 	while (d_token->tokens[*i][l] != NULL)
 		l++;
