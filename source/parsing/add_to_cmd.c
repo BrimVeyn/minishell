@@ -6,11 +6,13 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 14:17:10 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/01/31 14:32:47 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/02/01 08:46:11 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
+
+extern int	g_exitno;
 
 char	**add_args_to_cmd(char *input, t_tokh *v, t_tok *tdata, t_env *denv)
 {
@@ -30,22 +32,22 @@ char	**add_args_to_cmd(char *input, t_tokh *v, t_tok *tdata, t_env *denv)
 	return (new);
 }
 
-char *ms_trim(char *input, char c)
+char	*ms_trim(char *input, char c)
 {
-	int	i;
-	int	j;
-	int	ct;
-	char *new;
+	int		i;
+	int		j;
+	int		ct;
+	char	*new;
 
 	i = 0;
 	ct = 0;
 	while (input[i])
-    {
+	{
 		if (input[i] != c)
 			ct++;
 		i++;
-    }
-	new = (char *) ft_calloc(ct + 1, sizeof(char));
+	}
+	new = (char *)ft_calloc(ct + 1, sizeof(char));
 	i = 0;
 	j = 0;
 	while (input[i])
@@ -57,13 +59,16 @@ char *ms_trim(char *input, char c)
 	return (free(input), new);
 }
 
-char *iterate_through_word(char *input, t_tokh *v)
+char	*iterate_through_word(char *input, t_tokh *v)
 {
-	int q[2];
+	int	q[2];
 
 	q[0] = 0;
 	q[1] = 0;
-	while (input[v->i] && ((!ms_isws(input[v->i]) && ms_tiktok(&input[v->i]).type == CMD) || (q[0] == 1 || q[1] == 1)))
+	v->k = 0;
+	while (input[v->i] && ((!ms_isws(input[v->i])
+				&& ms_tiktok(&input[v->i]).type == CMD) || (q[0] == 1
+				|| q[1] == 1)))
 	{
 		q[0] ^= (input[v->i] == '\"');
 		q[1] ^= (input[v->i] == '\'');
@@ -85,7 +90,6 @@ char	**add_here_to_cmd(t_tok *tdata, char **token, char *input, t_tokh *v)
 	char	*d_al;
 	char	*delimiter;
 
-	v->k = 0;
 	to_add = (char **)ft_calloc(3, sizeof(char *));
 	d_al = ft_strdup(ms_tiktok((&input[v->i])).str);
 	v->i += ms_tiktok(&input[v->i]).len;
@@ -94,6 +98,12 @@ char	**add_here_to_cmd(t_tok *tdata, char **token, char *input, t_tokh *v)
 	delimiter = iterate_through_word(input, v);
 	if (!ft_strncmp("", delimiter, 2))
 		tdata->type[v->l] = WRONG;
+	if (!ft_strcmp("*", delimiter))
+	{
+		g_exitno = 1;
+		fd_printf(2, "minishell: '*': ambiguous redirect\n");
+		tdata->type[v->l] = WRONG;
+	}
 	to_add[0] = d_al;
 	to_add[1] = delimiter;
 	new = ms_joinstarstar(token, to_add);

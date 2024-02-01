@@ -6,7 +6,7 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/26 11:25:26 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/01/30 16:19:39 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/02/01 10:46:19 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ int	ms_filetype(char *path)
 {
 	struct stat	path_stat;
 
+	if (access(path, X_OK))
+		return (ERROR);
 	stat(path, &path_stat);
 	if (S_ISREG(path_stat.st_mode))
 		return (FAILE);
@@ -33,9 +35,8 @@ int	ms_check_builtin(char *cmd)
 {
 	if (!ft_strcmp(cmd, "cd") || !ft_strcmp(cmd, "export") || !ft_strcmp(cmd,
 			"unset") || !ft_strcmp(cmd, "env") || !ft_strcmp(cmd, "exit")
-		|| !ft_strcmp(cmd, "echo")
-		|| !ft_strcmp(cmd, "pwd")
-		|| !ft_strcmp(cmd, "robin"))
+		|| !ft_strcmp(cmd, "echo") || !ft_strcmp(cmd, "pwd") || !ft_strcmp(cmd,
+			"robin"))
 		return (TRUE);
 	return (ERROR);
 }
@@ -49,9 +50,10 @@ char	*join_path(char *cmd, t_env *denv)
 	i = 0;
 	if (!access(cmd, X_OK) && ms_filetype(cmd) == FAILE)
 		return (cmd);
+	ft_printf("CMD = %fs\n", cmd);
 	if (empty_var(cmd) == ERROR || no_such_file(cmd) == ERROR
-		|| is_a_directory(cmd) == ERROR
-		|| command_not_found(cmd) == ERROR || !cmd)
+		|| is_a_directory(cmd) == ERROR || command_not_found(cmd) == ERROR
+		|| !cmd)
 		return (ft_strdup("WRONG"));
 	paths = ft_split(denv->path, ':');
 	while (paths[i])
@@ -63,7 +65,7 @@ char	*join_path(char *cmd, t_env *denv)
 		i++;
 	}
 	if (permission_denied(cmd) == ERROR)
-		return (ft_strdup("WRONG"));
+		return (free(cmd), ft_strdup("WRONG"));
 	fd_printf(2, "%fs: command not found\n", cmd);
 	g_exitno = 127;
 	return (free_tab(paths), free(cmd), ft_strdup("WRONG"));
