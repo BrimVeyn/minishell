@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   path_parse.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
+/*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/26 11:25:26 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/02/01 10:46:19 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/02/01 12:58:04 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,6 @@ char	*join_path(char *cmd, t_env *denv)
 	i = 0;
 	if (!access(cmd, X_OK) && ms_filetype(cmd) == FAILE)
 		return (cmd);
-	ft_printf("CMD = %fs\n", cmd);
 	if (empty_var(cmd) == ERROR || no_such_file(cmd) == ERROR
 		|| is_a_directory(cmd) == ERROR || command_not_found(cmd) == ERROR
 		|| !cmd)

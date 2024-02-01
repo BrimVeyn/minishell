@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/22 16:23:00 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/02/01 14:16:09 by bvan-pae         ###   ########.fr       */
+/*   Created: 2024/02/01 14:40:00 by bvan-pae          #+#    #+#             */
+/*   Updated: 2024/02/01 14:40:07 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,9 +92,7 @@ void	transform_split(char **split, t_env *denv)
 char	**ft_splitm(char *str, t_env *denv)
 {
 	char	**split;
-	int		wc;
 
-	wc = count_words(str);
 	split = (char **)ft_calloc(count_words(str) + 1, sizeof(char *));
 	if (!split)
 		return (dupdup());

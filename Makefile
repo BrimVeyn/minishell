@@ -3,10 +3,9 @@ NAME			:= minishell
 LIBFT			:= libftprintf/libftprintf.a
 CC 				:= cc
 LDFLAGS			:= -lreadline -lncurses -lX11
-CFLAGS 			:= -g
+CFLAGS 			:= -g -Wall -Wextra -Werror
 SRC 			:= source/main.c source/prompt.c \
 				   source/ms_h_lst.c \
-				   source/exec_pipe.c \
 				   source/signals.c \
 				   source/double_linked_list/ms_dlstaddback.c \
 				   source/double_linked_list/ms_dlstclear.c \
@@ -67,6 +66,7 @@ SRC 			:= source/main.c source/prompt.c \
 				   source/parsing/utils.c \
 				   source/parsing/count_tokens.c \
 				   source/parsing/count_tokens_helpers.c \
+				   source/exec/main_exec.c \
 				   source/exec/type_parse.c \
 				   source/exec/handle_cmds.c \
 				   source/exec/handle_type.c \

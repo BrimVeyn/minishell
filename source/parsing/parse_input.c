@@ -6,7 +6,7 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 11:50:57 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/02/01 14:38:35 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/02/01 14:39:53 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,6 @@ int coherence_check(char *input, t_tok *tdata)
 {
 	int	i;
 	int	q[2];
-	char *tmp;
 
 	i = 0;
 	q[0] = 0;
