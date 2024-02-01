@@ -6,7 +6,7 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 11:50:57 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/02/01 11:50:58 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/02/01 14:38:35 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,47 @@ t_tokvar	ms_tiktok(char *ptr)
 	return (init_tokvar("", CMD));
 }
 
+int coherence_check_helper(char *input, t_tok *tdata, int *i)
+{
+	char *tmp;
+
+	tmp = ms_tiktok(&input[*i]).str;
+	*i += ms_tiktok(&input[*i]).len;
+	while (ms_isws(input[*i]))
+		(*i)++;
+	if (!input[*i] || (input[*i] && ms_tiktok(&input[*i]).type != CMD))
+	{
+		tdata->t_size = ERROR;
+		fd_printf(2,
+			"minishell: syntax error near unexpected token `%fs'\n", tmp);
+		return (ERROR);
+	}
+	return (TRUE);	
+}
+
+int coherence_check(char *input, t_tok *tdata)
+{
+	int	i;
+	int	q[2];
+	char *tmp;
+
+	i = 0;
+	q[0] = 0;
+	q[1] = 0;
+	while (input[i])
+	{
+		while (input[i] && (ms_tiktok(&input[i]).type == CMD || (q[0] || q[1])))
+		{
+			q[0] ^= (input[i] == '\"');
+			q[1] ^= (input[i] == '\'');
+			i++;
+		}
+		if (input[i] && coherence_check_helper(input, tdata, &i) == ERROR)
+			return (ERROR);
+	}
+	return (TRUE);
+}
+
 t_tok	parse_input(char *input, t_env *denv)
 {
 	t_tok	tdata;
@@ -46,6 +87,8 @@ t_tok	parse_input(char *input, t_env *denv)
 		heredoc = ft_split(ft_strchr(input, '\n'), '\n');
 		input = ms_cut_at(input, '\n');
 	}
+	if (coherence_check(input, &tdata) == ERROR)
+		return (tdata);
 	tdata.t_size = count_tokens(input);
 	if (tdata.t_size == ERROR)
 		return (tdata);
