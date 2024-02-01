@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_pipe.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
+/*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 16:26:22 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/01/30 17:24:28 by nbardavi         ###   ########.fr       */
+/*   Updated: 2024/02/01 12:00:49 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ int	apply_redi(t_tok *d_token, t_pipe *d_pipe,int i)
 			new[k++] = ft_strdup(d_token->tokens[i][j]);
 		j++;
 	}
-	free(d_token->tokens[i]);
+	free_tab(d_token->tokens[i]);
 	d_token->tokens[i] = new;
 	dup2(d_pipe->input, STDIN_FILENO);
 	return(0);

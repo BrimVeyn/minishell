@@ -6,7 +6,7 @@
 /*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/26 14:41:53 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/01/30 19:05:47 by nbardavi         ###   ########.fr       */
+/*   Updated: 2024/02/01 11:06:44 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,6 @@ void	exec_id0(t_pipe *d_pipe, t_tok *d_token, int id, int *i)
 	buffer = malloc(2);
 	signal(SIGINT, SIG_IGN);
 	waitpid(id, &g_exitno, 0);
-	if (WIFEXITED(g_exitno)) 
-		g_exitno = WEXITSTATUS(g_exitno);
 	init_sig();
 	d_pipe->failed = 0;
 	if (g_exitno != 0)
@@ -61,20 +59,44 @@ void	c_execve(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
 	}
 }
 
+void	handle_signs(t_pipe *d_pipe, t_tok *d_token, int *i)
+{
+	if (g_exitno != 0)
+		d_pipe->failed = 1;
+	if (d_pipe->failed == 1 && *i < d_token->t_size)
+	{
+		if (d_token->type[*i + 1] != OR)
+		{
+			if (d_token->type[*i + 1] == P_C)
+				if (d_pipe->p_cpt >= 0)
+					d_pipe->p_return[d_pipe->p_cpt] = 1;
+			d_pipe->or_return = 1;
+			d_pipe->failed = 0;
+		}
+	}
+}
+
+int	check_nf(t_tok *dt, t_pipe *dp, t_env *dv, int *i)
+{
+	if (ft_strcmp(dt->tokens[*i][0], "cd") == 0 || ft_strcmp(dt->tokens[*i][0],
+			"export") == 0 || ft_strcmp(dt->tokens[*i][0], "exit") == 0
+		|| ft_strcmp(dt->tokens[*i][0], "unset") == 0)
+	{
+		b_parse_nf(dt, dv, i);
+		handle_signs(dp, dt, i);
+		return (1);
+	}
+	return (0);
+}
+
 void	exec_cmd(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
 {
 	int	j;
 	int	id;
 
 	j = 0;
-	if (ft_strcmp(d_token->tokens[*i][j], "cd") == 0
-		|| ft_strcmp(d_token->tokens[*i][j], "export") == 0
-		|| ft_strcmp(d_token->tokens[*i][j], "exit") == 0
-		|| ft_strcmp(d_token->tokens[*i][j], "unset") == 0)
-	{
-		b_parse_nf(d_token, denv, i);
+	if (check_nf(d_token, d_pipe, denv, i) == 1)
 		return ;
-	}
 	id = fork();
 	if (id != 0)
 	{

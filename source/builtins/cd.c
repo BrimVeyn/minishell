@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/24 08:53:03 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/02/01 10:38:00 by bvan-pae         ###   ########.fr       */
+/*   Created: 2024/02/01 11:50:19 by bvan-pae          #+#    #+#             */
+/*   Updated: 2024/02/01 11:50:39 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,7 @@ void	b_cd(char **args, t_env *denv)
 	newoldpwd = NULL;
 	tmp = NULL;
 	if (too_many_args(args) == ERROR || no_args(args, denv) == TRUE)
+
 		return ;
 	if (ft_strlen(args[1]) == 1 && args[1][0] == '-')
 		cd_minus(denv);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_type.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
+/*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 10:11:19 by nbardavi          #+#    #+#             */
-/*   Updated: 2024/01/30 14:25:35 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/02/01 10:41:16 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ void	handle_pc(t_pipe *d_pipe)
 
 void	handle_wrong(t_pipe *d_pipe)
 {
-	// g_exitno = 127;
 	d_pipe->failed = 1;
 }
 
@@ -41,7 +40,6 @@ void	handle_and(t_pipe *d_pipe)
 		d_pipe->skip_and = 1;
 		d_pipe->failed = 0;
 	}
-	// ft_printf("\n\n\nskip and : %d\n", d_pipe->skip_and);
 }
 
 void	handle_or(t_pipe *d_pipe)
