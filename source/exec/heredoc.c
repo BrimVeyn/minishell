@@ -6,7 +6,7 @@
 /*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 08:59:09 by nbardavi          #+#    #+#             */
-/*   Updated: 2024/02/01 09:28:51 by nbardavi         ###   ########.fr       */
+/*   Updated: 2024/02/01 11:04:36 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,9 @@ void	t_heredoc(t_tok *d_token, int *i, char *limiter)
 		input = readline("> ");
 		if (input == NULL)
 		{
-			printf("minishell: warning: here-document at line %d delimited by end-of-file (wanted '%s')\n", cpt, limiter);
+			fd_printf(2, "minishell:");
+			fd_printf(2, "warning: here-document at line %d", cpt);
+			fd_printf(2, "delimited by end-of-file (wanted '%s')\n", limiter);
 			return ;
 		}
 		else if (ft_strcmp(limiter, input) == 0)

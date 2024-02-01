@@ -76,6 +76,8 @@ SRC 			:= source/main.c source/prompt.c \
 				   source/exec/paran_utils.c \
 				   source/exec/pipe_utils.c \
 				   source/exec/free_exec.c \
+				   source/exec/redirect.c\
+				   source/exec/redirect2.c\
 				   source/utils_exec/debug.c \
 				   source/utils_exec/utils.c \
 				   source/misc/ms_setint.c \
