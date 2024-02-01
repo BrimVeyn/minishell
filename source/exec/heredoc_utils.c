@@ -6,7 +6,7 @@
 /*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 10:40:47 by nbardavi          #+#    #+#             */
-/*   Updated: 2024/01/29 11:03:46 by nbardavi         ###   ########.fr       */
+/*   Updated: 2024/02/01 09:50:41 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,9 @@ char	*h_exec(t_pipe *d_pipe, char *save, char *limiter)
 		input = readline("> ");
 		if (input == NULL)
 		{
-			printf("minishell: warning: here-document at line %d delimited by end-of-file (wanted '%s')\n", d_pipe->h_cpt,
-				limiter);
+			fd_printf(2, "minishell:");
+			fd_printf(2, "warning: here-document at line %d", d_pipe->h_cpt);
+			fd_printf(2, "delimited by end-of-file (wanted '%s')\n", limiter);
 			return (NULL);
 		}
 		if (ft_strcmp(limiter, input) == 0)
@@ -60,29 +61,29 @@ char	*h_exec(t_pipe *d_pipe, char *save, char *limiter)
 	return (save);
 }
 
+//Si erreur, j bug
 void	cut_here(t_tok *d_token, int *i)
 {
 	char	**new;
 	int		j;
 	int		k;
-	int		len;
-	int		trigger;
+	int		l;
+	int		t;
 
-	if (ms_setint(&k, 0), ms_setint(&len, 0), ms_setint(&j, 0),
-		ms_setint(&trigger, 0), 1)
-		(void)len;
-	while (d_token->tokens[*i][len] != NULL)
-		len++;
-	new = ft_calloc(len, sizeof(char *));
-	j = 0;
-	while (d_token->tokens[*i][j] != NULL && j < len)
+	if (ms_setint(&k, 0), ms_setint(&l, 0), ms_setint(&j, 0),
+		ms_setint(&t, 0), 1)
+		(void)l;
+	while (d_token->tokens[*i][l] != NULL)
+		l++;
+	new = ft_calloc(l, sizeof(char *));
+	while (d_token->tokens[*i][j] != NULL && j < l)
 	{
-		if (ft_strcmp(d_token->tokens[*i][j], "<<") == 0 && trigger == 0)
+		if (ft_strcmp(d_token->tokens[*i][j], "<<") == 0 && t == 0)
 		{
 			j += 1;
-			trigger = 1;
+			t = 1;
 		}
-		if (j >= len)
+		if (j >= l)
 			break ;
 		new[k++] = ft_strdup(d_token->tokens[*i][j++]);
 	}
