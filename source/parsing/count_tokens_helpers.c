@@ -6,7 +6,7 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/30 16:30:36 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/02/01 11:32:05 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/02/01 13:15:50 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int	count_tokens_helper(int *x, char *input, t_tokvar *tokvar)
 {
 	x[COUNTER] += 1;
-	if (start_check(input, *tokvar, x[I]) == ERROR)
+	if (start_check(input, *tokvar, x[I]) == ERROR || end_check(input, x[I]) == ERROR)
 		return (ERROR);
 	x[I] += tokvar->len;
 	return (TRUE);
