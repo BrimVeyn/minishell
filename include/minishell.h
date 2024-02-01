@@ -6,7 +6,7 @@
 /*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 14:34:20 by nbardavi          #+#    #+#             */
-/*   Updated: 2024/01/31 14:34:23 by nbardavi         ###   ########.fr       */
+/*   Updated: 2024/02/01 10:37:26 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,6 +147,11 @@ typedef struct s_pipe
 	int h_before;
 	//BUILTIN
 	int b_pipefd[2];
+	int *tab_wait;
+	int cpt_wait;
+	//redi
+	char *file_name;
+	int failure;
 }			t_pipe;
 
 typedef struct s_lst
@@ -386,6 +391,7 @@ void ms_place_h(t_tok *d_token, char *f_name, int i);
 char *ms_getlast(t_env *denv);
 
 void c_execve(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i);
+void r_parse_error(t_pipe *d_pipe);
 
 /*_.-=-._.-=-._.-=-._.-=-._.- FREE && EXIT -._.-=-._.-=-._.-=-._.-=-._.-=-._*/
 
