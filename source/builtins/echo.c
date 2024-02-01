@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
+/*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/30 12:46:13 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/01/30 12:46:14 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/01/31 16:06:29 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-extern int	g_exitno;
+extern int g_exitno;
 
 int	flag_echo(char *flag)
 {
@@ -62,4 +62,5 @@ void	b_echo(t_tok *d_token, int *i)
 	if (flag == 0)
 		printf("\n");
 	g_exitno = 0;
+	ft_printf("echo exitno:%d\n", g_exitno);
 }
