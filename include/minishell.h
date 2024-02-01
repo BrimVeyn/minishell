@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
+/*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 11:49:13 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/02/01 11:50:11 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/02/01 14:24:01 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -290,7 +290,7 @@ void		fill_this(t_env *denv, char *oldpwd, char *newpwd, int *index);
 int			too_many_args(char **args);
 int			no_args(char **args, t_env *denv);
 void		opt_1(char *newoldpwd, char *tmp, t_env *denv, int *index);
-void		opt_2(char *newoldpwd, char *tmp, t_env *denv, int *index);
+void		opt_2(char *newoldpwd, char *tmp, t_env *denv);
 void		error_1(char **args);
 void		b_robin(char **cmds);
 char		**ms_replace_value(char **f_env, int index, char *arg);
@@ -418,7 +418,7 @@ void free_tpe(t_tok *dt, t_pipe *dp, t_env *de);
 
 void		init_sig();
 
-void		prompt(t_env *env);
+void		prompt(t_env *env, int i);
 t_env		*update_env(t_env *denv);
 void		ms_lst_b(t_h_lst **lst, t_h_lst *newlst);
 int			ms_main_pipe(t_tok d_token, t_env *denv);
