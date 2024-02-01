@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_paran.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
+/*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 14:09:49 by nbardavi          #+#    #+#             */
-/*   Updated: 2024/01/26 11:26:02 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/02/01 10:40:56 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,6 @@ void	p_parse_type(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
 		handle_and(d_pipe);
 	else if (d_token->type[*i] == OR)
 		handle_or(d_pipe);
-	// ft_printf("Hello %d", *i);
 }
 
 void	p_redi(t_tok *d_token, t_pipe *d_pipe, int *i)

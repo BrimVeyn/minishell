@@ -6,13 +6,13 @@
 /*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 10:38:01 by nbardavi          #+#    #+#             */
-/*   Updated: 2024/02/01 09:20:35 by nbardavi         ###   ########.fr       */
+/*   Updated: 2024/02/01 10:41:40 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-extern int g_exitno;
+extern int	g_exitno;
 
 void	exec_pipe(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
 {
@@ -30,7 +30,8 @@ void	exec_pipe(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
 		close(d_pipe->input);
 		if (previous_ope(d_token, *i) != PIPE)
 			dup2(d_pipe->input, STDIN_FILENO);
-		if (next_ope(d_token, *i) == PIPE && d_pipe->output == d_pipe->old_stdout)
+		if (next_ope(d_token, *i) == PIPE
+			&& d_pipe->output == d_pipe->old_stdout)
 			dup2(d_pipe->pipefd[1], STDOUT_FILENO);
 		else
 			dup2(d_pipe->output, STDOUT_FILENO);
@@ -42,7 +43,6 @@ void	exec_pipe(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
 
 void	cmd_exec_pipe(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
 {
-	// ft_printf("input:%d\noutput:%d\n", d_pipe->input, d_pipe->output);
 	if (d_pipe->output == -1)
 		d_pipe->output = d_pipe->old_stdout;
 	if (d_pipe->input == -1)
@@ -69,7 +69,6 @@ void	cmd_exec_pipe(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
 	}
 }
 
-
 void	handle_cmd_pipe(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
 {
 	int	p_here;
@@ -77,7 +76,7 @@ void	handle_cmd_pipe(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
 	p_here = check_here(d_token->tokens, *i);
 	if (*i < d_token->t_size)
 		if (cmd_redi(d_token, d_pipe, i, 0) == 1)
-			return;
+			return ;
 	if (p_here > -1)
 		cmd_here(d_token, d_pipe, denv, i);
 	if (d_pipe->skip_and == 0 && d_pipe->skip_or == 0 && d_pipe->or_return == 0)
