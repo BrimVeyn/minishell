@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
+/*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 16:09:44 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/01/30 17:32:37 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/02/01 17:20:22 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ void	b_export_helper(int *i, char **args, t_env *denv)
 	int		index;
 
 	identifier = NULL;
-	if (i > 0 && args[*i])
+	if (*i > 0 && args[*i])
 	{
 		value = ft_strchr(args[*i], '=');
 		identifier = ms_cut_at(ft_strdup(args[*i]), '=');
