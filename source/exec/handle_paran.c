@@ -6,7 +6,7 @@
 /*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 14:09:49 by nbardavi          #+#    #+#             */
-/*   Updated: 2024/02/01 17:22:17 by nbardavi         ###   ########.fr       */
+/*   Updated: 2024/02/02 11:16:21 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,13 +29,12 @@ void	p_parse_type(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
 		d_pipe->p_cpt++;
 	else if (d_token->type[*i] == P_C)
 		handle_pc_paran(d_pipe);
-	else if (d_token->type[*i] == BUILTIN)
-		handle_built(d_token, d_pipe, denv, i);
-	else if (d_token->type[*i] == D_AL)
+	if (d_token->type[*i] == D_AL)
 		handle_d_al(d_token, d_pipe, denv, i);
 	else if (d_token->type[*i] == S_AL)
 		b_redi(d_token, d_pipe, *i);
-	else if (d_token->type[*i] == CMD && d_pipe->skip_and == 0)
+	else if ((d_token->type[*i] == CMD && d_pipe->skip_and == 0)
+		|| (d_token->type[*i] == BUILTIN))
 		handle_cmd(d_token, d_pipe, denv, i);
 	else if (d_token->type[*i] == WRONG)
 		handle_wrong(d_pipe);
@@ -71,7 +70,6 @@ void	p_redi(t_tok *d_token, t_pipe *d_pipe, int *i)
 void	p_while(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
 {
 	(*i)++;
-	p_redi(d_token, d_pipe, i);
 	while (d_pipe->p_nbr > 0)
 	{
 		p_parse_type(d_token, d_pipe, denv, i);
