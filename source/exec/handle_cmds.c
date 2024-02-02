@@ -6,7 +6,7 @@
 /*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 10:12:28 by nbardavi          #+#    #+#             */
-/*   Updated: 2024/02/01 18:13:23 by nbardavi         ###   ########.fr       */
+/*   Updated: 2024/02/02 09:34:47 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,6 @@ void	cmd_here(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
 		temp = h_handle(d_pipe, d_token, denv, i);
 		free(d_token->tokens[*i][p_here]);
 		d_token->tokens[*i][p_here] = ft_strdup(temp);
-		// d_token->tokens[*i][p_here] = h_handle(d_pipe, d_token, denv, i);
-		// printf("f_name dans token: %s\n", d_token->tokens[*i][p_here]);
-		printf("cmd_here: f_name: %s\nf_name dans token: %s\n", temp, d_token->tokens[*i][p_here]);
 		free(temp);
 		p_here = check_here(d_token->tokens, *i);
 	}
