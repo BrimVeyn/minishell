@@ -6,7 +6,7 @@
 /*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/26 14:41:53 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/02/02 09:33:15 by nbardavi         ###   ########.fr       */
+/*   Updated: 2024/02/02 10:16:08 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ int	check_nf(t_tok *dt, t_pipe *dp, t_env *dv, int *i)
 			"export") == 0 || ft_strcmp(dt->tokens[*i][0], "exit") == 0
 		|| ft_strcmp(dt->tokens[*i][0], "unset") == 0)
 	{
-		b_parse_nf(dt, dv, i);
+		b_parse_nf(dt, dv, i, dp);
 		handle_signs(dp, dt, i);
 		return (1);
 	}

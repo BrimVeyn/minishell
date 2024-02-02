@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/01 11:50:57 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/02/02 11:00:59 by bvan-pae         ###   ########.fr       */
+/*   Created: 2024/02/02 11:22:39 by bvan-pae          #+#    #+#             */
+/*   Updated: 2024/02/02 11:31:37 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,8 @@ int	coherence_check_helper(char *input, t_tok *tdata, int *i)
 	*i += ms_tiktok(&input[*i]).len;
 	while (ms_isws(input[*i]))
 		(*i)++;
-	if ((type != P_C && type != P_O) && (!input[*i] || (input[*i] && ms_tiktok(&input[*i]).type != CMD)))
+	if ((type != P_C && type != P_O)
+		&& (!input[*i] || (input[*i] && ms_tiktok(&input[*i]).type != CMD)))
 	{
 		tdata->t_size = ERROR;
 		fd_printf(2, "minishell: syntax error near unexpected token `%fs'\n",
@@ -95,12 +96,6 @@ t_tok	parse_input(char *input, t_env *denv)
 		return (tdata);
 	tdata = init_tok(tdata.t_size, heredoc);
 	fill_token(input, &tdata, denv);
-	for(int i = 0; tdata.tokens[i]; i++)
-	{
-		ft_printf("type[%d] = %d\n", i, tdata.type[i]);
-		for(int j = 0; tdata.tokens[i][j]; j++)
-			ft_printf("token[%d][%d] = %fs\n", i, j, tdata.tokens[i][j]);
-	}
 	if (quotes_position_check(&tdata) == ERROR)
 	{
 		tdata.type[0] = ERROR;
