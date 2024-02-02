@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   count_tokens_helpers.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
+/*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/30 16:30:36 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/02/01 15:16:35 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/02/02 10:05:55 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,11 @@
 
 int	count_tokens_helper(int *x, char *input, t_tokvar *tokvar)
 {
+	(void)input;
 	x[COUNTER] += 1;
-	if (start_check(input, *tokvar, x[I]) == ERROR
-		|| end_check(input, x[I]) == ERROR)
-		return (ERROR);
+	// if (start_check(input, *tokvar, x[I]) == ERROR
+	// 	|| end_check(input, x[I]) == ERROR)
+	// 	return (ERROR);
 	x[I] += tokvar->len;
 	return (TRUE);
 }

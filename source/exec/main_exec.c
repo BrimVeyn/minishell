@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main_parse.c                                       :+:      :+:    :+:   */
+/*   main_exec.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 14:28:00 by nbardavi          #+#    #+#             */
-/*   Updated: 2024/02/01 14:29:54 by nbardavi         ###   ########.fr       */
+/*   Updated: 2024/02/02 11:16:10 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ int	ms_main_pipe(t_tok d_token, t_env *denv)
 	i = 0;
 	if (d_token.tokens == NULL)
 		return (0);
+	printf("t_size: %d\n", d_token.t_size);
 	init_d_pipe(&d_pipe);
 	p_count(&d_token, &d_pipe);
 	while (i < d_token.t_size)
