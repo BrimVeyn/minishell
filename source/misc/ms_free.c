@@ -6,7 +6,7 @@
 /*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/26 11:26:10 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/02/01 11:26:57 by nbardavi         ###   ########.fr       */
+/*   Updated: 2024/02/02 10:23:08 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,11 +31,14 @@ void	free_startab(char ***tokens)
 	int	j;
 
 	i = 0;
+	if (!tokens)
+		return ;
 	while (tokens[i])
 	{
 		j = 0;
 		while (tokens[i][j])
 		{
+			ft_printf("token[%d][%d] %fs\n", i, j, tokens[i][j]);
 			free(tokens[i][j]);
 			j++;
 		}

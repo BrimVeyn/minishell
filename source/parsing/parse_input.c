@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_input.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
+/*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 11:50:57 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/02/02 09:27:06 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/02/02 11:05:33 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,9 +101,12 @@ t_tok	parse_input(char *input, t_env *denv)
 		return (tdata);
 	}
 	ms_add_path(&tdata, denv);
-	// for(int i = 0; tdata.tokens[i]; i++)
-	// 	for(int j = 0; tdata.tokens[i][j]; j++)
-	// 		ft_printf("token[%d][%d] = %fs\n", i, j, tdata.tokens[i][j]);
+	for(int i = 0; tdata.tokens[i]; i++)
+	{
+		for(int j = 0; tdata.tokens[i][j]; j++)
+			ft_printf("token[%d][%d] = %fs\n", i, j, tdata.tokens[i][j]);
+		ft_printf(" TYPE = %d\n", tdata.type[i]);
+	}
 	if (missing_delimiter_check(&tdata) == ERROR)
 		return (tdata);
 	return (tdata);
