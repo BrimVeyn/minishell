@@ -6,7 +6,7 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 14:59:20 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/02/02 11:39:06 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/02/02 16:16:23 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -342,6 +342,17 @@ void					fill_split(char **split, char *str);
 int						ms_wl2(char *ptr);
 int						f_lcmd_index(t_tok *tdata, int j);
 int						tild_index(char *word);
+
+
+
+
+char ***ms_split(t_tok *tdata, t_env *denv, char *input);
+int	ms_wlcmd(char *input);
+int	ms_wltoken(char *input);
+
+
+
+
 
 /*_.-=-._.-=-._.-=-._.-=-._.--._.-=-._.--._.-=-._.-=-._.-=-._.-=-._.-=-._*/
 /*_.-=-._.-=-._.-=-._.-=-._.- TYPE PARSE -._.-=-._.-=-._.-=-._.-=-._.-=-._*/
