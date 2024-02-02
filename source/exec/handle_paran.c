@@ -6,7 +6,7 @@
 /*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 14:09:49 by nbardavi          #+#    #+#             */
-/*   Updated: 2024/02/01 10:40:56 by nbardavi         ###   ########.fr       */
+/*   Updated: 2024/02/01 17:22:17 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,6 @@ void	handle_pc_paran(t_pipe *d_pipe)
 
 void	p_parse_type(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
 {
-	int	p_here;
-
-	p_here = check_here(d_token->tokens, *i);
 	if (d_token->type[*i] == P_O)
 		d_pipe->p_cpt++;
 	else if (d_token->type[*i] == P_C)

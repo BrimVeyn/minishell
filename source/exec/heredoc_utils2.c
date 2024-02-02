@@ -6,7 +6,7 @@
 /*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 12:59:29 by nbardavi          #+#    #+#             */
-/*   Updated: 2024/02/01 10:41:28 by nbardavi         ###   ########.fr       */
+/*   Updated: 2024/02/01 17:42:03 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,11 +29,9 @@ void	ms_h_unlink(t_pipe *d_pipe)
 void	ms_place_h(t_tok *d_token, char *f_name, int i)
 {
 	int		j;
-	int		k;
 	char	**u_char;
 
 	j = 0;
-	k = 0;
 	while (d_token->tokens[i + 2][j])
 		j++;
 	u_char = ft_calloc(j + 2, sizeof(char *));
@@ -44,6 +42,7 @@ void	ms_place_h(t_tok *d_token, char *f_name, int i)
 		j++;
 	}
 	u_char[j] = ft_strdup(f_name);
+	free(f_name);
 	free_tab(d_token->tokens[i + 2]);
 	d_token->tokens[i + 2] = u_char;
 }
