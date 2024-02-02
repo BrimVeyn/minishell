@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_input.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
+/*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 11:50:57 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/02/01 14:46:24 by nbardavi         ###   ########.fr       */
+/*   Updated: 2024/02/02 09:27:06 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,12 +38,14 @@ t_tokvar	ms_tiktok(char *ptr)
 int	coherence_check_helper(char *input, t_tok *tdata, int *i)
 {
 	char	*tmp;
+	int		type;
 
 	tmp = ms_tiktok(&input[*i]).str;
+	type = ms_tiktok(&input[*i]).type;
 	*i += ms_tiktok(&input[*i]).len;
 	while (ms_isws(input[*i]))
 		(*i)++;
-	if (!input[*i] || (input[*i] && ms_tiktok(&input[*i]).type != CMD))
+	if ((type != P_C && type != P_O) && (!input[*i] || (input[*i] && ms_tiktok(&input[*i]).type != CMD)))
 	{
 		tdata->t_size = ERROR;
 		fd_printf(2, "minishell: syntax error near unexpected token `%fs'\n",
@@ -99,6 +101,9 @@ t_tok	parse_input(char *input, t_env *denv)
 		return (tdata);
 	}
 	ms_add_path(&tdata, denv);
+	// for(int i = 0; tdata.tokens[i]; i++)
+	// 	for(int j = 0; tdata.tokens[i][j]; j++)
+	// 		ft_printf("token[%d][%d] = %fs\n", i, j, tdata.tokens[i][j]);
 	if (missing_delimiter_check(&tdata) == ERROR)
 		return (tdata);
 	return (tdata);
