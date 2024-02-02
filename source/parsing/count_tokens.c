@@ -6,52 +6,83 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 15:36:10 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/02/02 11:31:18 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/02/02 16:06:41 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-int	count_tokens_helper4(int *x, char *input)
+int	ms_wlcmd(char *input)
 {
-	t_tokvar	tokvar;
-	int			quotes[2];
-
-	x[TRI] = 0;
-	quotes[0] = 0;
-	quotes[1] = 0;
-	tokvar = ms_tiktok(&input[x[I]]);
-	if (input[x[I]] && tokvar.type != CMD
-		&& tokvar.type != D_AL && tokvar.type != S_AL)
-		if (count_tokens_helper(x, input, &tokvar) == ERROR)
-			return (ERROR);
-	if (input[x[I]] && (tokvar.type == D_AL || tokvar.type == S_AL))
-		if (count_tokens_helper2(x, input, &tokvar) == ERROR)
-			return (ERROR);
-	while (input[x[I]] && ms_isws(input[x[I]]))
-		x[I]++;
-	while (input[x[I]] && ((ms_tiktok(&input[x[I]]).type == CMD)
-			|| (quotes[0] == TRUE || quotes[1] == TRUE)))
-		count_tokens_helper5(x, quotes, input);
-	if (x[TRI] == 1)
-		x[COUNTER] += 1;
-	count_tokens_helper6(x, input);
-	return (TRUE);
+	if (ms_tiktok(input).type == CMD
+	|| ms_tiktok(input).type == D_AL
+	|| ms_tiktok(input).type == S_AL
+	|| ms_tiktok(input).type == D_AR
+	|| ms_tiktok(input).type == S_AR)
+		return (TRUE);
+	return (ERROR);
 }
 
-int	count_tokens(char *input)
-{
-	int	x[4];
 
-	x[I] = 0;
-	x[COUNTER] = 0;
-	x[TRI] = 0;
-	x[DCOUNTER] = 0;
-	if (parenthesis_check(input) == ERROR
-		|| quotes_parity_check(input) == ERROR)
-		return (ERROR);
-	while (input[x[I]])
-		if (count_tokens_helper4(x, input) == ERROR)
-			return (ERROR);
-	return (x[COUNTER]);
+int	ms_wltoken(char *input)
+{
+	if (ms_tiktok(input).type == P_O
+	|| ms_tiktok(input).type == P_C
+	|| ms_tiktok(input).type == PIPE
+	|| ms_tiktok(input).type == AND
+	|| ms_tiktok(input).type == OR)
+		return (TRUE);
+	return (ERROR);
 }
+
+int		count_tokens(char *input)
+{
+	int	i;
+	int	counter;
+	int	trigger;
+	int	q[2];
+
+	i = 0;
+	counter = 0;
+	trigger = 0;
+	q[0] = 0;
+	q[1] = 0;
+	while(input[i])
+	{
+		trigger = 0;
+		while (input[i] && ms_isws(input[i]))
+			i++;
+		while (input[i] && (ms_wlcmd(&input[i]) == TRUE || (q[0] || q[1])))
+		{
+			q[0] ^= (input[i] == '\"');
+			while(input[i] && q[0])
+            {
+				q[0] ^= (input[i] == '\"');
+				i++;
+            }
+			q[1] ^= (input[i] == '\'');
+			while(input[i] && q[1])
+            {
+				q[1] ^= (input[i] == '\'');
+				i++;
+            }
+			trigger = 1;
+			i++;
+		}
+		while (input[i] && ms_isws(input[i]))
+			i++;
+		if (trigger == 1)
+        {
+			counter += 1;
+        }
+		if (input[i] && ms_wltoken(&input[i]) == TRUE)
+		{
+			i += ms_tiktok(&input[i]).len;
+			counter += 1;
+		}
+		while (input[i] && ms_isws(input[i]))
+			i++;
+	}
+	return (counter);
+}
+
