@@ -6,7 +6,7 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/30 16:30:36 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/02/01 15:16:35 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/02/02 10:44:02 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ int	count_tokens_helper2(int *x, char *input, t_tokvar *tokvar)
 	else if (tokvar->type == D_AL)
 		x[DCOUNTER] = delimiter_check(&input[x[I] + 2]);
 	x[I] += 2 + x[DCOUNTER];
+	ft_printf("FDP");
 	if (x[DCOUNTER] == 0)
 		return (ERROR);
 	x[COUNTER] += 2;

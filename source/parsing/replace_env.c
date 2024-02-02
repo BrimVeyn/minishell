@@ -6,7 +6,7 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/26 11:19:26 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/02/01 11:05:35 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/02/02 10:52:39 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,15 @@ char	*r_dollarquestion(char *split, int *i)
 	char	*p1;
 	char	*var;
 	char	*p2;
+	char	*tmp;
 
 	p1 = ft_substr(split, 0, *i);
 	var = ft_itoa(g_exitno);
 	p2 = ft_substr(split, *i + 2, (ft_strlen(split) - (*i + 2)));
 	*i += ft_strlen(var);
-	split = ft_sprintf("%s%s%s", p1, var, p2);
-	return (split);
+	tmp = ft_sprintf("%s%s%s", p1, var, p2);
+	free(split);
+	return (tmp);
 }
 
 char	*r_dollar(char *split, int *i, int start, t_env *denv)
@@ -40,9 +42,8 @@ char	*r_dollar(char *split, int *i, int start, t_env *denv)
 	var = ms_getenv(ft_substr(split, start, end - start), denv);
 	p2 = ft_substr(split, end, (ft_strlen(split) - end));
 	*i = ft_strlen(split) - ft_strlen(p2) - (end - start) - 1;
-	split = NULL;
-	free(split);
 	tmp = ft_sprintf("%s%s%s", p1, var, p2);
+	free(split);
 	return (tmp);
 }
 
