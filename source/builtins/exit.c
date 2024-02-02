@@ -6,7 +6,7 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/26 14:41:28 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/01/29 16:11:14 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/02/02 09:59:41 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void	b_exit(char **args)
 	else if (ms_is_nbr(args[1]) == 0)
 	{
 		if (ft_strlenlen(args) > 2)
-			fd_printf(2, "minishell: exit: too many arguments");
+			fd_printf(2, "minishell: exit: too many arguments\n");
 		else
 			exit((unsigned char)ft_atoi(args[1]));
 	}

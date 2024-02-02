@@ -6,7 +6,7 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 14:40:02 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/02/01 13:16:29 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/02/02 11:05:47 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,9 @@ void	fill_token_helper(t_tok *tdata, t_tokh *v, t_env *denv, char *input)
 	tdata->type[v->j] = v->tokvar.type;
 	v->j++;
 	v->i += v->tokvar.len;
-	check_emptyness(tdata, input, v);
+	if (ms_tiktok(&input[v->i - v->tokvar.len]).type != P_O 
+		&& ms_tiktok(&input[v->i - v->tokvar.len]).type != P_C)
+		check_emptyness(tdata, input, v);
 	if (input[v->i] && ms_wl2(&input[v->i - v->tokvar.len])
 		&& ms_tiktok(&input[v->i]).type == CMD)
 	{

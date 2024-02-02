@@ -6,7 +6,7 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 15:24:43 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/01/26 09:52:28 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/02/02 10:51:28 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,5 +22,6 @@ char	**ms_join_tab(char **tab, char *str)
 	while (tab[++i])
 		new[i] = ft_strdup(tab[i]);
 	new[i] = ft_strdup(str);
+	free_tab(tab);
 	return (new);
 }
