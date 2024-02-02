@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prompt2.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
+/*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 14:47:51 by nbardavi          #+#    #+#             */
-/*   Updated: 2024/02/01 15:38:16 by nbardavi         ###   ########.fr       */
+/*   Updated: 2024/02/02 10:29:22 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ void	prompt(t_env *denv, int i)
 				ms_lst_b(&denv->history, ms_lst_new(ft_strdup(input)));
 			add_history(input);
 			d_token = parse_input(input, denv);
-			print_t(d_token.tokens);
+			// print_t(d_token.tokens);
 			if (ms_main_pipe(d_token, denv) == 1)
 				break ;
 			if (d_token.t_size != ERROR)
