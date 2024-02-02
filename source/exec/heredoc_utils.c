@@ -6,7 +6,7 @@
 /*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 10:40:47 by nbardavi          #+#    #+#             */
-/*   Updated: 2024/02/01 17:55:37 by nbardavi         ###   ########.fr       */
+/*   Updated: 2024/02/02 09:16:04 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,6 @@ char	*h_redo(t_pipe *d_pipe, t_tok *d_token, char *limiter)
 	temp = ft_strdup(save);
 	free(save);
 	save = h_exec(d_pipe, temp, limiter);
-	free(temp);
 	return (save);
 }
 
@@ -55,6 +54,7 @@ char	*h_exec(t_pipe *d_pipe, char *save, char *limiter)
 			fd_printf(2, "minishell:");
 			fd_printf(2, "warning: here-document at line %d ", d_pipe->h_cpt);
 			fd_printf(2, "delimited by end-of-file (wanted '%fs')\n", limiter);
+			free(save);
 			return (NULL);
 		}
 		if (ft_strcmp(limiter, input) == 0)
