@@ -6,7 +6,7 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 11:22:39 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/02/02 11:31:37 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/02/02 16:23:14 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,26 +83,38 @@ t_tok	parse_input(char *input, t_env *denv)
 	t_tok	tdata;
 	char	**heredoc;
 
+	(void) denv;
 	heredoc = NULL;
 	if (ft_strchr(input, '\n'))
 	{
 		heredoc = ft_split(ft_strchr(input, '\n'), '\n');
 		input = ms_cut_at(input, '\n');
 	}
-	if (coherence_check(input, &tdata) == ERROR)
-		return (tdata);
-	tdata.t_size = count_tokens(input);
-	if (tdata.t_size == ERROR)
-		return (tdata);
-	tdata = init_tok(tdata.t_size, heredoc);
-	fill_token(input, &tdata, denv);
-	if (quotes_position_check(&tdata) == ERROR)
+	if (quotes_parity_check(input) == ERROR)
 	{
-		tdata.type[0] = ERROR;
+		tdata.t_size = ERROR;
+		ft_printf("quotes error\n");
 		return (tdata);
 	}
-	ms_add_path(&tdata, denv);
-	if (missing_delimiter_check(&tdata) == ERROR)
-		return (tdata);
+	tdata.t_size = count_tokens(input);
+	ft_printf("size = %d\n", tdata.t_size);
+	tdata.tokens = ms_split(&tdata, denv, input);
+	// for(int i = 0; tdata.tokens[i]; i++)
+	// {
+	// 	ft_printf("TYPE[%d] = ~[%d]~\n", i, tdata.type);
+	// 	for(int j = 0; tdata.tokens[i][j]; j++)
+	// 		ft_printf("Token_[%d][%d] = %fs\n", tdata.tokens[i][j]);
+	// }
+	tdata.t_size = ERROR;
+	return (tdata);
+	// fill_token(input, &tdata, denv);
+	// if (quotes_position_check(&tdata) == ERROR)
+	// {
+	// 	tdata.type[0] = ERROR;
+	// 	return (tdata);
+	// }
+	// ms_add_path(&tdata, denv);
+	// if (missing_delimiter_check(&tdata) == ERROR)
+	// 	return (tdata);
 	return (tdata);
 }
