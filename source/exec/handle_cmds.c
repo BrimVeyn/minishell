@@ -6,7 +6,7 @@
 /*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 10:12:28 by nbardavi          #+#    #+#             */
-/*   Updated: 2024/02/01 14:30:07 by nbardavi         ###   ########.fr       */
+/*   Updated: 2024/02/02 09:34:47 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,16 @@
 void	cmd_here(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
 {
 	int	p_here;
+	char *temp;
 
 	p_here = check_here(d_token->tokens, *i);
 	while (p_here > -1)
 	{
 		d_pipe->h_before = 1;
-		d_token->tokens[*i][p_here] = h_handle(d_pipe, d_token, denv, i);
+		temp = h_handle(d_pipe, d_token, denv, i);
+		free(d_token->tokens[*i][p_here]);
+		d_token->tokens[*i][p_here] = ft_strdup(temp);
+		free(temp);
 		p_here = check_here(d_token->tokens, *i);
 	}
 }

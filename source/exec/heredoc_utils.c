@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
+/*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 10:40:47 by nbardavi          #+#    #+#             */
-/*   Updated: 2024/02/01 12:02:52 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/02/02 09:16:04 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ char	*h_create_file(t_pipe *d_pipe)
 char	*h_redo(t_pipe *d_pipe, t_tok *d_token, char *limiter)
 {
 	char	*save;
+	char	*temp;
 
 	save = ft_strdup("");
 	while (d_token->heredoc && d_token->heredoc[d_pipe->h_i])
@@ -35,7 +36,9 @@ char	*h_redo(t_pipe *d_pipe, t_tok *d_token, char *limiter)
 		}
 		save = ft_sprintf("%s%fs\n", save, d_token->heredoc[d_pipe->h_i++]);
 	}
-	save = h_exec(d_pipe, save, limiter);
+	temp = ft_strdup(save);
+	free(save);
+	save = h_exec(d_pipe, temp, limiter);
 	return (save);
 }
 
@@ -49,8 +52,9 @@ char	*h_exec(t_pipe *d_pipe, char *save, char *limiter)
 		if (input == NULL)
 		{
 			fd_printf(2, "minishell:");
-			fd_printf(2, "warning: here-document at line %d", d_pipe->h_cpt);
-			fd_printf(2, "delimited by end-of-file (wanted '%s')\n", limiter);
+			fd_printf(2, "warning: here-document at line %d ", d_pipe->h_cpt);
+			fd_printf(2, "delimited by end-of-file (wanted '%fs')\n", limiter);
+			free(save);
 			return (NULL);
 		}
 		if (ft_strcmp(limiter, input) == 0)
@@ -61,7 +65,7 @@ char	*h_exec(t_pipe *d_pipe, char *save, char *limiter)
 	return (save);
 }
 
-// Si erreur, j bug
+// Si erreur, j bug ou free
 void	cut_here(t_tok *d_token, int *i)
 {
 	char	**new;
