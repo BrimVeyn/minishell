@@ -6,7 +6,7 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 14:59:20 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/02/01 15:07:40 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/02/02 11:39:06 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,8 +115,8 @@ typedef struct s_pipe
 	int					input;
 	int					output;
 	int					nbr_h;
-	int					or_return ;
-	int					*p_return ;
+	int					or_return;
+	int					*p_return;
 	int					p_nbr;
 	int					p_cpt;
 	int					failed;
@@ -271,7 +271,7 @@ void					b_echo(t_tok *d_token, int *i);
 void					b_export(char **args, t_env *denv);
 void					b_unset(char **args, t_env *denv);
 void					b_env(t_env *denv);
-void					b_exit(char **args);
+void					b_exit(char **args, t_pipe *d_pipe);
 void					b_pwd(char **args, t_env *denv);
 void					b_cd(char **args, t_env *denv);
 void					no_old_pwd(void);
@@ -399,7 +399,8 @@ void					handle_built(t_tok *d_token, t_pipe *d_pipe,
 							t_env *denv, int *i);
 void					b_redi(t_tok *d_token, t_pipe *d_pipe, int i);
 void					b_parse(t_tok *d_token, t_env *denv, int *i);
-void					b_parse_nf(t_tok *d_token, t_env *denv, int *i);
+void					b_parse_nf(t_tok *d_token, t_env *denv, int *i,
+							t_pipe *d_pipe);
 char					*ms_form_prompt(t_env *denv);
 /*_.-=-._.-=-._.-=-._.-=-._.- HEREDOC -._.-=-._.-=-._.-=-._.-=-._.-=-._*/
 
@@ -421,6 +422,7 @@ char					*ms_getlast(t_env *denv);
 void					c_execve(t_tok *d_token, t_pipe *d_pipe, t_env *denv,
 							int *i);
 void					r_parse_error(t_pipe *d_pipe);
+void					b_redi_out(t_tok *d_token, t_pipe *d_pipe, int i);
 
 /*_.-=-._.-=-._.-=-._.-=-._.- FREE && EXIT -._.-=-._.-=-._.-=-._.-=-._.-=-._*/
 
