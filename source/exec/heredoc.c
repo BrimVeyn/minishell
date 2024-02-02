@@ -6,7 +6,7 @@
 /*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 08:59:09 by nbardavi          #+#    #+#             */
-/*   Updated: 2024/02/01 18:16:38 by nbardavi         ###   ########.fr       */
+/*   Updated: 2024/02/02 09:34:30 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ char	*heredoc(t_pipe *d_pipe, t_tok *d_token, t_env *denv, int *i)
 	f_name = h_create_file(d_pipe);
 	cut_here(d_token, i);
 	save = h_redo(d_pipe, d_token, limiter);
-	printf("heredoc: f_name: %s\n", f_name);
 	if (save == NULL)
 		return (close(d_pipe->heredoc), free(limiter), f_name);
 	sasave = ft_strdup(save);
@@ -77,6 +76,5 @@ char	*h_handle(t_pipe *d_pipe, t_tok *d_token, t_env *denv, int *i)
 	d_pipe->h_trigger = 0;
 	d_pipe->h_cpt = 0;
 	temp = heredoc(d_pipe, d_token, denv, i);
-	printf("h_handle: f_name :%s\n", temp);
 	return (temp);
 }
