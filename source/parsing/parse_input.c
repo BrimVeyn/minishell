@@ -84,6 +84,7 @@ t_tok	parse_input(char *input, t_env *denv)
 	char	**heredoc;
 
 	(void) denv;
+  (void) heredoc;
 	heredoc = NULL;
 	if (ft_strchr(input, '\n'))
 	{
