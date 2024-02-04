@@ -23,6 +23,16 @@ int	ms_wlcmd(char *input)
 	return (ERROR);
 }
 
+int ms_wlcmdtok(char *input)
+{
+	if (ms_tiktok(input).type == D_AL
+	|| ms_tiktok(input).type == S_AL
+	|| ms_tiktok(input).type == D_AR
+	|| ms_tiktok(input).type == S_AR)
+		return (TRUE);
+	return (ERROR);
+}
+
 
 int	ms_wltoken(char *input)
 {
@@ -57,14 +67,14 @@ int		count_tokens(char *input)
 			q[0] ^= (input[i] == '\"');
 			while(input[i] && q[0])
             {
+                (i)++;
 				q[0] ^= (input[i] == '\"');
-				i++;
             }
 			q[1] ^= (input[i] == '\'');
 			while(input[i] && q[1])
             {
+                (i)++;
 				q[1] ^= (input[i] == '\'');
-				i++;
             }
 			trigger = 1;
 			i++;

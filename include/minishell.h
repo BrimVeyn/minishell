@@ -349,6 +349,7 @@ int						tild_index(char *word);
 char ***ms_split(t_tok *tdata, t_env *denv, char *input);
 int	ms_wlcmd(char *input);
 int	ms_wltoken(char *input);
+int ms_wlcmdtok(char *input);
 
 
 
