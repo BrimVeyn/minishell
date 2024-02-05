@@ -45,6 +45,14 @@ int	ms_wltoken(char *input)
 	return (ERROR);
 }
 
+int ms_wlp(char *input)
+{
+    if (ms_tiktok(input).type == P_O
+        || ms_tiktok(input).type == P_C)
+        return (TRUE);
+    return (ERROR);
+}
+
 int		count_tokens(char *input)
 {
 	int	i;
