@@ -6,7 +6,7 @@
 /*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 10:38:01 by nbardavi          #+#    #+#             */
-/*   Updated: 2024/02/01 17:22:08 by nbardavi         ###   ########.fr       */
+/*   Updated: 2024/02/05 13:31:52 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ void	handle_cmd_pipe(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
 
 	p_here = check_here(d_token->tokens, *i);
 	if (*i < d_token->t_size)
-		if (cmd_redi(d_token, d_pipe, i, 0) == 1)
+		if (cmd_redi(d_token, d_pipe, denv, i) == 1)
 			return ;
 	if (p_here > -1)
 		cmd_here(d_token, d_pipe, denv, i);
@@ -85,19 +85,14 @@ void	handle_cmd_pipe(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
 
 void	pipe_parse(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
 {
-	if (d_token->type[*i] == D_AL)
-		handle_d_al(d_token, d_pipe, denv, i);
-	else if (d_token->type[*i] == S_AL)
-		b_redi(d_token, d_pipe, *i);
-	else if ((d_token->type[*i] == CMD && d_pipe->skip_and == 0)
-		|| d_token->type[*i] == WRONG || d_token->type[*i] == BUILTIN)
-		handle_cmd_pipe(d_token, d_pipe, denv, i);
-	else if (d_token->type[*i] == P_O)
+	if (d_token->type[*i][0] == P_O && d_pipe->t_r == 0)
 		handle_po(d_token, d_pipe, denv, i);
-	else if (d_token->type[*i] == P_C)
+	else if (d_token->type[*i][0] == P_C && d_pipe->t_r == 0)
 		handle_pc(d_pipe);
-	else if (d_token->type[*i] == AND)
+	else if (d_token->type[*i][0] == AND)
 		handle_and(d_pipe);
-	else if (d_token->type[*i] == OR)
+	else if (d_token->type[*i][0] == OR)
 		handle_or(d_pipe);
+	else if (d_pipe->skip_and == 0)
+		handle_cmd_pipe(d_token, d_pipe, denv, i);
 }

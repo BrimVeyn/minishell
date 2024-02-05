@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main_exec.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
+/*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 14:28:00 by nbardavi          #+#    #+#             */
-/*   Updated: 2024/02/02 11:23:32 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/02/05 13:32:31 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ int	ms_main_pipe(t_tok d_token, t_env *denv)
 	while (i < d_token.t_size)
 	{
 		d_pipe.t_r = 0;
-		if (d_token.type[0] == -1)
+		if (d_token.type[0][0] == -1) //ATTENTION
 			break ;
 		parse_type(&d_token, &d_pipe, denv, &i);
 		i++;

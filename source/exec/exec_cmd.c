@@ -6,7 +6,7 @@
 /*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/26 14:41:53 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/02/02 10:16:08 by nbardavi         ###   ########.fr       */
+/*   Updated: 2024/02/05 13:26:30 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,9 @@ void	exec_id0(t_pipe *d_pipe, t_tok *d_token, int id, int *i)
 		d_pipe->failed = 1;
 	if (d_pipe->failed == 1 && *i < d_token->t_size)
 	{
-		if (d_token->type[*i + 1] != OR)
+		if (d_token->type[*i + 1][0] != OR)
 		{
-			if (d_token->type[*i + 1] == P_C)
+			if (d_token->type[*i + 1][0] == P_C)
 				if (d_pipe->p_cpt >= 0)
 					d_pipe->p_return[d_pipe->p_cpt] = 1;
 			d_pipe->or_return = 1;
@@ -45,7 +45,7 @@ void	exec_id0(t_pipe *d_pipe, t_tok *d_token, int id, int *i)
 void	c_execve(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
 {
 	signal(SIGQUIT, SIG_DFL);
-	if (d_token->type[*i] == BUILTIN)
+	if (d_token->type[*i][0] == BUILTIN)
 	{
 		handle_built(d_token, d_pipe, denv, i);
 		if (d_pipe->b_pipefd[1] > -1)
@@ -69,9 +69,9 @@ void	handle_signs(t_pipe *d_pipe, t_tok *d_token, int *i)
 		d_pipe->failed = 1;
 	if (d_pipe->failed == 1 && *i < d_token->t_size)
 	{
-		if (d_token->type[*i + 1] != OR)
+		if (d_token->type[*i + 1][0] != OR)
 		{
-			if (d_token->type[*i + 1] == P_C)
+			if (d_token->type[*i + 1][0] == P_C)
 				if (d_pipe->p_cpt >= 0)
 					d_pipe->p_return[d_pipe->p_cpt] = 1;
 			d_pipe->or_return = 1;
@@ -106,16 +106,6 @@ void	exec_cmd(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
 	{
 		exec_id0(d_pipe, d_token, id, i);
 		return ;
-	}
-	while (d_token->tokens[*i][j])
-	{
-		if (d_token->type[*i] == D_AL)
-		{
-			heredoc(d_pipe, d_token, denv, i);
-			d_token->tokens[*i][j + 1] = ft_sprintf("%fs%d", ".temp_heredoc",
-					d_pipe->nbr_h);
-		}
-		j++;
 	}
 	close(d_pipe->old_stdin);
 	close(d_pipe->old_stdout);

@@ -6,7 +6,7 @@
 /*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 14:40:30 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/02/05 10:05:54 by nbardavi         ###   ########.fr       */
+/*   Updated: 2024/02/05 12:18:01 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,19 +25,16 @@ void	handle_d_al(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
 
 void	parse_type(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
 {
-	if ((d_token->type[*i] == CMD && d_pipe->skip_and == 0)
-		|| (d_token->type[*i] == BUILTIN))
-		handle_cmd(d_token, d_pipe, denv, i);
-	else if (d_token->type[*i] == P_O && d_pipe->t_r == 0)
+	if (d_token->type[*i][0] == P_O && d_pipe->t_r == 0)
 		handle_po(d_token, d_pipe, denv, i);
-	else if (d_token->type[*i] == P_C && d_pipe->t_r == 0)
+	else if (d_token->type[*i][0] == P_C && d_pipe->t_r == 0)
 		handle_pc(d_pipe);
-	else if (d_token->type[*i] == WRONG)
-		handle_wrong(d_pipe);
-	else if (d_token->type[*i] == AND)
+	else if (d_token->type[*i][0] == AND)
 		handle_and(d_pipe);
-	else if (d_token->type[*i] == OR)
+	else if (d_token->type[*i][0] == OR)
 		handle_or(d_pipe);
+	else if (d_pipe->skip_and == 0)
+		handle_cmd(d_token, d_pipe, denv, i);
 }
 
 extern int	g_exitno;
@@ -49,9 +46,7 @@ void	w_exec_pipe(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
 	j = 0;
 	d_pipe->f_cpt = 0;
 	dup2(d_pipe->input, STDIN_FILENO);
-	while ((next_ope(d_token, *i) == PIPE || (previous_ope(d_token, *i) == PIPE
-				&& next_ope(d_token, *i) != PIPE) || d_token->type[*i] == PIPE)
-		&& d_token->t_size > *i)
+	while ((next_ope(d_token, *i) == PIPE || (previous_ope(d_token, *i) == PIPE && next_ope(d_token, *i) != PIPE) || d_token->type[*i][0] == PIPE) && d_token->t_size > *i)
 	{
 		pipe_parse(d_token, d_pipe, denv, i);
 		d_pipe->f_cpt++;
