@@ -6,7 +6,7 @@
 /*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 14:40:30 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/02/02 11:15:33 by nbardavi         ###   ########.fr       */
+/*   Updated: 2024/02/05 10:05:54 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,7 @@ void	handle_d_al(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
 
 void	parse_type(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
 {
-	if (d_token->type[*i] == D_AL)
-		handle_d_al(d_token, d_pipe, denv, i);
-	else if (d_token->type[*i] == S_AL)
-		b_redi(d_token, d_pipe, *i);
-	else if ((d_token->type[*i] == CMD && d_pipe->skip_and == 0)
+	if ((d_token->type[*i] == CMD && d_pipe->skip_and == 0)
 		|| (d_token->type[*i] == BUILTIN))
 		handle_cmd(d_token, d_pipe, denv, i);
 	else if (d_token->type[*i] == P_O && d_pipe->t_r == 0)
