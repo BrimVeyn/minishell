@@ -93,9 +93,9 @@ t_tok	parse_input(char *input, t_env *denv)
 			ft_printf("Token_[%d][%d] = %fs\n", i, j, tdata.tokens[i][j]);
         }
 	}
-	ms_add_path(&tdata, denv);
     if (ms_token_error(&tdata) == ERROR)
         tdata.type[0][0] = ERROR;
+	ms_add_path(&tdata, denv);
     ft_printf("-------------- AFTER PATH_ADD -----------\n");
 	for(int i = 0; tdata.tokens[i]; i++)
 	{

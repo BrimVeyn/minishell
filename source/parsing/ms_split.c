@@ -99,13 +99,20 @@ void ms_fill_cmd(char **split, char *input, int *j, int *type)
         if (len > 0)
         {
             split[i] = ft_substr(input, start, len);
-            type[i] = CMD;
+            if (!type[i])
+                type[i] = CMD;
             i++;
         }
         if (input[*j] && ms_wlcmdtok(&input[(*j)]) == TRUE)
         {
             split[i] = ft_strdup(ms_tiktok(&input[*j]).str);
             type[i] = ms_tiktok(&input[*j]).type;
+            if (ms_tiktok(&input[*j]).type == S_AL
+            || ms_tiktok(&input[*j]).type == S_AR
+            || ms_tiktok(&input[*j]).type == D_AR )
+                type[i + 1] = FAILE;
+            else
+             type[i + 1] = DELIMITER;
             i++;
             (*j) += ms_tiktok(&input[*j]).len;
         }
