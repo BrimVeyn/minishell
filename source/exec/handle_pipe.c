@@ -71,9 +71,9 @@ void	cmd_exec_pipe(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
 
 void	handle_cmd_pipe(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
 {
-	int	p_here;
+	// int	p_here;
 
-	p_here = check_here(d_token->tokens, *i);
+	// p_here = check_here(d_token->tokens, *i);
 	if (*i < d_token->t_size)
 		if (cmd_redi(d_token, d_pipe, denv, i) == 1)
 			return ;
