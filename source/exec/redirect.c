@@ -6,13 +6,15 @@
 /*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 10:35:07 by nbardavi          #+#    #+#             */
-/*   Updated: 2024/02/05 13:36:24 by nbardavi         ###   ########.fr       */
+/*   Updated: 2024/02/05 14:44:18 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
 extern int	g_exitno;
+
+char	**remove_first(char **string, int *type, int skip_type);
 
 static int	handle_append(char *token, t_pipe *d_pipe)
 {
@@ -55,9 +57,12 @@ static int	handle_input(char *token, t_pipe *d_pipe)
 
 static int	handle_heredoc(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
 {
+	int returnvalue;
 
 	d_pipe->h_trigger = 0;
 	d_pipe->h_cpt = 0;
+	returnvalue = heredoc(d_pipe, d_token, denv, i);
+	d_token->tokens[*i] = remove_first(d_token->tokens[*i], d_token->type[*i], DELIMITER);
 	return (heredoc(d_pipe, d_token, denv, i));
 }
 
@@ -70,26 +75,39 @@ int	cmd_return(t_pipe *d_pipe)
 	return (0);
 }
 
-char	**remove_redi(char **string, int *type)
+int		count_cmd(char **string, int *type)
 {
 	int i;
-	char	**new;
-	int		len;
+	int  len;
 
-	len = 0;
 	i = 0;
+	len = 0;
 	while(string[i])
 	{
 		if (type[i] == CMD || type[i] == BUILTIN)
 			len++;
 		i++;
 	}
-	new = ft_calloc(len + 1, sizeof(char *));
+	return(len);
+}
+
+char	**remove_first(char **string, int *type, int skip_type)
+{
+	int i;
+	char	**new;
+
 	i = 0;
+	//pas de +1 car on enleve une case
+	new = ft_calloc(ft_strlenlen(string), sizeof(char *)); 
+	while(string[i] && type[i] != skip_type)
+	{
+		if (type[i] != skip_type)
+			new[i] = ft_strdup(string[i]);
+	}
+	i++;
 	while(string[i])
 	{
-		if (type[i] == CMD || type[i] == BUILTIN)
-			new[i] = ft_strdup(string[i]);
+		new[i] = ft_strdup(string[i]);
 		i++;
 	}
 	free_tab(string);
@@ -98,29 +116,27 @@ char	**remove_redi(char **string, int *type)
 
 int	cmd_redi(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
 {
-	int		k;
 	int		j;
 
-	k = 0;
 	j = 0;
 	d_pipe->failure = 0;
-	j += (d_token->type[*i + 1][0] == P_C);
 	while (d_token->tokens[*i][j])
 	{
-		if (d_token->type[*i][k] == D_AR)
+		if (d_token->type[*i][j] == D_AR)
 			d_pipe->failure = handle_append(d_token->tokens[*i][j], d_pipe);
-		else if (d_token->type[*i][k] == S_AR)
+		else if (d_token->type[*i][j] == S_AR)
 			d_pipe->failure = handle_output(d_token->tokens[*i][j], d_pipe);
-		else if (d_token->type[*i][k] == S_AL)
+		else if (d_token->type[*i][j] == S_AL)
 			d_pipe->failure = handle_input(d_token->tokens[*i][j], d_pipe);
-		else if (d_token->type[*i][k] == D_AL)
-		{
-			d_pipe->failure = handle_heredoc(d_token, d_pipe, denv,i);
-		}
+		else if (d_token->type[*i][j] == D_AL)
+			d_pipe->failure = handle_heredoc(d_token, d_pipe, denv, i);
 		if (d_pipe->failure)
 			break ;
+		if (d_token->type[*i][j] != CMD && d_token->type[*i][j] != BUILTIN && d_token->type[*i][j] != WRONG)
+			d_token->tokens[*i] = remove_first(d_token->tokens[*i], d_token->type[*i], d_token->type[*i][j]);
+		if (d_token->type[*i][j] == D_AR || d_token->type[*i][j] == S_AR || d_token->type[*i][j] == S_AL)
+			d_token->tokens[*i] = remove_first(d_token->tokens[*i], d_token->type[*i], FAILE);
 		j++;
 	}
-	d_token->tokens[*i] = remove_redi(d_token->tokens[*i], d_token->type[*i]);
 	return (cmd_return(d_pipe));
 }

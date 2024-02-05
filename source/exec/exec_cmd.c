@@ -6,7 +6,7 @@
 /*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/26 14:41:53 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/02/05 13:26:30 by nbardavi         ###   ########.fr       */
+/*   Updated: 2024/02/05 14:03:09 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,10 +95,8 @@ int	check_nf(t_tok *dt, t_pipe *dp, t_env *dv, int *i)
 
 void	exec_cmd(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
 {
-	// int	j;
 	int	id;
 
-	// j = 0;
 	if (check_nf(d_token, d_pipe, denv, i) == 1)
 		return ;
 	id = fork();
