@@ -6,7 +6,7 @@
 /*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 08:59:09 by nbardavi          #+#    #+#             */
-/*   Updated: 2024/02/05 10:29:27 by nbardavi         ###   ########.fr       */
+/*   Updated: 2024/02/05 12:19:47 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int		heredoc(t_pipe *d_pipe, t_tok *dt, t_env *denv, int *i)
 	cut_here(dt, i);
 	save = h_redo(d_pipe, dt, limiter);
 	if (save == NULL)
-		return (close(d_pipe->heredoc), free(limiter), 0);
+		return (close(d_pipe->heredoc), free(limiter), 1);
 	sasave = ft_strdup(save);
 	if (d_pipe->h_trigger == 0)
 		save = ft_sprintf("%fs\n%s%fs", ms_getlast(denv), save, limiter);
@@ -75,12 +75,3 @@ void	t_heredoc(t_tok *d_token, int *i, char *limiter)
 	g_exitno = 0;
 }
 
-char	*h_handle(t_pipe *d_pipe, t_tok *d_token, t_env *denv, int *i)
-{
-	char	*temp;
-
-	d_pipe->h_trigger = 0;
-	d_pipe->h_cpt = 0;
-	temp = heredoc(d_pipe, d_token, denv, i);
-	return (temp);
-}
