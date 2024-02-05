@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
+/*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 14:59:20 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/02/02 16:16:23 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/02/05 12:20:03 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -373,7 +373,7 @@ void					cmd_pipe(t_tok *d_token, t_pipe *d_pipe, t_env *denv,
 							int *i);
 void					cmd_here(t_tok *d_token, t_pipe *d_pipe, t_env *denv,
 							int *i);
-int						cmd_redi(t_tok *d_token, t_pipe *d_pipe, int *i, int j);
+int						cmd_redi(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i);
 void					cmd_reset_fd(t_pipe *d_pipe);
 void					handle_cmd(t_tok *d_token, t_pipe *d_pipe, t_env *denv,
 							int *i);
@@ -422,8 +422,8 @@ char					*h_exec(t_pipe *d_pipe, char *save, char *limiter);
 char					*h_redo(t_pipe *d_pipe, t_tok *d_token, char *limiter);
 char					*h_handle(t_pipe *d_pipe, t_tok *d_token, t_env *denv,
 							int *i);
-char					*heredoc(t_pipe *d_pipe, t_tok *d_token, t_env *denv,
-							int *i);
+int						heredoc(t_pipe *d_pipe, t_tok *dt, t_env *denv, int *i);
+
 void					t_heredoc(t_tok *d_token, int *i, char *limiter);
 
 char					*h_create_file(t_pipe *d_pipe);

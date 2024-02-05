@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_input.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
+/*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 11:22:39 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/02/02 16:23:14 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/02/05 13:28:06 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,6 @@ t_tokvar	ms_tiktok(char *ptr)
 int ms_token_error(t_tok *tdata)
 {
     int i;
-    int j;
 
     i = 0;
     while (tdata->tokens[i])
