@@ -78,22 +78,22 @@ char	**get_delimiters(char ***tokens, int *type)
 	return (delimiters);
 }
 
-int	missing_delimiter_check(t_tok *tdata)
-{
-	char	**delimiters;
-	int		i;
-
-	if (ms_is_empty(tdata->tokens) == TRUE)
-		return (TRUE);
-	delimiters = get_delimiters(tdata->tokens, tdata->type);
-	i = 0;
-	while (delimiters[i])
-	{
-		t_heredoc(tdata, 0, delimiters[i]);
-		i++;
-	}
-	fd_printf(2, "minishell: syntax error near unexpected token `newline'\n");
-	g_exitno = 2;
-	tdata->type[0] = WRONG;
-	return (ERROR);
-}
+// int	missing_delimiter_check(t_tok *tdata)
+// {
+// 	char	**delimiters;
+// 	int		i;
+//
+// 	if (ms_is_empty(tdata->tokens) == TRUE)
+// 		return (TRUE);
+// 	delimiters = get_delimiters(tdata->tokens, tdata->type);
+// 	i = 0;
+// 	while (delimiters[i])
+// 	{
+// 		t_heredoc(tdata, 0, delimiters[i]);
+// 		i++;
+// 	}
+// 	fd_printf(2, "minishell: syntax error near unexpected token `newline'\n");
+// 	g_exitno = 2;
+// 	tdata->type[0] = WRONG;
+// 	return (ERROR);
+// }

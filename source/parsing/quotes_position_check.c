@@ -20,30 +20,30 @@ int	ms_quotes_whitelist(int type)
 	return (ERROR);
 }
 
-int	quotes_position_check(t_tok *tdata)
-{
-	int	i;
-
-	i = 0;
-	while (tdata->tokens[i])
-	{
-		if ((tdata->type[i] == P_O && i != 0) && (i > 0
-				&& ms_quotes_whitelist(tdata->type[i - 1]) == ERROR))
-		{
-			fd_printf(2,
-				"minishell: syntax error near unexpected token `%fs'\n",
-				tdata->tokens[i + 1][0]);
-			return (ERROR);
-		}
-		if ((tdata->type[i] == P_C && i != tdata->t_size - 1) && (i > 0
-				&& ms_quotes_whitelist(tdata->type[i + 1]) == ERROR))
-		{
-			fd_printf(2,
-				"minishell: syntax error near unexpected token `%fs'\n",
-				tdata->tokens[i + 1][0]);
-			return (ERROR);
-		}
-		i++;
-	}
-	return (TRUE);
-}
+// int	quotes_position_check(t_tok *tdata)
+// {
+// 	int	i;
+//
+// 	i = 0;
+// 	while (tdata->tokens[i])
+// 	{
+// 		if ((tdata->type[i] == P_O && i != 0) && (i > 0
+// 				&& ms_quotes_whitelist(tdata->type[i - 1]) == ERROR))
+// 		{
+// 			fd_printf(2,
+// 				"minishell: syntax error near unexpected token `%fs'\n",
+// 				tdata->tokens[i + 1][0]);
+// 			return (ERROR);
+// 		}
+// 		if ((tdata->type[i] == P_C && i != tdata->t_size - 1) && (i > 0
+// 				&& ms_quotes_whitelist(tdata->type[i + 1]) == ERROR))
+// 		{
+// 			fd_printf(2,
+// 				"minishell: syntax error near unexpected token `%fs'\n",
+// 				tdata->tokens[i + 1][0]);
+// 			return (ERROR);
+// 		}
+// 		i++;
+// 	}
+// 	return (TRUE);
+// }

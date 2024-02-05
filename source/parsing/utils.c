@@ -24,30 +24,30 @@ char	*return_delimiter(t_tok *tdata, t_tokh *v, int *q)
 		return (tdata->tokens[v->j][0]);
 }
 
-void	extract_delimiter(char *input, t_tok *tdata, t_tokh *v)
-{
-	int	len;
-	int	q[2];
-
-	len = 0;
-	q[0] = 0;
-	q[1] = 1;
-	while (input[v->i] && ms_isws(input[v->i]))
-		v->i++;
-	while (input[v->i] && ((!ms_isws(input[v->i])
-				&& ms_tiktok(&input[v->i]).type == CMD) || (q[0] || q[1])))
-	{
-		q[0] ^= (input[v->i] == '\"');
-		q[1] ^= (input[v->i] == '\'');
-		len++;
-		v->i++;
-	}
-	tdata->tokens[v->j] = (char **)ft_calloc(2, sizeof(char *));
-	tdata->tokens[v->j][0] = ft_substr(input, v->i - len, len);
-	tdata->tokens[v->j][0] = return_delimiter(tdata, v, q);
-	tdata->type[v->j] = DELIMITER;
-	v->j++;
-}
+// void	extract_delimiter(char *input, t_tok *tdata, t_tokh *v)
+// {
+// 	int	len;
+// 	int	q[2];
+//
+// 	len = 0;
+// 	q[0] = 0;
+// 	q[1] = 1;
+// 	while (input[v->i] && ms_isws(input[v->i]))
+// 		v->i++;
+// 	while (input[v->i] && ((!ms_isws(input[v->i])
+// 				&& ms_tiktok(&input[v->i]).type == CMD) || (q[0] || q[1])))
+// 	{
+// 		q[0] ^= (input[v->i] == '\"');
+// 		q[1] ^= (input[v->i] == '\'');
+// 		len++;
+// 		v->i++;
+// 	}
+// 	tdata->tokens[v->j] = (char **)ft_calloc(2, sizeof(char *));
+// 	tdata->tokens[v->j][0] = ft_substr(input, v->i - len, len);
+// 	tdata->tokens[v->j][0] = return_delimiter(tdata, v, q);
+// 	tdata->type[v->j] = DELIMITER;
+// 	v->j++;
+// }
 
 char	*grep_word(char *input, t_tokh *v)
 {
