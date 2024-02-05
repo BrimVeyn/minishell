@@ -6,7 +6,7 @@
 /*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 10:38:01 by nbardavi          #+#    #+#             */
-/*   Updated: 2024/02/05 13:31:52 by nbardavi         ###   ########.fr       */
+/*   Updated: 2024/02/05 13:52:22 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,8 +77,6 @@ void	handle_cmd_pipe(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
 	if (*i < d_token->t_size)
 		if (cmd_redi(d_token, d_pipe, denv, i) == 1)
 			return ;
-	if (p_here > -1)
-		cmd_here(d_token, d_pipe, denv, i);
 	if (d_pipe->skip_and == 0 && d_pipe->skip_or == 0 && d_pipe->or_return == 0)
 		cmd_exec_pipe(d_token, d_pipe, denv, i);
 }

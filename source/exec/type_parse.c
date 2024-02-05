@@ -6,22 +6,22 @@
 /*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 14:40:30 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/02/05 12:18:01 by nbardavi         ###   ########.fr       */
+/*   Updated: 2024/02/05 13:52:01 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-void	handle_d_al(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
-{
-	if (d_token->t_size > 2 && d_token->type[*i + 2] == CMD)
-	{
-		d_pipe->h_before = 2;
-		ms_place_h(d_token, h_handle(d_pipe, d_token, denv, i), *i);
-	}
-	else
-		t_heredoc(d_token, i, NULL);
-}
+// void	handle_d_al(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
+// {
+// 	if (d_token->t_size > 2 && d_token->type[*i + 2] == CMD)
+// 	{
+// 		d_pipe->h_before = 2;
+// 		ms_place_h(d_token, h_handle(d_pipe, d_token, denv, i), *i);
+// 	}
+// 	else
+// 		t_heredoc(d_token, i, NULL);
+// }
 
 void	parse_type(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
 {
