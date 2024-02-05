@@ -6,7 +6,7 @@
 /*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 08:59:09 by nbardavi          #+#    #+#             */
-/*   Updated: 2024/02/02 11:19:00 by nbardavi         ###   ########.fr       */
+/*   Updated: 2024/02/05 10:29:27 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,15 +17,15 @@ void	end_heredoc(char *save, char *sasave, t_pipe *d_pipe, t_env *denv)
 	ms_lst_b(&denv->history, ms_lst_new(ft_strdup(save)));
 	reset_history(denv);
 	fd_printf(d_pipe->heredoc, "%s", sasave);
+	d_pipe->input = d_pipe->heredoc;
 	add_history(save);
 	free(save);
-	close(d_pipe->heredoc);
 }
 
-char	*heredoc(t_pipe *d_pipe, t_tok *dt, t_env *denv, int *i)
+int		heredoc(t_pipe *d_pipe, t_tok *dt, t_env *denv, int *i)
 {
-	char	*save;
 	char	*f_name;
+	char	*save;
 	char	*limiter;
 	char	*sasave;
 
@@ -37,14 +37,14 @@ char	*heredoc(t_pipe *d_pipe, t_tok *dt, t_env *denv, int *i)
 	cut_here(dt, i);
 	save = h_redo(d_pipe, dt, limiter);
 	if (save == NULL)
-		return (close(d_pipe->heredoc), free(limiter), f_name);
+		return (close(d_pipe->heredoc), free(limiter), 0);
 	sasave = ft_strdup(save);
 	if (d_pipe->h_trigger == 0)
 		save = ft_sprintf("%fs\n%s%fs", ms_getlast(denv), save, limiter);
 	else
 		save = ft_sprintf("%fs", ms_getlast(denv));
 	end_heredoc(save, sasave, d_pipe, denv);
-	return (free(limiter), f_name);
+	return (free(limiter), 0);
 }
 
 extern int	g_exitno;
