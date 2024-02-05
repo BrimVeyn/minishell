@@ -35,55 +35,30 @@ t_tokvar	ms_tiktok(char *ptr)
 	return (init_tokvar("", CMD));
 }
 
-int	coherence_check_helper(char *input, t_tok *tdata, int *i)
-{
-	char	*tmp;
-	int		type;
+// int ms_token_error(t_tok *tdata)
+// {
+//     int i;
+//     int j;
+//
+//     i = 0;
+//     while (tdata->tokens[i])
+//     {
+//         if (ms_wltoken(tdata->tokens[i][0]) == TRUE)
+//         {
+//             if (i == 0 && tdata->tokens[i + 1] && ms_wltoken(tdata->tokens[i + 1][0]) == TRUE)
+//                 fd_printf(2, "minishell: parsing error near unexpected token `%fs'\n", tdata->tokens[i][0]);
+//         }
+//         i++;
+//     }
+//     return (TRUE);
+// }
 
-	tmp = ms_tiktok(&input[*i]).str;
-	type = ms_tiktok(&input[*i]).type;
-	*i += ms_tiktok(&input[*i]).len;
-	while (ms_isws(input[*i]))
-		(*i)++;
-	if ((type != P_C && type != P_O)
-		&& (!input[*i] || (input[*i] && ms_tiktok(&input[*i]).type != CMD)))
-	{
-		tdata->t_size = ERROR;
-		fd_printf(2, "minishell: syntax error near unexpected token `%fs'\n",
-			tmp);
-		return (ERROR);
-	}
-	return (TRUE);
-}
-
-int	coherence_check(char *input, t_tok *tdata)
-{
-	int	i;
-	int	q[2];
-
-	i = 0;
-	q[0] = 0;
-	q[1] = 0;
-	while (input[i])
-	{
-		while (input[i] && (ms_tiktok(&input[i]).type == CMD || (q[0] || q[1])))
-		{
-			q[0] ^= (input[i] == '\"');
-			q[1] ^= (input[i] == '\'');
-			i++;
-		}
-		if (input[i] && coherence_check_helper(input, tdata, &i) == ERROR)
-			return (ERROR);
-	}
-	return (TRUE);
-}
 
 t_tok	parse_input(char *input, t_env *denv)
 {
 	t_tok	tdata;
 	char	**heredoc;
 
-	(void) denv;
     (void) heredoc;
 	heredoc = NULL;
 	if (ft_strchr(input, '\n'))
@@ -102,26 +77,33 @@ t_tok	parse_input(char *input, t_env *denv)
 	tdata.tokens = ms_split(&tdata, denv, input);
 	for(int i = 0; tdata.tokens[i]; i++)
 	{
-		ft_printf("TYPE[%d] = ~[%d]~\n", i, tdata.type[i]);
 		for(int j = 0; tdata.tokens[i][j]; j++)
+        {
+            ft_printf("TYPE[%d][%d] = ~[%d]~\n", i, j, tdata.type[i][j]);
 			ft_printf("Token_[%d][%d] = %fs\n", i, j, tdata.tokens[i][j]);
+        }
 	}
     ms_expand(&tdata, denv);
     ft_printf("-------------- AFTER EXPAND -----------\n");
 	for(int i = 0; tdata.tokens[i]; i++)
 	{
-		ft_printf("TYPE[%d] = ~[%d]~\n", i, tdata.type[i]);
 		for(int j = 0; tdata.tokens[i][j]; j++)
+        {
+            ft_printf("TYPE[%d][%d] = ~[%d]~\n", i, j, tdata.type[i][j]);
 			ft_printf("Token_[%d][%d] = %fs\n", i, j, tdata.tokens[i][j]);
+        }
 	}
 	ms_add_path(&tdata, denv);
+    // if (ms_token_error(&tdata) == ERROR)
+    //     tdata.type[0] = ERROR;
     ft_printf("-------------- AFTER PATH_ADD -----------\n");
 	for(int i = 0; tdata.tokens[i]; i++)
 	{
-		ft_printf("TYPE[%d] = ~[%d]~\n", i, tdata.type[i]);
 		for(int j = 0; tdata.tokens[i][j]; j++)
+        {
+            ft_printf("TYPE[%d][%d] = ~[%d]~\n", i, j, tdata.type[i][j]);
 			ft_printf("Token_[%d][%d] = %fs\n", i, j, tdata.tokens[i][j]);
+        }
 	}
-	// if (missing_delimiter_check(&tdata) == ERROR)
 	return (tdata);
 }

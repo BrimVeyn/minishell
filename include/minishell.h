@@ -181,7 +181,7 @@ typedef struct s_tok
 {
 	char				***tokens;
 	int					t_size;
-	int					*type;
+	int					**type;
 	char				**heredoc;
 }						t_tok;
 
