@@ -84,7 +84,7 @@ t_tok	parse_input(char *input, t_env *denv)
 	char	**heredoc;
 
 	(void) denv;
-  (void) heredoc;
+    (void) heredoc;
 	heredoc = NULL;
 	if (ft_strchr(input, '\n'))
 	{
@@ -98,24 +98,30 @@ t_tok	parse_input(char *input, t_env *denv)
 		return (tdata);
 	}
 	tdata.t_size = count_tokens(input);
-	ft_printf("size = %d\n", tdata.t_size);
+	ft_printf("---------- SIZE = %d -----------\n", tdata.t_size);
 	tdata.tokens = ms_split(&tdata, denv, input);
-	// for(int i = 0; tdata.tokens[i]; i++)
-	// {
-	// 	ft_printf("TYPE[%d] = ~[%d]~\n", i, tdata.type);
-	// 	for(int j = 0; tdata.tokens[i][j]; j++)
-	// 		ft_printf("Token_[%d][%d] = %fs\n", tdata.tokens[i][j]);
-	// }
-	tdata.t_size = ERROR;
-	return (tdata);
-	// fill_token(input, &tdata, denv);
-	// if (quotes_position_check(&tdata) == ERROR)
-	// {
-	// 	tdata.type[0] = ERROR;
-	// 	return (tdata);
-	// }
-	// ms_add_path(&tdata, denv);
+	for(int i = 0; tdata.tokens[i]; i++)
+	{
+		ft_printf("TYPE[%d] = ~[%d]~\n", i, tdata.type[i]);
+		for(int j = 0; tdata.tokens[i][j]; j++)
+			ft_printf("Token_[%d][%d] = %fs\n", i, j, tdata.tokens[i][j]);
+	}
+    ms_expand(&tdata, denv);
+    ft_printf("-------------- AFTER EXPAND -----------\n");
+	for(int i = 0; tdata.tokens[i]; i++)
+	{
+		ft_printf("TYPE[%d] = ~[%d]~\n", i, tdata.type[i]);
+		for(int j = 0; tdata.tokens[i][j]; j++)
+			ft_printf("Token_[%d][%d] = %fs\n", i, j, tdata.tokens[i][j]);
+	}
+	ms_add_path(&tdata, denv);
+    ft_printf("-------------- AFTER PATH_ADD -----------\n");
+	for(int i = 0; tdata.tokens[i]; i++)
+	{
+		ft_printf("TYPE[%d] = ~[%d]~\n", i, tdata.type[i]);
+		for(int j = 0; tdata.tokens[i][j]; j++)
+			ft_printf("Token_[%d][%d] = %fs\n", i, j, tdata.tokens[i][j]);
+	}
 	// if (missing_delimiter_check(&tdata) == ERROR)
-	// 	return (tdata);
 	return (tdata);
 }

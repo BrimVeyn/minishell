@@ -54,6 +54,7 @@ SRC 			:= source/main.c source/prompt.c \
 				   source/parsing/path_parse.c \
 				   source/parsing/path_errors.c \
 				   source/parsing/ms_split.c \
+				   source/parsing/ms_expand.c \
 				   source/builtins/echo.c \
 				   source/parsing/get_env.c \
 				   source/parsing/missing_delimiter_check.c \
