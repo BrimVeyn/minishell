@@ -350,6 +350,8 @@ char ***ms_split(t_tok *tdata, t_env *denv, char *input);
 int	ms_wlcmd(char *input);
 int	ms_wltoken(char *input);
 int ms_wlcmdtok(char *input);
+void ms_expand(t_tok *tdata, t_env *denv);
+void	transform_split(char **split, t_env *denv);
 
 
 
