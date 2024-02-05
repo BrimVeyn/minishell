@@ -15,12 +15,21 @@
 void ms_expand(t_tok *tdata, t_env *denv)
 {
     int i;
+    int j;
     
     i = 0;
     while(tdata->tokens[i])
     {
-        if (tdata->type[i] == CMD)
-            transform_split(tdata->tokens[i], denv);
+        j = 0;
+        while (tdata->tokens[i][j])
+        {
+            if (tdata->type[i][j] == CMD)
+            {
+                transform_split(tdata->tokens[i], denv);
+                break;
+            }
+            j++;
+        }
         i++;
     }
 }

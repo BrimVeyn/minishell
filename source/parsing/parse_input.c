@@ -35,23 +35,23 @@ t_tokvar	ms_tiktok(char *ptr)
 	return (init_tokvar("", CMD));
 }
 
-// int ms_token_error(t_tok *tdata)
-// {
-//     int i;
-//     int j;
-//
-//     i = 0;
-//     while (tdata->tokens[i])
-//     {
-//         if (ms_wltoken(tdata->tokens[i][0]) == TRUE)
-//         {
-//             if (i == 0 && tdata->tokens[i + 1] && ms_wltoken(tdata->tokens[i + 1][0]) == TRUE)
-//                 fd_printf(2, "minishell: parsing error near unexpected token `%fs'\n", tdata->tokens[i][0]);
-//         }
-//         i++;
-//     }
-//     return (TRUE);
-// }
+int ms_token_error(t_tok *tdata)
+{
+    int i;
+    int j;
+
+    i = 0;
+    while (tdata->tokens[i])
+    {
+        if (ms_wltoken(tdata->tokens[i][0]) == TRUE)
+        {
+            if (i == 0 && tdata->tokens[i + 1] && ms_wltoken(tdata->tokens[i + 1][0]) == TRUE)
+                fd_printf(2, "minishell: parsing error near unexpected token `%fs'\n", tdata->tokens[i][0]);
+        }
+        i++;
+    }
+    return (TRUE);
+}
 
 
 t_tok	parse_input(char *input, t_env *denv)
@@ -94,8 +94,8 @@ t_tok	parse_input(char *input, t_env *denv)
         }
 	}
 	ms_add_path(&tdata, denv);
-    // if (ms_token_error(&tdata) == ERROR)
-    //     tdata.type[0] = ERROR;
+    if (ms_token_error(&tdata) == ERROR)
+        tdata.type[0][0] = ERROR;
     ft_printf("-------------- AFTER PATH_ADD -----------\n");
 	for(int i = 0; tdata.tokens[i]; i++)
 	{

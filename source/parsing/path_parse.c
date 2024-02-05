@@ -82,14 +82,14 @@ void	ms_add_path(t_tok *tdata, t_env *denv)
 		if (tdata->type[i] == CMD)
 		{
 			if (ms_check_builtin(tdata->tokens[i][0]) == TRUE)
-				tdata->type[i] = BUILTIN;
+				tdata->type[i][j] = BUILTIN;
 			else
 			{
                 while (ms_wlcmdtok(tdata->tokens[i][j]) == TRUE)
                     j+= 2;
 				tdata->tokens[i][j] = join_path(tdata->tokens[i][j], denv);
 				if (!ft_strncmp(tdata->tokens[i][j], "WRONG", 5))
-					tdata->type[i] = WRONG;
+					tdata->type[i][j] = WRONG;
 			}
 		}
 		i++;
