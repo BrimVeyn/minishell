@@ -73,9 +73,9 @@ void ms_fill_cmd(char **split, char *input, int *j, int *type)
 	while (input[*j] && ms_wltoken(&input[*j]) == ERROR)
 	{
         len = 0;
-        start = *j;
         while (input[(*j)] && ms_isws(input[*j]))
             (*j)++;
+        start = *j;
         while (input[(*j)] && ((!ms_isws(input[*j]) && ms_wlcmdtok(&input[*j]) == ERROR && ms_wltoken(&input[(*j)]) == ERROR)
             || (q[0] || q[1])))
         {
@@ -98,13 +98,15 @@ void ms_fill_cmd(char **split, char *input, int *j, int *type)
         }
         if (len > 0)
         {
-            split[i++] = ft_substr(input, start, len);
-            *type = CMD;
+            split[i] = ft_substr(input, start, len);
+            type[i] = CMD;
+            i++;
         }
         if (input[*j] && ms_wlcmdtok(&input[(*j)]) == TRUE)
         {
-            split[i++] = ft_strdup(ms_tiktok(&input[*j]).str);
-            *type = CMD;
+            split[i] = ft_strdup(ms_tiktok(&input[*j]).str);
+            type[i] = ms_tiktok(&input[*j]).type;
+            i++;
             (*j) += ms_tiktok(&input[*j]).len;
         }
         else if (input[(*j)] && ms_wltoken(&input[*j]) == ERROR)
@@ -115,7 +117,7 @@ void ms_fill_cmd(char **split, char *input, int *j, int *type)
 void ms_fill_token(char **split, char *input, int *j, int *type)
 {
     split[0] = ft_strdup(ms_tiktok(&input[*j]).str);
-    *type = ms_tiktok(&input[*j]).type;
+    type[0] = ms_tiktok(&input[*j]).type;
 }
 
 
@@ -134,7 +136,7 @@ char ***ms_split(t_tok *tdata, t_env *denv, char *input)
 	wc = 0;
     ft_printf("----------------------------------------------\n");
 	split = (char ***) ft_calloc(tdata->t_size + 1, sizeof(char **));
-	tdata->type = (int *) ft_calloc(tdata->t_size + 1, sizeof(int));
+	tdata->type = (int **) ft_calloc(tdata->t_size + 1, sizeof(int *));
 	while (i < tdata->t_size)
 	{
         d_value = 0;
@@ -147,10 +149,11 @@ char ***ms_split(t_tok *tdata, t_env *denv, char *input)
             j += ms_tiktok(&input[j]).len;
         }
 		split[i] = (char **) ft_calloc(wc + d_value + 1, sizeof(char *));
+		tdata->type[i] = (int *) ft_calloc(wc + d_value + 1, sizeof(int));
         if (wc)
-            ms_fill_cmd(split[i], input, &j_save, &tdata->type[i]);
+            ms_fill_cmd(split[i], input, &j_save, tdata->type[i]);
         else
-            ms_fill_token(split[i], input, &j_save, &tdata->type[i]);
+            ms_fill_token(split[i], input, &j_save, tdata->type[i]);
         while(ms_isws(input[j]))
             j++;
         ft_printf("__--__--__--__--__--__--__--__--__\n");
