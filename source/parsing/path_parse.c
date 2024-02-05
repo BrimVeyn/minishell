@@ -73,8 +73,10 @@ char	*join_path(char *cmd, t_env *denv)
 void	ms_add_path(t_tok *tdata, t_env *denv)
 {
 	int	i;
+    int j;
 
 	i = 0;
+    j = 0;
 	while (tdata->tokens[i])
 	{
 		if (tdata->type[i] == CMD)
@@ -83,8 +85,10 @@ void	ms_add_path(t_tok *tdata, t_env *denv)
 				tdata->type[i] = BUILTIN;
 			else
 			{
-				tdata->tokens[i][0] = join_path(tdata->tokens[i][0], denv);
-				if (!ft_strncmp(tdata->tokens[i][0], "WRONG", 5))
+                while (ms_wlcmdtok(tdata->tokens[i][j]) == TRUE)
+                    j+= 2;
+				tdata->tokens[i][j] = join_path(tdata->tokens[i][j], denv);
+				if (!ft_strncmp(tdata->tokens[i][j], "WRONG", 5))
 					tdata->type[i] = WRONG;
 			}
 		}
