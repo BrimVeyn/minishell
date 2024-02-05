@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirect.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
+/*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 10:35:07 by nbardavi          #+#    #+#             */
-/*   Updated: 2024/02/01 11:59:35 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/02/05 11:00:30 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,11 @@ static int	handle_input(char *token, t_pipe *d_pipe)
 	return (0);
 }
 
+static int	handle_heredoc(char *limiter, t_pipe *d_pipe)
+{
+	
+}
+
 int	cmd_return(t_pipe *d_pipe)
 {
 	if (d_pipe->failure)
@@ -73,14 +78,14 @@ int	cmd_redi(t_tok *d_token, t_pipe *d_pipe, int *i, int j)
 	j += (d_token->type[*i + 1] == P_C);
 	while (d_token->tokens[*i][j])
 	{
-		if (!ft_strcmp(d_token->tokens[*i][j], ">>"))
+		if (d_token->type[*i][k] == D_AR)
 			d_pipe->failure = handle_append(d_token->tokens[*i][++j], d_pipe);
-		else if (!ft_strcmp(d_token->tokens[*i][j], ">"))
+		else if (d_token->type[*i][k] == S_AR)
 			d_pipe->failure = handle_output(d_token->tokens[*i][++j], d_pipe);
-		else if (!ft_strcmp(d_token->tokens[*i][j], "<"))
+		else if (d_token->type[*i][k] == S_AL)
 			d_pipe->failure = handle_input(d_token->tokens[*i][++j], d_pipe);
-		else
-			new[k++] = ft_strdup(d_token->tokens[*i][j]);
+		else if (d_token->type[*i][k] == D_AL)
+			d_pipe->failure = handle_input(d_token->tokens[*i][++j], d_pipe);
 		if (d_pipe->failure)
 			break ;
 		j++;
