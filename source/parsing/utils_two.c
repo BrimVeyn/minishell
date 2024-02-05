@@ -36,5 +36,5 @@ void	check_emptyness(t_tok *tdata, char *input, t_tokh *v)
 	while (ms_isws(input[v->i]))
 		v->i++;
 	if (!input[v->i])
-		tdata->type[v->j - 1] = WRONG;
+		tdata->type[v->j - 1][0] = WRONG;
 }

@@ -93,31 +93,31 @@ char	**empty_token(char **token, char **to_add)
 	return (to_add);
 }
 
-char	**add_here_to_cmd(t_tok *tdata, char **token, char *input, t_tokh *v)
-{
-	char	**to_add;
-	char	**new;
-	char	*d_al;
-	char	*delimiter;
-
-	to_add = (char **)ft_calloc(3, sizeof(char *));
-	d_al = ft_strdup(ms_tiktok((&input[v->i])).str);
-	v->i += ms_tiktok(&input[v->i]).len;
-	while (ms_isws(input[v->i]))
-		v->i++;
-	delimiter = iterate_through_word(input, v);
-	if (!ft_strncmp("", delimiter, 2))
-	{
-		tdata->type[v->l] = WRONG;
-	}
-	if (!ft_strcmp("*", delimiter))
-	{
-		g_exitno = 1;
-		fd_printf(2, "minishell: '*': ambiguous redirect\n");
-		tdata->type[v->l] = WRONG;
-	}
-	to_add[0] = d_al;
-	to_add[1] = delimiter;
-	new = ms_joinstarstar(token, to_add);
-	return (free_tab(token), free_tab(to_add), new);
-}
+// char	**add_here_to_cmd(t_tok *tdata, char **token, char *input, t_tokh *v)
+// {
+// 	char	**to_add;
+// 	char	**new;
+// 	char	*d_al;
+// 	char	*delimiter;
+//
+// 	to_add = (char **)ft_calloc(3, sizeof(char *));
+// 	d_al = ft_strdup(ms_tiktok((&input[v->i])).str);
+// 	v->i += ms_tiktok(&input[v->i]).len;
+// 	while (ms_isws(input[v->i]))
+// 		v->i++;
+// 	delimiter = iterate_through_word(input, v);
+// 	if (!ft_strncmp("", delimiter, 2))
+// 	{
+// 		tdata->type[v->l] = WRONG;
+// 	}
+// 	if (!ft_strcmp("*", delimiter))
+// 	{
+// 		g_exitno = 1;
+// 		fd_printf(2, "minishell: '*': ambiguous redirect\n");
+// 		tdata->type[v->l] = WRONG;
+// 	}
+// 	to_add[0] = d_al;
+// 	to_add[1] = delimiter;
+// 	new = ms_joinstarstar(token, to_add);
+// 	return (free_tab(token), free_tab(to_add), new);
+// }

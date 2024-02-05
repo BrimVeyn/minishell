@@ -6,7 +6,7 @@
 /*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/30 12:33:30 by nbardavi          #+#    #+#             */
-/*   Updated: 2024/02/02 10:17:04 by nbardavi         ###   ########.fr       */
+/*   Updated: 2024/02/05 13:27:51 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	b_redi_out(t_tok *d_token, t_pipe *d_pipe, int i)
 	}
 	if (d_pipe->output != -1)
 		close(d_pipe->output);
-	if (d_token->type[i] == S_AR)
+	if (d_token->type[i][0] == S_AR)// ATTENTION
 		d_pipe->output = open(d_token->tokens[i + 1][0],
 				O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	else

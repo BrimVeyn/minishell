@@ -6,7 +6,7 @@
 /*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 13:04:03 by nbardavi          #+#    #+#             */
-/*   Updated: 2024/02/01 11:06:57 by nbardavi         ###   ########.fr       */
+/*   Updated: 2024/02/05 13:26:43 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	p_count(t_tok *d_token, t_pipe *d_pipe)
 	i = 0;
 	while (i < d_token->t_size)
 	{
-		if (d_token->type[i] == P_O)
+		if (d_token->type[i][0] == P_O)
 			d_pipe->p_nbr++;
 		i++;
 	}
