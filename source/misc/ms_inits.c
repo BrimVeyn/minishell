@@ -40,7 +40,7 @@ t_tok	init_tok(int tokcount, char **heredoc)
 	t_tok	self;
 
 	self.tokens = (char ***)ft_calloc(tokcount + 1, sizeof(char **));
-	self.type = (int *)ft_calloc(tokcount + 1, sizeof(int));
+	self.type = (int **)ft_calloc(tokcount + 1, sizeof(int *));
 	self.t_size = tokcount;
 	self.heredoc = heredoc;
 	return (self);
