@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
+/*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/23 15:16:24 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/02/01 15:01:18 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/02/06 14:29:52 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ int	main(int ac, char *av[], char *env[])
 	denv.debug = 0;
 	if (ac > 1 && ft_strcmp(av[1], "-d") == 0)
 		denv.debug = 1;
+	DPRINT("===Debug mode===\n");
 	prompt(&denv, 0);
 	exit(g_exitno);
 }

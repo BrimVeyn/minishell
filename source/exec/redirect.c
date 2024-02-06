@@ -6,7 +6,7 @@
 /*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 10:35:07 by nbardavi          #+#    #+#             */
-/*   Updated: 2024/02/06 13:55:54 by nbardavi         ###   ########.fr       */
+/*   Updated: 2024/02/06 16:15:49 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,10 +139,10 @@ void tprint(char ***string)
 	{
 		while(string[i][j])
 		{
-			printf("tokens[%d][%d] : %s\n", i, j, string[i][j]);
+			DPRINT("tokens[%d][%d] : %s\n", i, j, string[i][j]);
 			j++;
 		}
-		printf("\n");
+		DPRINT("\n");
 		j = 0;
 		i++;
 	}
@@ -158,9 +158,9 @@ int	cmd_redi(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
 	while (d_token->tokens[*i][j])
 	{
 		temp = d_token->type[*i][j];
-		// printf("===\n");
-		// printf("tokens actuel: %s\n", d_token->tokens[*i][j]);
-		// printf("type actuel: %d\n\n", d_token->type[*i][j]);
+		DPRINT("===\n");
+		DPRINT("tokens actuel: %s\n", d_token->tokens[*i][j]);
+		DPRINT("type actuel: %d\n\n", d_token->type[*i][j]);
 		if (d_token->type[*i][j] == D_AR)
 			d_pipe->failure = handle_append(d_token->tokens[*i][j + 1], d_pipe);
 		else if (d_token->type[*i][j] == S_AR)
@@ -169,17 +169,24 @@ int	cmd_redi(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
 			d_pipe->failure = handle_input(d_token->tokens[*i][j + 1], d_pipe);
 		else if (d_token->type[*i][j] == D_AL)
 			d_pipe->failure = handle_heredoc(d_token, d_pipe, denv, i);
+		else if (d_token->t_size > *i + 2 && d_token->type[*i + 1][0] == P_C && d_token->type[*i + 2][0] == S_AR)
+		{
+			DPRINT("> apres une )");
+			d_pipe->failure = handle_output(d_token->tokens[*i + 2][1], d_pipe);
+		}
 		if ((d_token->type[*i][j] != CMD && d_token->type[*i][j] != BUILTIN && d_token->type[*i][j] != WRONG) && !d_pipe->failure)
 			d_token->tokens[*i] = remove_first(d_token, d_token->type[*i][j], *i);
 		else
 			j++;
 		if ((temp == D_AR || temp == S_AR || temp == S_AL) && !d_pipe->failure)
 			d_token->tokens[*i] = remove_first(d_token, FAILE, *i);
-		// tprint(d_token->tokens);
+		tprint(d_token->tokens);
 		if (d_pipe->failure)
 			break ;
+		if (ft_strlenlen(d_token->tokens[*i]) == 0)
+			d_token->type[*i][0] = WRONG;
 	}
-	// printf("exit de cmd_redi\n");
-	// printf("===\n");
+	DPRINT("exit de cmd_redi\n");
+	DPRINT("===\n");
 	return (cmd_return(d_pipe));
 }
