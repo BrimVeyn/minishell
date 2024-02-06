@@ -25,7 +25,7 @@ void ms_expand(t_tok *tdata, t_env *denv)
         {
             if (tdata->type[i][j] == CMD)
             {
-                transform_split(tdata->tokens[i], denv);
+                transform_split(tdata->tokens[i], denv, tdata);
                 break;
             }
             j++;
