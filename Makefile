@@ -4,6 +4,7 @@ LIBFT			:= libftprintf/libftprintf.a
 CC 				:= cc
 LDFLAGS			:= -lreadline -lncurses -lX11
 CFLAGS 			:= -Wall -Werror -Wextra -g -fPIE
+DEBUG 			:= -DDEBUG
 SRC 			:= source/main.c source/prompt.c \
 				   source/ms_h_lst.c \
 				   source/signals.c \
@@ -105,6 +106,10 @@ WHITE			:= \033[0;97m
 
 all: $(NAME)
 
+debug:
+	@$(MAKE) fclean
+	@$(MAKE) all CFLAGS="$(CFLAGS) $(DEBUG)"
+
 $(NAME): $(LIBFT) $(OBJDIR) $(OBJ)
 	@echo "$(GREEN)Making binary: $(NAME)"
 	@printf "$(MAGENTA)"
@@ -135,4 +140,4 @@ $(LIBFT) :
 
 re: fclean all
 
-.PHONY: all clean fclean re 
+.PHONY: all clean fclean re debug
