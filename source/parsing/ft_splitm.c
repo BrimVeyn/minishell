@@ -58,43 +58,61 @@ void	empty_var_setter(t_env *denv, char **split, int *x)
 	}
 }
 
-void	transform_split(char **split, t_env *denv)
+void	transform_split(char **split, t_env *denv, t_tok *tdata)
 {
 	t_starlist	*strl;
 	int			x[2];
 
+    (void) tdata;
 	x[I] = 0;
 	strl = NULL;
+    int p_a;
+    int p_b;
+    char *tmp;
+    // int off;
+
+    // off = 0;
 	empty_var_setter(denv, split, x);
 	while (ms_setint(&x[J], ZERO), split[x[I]])
 	{
+        p_a = 0;
+        p_b = 0;
+        (void) p_a;
 		split[x[I]] = tild_expand(split[x[I]], denv);
+        ft_printf("----------------\n");
 		while (split[x[I]][x[J]])
 		{
 			if (split[x[I]][x[J]] != '\'' && split[x[I]][x[J]] != '\"')
-				ms_sab(&strl, ms_snew(r_env(ms_xt(split[x[I]], &x[J], ZERO),
-							denv), 0));
+            {
+                tmp = r_env(ms_xt(split[x[I]], &x[J], ZERO), denv);
+				ms_sab(&strl, ms_snew(tmp, 0));
+                p_b += (p_b != 0);
+                p_a = p_b;
+                p_b += ft_strlen(tmp) - 1;
+                // ft_printf("|_| p_a = %d, p_b = %d\n", p_a, p_b);
+            }
 			else if (split[x[I]][x[J]] == '\"')
-				ms_sab(&strl, ms_snew(r_env(ms_xt(split[x[I]], &x[J], '\"'),
-							denv), 0));
+            {
+                tmp = r_env(ms_xt(split[x[I]], &x[J], '\"'), denv);
+                ms_sab(&strl, ms_snew(tmp, 0));
+                p_b += (p_b != 0);
+                p_a = p_b;
+                p_b += ft_strlen(tmp) - 1;
+                // ft_printf("|\"| p_a = %d, p_b = %d\n", p_a, p_b);
+            }
 			else if (split[x[I]][x[J]] == '\'')
-				ms_sab(&strl, ms_snew(ms_xt(split[x[I]], &x[J], '\''), 0));
+            {
+                tmp = ms_xt(split[x[I]], &x[J], '\'');
+				ms_sab(&strl, ms_snew(tmp, 0));
+                p_b += (p_b != 0);
+                p_a = p_b;
+                p_b += ft_strlen(tmp) - 1;
+                // ft_printf("|\'| p_a = %d, p_b = %d\n", p_a, p_b);
+            }
 		}
 		free(split[x[I]]);
 		split[x[I]] = w_expand(ms_starjoin(&strl), denv);
 		ms_starclear(&strl);
 		x[I]++;
 	}
-}
-
-char	**ft_splitm(char *str, t_env *denv)
-{
-	char	**split;
-
-	split = (char **)ft_calloc(count_words(str) + 1, sizeof(char *));
-	if (!split)
-		return (dupdup());
-	fill_split(split, str);
-	transform_split(split, denv);
-	return (split);
 }

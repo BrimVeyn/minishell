@@ -300,9 +300,7 @@ int						ms_var_exist(char *var, t_env *denv);
 t_tokvar				ms_tiktok(char *ptr);
 t_dlist					*ms_wildcard_expand(t_starlist *current,
 							t_dlist *flist);
-void					check_emptyness(t_tok *tdata, char *input, t_tokh *v);
 void					fill_token(char *input, t_tok *tdata, t_env *denv);
-void					extract_delimiter(char *input, t_tok *tdata, t_tokh *v);
 void					ms_add_path(t_tok *tdata, t_env *denv);
 int						no_such_file(char *cmd);
 int						is_a_directory(char *cmd);
@@ -310,10 +308,6 @@ int						command_not_found(char *cmd);
 int						permission_denied(char *cmd);
 int						empty_var(char *cmd);
 char					*grep_word(char *input, t_tokh *v);
-char					**add_args_to_cmd(char *input, t_tokh *v, t_tok *tdata,
-							t_env *denv);
-char					**add_here_to_cmd(t_tok *tdata, char **token,
-							char *input, t_tokh *v);
 char					*r_dollarquestion(char *split, int *i);
 char					*r_dollar(char *split, int *i, int start, t_env *denv);
 char					*r_env(char *split, t_env *denv);
@@ -322,27 +316,15 @@ char					*tild_expand(char *word, t_env *denv);
 char					*w_expand(char *word, t_env *denv);
 char					**dupdup(void);
 int						missing_delimiter_check(t_tok *tdata);
-int						quotes_position_check(t_tok *tdata);
 int						quotes_parity_check(char *str);
-int						start_check(char *input, t_tokvar tokvar, int i);
-int						end_check(char *input, int i);
 int						parenthesis_check(char *input);
 int						delimiter_check(char *input);
 int						count_tokens(char *input);
-int						count_tokens_helper(int *x, char *input,
-							t_tokvar *tokvar);
-int						count_tokens_helper2(int *x, char *input,
-							t_tokvar *tokvar);
-void					count_tokens_helper3(int *x, char *input);
-int						count_tokens_helper4(int *x, char *input);
-void					count_tokens_helper5(int *x, int *quotes, char *input);
-void					count_tokens_helper6(int *x, char *input);
 int						count_words(char *str);
 void					fill_split(char **split, char *str);
 int						ms_wl2(char *ptr);
 int						f_lcmd_index(t_tok *tdata, int j);
 int						tild_index(char *word);
-
 
 
 
@@ -352,8 +334,7 @@ int	ms_wltoken(char *input);
 int ms_wlcmdtok(char *input);
 int ms_wlp(char *input);
 void ms_expand(t_tok *tdata, t_env *denv);
-void	transform_split(char **split, t_env *denv);
-
+void	transform_split(char **split, t_env *denv, t_tok *tdata);
 
 
 

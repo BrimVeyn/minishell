@@ -34,6 +34,7 @@ SRC 			:= source/main.c source/prompt.c \
 				   source/string_utils/ms_joinstarstar.c \
 				   source/string_utils/ms_tablen.c \
 				   source/string_utils/ms_replace_value.c \
+				   source/builtins/echo.c \
 				   source/builtins/b_exec.c \
 				   source/builtins/unset.c \
 				   source/builtins/export.c \
@@ -47,7 +48,6 @@ SRC 			:= source/main.c source/prompt.c \
 				   source/builtins/robin.c \
 				   source/parsing/parse_input.c \
 				   source/parsing/ft_splitm.c \
-				   source/parsing/fill_splitm.c \
 				   source/parsing/expands.c \
 				   source/parsing/utils_two.c \
 				   source/parsing/replace_env.c \
@@ -55,20 +55,11 @@ SRC 			:= source/main.c source/prompt.c \
 				   source/parsing/path_errors.c \
 				   source/parsing/ms_split.c \
 				   source/parsing/ms_expand.c \
-				   source/builtins/echo.c \
 				   source/parsing/get_env.c \
-				   source/parsing/missing_delimiter_check.c \
-				   source/parsing/quotes_position_check.c \
 				   source/parsing/quotes_parity_check.c \
-				   source/parsing/start_check.c \
-				   source/parsing/end_check.c \
-				   source/parsing/delimiter_check.c \
-				   source/parsing/fill_tokens.c \
-				   source/parsing/add_to_cmd.c \
 				   source/parsing/parenthesis_check.c \
 				   source/parsing/utils.c \
 				   source/parsing/count_tokens.c \
-				   source/parsing/count_tokens_helpers.c \
 				   source/exec/main_exec.c \
 				   source/exec/type_parse.c \
 				   source/exec/handle_cmds.c \
