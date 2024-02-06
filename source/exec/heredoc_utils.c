@@ -6,7 +6,7 @@
 /*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 10:40:47 by nbardavi          #+#    #+#             */
-/*   Updated: 2024/02/05 15:29:42 by nbardavi         ###   ########.fr       */
+/*   Updated: 2024/02/06 10:16:22 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,6 @@ char	*h_exec(t_pipe *d_pipe, char *save, char *limiter)
 	return (save);
 }
 
-// Si erreur, j bug ou free
 void	cut_here(t_tok *d_token, int *i)
 {
 	char	**new;
