@@ -12,12 +12,12 @@
 
 #include "../../include/minishell.h"
 
-int	ms_findstar(char *word)
+int	ms_findstar(char *word, t_tok *tdata)
 {
 	int	i;
 
 	i = -1;
-	while (word[++i])
+	while (word[++i] && ms_isinw_pos(i, tdata) == ERROR)
 		if (word[i] == '*')
 			return (TRUE);
 	return (ERROR);
