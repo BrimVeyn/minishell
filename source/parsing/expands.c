@@ -89,7 +89,7 @@ t_dlist	*ms_wildcard_expand(t_starlist *current, t_dlist *flist)
 	return (flist);
 }
 
-char	*w_expand(char *word, t_env *denv)
+char	*w_expand(char *word, t_env *denv, t_tok *tdata)
 {
 	t_dlist		*flist;
 	t_starlist	*slist;
@@ -97,12 +97,12 @@ char	*w_expand(char *word, t_env *denv)
 	int			dot_trigger;
 	char		*newword;
 
-	if (!word || ms_findstar(word) == ERROR)
+	if (!word || ms_findstar(word, tdata) == ERROR)
 		return (word);
 	dot_trigger = (word[0] != '.');
 	flist = get_flist(denv);
-	slist = ms_starsplit(word);
-	current = slist;
+	slist = ms_starsplit(word, tdata);
+    current = slist;
 	flist = ms_wildcard_expand(current, flist);
 	if (!flist)
 		return (ms_dlstclear(&flist), word);
