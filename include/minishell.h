@@ -182,6 +182,8 @@ typedef struct s_tok
 	char				***tokens;
 	int					t_size;
 	int					**type;
+    int                 *w_pos;
+    int                 w_size;
 	char				**heredoc;
 }						t_tok;
 
@@ -229,7 +231,7 @@ int						ms_dlstlen(t_dlist **flist);
 /*_.-=-._.-=-._.-=-._.-=-._.- STAR_LIST -._.-=-._.-=-._.-=-._.-=-._.-=-._*/
 
 t_starlist				*ms_snew(void *str, int i);
-t_starlist				*ms_starsplit(char *string);
+t_starlist				*ms_starsplit(char *s, t_tok *tdata);
 char					*ms_starjoin(t_starlist **slist);
 void					ms_sab(t_starlist **lst, t_starlist *new);
 void					ms_starclear(t_starlist **head);
@@ -254,7 +256,7 @@ int						ms_tablen(char **tab);
 int						ms_isws(char c);
 int						ms_tablen(char **tab);
 int						ms_strstrchr(char c, char *charset);
-int						ms_findstar(char *word);
+int	                    ms_findstar(char *word, t_tok *tdata);
 int						ft_strlenlen(char **str);
 
 /*_.-=-._.-=-._.-=-._.-=-._.- MISC -._.-=-._.-=-._.-=-._.-=-._.-=-._*/
@@ -313,7 +315,7 @@ char					*r_dollar(char *split, int *i, int start, t_env *denv);
 char					*r_env(char *split, t_env *denv);
 char					*ms_xt(char *split, int *j, char c);
 char					*tild_expand(char *word, t_env *denv);
-char					*w_expand(char *word, t_env *denv);
+char					*w_expand(char *word, t_env *denv, t_tok *tdata);
 char					**dupdup(void);
 int						missing_delimiter_check(t_tok *tdata);
 int						quotes_parity_check(char *str);
@@ -335,6 +337,7 @@ int ms_wlcmdtok(char *input);
 int ms_wlp(char *input);
 void ms_expand(t_tok *tdata, t_env *denv);
 void	transform_split(char **split, t_env *denv, t_tok *tdata);
+int ms_isinw_pos(int i, t_tok *tdata);
 
 
 

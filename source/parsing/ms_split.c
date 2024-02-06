@@ -141,14 +141,14 @@ char ***ms_split(t_tok *tdata, t_env *denv, char *input)
 	i = 0;
     j = 0;
 	wc = 0;
-    ft_printf("----------------------------------------------\n");
+    // ft_printf("----------------------------------------------\n");
 	split = (char ***) ft_calloc(tdata->t_size + 1, sizeof(char **));
 	tdata->type = (int **) ft_calloc(tdata->t_size + 1, sizeof(int *));
 	while (i < tdata->t_size)
 	{
         d_value = 0;
         j_save = j;
-		ft_printf("&input[%d] = %fs\n", j, &input[j]);
+		// ft_printf("&input[%d] = %fs\n", j, &input[j]);
 		wc = ms_count_word(input, &j);
         if (!wc)
         {
@@ -163,11 +163,11 @@ char ***ms_split(t_tok *tdata, t_env *denv, char *input)
             ms_fill_token(split[i], input, &j_save, tdata->type[i]);
         while(ms_isws(input[j]))
             j++;
-        ft_printf("__--__--__--__--__--__--__--__--__\n");
-        ft_printf("ALLOCATED SPLIT[%d] | R_SIZE = %d\n", i, wc + d_value);
-        ft_printf("__--__--__--__--__--__--__--__--__\n");
+        // ft_printf("__--__--__--__--__--__--__--__--__\n");
+        // ft_printf("ALLOCATED SPLIT[%d] | R_SIZE = %d\n", i, wc + d_value);
+        // ft_printf("__--__--__--__--__--__--__--__--__\n");
 		i++;
 	}
-    ft_printf("----------------------------------------------\n");
+    // ft_printf("----------------------------------------------\n");
 	return (split);
 }
