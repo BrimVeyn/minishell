@@ -30,11 +30,3 @@ char	**dupdup(void)
 	self[0] = ft_calloc(2, sizeof(char));
 	return (self);
 }
-
-void	check_emptyness(t_tok *tdata, char *input, t_tokh *v)
-{
-	while (ms_isws(input[v->i]))
-		v->i++;
-	if (!input[v->i])
-		tdata->type[v->j - 1][0] = WRONG;
-}

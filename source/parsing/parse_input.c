@@ -44,12 +44,13 @@ int ms_token_error(t_tok *tdata)
     {
         if (ms_wltoken(tdata->tokens[i][0]) == TRUE)
         {
-            if (tdata->tokens[i + 1] && ms_wltoken(tdata->tokens[i + 1][0]) == TRUE && ms_wlp(tdata->tokens[i][0]) == ERROR)
+            if (tdata->tokens[i + 1] && ms_wltoken(tdata->tokens[i + 1][0]) == TRUE && ms_tiktok(tdata->tokens[i][0]).type != P_C 
+                && ms_tiktok(tdata->tokens[i + 1][0]).type != P_O)
             {
                 fd_printf(2, "minishell: parsing error near unexpected token `%fs'\n", tdata->tokens[i + 1][0]);
                 return (ERROR);
             }
-            else if (!tdata->tokens[i + 1] && ms_wlp(tdata->tokens[i][0]) == ERROR)
+            else if (!tdata->tokens[i + 1] && ms_tiktok(tdata->tokens[i][0]).type != P_C)
             {
                 fd_printf(2, "minishell: parsing error near unexpected token `%fs'\n", tdata->tokens[i][0]);
                 return (ERROR);
@@ -71,10 +72,8 @@ int ms_newline_error(t_tok *tdata)
         j = 0;
         while (tdata->tokens[i][j])
         {
-            ft_printf("SALOPE DE PUTe\n");
             if (ms_wlcmdtok(tdata->tokens[i][j]) == TRUE)
             {
-                ft_printf("s =  %fs\n", tdata->tokens[i][j]);
                 if (tdata->tokens[i][j + 1] && ms_wlcmdtok(tdata->tokens[i][j + 1]) == TRUE)
                 {
                     fd_printf(2, "minishell: parsing error near unexpected token `%fs'\n", tdata->tokens[i][j + 1]);
@@ -93,7 +92,6 @@ int ms_newline_error(t_tok *tdata)
     return (TRUE);
 }
 
-
 t_tok	parse_input(char *input, t_env *denv)
 {
 	t_tok	tdata;
@@ -106,7 +104,7 @@ t_tok	parse_input(char *input, t_env *denv)
 		heredoc = ft_split(ft_strchr(input, '\n'), '\n');
 		input = ms_cut_at(input, '\n');
 	}
-	if (quotes_parity_check(input) == ERROR || parenthesis_check(input) == ERROR)
+	if (quotes_parity_check(input) == ERROR)
 	{
 		tdata.t_size = ERROR;
 		return (tdata);
@@ -132,7 +130,7 @@ t_tok	parse_input(char *input, t_env *denv)
 			ft_printf("Token_[%d][%d] = %fs\n", i, j, tdata.tokens[i][j]);
         }
 	}
-    if (ms_token_error(&tdata) == ERROR || ms_newline_error(&tdata) == ERROR)
+    if (ms_token_error(&tdata) == ERROR || ms_newline_error(&tdata) == ERROR || parenthesis_check(input) == ERROR)
     {
         tdata.t_size = ERROR;
         return (tdata);
