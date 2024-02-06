@@ -6,7 +6,7 @@
 /*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 14:59:20 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/02/05 12:20:03 by nbardavi         ###   ########.fr       */
+/*   Updated: 2024/02/06 14:28:37 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,12 @@
 # include <sys/wait.h>
 # include <time.h>
 # include <unistd.h>
+
+# ifdef DEBUG
+#  define DPRINT(...) printf(__VA_ARGS__)
+# else
+#  define DPRINT(...) (void)0
+# endif
 
 # define VIOLET "\001\e[38;2;189;147;249m\002"
 # define GREEN "\001\e[38;2;80;255;125m\002"
