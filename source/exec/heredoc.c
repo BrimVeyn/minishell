@@ -6,7 +6,7 @@
 /*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 08:59:09 by nbardavi          #+#    #+#             */
-/*   Updated: 2024/02/05 12:19:47 by nbardavi         ###   ########.fr       */
+/*   Updated: 2024/02/05 15:29:22 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,16 +24,15 @@ void	end_heredoc(char *save, char *sasave, t_pipe *d_pipe, t_env *denv)
 
 int		heredoc(t_pipe *d_pipe, t_tok *dt, t_env *denv, int *i)
 {
-	// char	*f_name;
+	char	*f_name;
 	char	*save;
 	char	*limiter;
 	char	*sasave;
 
-	if (d_pipe->h_before == 1)
-		limiter = ft_strdup(dt->tokens[*i][check_here(dt->tokens, *i) + 1]);
-	else
-		limiter = ft_strdup(dt->tokens[*i + 1][0]);
-	// f_name = h_create_file(d_pipe);
+	printf("---------- DEBUG HEREDOC----------\n");
+	limiter = ft_strdup(dt->tokens[*i][check_here(dt->tokens, *i) + 1]);
+	f_name = h_create_file(d_pipe);
+	printf("Limiter: %s\nFile_name: %s\n", limiter, f_name);
 	cut_here(dt, i);
 	save = h_redo(d_pipe, dt, limiter);
 	if (save == NULL)
