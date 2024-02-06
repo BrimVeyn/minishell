@@ -44,7 +44,7 @@ int ms_token_error(t_tok *tdata)
     i = 0;
     if (ms_wltoken(tdata->tokens[0][0]) == TRUE && ms_tiktok(tdata->tokens[0][0]).type != P_O)
     {
-        fd_printf(2, "minishell: syntax error near unexpected token `%fs'\n", tdata->tokens[i + 1][0]);
+        fd_printf(2, "minishell: syntax error near unexpected token `%fs'\n", tdata->tokens[0][0]);
         return (ERROR);
     }
     while (tdata->tokens[i])
