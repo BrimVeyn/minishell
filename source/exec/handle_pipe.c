@@ -6,7 +6,7 @@
 /*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 10:38:01 by nbardavi          #+#    #+#             */
-/*   Updated: 2024/02/05 13:52:22 by nbardavi         ###   ########.fr       */
+/*   Updated: 2024/02/06 13:55:16 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ void	cmd_exec_pipe(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
 		d_pipe->output = d_pipe->old_stdout;
 	if (d_pipe->input == -1)
 		d_pipe->input = d_pipe->old_stdin;
+	// printf("command[%d]: %s\n", *i, d_token->tokens[*i][0]);
 	exec_pipe(d_token, d_pipe, denv, i);
 	if (d_pipe->output == d_pipe->old_stdout)
 		d_pipe->output = -1;
@@ -55,9 +56,7 @@ void	cmd_exec_pipe(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
 	if (d_pipe->input != -1)
 	{
 		if (d_pipe->redi == 0)
-		{
 			dup2(d_pipe->old_stdin, STDIN_FILENO);
-		}
 		else
 			d_pipe->redi = 0;
 		d_pipe->input = -1;
@@ -71,9 +70,6 @@ void	cmd_exec_pipe(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
 
 void	handle_cmd_pipe(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
 {
-	// int	p_here;
-
-	// p_here = check_here(d_token->tokens, *i);
 	if (*i < d_token->t_size)
 		if (cmd_redi(d_token, d_pipe, denv, i) == 1)
 			return ;
@@ -91,6 +87,6 @@ void	pipe_parse(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
 		handle_and(d_pipe);
 	else if (d_token->type[*i][0] == OR)
 		handle_or(d_pipe);
-	else if (d_pipe->skip_and == 0)
+	else if (d_pipe->skip_and == 0 && d_token->type[*i][0] != PIPE)
 		handle_cmd_pipe(d_token, d_pipe, denv, i);
 }
