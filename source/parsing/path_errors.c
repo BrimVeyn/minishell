@@ -6,7 +6,7 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/30 16:01:11 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/01/30 16:04:54 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/02/07 15:20:54 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ extern int	g_exitno;
 
 int	no_such_file(char *cmd)
 {
-	if (access(cmd, X_OK) && ms_filetype(cmd) == TRUE)
+	if (access(cmd, F_OK) && ft_strchr(cmd, '/'))
 	{
 		fd_printf(2, "minishell: %fs: No such file or directory\n", cmd);
 		g_exitno = 127;
@@ -56,12 +56,5 @@ int	permission_denied(char *cmd)
 		g_exitno = 126;
 		return (free(cmd), ERROR);
 	}
-	return (TRUE);
-}
-
-int	empty_var(char *cmd)
-{
-	if (cmd[0] == -19)
-		return (ERROR);
 	return (TRUE);
 }

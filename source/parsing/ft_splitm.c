@@ -6,7 +6,7 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 14:40:00 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/02/07 11:17:14 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/02/07 15:52:43 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,8 +76,29 @@ char **ms_delindex(char **split, int i)
 	return (new);
 }
 
+char *ms_delimiter(char *delimiter)
+{
+	char *new;
+	int start;
+	int end;
+	int i;
 
-char	**transform_split(char **split, t_env *denv, t_tok *tdata)
+	start = 0;
+	end = ft_strlen(delimiter) - 1;
+	while (((delimiter[start] == '\"' && delimiter[end] == '\"') || (delimiter[start] == '\'' && delimiter[end] == '\'')) && end > start)
+	{
+		start += 1;
+		end -= 1;
+	}
+	new = ft_calloc(end - start + 1, sizeof(char));
+	i = 0;
+	while (start <= end)
+		new[i++] = delimiter[start++];
+	return (free(delimiter), new);
+}
+
+
+char	**transform_split(char **split, t_env *denv, t_tok *tdata, int index)
 {
 	t_starlist	*strl;
 	int			x[2];
@@ -93,6 +114,13 @@ char	**transform_split(char **split, t_env *denv, t_tok *tdata)
     // off = 0;
 	while (ms_setint(&x[J], ZERO), split[x[I]])
 	{
+		if (tdata->type[index][x[I]] == DELIMITER)
+        {
+			split[x[I]] = ms_delimiter(split[x[I]]);
+			x[I]++;
+			if (!split[x[I]])
+				break;
+        }
         tdata->w_size = 0;
         tdata->w_pos = NULL;
         p_a = 0;
