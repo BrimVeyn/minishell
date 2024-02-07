@@ -6,7 +6,7 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 14:59:20 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/02/07 11:15:08 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/02/07 17:26:29 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -340,9 +340,10 @@ char ***ms_split(t_tok *tdata, t_env *denv, char *input);
 int	ms_wlcmd(char *input);
 int	ms_wltoken(char *input);
 int ms_wlcmdtok(char *input);
+int ms_typecmdtok(int type);
 int ms_wlp(char *input);
 void ms_expand(t_tok *tdata, t_env *denv);
-char	**transform_split(char **split, t_env *denv, t_tok *tdata);
+char	**transform_split(char **split, t_env *denv, t_tok *tdata, int index);
 int ms_isinw_pos(int i, t_tok *tdata);
 
 
