@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ms_split.c                                         :+:      :+:    :+:   */
+/*   ms_expand.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 16:07:37 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/02/02 16:30:53 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/02/07 11:16:47 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,9 @@ void ms_expand(t_tok *tdata, t_env *denv)
         {
             if (tdata->type[i][j] == CMD)
             {
-                transform_split(tdata->tokens[i], denv, tdata);
+                tdata->tokens[i] = transform_split(tdata->tokens[i], denv, tdata);
+				if (!ft_strcmp(tdata->tokens[i][0], "WRONG"))
+					tdata->type[i][0] = WRONG;
                 break;
             }
             j++;
