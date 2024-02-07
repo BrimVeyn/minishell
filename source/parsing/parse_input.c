@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_input.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
+/*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 11:22:39 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/02/05 13:28:06 by nbardavi         ###   ########.fr       */
+/*   Updated: 2024/02/07 11:15:28 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,27 +37,49 @@ t_tokvar	ms_tiktok(char *ptr)
 	return (init_tokvar("", CMD));
 }
 
+int ms_typecmdtok(int type)
+{
+	if (type == D_AL
+	|| type == S_AL
+	|| type == D_AR
+	|| type == S_AR)
+		return (TRUE);
+	return (ERROR);
+}
+
+
+int	ms_typetok(int type)
+{
+	if (type == P_O
+	|| type == P_C
+	|| type == PIPE
+	|| type == AND
+	|| type == OR)
+		return (TRUE);
+	return (ERROR);
+}
+
 int ms_token_error(t_tok *tdata)
 {
     int i;
 
     i = 0;
-    if (ms_wltoken(tdata->tokens[0][0]) == TRUE && ms_tiktok(tdata->tokens[0][0]).type != P_O)
+    if (ms_typetok(tdata->type[0][0]) == TRUE && ms_typetok(tdata->type[0][0]) != P_O)
     {
         fd_printf(2, "minishell: syntax error near unexpected token `%fs'\n", tdata->tokens[0][0]);
         return (ERROR);
     }
     while (tdata->tokens[i])
     {
-        if (ms_wltoken(tdata->tokens[i][0]) == TRUE)
+        if (ms_typetok(tdata->type[i][0]) == TRUE)
         {
-            if (tdata->tokens[i + 1] && ms_wltoken(tdata->tokens[i + 1][0]) == TRUE && ms_tiktok(tdata->tokens[i][0]).type != P_C 
-                && ms_tiktok(tdata->tokens[i + 1][0]).type != P_O)
+            if (tdata->tokens[i + 1] && ms_typetok(tdata->type[i + 1][0]) == TRUE && ms_typetok(tdata->type[i][0]) != P_C 
+                && ms_typetok(tdata->type[i + 1][0]) != P_O)
             {
                 fd_printf(2, "minishell: syntax error near unexpected token `%fs'\n", tdata->tokens[i + 1][0]);
                 return (ERROR);
             }
-            else if (!tdata->tokens[i + 1] && ms_tiktok(tdata->tokens[i][0]).type != P_C)
+            else if (!tdata->tokens[i + 1] && tdata->type[i][0] != P_C)
             {
                 fd_printf(2, "minishell: syntax error near unexpected token `%fs'\n", tdata->tokens[i][0]);
                 return (ERROR);
@@ -79,9 +101,9 @@ int ms_newline_error(t_tok *tdata)
         j = 0;
         while (tdata->tokens[i][j])
         {
-            if (ms_wlcmdtok(tdata->tokens[i][j]) == TRUE)
+            if (ms_typecmdtok(tdata->type[i][j]) == TRUE)
             {
-                if (tdata->tokens[i][j + 1] && ms_wlcmdtok(tdata->tokens[i][j + 1]) == TRUE)
+                if (tdata->tokens[i][j + 1] && ms_typecmdtok(tdata->type[i][j + 1]) == TRUE)
                 {
                     fd_printf(2, "minishell: syntax error near unexpected token `%fs'\n", tdata->tokens[i][j + 1]);
                     return (ERROR);

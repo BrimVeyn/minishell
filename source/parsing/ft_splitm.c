@@ -6,57 +6,13 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 14:40:00 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/02/02 09:44:27 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/02/07 11:17:14 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
 extern int	g_exitno;
-
-int	check_dollar(char **split, t_env *denv)
-{
-	char	*tmp;
-
-	tmp = NULL;
-	if (split[0] && split[0][0] == '$')
-		tmp = r_env(split[0], denv);
-	if (tmp && ft_strlen(tmp) == 0)
-		return (free(tmp), ERROR);
-	return (TRUE);
-}
-
-void	move_split_index(char **split, int *flag)
-{
-	int	i;
-
-	i = 1;
-	if (split[i] && *flag == 1)
-	{
-		while (split[i])
-		{
-			split[i - 1] = split[i];
-			i++;
-		}
-		split[i - 1] = NULL;
-	}
-}
-
-void	empty_var_setter(t_env *denv, char **split, int *x)
-{
-	int	flag;
-
-	flag = 0;
-	if (check_dollar(split, denv) == ERROR)
-	{
-		flag = 1;
-		free(split[x[I]]);
-		split[x[I]] = ft_strdup_char(-19);
-		move_split_index(split, &flag);
-		if (split[1] == NULL)
-			return ;
-	}
-}
 
 int *ms_intab(int *w_pos, int *w_size, int p_a, int p_b)
 {
@@ -88,9 +44,40 @@ void print_tab(int *w_pos, int w_size)
         ft_printf("W_pos[%d] = %d\n", i, w_pos[i]);
 }
 
+char **ms_delindex(char **split, int i)
+{
+	char **new;
+	int	j;
+	int k;
+
+	j = 0;
+	k = 0;
+	new  = ft_calloc(ft_strlenlen(split) + 1, sizeof(char *));
+	// ft_printf("LEN = %d\n", ft_strlenlen(split) + 1);
+	while (split[j] && j != i)
+	{
+		// ft_printf("avant i\n");
+		new[k++] = ft_strdup(split[j]);
+		j++;
+	}
+	j++;
+	while (split[j])
+	{
+		new[k++] = ft_strdup(split[j]);
+		// ft_printf("apres i, new[%d] = %fs\n", k - 1, new[k - 1]);
+		j++;
+	}
+	if (!new[0])
+    {
+		// ft_printf("ICI\n");
+		new[0] = ft_strdup("WRONG");
+    }
+	free_tab(split);
+	return (new);
+}
 
 
-void	transform_split(char **split, t_env *denv, t_tok *tdata)
+char	**transform_split(char **split, t_env *denv, t_tok *tdata)
 {
 	t_starlist	*strl;
 	int			x[2];
@@ -104,7 +91,6 @@ void	transform_split(char **split, t_env *denv, t_tok *tdata)
     // int off;
 
     // off = 0;
-	empty_var_setter(denv, split, x);
 	while (ms_setint(&x[J], ZERO), split[x[I]])
 	{
         tdata->w_size = 0;
@@ -149,6 +135,20 @@ void	transform_split(char **split, t_env *denv, t_tok *tdata)
 		free(split[x[I]]);
 		split[x[I]] = w_expand(ms_starjoin(&strl), denv, tdata);
 		ms_starclear(&strl);
+		free(tdata->w_pos);
 		x[I]++;
 	}
+	int i = 0;
+	while (split[i])
+    {
+		if (ft_strlen(split[i]) == 0)
+        {
+			// ft_printf("I = %d\n", i);
+			split = ms_delindex(split, i);
+			// ft_printf("split[0] = %fs\n", split[0]);
+        }
+		else
+			i++;
+    }
+	return (split);
 }

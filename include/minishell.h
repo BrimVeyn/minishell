@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
+/*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 14:59:20 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/02/06 14:28:37 by nbardavi         ###   ########.fr       */
+/*   Updated: 2024/02/07 11:15:08 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -342,7 +342,7 @@ int	ms_wltoken(char *input);
 int ms_wlcmdtok(char *input);
 int ms_wlp(char *input);
 void ms_expand(t_tok *tdata, t_env *denv);
-void	transform_split(char **split, t_env *denv, t_tok *tdata);
+char	**transform_split(char **split, t_env *denv, t_tok *tdata);
 int ms_isinw_pos(int i, t_tok *tdata);
 
 
