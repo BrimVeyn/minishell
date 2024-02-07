@@ -6,7 +6,7 @@
 /*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 14:09:49 by nbardavi          #+#    #+#             */
-/*   Updated: 2024/02/06 16:13:44 by nbardavi         ###   ########.fr       */
+/*   Updated: 2024/02/07 15:37:48 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,33 +37,32 @@ void	p_parse_type(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
 		handle_cmd(d_token, d_pipe, denv, i);
 }
 
-void	p_redi(t_tok *d_token, t_pipe *d_pipe, int *i)
-{
-	int	j;
-
-	j = 0;
-	while (d_token->type[*i + j][0] != P_C)
-		j++;
-	if (d_token->t_size > *i + j +  1 && d_token->type[*i + j + 1][0] == S_AR) // ATTENTION
-	{
-		d_pipe->p_redi_fd = open(d_token->tokens[*i + 1 + j][1],
-				O_WRONLY | O_CREAT | O_TRUNC, 0644);
-		dup2(d_pipe->p_redi_fd, STDOUT_FILENO);
-	}
-	else
-		d_pipe->p_redi_fd = d_pipe->old_stdout;
-	if (d_token->t_size > *i + j + 1 && d_token->type[*i + j + 1][0] == S_AL) //ATTENTION
-	{
-		d_pipe->input = open(d_token->tokens[*i + 1 + j][1],
-				O_WRONLY | O_CREAT | O_TRUNC, 0644);
-		dup2(d_pipe->input, STDIN_FILENO);
-	}
-}
+// void	p_redi(t_tok *d_token, t_pipe *d_pipe, int *i)
+// {
+// 	int	j;
+//
+// 	j = 0;
+// 	while (d_token->type[*i + j][0] != P_C)
+// 		j++;
+// 	if (d_token->t_size > *i + j +  1 && d_token->type[*i + j + 1][0] == S_AR) // ATTENTION
+// 	{
+// 		d_pipe->p_redi_fd = open(d_token->tokens[*i + 1 + j][1],
+// 				O_WRONLY | O_CREAT | O_TRUNC, 0644);
+// 		dup2(d_pipe->p_redi_fd, STDOUT_FILENO);
+// 	}
+// 	else
+// 		d_pipe->p_redi_fd = d_pipe->old_stdout;
+// 	if (d_token->t_size > *i + j + 1 && d_token->type[*i + j + 1][0] == S_AL) //ATTENTION
+// 	{
+// 		d_pipe->input = open(d_token->tokens[*i + 1 + j][1],
+// 				O_WRONLY | O_CREAT | O_TRUNC, 0644);
+// 		dup2(d_pipe->input, STDIN_FILENO);
+// 	}
+// }
 
 void	p_while(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
 {
 	(*i)++;
-	// p_redi(d_token, d_pipe, i);
 	while (d_pipe->p_nbr > 0)
 	{
 		p_parse_type(d_token, d_pipe, denv, i);

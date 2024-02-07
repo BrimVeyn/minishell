@@ -6,7 +6,7 @@
 /*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 14:59:20 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/02/06 14:28:37 by nbardavi         ###   ########.fr       */
+/*   Updated: 2024/02/07 14:31:42 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,6 +151,7 @@ typedef struct s_pipe
 	int					cpt_wait;
 	char				*file_name;
 	int					failure;
+	int					tr_p;
 }						t_pipe;
 
 typedef struct s_lst
@@ -269,7 +270,7 @@ int						ft_strlenlen(char **str);
 
 void					ms_setint(int *i, int value);
 void					ms_setchar(char *c, int value);
-void					free_startab(char ***tokens);
+void					free_startab(char ***tokens, int **type);
 int						ms_filetype(char *path);
 
 /*_.-=-._.-=-._.-=-._.-=-._.--._.-=-._.--._.-=-._.-=-._.-=-._.-=-._.-=-._*/
@@ -435,6 +436,7 @@ void					ms_free_history(t_h_lst **head);
 void					ms_free_env(t_env *denv);
 void					ms_free_pipe(t_pipe *d_pipe);
 void					free_tpe(t_tok *dt, t_pipe *dp, t_env *de);
+void	ms_reset_fd(t_pipe *d_pipe);
 
 /*_.-=-._.-=-._.-=-._.-=-._.--._.-=-._.--._.-=-._.-=-._.-=-._.-=-._.-=-._*/
 /*_.-=-._.-=-._.-=-._.-=-._.--._.-=-._.--._.-=-._.-=-._.-=-._.-=-._.-=-._*/

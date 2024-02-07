@@ -107,7 +107,6 @@ WHITE			:= \033[0;97m
 all: $(NAME)
 
 debug:
-	@$(MAKE) fclean
 	@$(MAKE) all CFLAGS="$(CFLAGS) $(DEBUG)"
 
 $(NAME): $(LIBFT) $(OBJDIR) $(OBJ)

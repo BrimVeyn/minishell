@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ms_free.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
+/*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/26 11:26:10 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/02/02 11:24:14 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/02/07 14:31:23 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	free_tab(char **tab)
 	free(tab);
 }
 
-void	free_startab(char ***tokens)
+void	free_startab(char ***tokens, int **type)
 {
 	int	i;
 	int	j;
@@ -42,13 +42,14 @@ void	free_startab(char ***tokens)
 			j++;
 		}
 		free(tokens[i]);
+		free(type[i]);
 		i++;
 	}
+	free(type);
 	free(tokens);
 }
 
 void	free_tdata(t_tok *tdata)
 {
-	free_startab(tdata->tokens);
-	free(tdata->type);
+	free_startab(tdata->tokens, tdata->type);
 }
