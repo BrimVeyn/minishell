@@ -6,7 +6,7 @@
 /*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 11:22:39 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/02/05 13:28:06 by nbardavi         ###   ########.fr       */
+/*   Updated: 2024/02/07 13:56:29 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,7 +144,7 @@ t_tok	parse_input(char *input, t_env *denv)
         return (tdata);
     }
     ms_add_path(&tdata, denv);
- //    ft_printf("-------------- AFTER PATH_ADD -----------\n");
+    // ft_printf("-------------- AFTER PATH_ADD -----------\n");
 	// for(int i = 0; tdata.tokens[i]; i++)
 	// {
 	// 	for(int j = 0; tdata.tokens[i][j]; j++)
