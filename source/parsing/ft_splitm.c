@@ -6,7 +6,7 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 14:40:00 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/02/07 15:52:43 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/02/08 11:52:35 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,8 +92,7 @@ char *ms_delimiter(char *delimiter)
 	}
 	new = ft_calloc(end - start + 1, sizeof(char));
 	i = 0;
-	while (start <= end)
-		new[i++] = delimiter[start++];
+	new = ft_substr(delimiter, start, end - start + 1);
 	return (free(delimiter), new);
 }
 
