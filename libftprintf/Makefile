@@ -24,6 +24,7 @@ sources/libft/ft_isascii.c \
 sources/libft/ft_isdigit.c \
 sources/libft/ft_isprint.c \
 sources/libft/ft_itoa.c \
+sources/libft/ft_litoa.c \
 sources/libft/ft_lstadd_back.c \
 sources/libft/ft_lstadd_front.c \
 sources/libft/ft_lstclear.c \
