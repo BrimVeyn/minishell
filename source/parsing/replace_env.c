@@ -6,7 +6,7 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/26 11:19:26 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/02/08 08:29:44 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/02/08 08:58:44 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,8 +62,10 @@ char	*r_env(char *split, t_env *denv)
 			if (split[i + 1])
 				i++;
 			start = i;
-			if ((ft_isdigit(split[i++]) || !ft_isalnum(split[i])) && split[i] != '_')
-				start = -200000;
+			if (ft_isdigit(split[i]) || (!ft_isalpha(split[i]) && split[i] != '_'))
+				start = INT_MAX;
+			else
+				i++;
 			while (split[i] && (ft_isalnum(split[i]) || split[i] == '_'))
 				i++;
 			if (i > start)

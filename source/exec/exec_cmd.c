@@ -6,7 +6,7 @@
 /*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/26 14:41:53 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/02/06 13:33:22 by nbardavi         ###   ########.fr       */
+/*   Updated: 2024/02/07 15:48:10 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,9 @@ void	exec_id0(t_pipe *d_pipe, t_tok *d_token, int id, int *i)
 		d_pipe->failed = 1;
 	if (d_pipe->failed == 1 && *i < d_token->t_size)
 	{
-		if (d_token->type[*i + 1][0] != OR)
+		if (d_token->t_size > *i + 1 && d_token->type[*i + 1][0] != OR)
 		{
-			if (d_token->type[*i + 1][0] == P_C)
+			if (d_token->t_size > *i + 1 && d_token->type[*i + 1][0] == P_C)
 				if (d_pipe->p_cpt >= 0)
 					d_pipe->p_return[d_pipe->p_cpt] = 1;
 			d_pipe->or_return = 1;
@@ -55,6 +55,7 @@ void	c_execve(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
 	}
 	else
 	{
+		// ft_printf("%d\n", d_pipe->input);
 		if (d_pipe->b_pipefd[1] > -1)
 			close(d_pipe->b_pipefd[1]);
 		execve(d_token->tokens[*i][0], d_token->tokens[*i], denv->f_env);
@@ -70,9 +71,9 @@ void	handle_signs(t_pipe *d_pipe, t_tok *d_token, int *i)
 		d_pipe->failed = 1;
 	if (d_pipe->failed == 1 && *i < d_token->t_size)
 	{
-		if (d_token->type[*i + 1][0] != OR)
+		if (d_token->t_size > *i + 1 && d_token->type[*i + 1][0] != OR)
 		{
-			if (d_token->type[*i + 1][0] == P_C)
+			if (d_token->t_size > *i + 1 && d_token->type[*i + 1][0] == P_C)
 				if (d_pipe->p_cpt >= 0)
 					d_pipe->p_return[d_pipe->p_cpt] = 1;
 			d_pipe->or_return = 1;

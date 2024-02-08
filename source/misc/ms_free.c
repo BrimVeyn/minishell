@@ -6,7 +6,7 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/26 11:26:10 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/02/02 11:24:14 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/02/08 08:53:36 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,36 @@ void	free_tab(char **tab)
 	free(tab);
 }
 
-void	free_startab(char ***tokens)
+void	free_startab(char ***tokens, int **type)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	if (!tokens)
+		return ;
+	while (tokens[i])
+	{
+		j = 0;
+		while (tokens[i][j])
+		{
+			free(tokens[i][j]);
+			j++;
+		}
+		free(tokens[i]);
+		free(type[i]);
+		i++;
+	}
+	free(type);
+	free(tokens);
+}
+
+void	free_tdata(t_tok *tdata)
+{
+	free_startab(tdata->tokens, tdata->type);
+}
+
+void	free_copy(char ***tokens)
 {
 	int	i;
 	int	j;
@@ -45,10 +74,4 @@ void	free_startab(char ***tokens)
 		i++;
 	}
 	free(tokens);
-}
-
-void	free_tdata(t_tok *tdata)
-{
-	free_startab(tdata->tokens);
-	free(tdata->type);
 }

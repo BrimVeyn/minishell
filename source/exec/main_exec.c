@@ -6,7 +6,7 @@
 /*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 14:28:00 by nbardavi          #+#    #+#             */
-/*   Updated: 2024/02/05 13:32:31 by nbardavi         ###   ########.fr       */
+/*   Updated: 2024/02/07 14:25:44 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,15 @@
 
 extern int	g_exitno;
 
-void	ms_reset_fd(t_pipe d_pipe)
+void	ms_reset_fd(t_pipe *d_pipe)
 {
-	dup2(d_pipe.old_stdout, STDOUT_FILENO);
-	dup2(d_pipe.old_stdin, STDIN_FILENO);
+	dup2(d_pipe->old_stdout, STDOUT_FILENO);
+	dup2(d_pipe->old_stdin, STDIN_FILENO);
 }
 
 static int	end_main(t_pipe d_pipe)
 {
-	ms_reset_fd(d_pipe);
+	ms_reset_fd(&d_pipe);
 	ms_h_unlink(&d_pipe);
 	ms_free_pipe(&d_pipe);
 	if (WIFEXITED(g_exitno))

@@ -6,44 +6,11 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 15:36:10 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/02/02 16:06:41 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/02/08 08:56:24 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
-
-int	ms_wlcmd(char *input)
-{
-	if (ms_tiktok(input).type == CMD
-	|| ms_tiktok(input).type == D_AL
-	|| ms_tiktok(input).type == S_AL
-	|| ms_tiktok(input).type == D_AR
-	|| ms_tiktok(input).type == S_AR)
-		return (TRUE);
-	return (ERROR);
-}
-
-int ms_wlcmdtok(char *input)
-{
-	if (ms_tiktok(input).type == D_AL
-	|| ms_tiktok(input).type == S_AL
-	|| ms_tiktok(input).type == D_AR
-	|| ms_tiktok(input).type == S_AR)
-		return (TRUE);
-	return (ERROR);
-}
-
-
-int	ms_wltoken(char *input)
-{
-	if (ms_tiktok(input).type == P_O
-	|| ms_tiktok(input).type == P_C
-	|| ms_tiktok(input).type == PIPE
-	|| ms_tiktok(input).type == AND
-	|| ms_tiktok(input).type == OR)
-		return (TRUE);
-	return (ERROR);
-}
 
 int ms_wlp(char *input)
 {

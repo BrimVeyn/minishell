@@ -61,6 +61,7 @@ SRC 			:= source/main.c source/prompt.c \
 				   source/parsing/parenthesis_check.c \
 				   source/parsing/utils.c \
 				   source/parsing/count_tokens.c \
+				   source/parsing/ms_whitelist.c \
 				   source/exec/main_exec.c \
 				   source/exec/type_parse.c \
 				   source/exec/handle_cmds.c \
@@ -107,7 +108,6 @@ WHITE			:= \033[0;97m
 all: $(NAME)
 
 debug:
-	@$(MAKE) fclean
 	@$(MAKE) all CFLAGS="$(CFLAGS) $(DEBUG)"
 
 $(NAME): $(LIBFT) $(OBJDIR) $(OBJ)
