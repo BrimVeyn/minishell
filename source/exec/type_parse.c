@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   type_parse.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
+/*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 14:40:30 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/02/07 14:11:48 by nbardavi         ###   ########.fr       */
+/*   Updated: 2024/02/08 14:25:58 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,14 @@ void	w_exec_pipe(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
 	dup2(d_pipe->old_stdin, STDIN_FILENO);
 	while (d_pipe->f_cpt >= j)
 	{
+		// if (g_exitno == 256)
+		// {
+		// 	waitpid(d_pipe->f_id[d_pipe->f_cpt], NULL, 0);
+		// }
+		// else
+		// {
 		waitpid(d_pipe->f_id[d_pipe->f_cpt], &g_exitno, 0);
+		// }
 		j++;
 	}
 	d_pipe->p_trig = 1;

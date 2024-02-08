@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/08 11:34:50 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/02/08 12:00:03 by bvan-pae         ###   ########.fr       */
+/*   Created: 2024/02/08 14:20:38 by bvan-pae          #+#    #+#             */
+/*   Updated: 2024/02/08 14:20:38 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,14 +86,14 @@ t_tok	parse_input(char *input, t_env *denv)
 	// }
     if (ms_token_error(&tdata) == ERROR || ms_newline_error(&tdata) == ERROR || parenthesis_check(input) == ERROR) 
     {
-        g_exitno = 2;
+        g_exitno = 2 << 8;
         tdata.t_size = ERROR;
 		free_copy(tok_copy);
         return (tdata);
     }
 	if (ms_ambiguous_error(&tdata, tok_copy) == ERROR)
 	{
-		g_exitno = 1;
+		g_exitno = 1 << 8;
 		tdata.t_size = ERROR;
 		free_copy(tok_copy);
 		return (tdata);

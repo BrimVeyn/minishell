@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd_h3.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
+/*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 10:27:21 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/02/01 14:46:32 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/02/08 13:43:15 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,5 +30,5 @@ void	opt_2(char *newoldpwd, char *tmp, t_env *denv)
 void	error_1(char **args)
 {
 	fd_printf(2, "minishell: cd: %fs: No such file or directory\n", args[1]);
-	g_exitno = 1;
+	g_exitno = 1 << 8;
 }
