@@ -6,11 +6,12 @@
 /*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 08:59:09 by nbardavi          #+#    #+#             */
-/*   Updated: 2024/02/05 15:29:22 by nbardavi         ###   ########.fr       */
+/*   Updated: 2024/02/08 11:28:42 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
+void tprint(char ***string);
 
 void	end_heredoc(char *save, char *sasave, t_pipe *d_pipe, t_env *denv)
 {
@@ -29,20 +30,21 @@ int		heredoc(t_pipe *d_pipe, t_tok *dt, t_env *denv, int *i)
 	char	*limiter;
 	char	*sasave;
 
-	printf("---------- DEBUG HEREDOC----------\n");
+	// printf("---------- DEBUG HEREDOC----------\n");
 	limiter = ft_strdup(dt->tokens[*i][check_here(dt->tokens, *i) + 1]);
 	f_name = h_create_file(d_pipe);
-	printf("Limiter: %s\nFile_name: %s\n", limiter, f_name);
-	cut_here(dt, i);
+	// printf("Limiter: %s\nFile_name: %s\n", limiter, f_name);
 	save = h_redo(d_pipe, dt, limiter);
 	if (save == NULL)
-		return (close(d_pipe->heredoc), free(limiter), 1);
+		return (close(d_pipe->heredoc), free(limiter), D_AL);
 	sasave = ft_strdup(save);
 	if (d_pipe->h_trigger == 0)
 		save = ft_sprintf("%fs\n%s%fs", ms_getlast(denv), save, limiter);
 	else
 		save = ft_sprintf("%fs", ms_getlast(denv));
 	end_heredoc(save, sasave, d_pipe, denv);
+	close(d_pipe->input);
+	open(f_name, O_RDWR);
 	return (free(limiter), 0);
 }
 

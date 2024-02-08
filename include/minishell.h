@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/08 08:30:37 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/02/08 10:22:15 by bvan-pae         ###   ########.fr       */
+/*   Created: 2024/02/08 11:34:27 by bvan-pae          #+#    #+#             */
+/*   Updated: 2024/02/08 11:34:27 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -489,4 +489,5 @@ void					p_parse_type(t_tok *d_token, t_pipe *d_pipe,
 void					cut_here(t_tok *d_token, int *i);
 char					*ms_getlast(t_env *denv);
 void					reset_history(t_env *denv);
+void tprint(char ***string);
 #endif
