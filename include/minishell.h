@@ -6,7 +6,7 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 08:30:37 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/02/08 09:29:15 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/02/08 10:22:15 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -353,8 +353,12 @@ int	ms_typetok(int type);
 int	ms_wlcmd(char *input);
 int ms_wlcmdtok(char *input);
 int	ms_wltoken(char *input);
+int ms_wlp(char *input);
 char ***ms_copy_tok(char ***tokens, int t_size);
 int	ms_count_words(char *input);
+int ms_newline_error(t_tok *tdata);
+int ms_token_error(t_tok *tdata);
+int ms_ambiguous_error(t_tok *tdata, char ***tok_copy);
 
 
 

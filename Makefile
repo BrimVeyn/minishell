@@ -62,6 +62,8 @@ SRC 			:= source/main.c source/prompt.c \
 				   source/parsing/utils.c \
 				   source/parsing/count_tokens.c \
 				   source/parsing/ms_whitelist.c \
+				   source/parsing/ms_parsing_errors.c \
+				   source/parsing/ms_token_errors.c \
 				   source/exec/main_exec.c \
 				   source/exec/type_parse.c \
 				   source/exec/handle_cmds.c \

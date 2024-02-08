@@ -6,7 +6,7 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/26 11:18:21 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/02/02 11:02:45 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/02/08 10:16:48 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,4 +29,12 @@ char	**dupdup(void)
 	self = ft_calloc(2, sizeof(char *));
 	self[0] = ft_calloc(2, sizeof(char));
 	return (self);
+}
+
+int ms_wlp(char *input)
+{
+    if (ms_tiktok(input).type == P_O
+        || ms_tiktok(input).type == P_C)
+        return (TRUE);
+    return (ERROR);
 }
