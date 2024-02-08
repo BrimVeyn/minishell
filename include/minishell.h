@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/01 14:59:20 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/02/07 17:26:29 by bvan-pae         ###   ########.fr       */
+/*   Created: 2024/02/08 08:30:37 by bvan-pae          #+#    #+#             */
+/*   Updated: 2024/02/08 09:29:15 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@
 # include <sys/wait.h>
 # include <time.h>
 # include <unistd.h>
+# include <limits.h>
 
 # ifdef DEBUG
 #  define DPRINT(...) printf(__VA_ARGS__)
@@ -151,6 +152,7 @@ typedef struct s_pipe
 	int					cpt_wait;
 	char				*file_name;
 	int					failure;
+	int					tr_p;
 }						t_pipe;
 
 typedef struct s_lst
@@ -269,7 +271,8 @@ int						ft_strlenlen(char **str);
 
 void					ms_setint(int *i, int value);
 void					ms_setchar(char *c, int value);
-void					free_startab(char ***tokens);
+void					free_startab(char ***tokens, int **type);
+void					free_copy(char ***tokens);
 int						ms_filetype(char *path);
 
 /*_.-=-._.-=-._.-=-._.-=-._.--._.-=-._.--._.-=-._.-=-._.-=-._.-=-._.-=-._*/
@@ -336,7 +339,7 @@ int						tild_index(char *word);
 
 
 
-char ***ms_split(t_tok *tdata, t_env *denv, char *input);
+char ***ms_split(t_tok *tdata, char *input);
 int	ms_wlcmd(char *input);
 int	ms_wltoken(char *input);
 int ms_wlcmdtok(char *input);
@@ -345,6 +348,13 @@ int ms_wlp(char *input);
 void ms_expand(t_tok *tdata, t_env *denv);
 char	**transform_split(char **split, t_env *denv, t_tok *tdata, int index);
 int ms_isinw_pos(int i, t_tok *tdata);
+int ms_typecmdtok(int type);
+int	ms_typetok(int type);
+int	ms_wlcmd(char *input);
+int ms_wlcmdtok(char *input);
+int	ms_wltoken(char *input);
+char ***ms_copy_tok(char ***tokens, int t_size);
+int	ms_count_words(char *input);
 
 
 
@@ -436,6 +446,7 @@ void					ms_free_history(t_h_lst **head);
 void					ms_free_env(t_env *denv);
 void					ms_free_pipe(t_pipe *d_pipe);
 void					free_tpe(t_tok *dt, t_pipe *dp, t_env *de);
+void	ms_reset_fd(t_pipe *d_pipe);
 
 /*_.-=-._.-=-._.-=-._.-=-._.--._.-=-._.--._.-=-._.-=-._.-=-._.-=-._.-=-._*/
 /*_.-=-._.-=-._.-=-._.-=-._.--._.-=-._.--._.-=-._.-=-._.-=-._.-=-._.-=-._*/

@@ -6,7 +6,7 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 16:07:37 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/02/07 11:18:36 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/02/08 09:29:06 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,7 +128,7 @@ void ms_fill_token(char **split, char *input, int *j, int *type)
 }
 
 
-char ***ms_split(t_tok *tdata, t_env *denv, char *input)
+char ***ms_split(t_tok *tdata, char *input)
 {
 	char ***split;
 	int i;
@@ -137,7 +137,6 @@ char ***ms_split(t_tok *tdata, t_env *denv, char *input)
 	int wc;
     int d_value;
 
-	(void) denv;
 	i = 0;
     j = 0;
 	wc = 0;
