@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/02 11:22:14 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/02/08 14:04:43 by bvan-pae         ###   ########.fr       */
+/*   Created: 2024/02/08 14:20:02 by bvan-pae          #+#    #+#             */
+/*   Updated: 2024/02/08 14:20:19 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,12 +72,12 @@ static void set_exitno(char **args, t_pipe *d_pipe)
 	d_pipe->t_exit = 1;
 	if (ft_strcmp(args[1], to_cmp))
 	{
-		g_exitno = 2;
+		g_exitno = 2 << 8;
 		fd_printf(2, "minishell: exit: %fs: numeric argument required\n",
 			args[1]);
 	}
 	else
-		g_exitno = ((unsigned char) no);
+		g_exitno = ((unsigned char) no) << 8;
 }
 
 void	b_exit(char **args, t_pipe *d_pipe)
@@ -92,7 +92,7 @@ void	b_exit(char **args, t_pipe *d_pipe)
 		if (ft_strlenlen(args) > 2)
 		{
 			fd_printf(2, "minishell: exit: too many arguments\n");
-			g_exitno = 1;
+			g_exitno = 1 << 8;
 		}
 		else
 			set_exitno(args, d_pipe);
@@ -102,6 +102,6 @@ void	b_exit(char **args, t_pipe *d_pipe)
 		fd_printf(2, "minishell: exit: %fs: numeric argument required\n",
 			args[1]);
 		d_pipe->t_exit = 1;
-		g_exitno = 2;
+		g_exitno = 2 << 8;
 	}
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd_h.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
+/*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 10:26:03 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/02/01 14:50:14 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/02/08 13:44:21 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ char	*ms_find_var(t_env *denv, char *var)
 void	no_old_pwd(void)
 {
 	fd_printf(2, "minishell: cd: OLDPWD not set\n");
-	g_exitno = 1;
+	g_exitno = 1 << 8;
 }
 
 void	cd_tild(char *newpwd, t_env *denv)

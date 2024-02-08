@@ -6,11 +6,12 @@
 /*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 14:28:00 by nbardavi          #+#    #+#             */
-/*   Updated: 2024/02/07 14:25:44 by nbardavi         ###   ########.fr       */
+/*   Updated: 2024/02/08 13:48:42 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
+#include <stdlib.h>
 
 extern int	g_exitno;
 
@@ -25,8 +26,7 @@ static int	end_main(t_pipe d_pipe)
 	ms_reset_fd(&d_pipe);
 	ms_h_unlink(&d_pipe);
 	ms_free_pipe(&d_pipe);
-	if (WIFEXITED(g_exitno))
-		g_exitno = WEXITSTATUS(g_exitno);
+	g_exitno = WEXITSTATUS(g_exitno);
 	if (d_pipe.t_exit == 1)
 		return (1);
 	return (0);

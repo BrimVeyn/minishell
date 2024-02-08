@@ -6,7 +6,7 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 13:49:14 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/01/26 14:21:19 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/02/08 14:24:29 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int	quotes_check_helper2(int *quotes)
 		fd_printf(2, "minishell: parsing error: unclosed single quotes\n");
 	else
 		return (ZERO);
-	g_exitno = 2;
+	g_exitno = 2 << 8;
 	return (ERROR);
 }
 
