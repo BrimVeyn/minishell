@@ -45,7 +45,9 @@ void	w_exec_pipe(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
 
 	j = 0;
 	dup2(d_pipe->input, STDIN_FILENO);
-	while ((next_ope(d_token, *i) == PIPE || (previous_ope(d_token, *i) == PIPE && next_ope(d_token, *i) != PIPE) || d_token->type[*i][0] == PIPE) && d_token->t_size > *i)
+	while ((next_ope(d_token, *i) == PIPE || (previous_ope(d_token, *i) == PIPE
+				&& next_ope(d_token, *i) != PIPE)
+			|| d_token->type[*i][0] == PIPE) && d_token->t_size > *i)
 	{
 		pipe_parse(d_token, d_pipe, denv, i);
 		if (d_token->type[*i][0] != PIPE)
