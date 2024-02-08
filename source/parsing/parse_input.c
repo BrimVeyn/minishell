@@ -6,7 +6,7 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 08:30:52 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/02/08 09:28:47 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/02/08 10:22:05 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ t_tok	parse_input(char *input, t_env *denv)
 	}
 	tdata.t_size = count_tokens(input);
 	// ft_printf("---------- SIZE = %d -----------\n", tdata.t_size);
-	tdata.tokens = ms_split(&tdata, denv, input);
+	tdata.tokens = ms_split(&tdata, input);
 	// for(int i = 0; tdata.tokens[i]; i++)
 	// {
 	// 	for(int j = 0; tdata.tokens[i][j]; j++)
