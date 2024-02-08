@@ -6,7 +6,7 @@
 /*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/26 14:41:53 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/02/07 15:48:10 by nbardavi         ###   ########.fr       */
+/*   Updated: 2024/02/08 11:14:29 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,11 +55,9 @@ void	c_execve(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
 	}
 	else
 	{
-		// ft_printf("%d\n", d_pipe->input);
 		if (d_pipe->b_pipefd[1] > -1)
 			close(d_pipe->b_pipefd[1]);
 		execve(d_token->tokens[*i][0], d_token->tokens[*i], denv->f_env);
-		// printf("command: %s\n", d_token->tokens[*i][0]);
 		perror("execve failed");
 		exit(g_exitno);
 	}
