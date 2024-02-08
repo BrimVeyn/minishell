@@ -6,7 +6,7 @@
 /*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 10:12:28 by nbardavi          #+#    #+#             */
-/*   Updated: 2024/02/08 18:36:15 by nbardavi         ###   ########.fr       */
+/*   Updated: 2024/02/08 19:10:04 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,15 +46,17 @@ void	handle_cmd(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
 		if (cmd_redi(d_token, d_pipe, denv, i) == 1)
 		{
 			if (d_token->t_size > *i + 1 && d_token->type[*i + 1][0] == PIPE)
-				exec_pipe(d_token,d_pipe,denv,i);
+				exec_pipe(d_token, d_pipe, denv, i);
 			return ;
 		}
-	if ((d_token->t_size > *i + 1 && d_token->type[*i + 1][0] == PIPE) || (*i > 0 && d_token->type[*i - 1][0] == PIPE))
+	if ((d_token->t_size > *i + 1 && d_token->type[*i + 1][0] == PIPE)
+		|| (*i > 0 && d_token->type[*i - 1][0] == PIPE))
 	{
 		w_exec_pipe(d_token, d_pipe, denv, i);
 		d_pipe->t_r = 1;
 	}
-	else if (d_pipe->skip_and == 0 && d_pipe->skip_or == 0 && d_pipe->or_return == 0 && d_token->type[*i][0] != WRONG)
+	else if (d_pipe->skip_and == 0 && d_pipe->skip_or == 0
+		&& d_pipe->or_return == 0 && d_token->type[*i][0] != WRONG)
 	{
 		exec_cmd(d_token, d_pipe, denv, i);
 	}
