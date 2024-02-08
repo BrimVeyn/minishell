@@ -6,7 +6,7 @@
 /*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 11:22:39 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/02/07 13:56:29 by nbardavi         ###   ########.fr       */
+/*   Updated: 2024/02/08 11:17:37 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,13 +102,12 @@ int ms_newline_error(t_tok *tdata)
 t_tok	parse_input(char *input, t_env *denv)
 {
 	t_tok	tdata;
-	char	**heredoc;
 
-    (void) heredoc;
-	heredoc = NULL;
+ //    (void) heredoc;
+	tdata.heredoc = NULL;
 	if (ft_strchr(input, '\n'))
 	{
-		heredoc = ft_split(ft_strchr(input, '\n'), '\n');
+		tdata.heredoc = ft_split(ft_strchr(input, '\n'), '\n');
 		input = ms_cut_at(input, '\n');
 	}
 	if (quotes_parity_check(input) == ERROR)
