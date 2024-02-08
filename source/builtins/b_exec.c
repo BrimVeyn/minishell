@@ -6,7 +6,7 @@
 /*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/30 12:33:30 by nbardavi          #+#    #+#             */
-/*   Updated: 2024/02/05 13:27:51 by nbardavi         ###   ########.fr       */
+/*   Updated: 2024/02/07 15:37:35 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,15 @@ void	b_redi_out(t_tok *d_token, t_pipe *d_pipe, int i)
 				O_WRONLY | O_CREAT | O_APPEND, 0644);
 }
 
+void free_exit(t_tok *d_token, t_pipe *d_pipe, t_env *denv)
+{
+	ms_reset_fd(d_pipe);
+	ms_h_unlink(d_pipe);
+	(void)d_pipe;
+	(void)denv;
+	(void)d_token;
+}
+
 void	b_parse_nf(t_tok *d_token, t_env *denv, int *i, t_pipe *d_pipe)
 {
 	if (!ft_strcmp(d_token->tokens[*i][0], "export"))
@@ -49,7 +58,10 @@ void	b_parse_nf(t_tok *d_token, t_env *denv, int *i, t_pipe *d_pipe)
 	if (!ft_strcmp(d_token->tokens[*i][0], "cd"))
 		b_cd(d_token->tokens[*i], denv);
 	if (!ft_strcmp(d_token->tokens[*i][0], "exit"))
+	{
 		b_exit(d_token->tokens[*i], d_pipe);
+		free_exit(d_token, d_pipe, denv);
+	}
 }
 
 void	b_parse(t_tok *d_token, t_env *denv, int *i)
