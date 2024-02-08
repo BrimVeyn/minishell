@@ -6,7 +6,7 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 16:09:44 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/02/02 10:51:32 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/02/08 08:25:06 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,9 @@ static int	invalid_identifier(char *identifier)
 	i = 0;
 	while (identifier[i])
 	{
-		if (ft_isalpha(identifier[i]) == ZERO && identifier[i] != '_'
+		if (i == 0 && ft_isdigit(identifier[i]))
+			return (TRUE);
+		if (ft_isalnum(identifier[i]) == ZERO && identifier[i] != '_'
 			&& i != (int)ft_strlen(identifier))
 			return (TRUE);
 		i++;
@@ -68,7 +70,7 @@ void	b_export_helper(int *i, char **args, t_env *denv)
 		index = ms_var_exist(args[*i], denv);
 		if (invalid_identifier(identifier) == TRUE || !ft_strncmp("",
 				identifier, 2))
-			return (b_export_helper2(identifier, i));
+			return (b_export_helper2(identifier, i), free(identifier));
 		if (value)
 		{
 			if (index == ERROR)
