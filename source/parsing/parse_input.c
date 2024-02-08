@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_input.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
+/*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 11:34:50 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/02/08 11:34:50 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/02/08 13:43:45 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,14 +86,14 @@ t_tok	parse_input(char *input, t_env *denv)
 	// }
     if (ms_token_error(&tdata) == ERROR || ms_newline_error(&tdata) == ERROR || parenthesis_check(input) == ERROR) 
     {
-        g_exitno = 2;
+        g_exitno = 2 << 8;
         tdata.t_size = ERROR;
 		free_copy(tok_copy);
         return (tdata);
     }
 	if (ms_ambiguous_error(&tdata, tok_copy) == ERROR)
 	{
-		g_exitno = 1;
+		g_exitno = 1 << 8;
 		tdata.t_size = ERROR;
 		free_copy(tok_copy);
 		return (tdata);

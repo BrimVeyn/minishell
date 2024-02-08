@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   path_parse.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
+/*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/26 11:25:26 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/02/07 15:08:38 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/02/08 13:40:01 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ char	*join_path(char *cmd, t_env *denv)
 	if (permission_denied(cmd) == ERROR)
 		return (free_tab(paths), ft_strdup("WRONG"));
 	fd_printf(2, "%fs: command not found\n", cmd);
-	g_exitno = 127;
+	g_exitno = 127 << 8;
 	return (free_tab(paths), free(cmd), ft_strdup("WRONG"));
 }
 

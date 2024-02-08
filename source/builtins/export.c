@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
+/*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 16:09:44 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/02/08 08:25:06 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/02/08 13:42:31 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ void	b_export_helper2(char *identifier, int *i)
 {
 	fd_printf(2, "minishell: export: `%fs': not a valid identifier\n",
 		identifier);
-	g_exitno = 1;
+	g_exitno = 1 << 8;
 	(*i)++;
 	return ;
 }

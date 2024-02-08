@@ -6,7 +6,7 @@
 /*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 10:35:07 by nbardavi          #+#    #+#             */
-/*   Updated: 2024/02/08 11:28:27 by nbardavi         ###   ########.fr       */
+/*   Updated: 2024/02/08 11:49:00 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,6 +151,13 @@ void tprint(char ***string)
 	}
 }
 
+int check_next(int signe)
+{
+	if (signe == S_AR || signe == D_AR || signe == S_AL || signe == D_AL)
+		return(1);
+	return(0);
+}
+
 int	cmd_redi(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
 {
 	int		j;
@@ -170,7 +177,7 @@ int	cmd_redi(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
 			d_pipe->failure = handle_input(d_token->tokens[*i][j + 1], d_pipe);
 		else if (d_token->type[*i][j] == D_AL)
 			d_pipe->failure = handle_heredoc(d_token, d_pipe, denv, i);
-		if (d_token->t_size > *i + 2 && (d_token->type[*i + 1][0] == P_C && d_token->type[*i + 2][0] == S_AR) && d_pipe->tr_p == 0)
+		if (d_token->t_size > *i + 2 && (d_token->type[*i + 1][0] == P_C && check_next(d_token->type[*i + 2][0]) == 1) && d_pipe->tr_p == 0)
 		{
 			d_pipe->tr_p = 1;
 			*i += 2;
