@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd_h2.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
+/*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 10:26:36 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/02/01 14:49:29 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/02/08 13:44:11 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int	too_many_args(char **args)
 	if (ms_tablen(args) > 2)
 	{
 		fd_printf(2, "minishell: cd: too many arguments\n");
-		g_exitno = 1;
+		g_exitno = 1 << 8;
 		return (ERROR);
 	}
 	return (TRUE);

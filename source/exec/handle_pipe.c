@@ -6,7 +6,7 @@
 /*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 10:38:01 by nbardavi          #+#    #+#             */
-/*   Updated: 2024/02/06 13:55:16 by nbardavi         ###   ########.fr       */
+/*   Updated: 2024/02/08 12:06:48 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,4 +89,5 @@ void	pipe_parse(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
 		handle_or(d_pipe);
 	else if (d_pipe->skip_and == 0 && d_token->type[*i][0] != PIPE)
 		handle_cmd_pipe(d_token, d_pipe, denv, i);
+	// printf("ddd%d\n", g_exitno);
 }
