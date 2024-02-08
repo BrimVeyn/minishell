@@ -6,7 +6,7 @@
 /*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 10:35:07 by nbardavi          #+#    #+#             */
-/*   Updated: 2024/02/08 11:49:00 by nbardavi         ###   ########.fr       */
+/*   Updated: 2024/02/08 16:16:32 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ static int	handle_append(char *token, t_pipe *d_pipe)
 		d_pipe->file_name = ft_sprintf("%s", token);
 		return (D_AR);
 	}
+	d_pipe->redi = 1;
 	dup2(d_pipe->output, STDOUT_FILENO);
 	return (0);
 }
@@ -38,6 +39,7 @@ static int	handle_output(char *token, t_pipe *d_pipe)
 		d_pipe->file_name = ft_sprintf("%s", token);
 		return (S_AR);
 	}
+	d_pipe->redi = 1;
 	dup2(d_pipe->output, STDOUT_FILENO);
 	close(d_pipe->output);
 	return (0);
@@ -65,6 +67,7 @@ static int	handle_heredoc(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
 	d_pipe->h_cpt = 0;
 	returnvalue = heredoc(d_pipe, d_token, denv, i);
 	d_token->tokens[*i] = remove_first(d_token, DELIMITER, *i);
+	d_pipe->redi = 1;
 	return (returnvalue);
 }
 
