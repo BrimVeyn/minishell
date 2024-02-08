@@ -6,7 +6,7 @@
 /*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 10:35:07 by nbardavi          #+#    #+#             */
-/*   Updated: 2024/02/07 16:32:04 by nbardavi         ###   ########.fr       */
+/*   Updated: 2024/02/08 11:28:27 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,6 @@ static int	handle_output(char *token, t_pipe *d_pipe)
 	}
 	dup2(d_pipe->output, STDOUT_FILENO);
 	close(d_pipe->output);
-	// printf("In file\n");
 	return (0);
 }
 
@@ -64,22 +63,23 @@ static int	handle_heredoc(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
 
 	d_pipe->h_trigger = 0;
 	d_pipe->h_cpt = 0;
-	tprint(d_token->tokens);
-	returnvalue = heredoc(d_pipe, d_token, denv, i); //remove le << comme un bon gros fdp
-	d_pipe->input = d_pipe->heredoc;
-	dup2(d_pipe->heredoc, STDIN_FILENO);
-	close(d_pipe->heredoc);
+	returnvalue = heredoc(d_pipe, d_token, denv, i);
 	d_token->tokens[*i] = remove_first(d_token, DELIMITER, *i);
-	tprint(d_token->tokens);
 	return (returnvalue);
 }
 
 int	cmd_return(t_pipe *d_pipe)
 {
+	// char *buffer;
+
+	// buffer = ft_calloc(1000, 1);
 	if (d_pipe->failure)
 		return (r_parse_error(d_pipe), 1);
 	if (d_pipe->input != -1)
+	{
 		dup2(d_pipe->input, STDIN_FILENO);
+		close(d_pipe->input);
+	}
 	return (0);
 }
 
@@ -177,9 +177,6 @@ int	cmd_redi(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
 			d_pipe->failure = cmd_redi(d_token, d_pipe, denv, i);
 			*i -= 2;
 		}
-		ft_printf("HELLOOO");
-		// tprint(d_token->tokens);
-		tprint(d_token->tokens);
 		if ((d_token->type[*i][j] != CMD && d_token->type[*i][j] != BUILTIN && d_token->type[*i][j] != WRONG) && !d_pipe->failure)
 			d_token->tokens[*i] = remove_first(d_token, d_token->type[*i][j], *i);
 		else
