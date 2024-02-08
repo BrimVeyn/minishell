@@ -6,7 +6,7 @@
 /*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/26 14:42:22 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/02/08 16:11:42 by nbardavi         ###   ########.fr       */
+/*   Updated: 2024/02/08 18:37:15 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ void	init_d_pipe(t_pipe *d_pipe)
 	d_pipe->file_name = NULL;
 	d_pipe->failure = 0;
 	d_pipe->redi_o = 0;
+	d_pipe->f_cpt = 0;
 	d_pipe->old_stdin = dup(STDIN_FILENO);
 	d_pipe->old_stdout = dup(STDOUT_FILENO);
 	d_pipe->fork_id = ft_calloc(1000, sizeof(int));

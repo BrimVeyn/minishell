@@ -6,7 +6,7 @@
 /*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 11:34:27 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/02/08 16:11:41 by nbardavi         ###   ########.fr       */
+/*   Updated: 2024/02/08 18:30:50 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,6 +153,7 @@ typedef struct s_pipe
 	int					failure;
 	int					tr_p;
 	int					redi_o;
+	int					t_f_redi;
 }						t_pipe;
 
 typedef struct s_lst
