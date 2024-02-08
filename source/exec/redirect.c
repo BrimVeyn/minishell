@@ -6,7 +6,7 @@
 /*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 10:35:07 by nbardavi          #+#    #+#             */
-/*   Updated: 2024/02/08 16:16:32 by nbardavi         ###   ########.fr       */
+/*   Updated: 2024/02/08 18:31:05 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -167,6 +167,7 @@ int	cmd_redi(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
 	int		temp;
 
 	j = 0;
+	d_pipe->t_f_redi = 0;
 	d_pipe->failure = 0;
 	d_pipe->tr_p = 0;
 	while (d_token->tokens[*i][j])

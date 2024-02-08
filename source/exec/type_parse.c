@@ -6,7 +6,7 @@
 /*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 14:40:30 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/02/08 15:47:52 by nbardavi         ###   ########.fr       */
+/*   Updated: 2024/02/08 18:44:44 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,6 @@ void	w_exec_pipe(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
 	int	j;
 
 	j = 0;
-	d_pipe->f_cpt = 0;
 	dup2(d_pipe->input, STDIN_FILENO);
 	while ((next_ope(d_token, *i) == PIPE || (previous_ope(d_token, *i) == PIPE && next_ope(d_token, *i) != PIPE) || d_token->type[*i][0] == PIPE) && d_token->t_size > *i)
 	{

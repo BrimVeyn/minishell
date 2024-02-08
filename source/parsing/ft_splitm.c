@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_splitm.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
+/*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 14:40:00 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/02/08 11:52:35 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/02/08 18:22:39 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,6 @@ char *ms_delimiter(char *delimiter)
 	char *new;
 	int start;
 	int end;
-	int i;
 
 	start = 0;
 	end = ft_strlen(delimiter) - 1;
@@ -91,7 +90,6 @@ char *ms_delimiter(char *delimiter)
 		end -= 1;
 	}
 	new = ft_calloc(end - start + 1, sizeof(char));
-	i = 0;
 	new = ft_substr(delimiter, start, end - start + 1);
 	return (free(delimiter), new);
 }
