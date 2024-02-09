@@ -6,7 +6,7 @@
 /*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 10:10:41 by nbardavi          #+#    #+#             */
-/*   Updated: 2024/02/09 10:34:03 by nbardavi         ###   ########.fr       */
+/*   Updated: 2024/02/09 11:40:35 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	handle_append(char *token, t_pipe *d_pipe)
 	d_pipe->output = open(token, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	if (d_pipe->output == -1)
 	{
-		d_pipe->file_name = ft_sprintf("%s", token);
+		d_pipe->file_name = ft_sprintf("%fs", token);
 		return (D_AR);
 	}
 	d_pipe->redi = 1;
@@ -30,7 +30,7 @@ int	handle_output(char *token, t_pipe *d_pipe)
 	d_pipe->output = open(token, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (d_pipe->output == -1)
 	{
-		d_pipe->file_name = ft_sprintf("%s", token);
+		d_pipe->file_name = ft_sprintf("%fs", token);
 		return (S_AR);
 	}
 	d_pipe->redi = 1;
@@ -43,7 +43,7 @@ int	handle_input(char *token, t_pipe *d_pipe)
 {
 	if (access(token, F_OK | R_OK))
 	{
-		d_pipe->file_name = ft_sprintf("%s", token);
+		d_pipe->file_name = ft_sprintf("%fs", token);
 		return (S_AL);
 	}
 	if (d_pipe->input != -1)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prompt2.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
+/*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 11:21:47 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/02/07 16:42:31 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/02/09 11:41:21 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,8 +51,7 @@ int	prompt2(t_tok *d_token, t_env *denv)
 		free_tdata(d_token);
 		return (1);
 	}
-	if (d_token->t_size != ERROR)
-		free_tdata(d_token);
+	free_tdata(d_token);
 	return (0);
 }
 
