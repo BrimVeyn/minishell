@@ -6,13 +6,15 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 14:28:08 by nbardavi          #+#    #+#             */
-/*   Updated: 2024/02/08 14:24:07 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/02/09 10:45:43 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 #include <term.h>
 #include <unistd.h>
+
+extern int	g_exitno;
 
 void	sigint_handler(int sig_num)
 {
@@ -22,8 +24,6 @@ void	sigint_handler(int sig_num)
 	rl_replace_line("", 0);
 	rl_redisplay();
 }
-
-extern int g_exitno;
 
 void	ctrl_heredoc(int sig_num)
 {

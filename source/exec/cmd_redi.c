@@ -6,7 +6,7 @@
 /*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 19:10:36 by nbardavi          #+#    #+#             */
-/*   Updated: 2024/02/08 19:57:34 by nbardavi         ###   ########.fr       */
+/*   Updated: 2024/02/09 10:41:54 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,19 +15,19 @@
 
 extern int	g_exitno;
 
-char		**remove_first(t_tok *dt, int skip_type, int c);
 void		tprint(char ***string);
 
 void	remove_cmd(t_tok *d_token, t_pipe *d_pipe, int *i, int *j)
 {
 	if ((d_token->type[*i][*j] != CMD && d_token->type[*i][*j] != BUILTIN
 			&& d_token->type[*i][*j] != WRONG) && !d_pipe->failure)
-		d_token->tokens[*i] = remove_first(d_token, d_token->type[*i][*j], *i);
+		d_token->tokens[*i] = remove_first(d_token, d_token->type[*i][*j], *i,
+				0);
 	else
 		(*j)++;
 	if ((d_pipe->temp == D_AR || d_pipe->temp == S_AR || d_pipe->temp == S_AL)
 		&& !d_pipe->failure)
-		d_token->tokens[*i] = remove_first(d_token, FAILE, *i);
+		d_token->tokens[*i] = remove_first(d_token, FAILE, *i, 0);
 }
 
 void	init_cmd_redi(t_pipe *d_pipe, int *j)

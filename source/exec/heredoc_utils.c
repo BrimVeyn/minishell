@@ -6,7 +6,7 @@
 /*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 10:40:47 by nbardavi          #+#    #+#             */
-/*   Updated: 2024/02/08 14:09:07 by nbardavi         ###   ########.fr       */
+/*   Updated: 2024/02/09 10:39:51 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,6 @@ char	*h_redo(t_pipe *d_pipe, t_tok *d_token, char *limiter)
 	char	*temp;
 
 	save = ft_strdup("");
-	// (void)d_token;
 	while (d_token->heredoc && d_token->heredoc[d_pipe->h_i])
 	{
 		if (ft_strcmp(d_token->heredoc[d_pipe->h_i], limiter) == 0)
