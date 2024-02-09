@@ -6,7 +6,7 @@
 /*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 10:35:07 by nbardavi          #+#    #+#             */
-/*   Updated: 2024/02/08 19:43:58 by nbardavi         ###   ########.fr       */
+/*   Updated: 2024/02/09 09:24:25 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,14 @@
 
 extern int	g_exitno;
 
+char	**remove_first(t_tok *dt, int skip_type, int c);
+int	handle_append(char *token, t_pipe *d_pipe);
+int	handle_output(char *token, t_pipe *d_pipe);
+int	handle_heredoc(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i);
+int	cmd_return(t_pipe *d_pipe);
+int	count_cmd(char **string, int *type);
+int	check_next(int signe);
+int	handle_input(char *token, t_pipe *d_pipe);
 
 int	handle_append(char *token, t_pipe *d_pipe)
 {

@@ -6,7 +6,7 @@
 /*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 11:34:27 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/02/08 18:30:50 by nbardavi         ###   ########.fr       */
+/*   Updated: 2024/02/09 09:24:54 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,6 +154,7 @@ typedef struct s_pipe
 	int					tr_p;
 	int					redi_o;
 	int					t_f_redi;
+	int					temp;
 }						t_pipe;
 
 typedef struct s_lst
@@ -423,6 +424,14 @@ void					b_parse(t_tok *d_token, t_env *denv, int *i);
 void					b_parse_nf(t_tok *d_token, t_env *denv, int *i,
 							t_pipe *d_pipe);
 char					*ms_form_prompt(t_env *denv);
+char	**remove_first(t_tok *dt, int skip_type, int c);
+int	handle_append(char *token, t_pipe *d_pipe);
+int	handle_output(char *token, t_pipe *d_pipe);
+int	handle_heredoc(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i);
+int	cmd_return(t_pipe *d_pipe);
+int	count_cmd(char **string, int *type);
+int	check_next(int signe);
+int	handle_input(char *token, t_pipe *d_pipe);
 /*_.-=-._.-=-._.-=-._.-=-._.- HEREDOC -._.-=-._.-=-._.-=-._.-=-._.-=-._*/
 
 char					*h_exec(t_pipe *d_pipe, char *save, char *limiter);
