@@ -6,7 +6,7 @@
 /*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 19:10:36 by nbardavi          #+#    #+#             */
-/*   Updated: 2024/02/09 12:31:18 by nbardavi         ###   ########.fr       */
+/*   Updated: 2024/02/09 13:01:11 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,8 @@ void	remove_cmd(t_tok *d_token, t_pipe *d_pipe, int *i, int *j)
 	if ((d_token->type[*i][*j] != CMD && d_token->type[*i][*j] != BUILTIN
 			&& d_token->type[*i][*j] != WRONG) && !d_pipe->failure)
 	{
-		d_token->tokens[*i] = remove_first(d_token, d_token->type[*i][*j], *i, 0);
+		d_token->tokens[*i] = remove_first(d_token, d_token->type[*i][*j], *i,
+				0);
 	}
 	else
 		(*j)++;
