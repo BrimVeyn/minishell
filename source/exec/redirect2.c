@@ -6,7 +6,7 @@
 /*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 10:36:37 by nbardavi          #+#    #+#             */
-/*   Updated: 2024/02/08 18:31:16 by nbardavi         ###   ########.fr       */
+/*   Updated: 2024/02/09 10:40:37 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,5 +34,4 @@ void	r_parse_error(t_pipe *d_pipe)
 	}
 	d_pipe->t_f_redi = 1;
 	g_exitno = 1 << 8;
-	// exit (g_exitno);
 }
