@@ -6,7 +6,7 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 09:51:33 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/02/09 09:03:24 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/01/26 10:07:37 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	ms_dlstdelone(t_dlist **lst)
 {
-	t_dlist const *tmp = *lst;
+	t_dlist const	*tmp = *lst;
 
 	if (!(*lst))
 		return ;
