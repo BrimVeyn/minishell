@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ms_inits.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
+/*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/26 14:42:22 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/02/08 18:37:15 by nbardavi         ###   ########.fr       */
+/*   Updated: 2024/02/09 09:05:11 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,11 +63,10 @@ void	init_d_pipe(t_pipe *d_pipe)
 	d_pipe->t_exit = 0;
 	d_pipe->b_pipefd[0] = -1;
 	d_pipe->b_pipefd[1] = -1;
+	d_pipe->t_cat = 0;
 	d_pipe->cpt_wait = 0;
 	d_pipe->file_name = NULL;
 	d_pipe->failure = 0;
-	d_pipe->redi_o = 0;
-	d_pipe->f_cpt = 0;
 	d_pipe->old_stdin = dup(STDIN_FILENO);
 	d_pipe->old_stdout = dup(STDOUT_FILENO);
 	d_pipe->fork_id = ft_calloc(1000, sizeof(int));

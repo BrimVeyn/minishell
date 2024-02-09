@@ -17,9 +17,9 @@ extern int	g_exitno;
 
 static long	ms_latoi(const char *theString)
 {
-	int	i;
-	int	sign;
-	long result;
+	int		i;
+	int		sign;
+	long	result;
 
 	result = 0;
 	sign = 1;
@@ -60,7 +60,7 @@ static int	ms_is_nbr(char *str)
 	return (0);
 }
 
-static void set_exitno(char **args, t_pipe *d_pipe)
+static void	set_exitno(char **args, t_pipe *d_pipe)
 {
 	char	*to_cmp;
 	long	no;
@@ -77,7 +77,7 @@ static void set_exitno(char **args, t_pipe *d_pipe)
 			args[1]);
 	}
 	else
-		g_exitno = ((unsigned char) no) << 8;
+		g_exitno = ((unsigned char)no) << 8;
 }
 
 void	b_exit(char **args, t_pipe *d_pipe)

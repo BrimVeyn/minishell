@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_splitm.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
+/*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 14:40:00 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/02/08 18:22:39 by nbardavi         ###   ########.fr       */
+/*   Updated: 2024/02/09 08:27:24 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,166 +14,86 @@
 
 extern int	g_exitno;
 
-int *ms_intab(int *w_pos, int *w_size, int p_a, int p_b)
+static void	ms_single_quote_transform(char **split, t_env *denv, int *x,
+		t_starlist **strl)
 {
-    int *new;
-    int new_size;
-    int i;
+	char	*tmp;
 
-    if (!w_size)
-        new_size = 3;
-    else
-        new_size = *w_size + 2;
-    new = ft_calloc(new_size, sizeof(int));
-    i = 0;
-    while (i < *w_size)
-    {
-        new[i] = w_pos[i];
-        i++;
-    }
-    new[i++] = p_a;
-    new[i] = p_b;
-    *w_size += 2;
-    return (free(w_pos), new);
-}
-
-
-void print_tab(int *w_pos, int w_size)
-{
-    for (int i = 0; i < w_size; i++)
-        ft_printf("W_pos[%d] = %d\n", i, w_pos[i]);
-}
-
-char **ms_delindex(char **split, int i)
-{
-	char **new;
-	int	j;
-	int k;
-
-	j = 0;
-	k = 0;
-	new  = ft_calloc(ft_strlenlen(split) + 1, sizeof(char *));
-	// ft_printf("LEN = %d\n", ft_strlenlen(split) + 1);
-	while (split[j] && j != i)
+	if (split[x[I]][x[J]] != '\'' && split[x[I]][x[J]] != '\"')
 	{
-		// ft_printf("avant i\n");
-		new[k++] = ft_strdup(split[j]);
-		j++;
+		tmp = r_env(ms_xt(split[x[I]], &x[J], ZERO), denv);
+		ms_sab(strl, ms_snew(tmp, 0));
+		x[3] += (x[3] != 0);
+		x[2] = x[3];
+		x[3] += ft_strlen(tmp) - 1;
 	}
-	j++;
-	while (split[j])
-	{
-		new[k++] = ft_strdup(split[j]);
-		// ft_printf("apres i, new[%d] = %fs\n", k - 1, new[k - 1]);
-		j++;
-	}
-	if (!new[0])
-    {
-		// ft_printf("ICI\n");
-		new[0] = ft_strdup("WRONG");
-    }
-	free_tab(split);
-	return (new);
 }
 
-char *ms_delimiter(char *delimiter)
+static int	ms_double_quote_transform(char **split, t_env *denv, int *x,
+		t_starlist **strl)
 {
-	char *new;
-	int start;
-	int end;
+	char	*tmp;
 
-	start = 0;
-	end = ft_strlen(delimiter) - 1;
-	while (((delimiter[start] == '\"' && delimiter[end] == '\"') || (delimiter[start] == '\'' && delimiter[end] == '\'')) && end > start)
+	if (split[x[I]][x[J]] == '\"')
 	{
-		start += 1;
-		end -= 1;
+		tmp = r_env(ms_xt(split[x[I]], &x[J], '\"'), denv);
+		ms_sab(strl, ms_snew(tmp, 0));
+		x[3] += (x[3] != 0);
+		x[2] = x[3];
+		x[3] += ft_strlen(tmp) - 1;
+		return (TRUE);
 	}
-	new = ft_calloc(end - start + 1, sizeof(char));
-	new = ft_substr(delimiter, start, end - start + 1);
-	return (free(delimiter), new);
+	return (ZERO);
 }
 
+static int	ms_no_quote_transform(char **split, int *x, t_starlist **strl)
+{
+	char	*tmp;
+
+	if (split[x[I]][x[J]] == '\'')
+	{
+		tmp = ms_xt(split[x[I]], &x[J], '\'');
+		ms_sab(strl, ms_snew(tmp, 0));
+		x[3] += (x[3] != 0);
+		x[2] = x[3];
+		x[3] += ft_strlen(tmp) - 1;
+		return (TRUE);
+	}
+	return (ZERO);
+}
+
+void	ms_expandsion_manager(char **split, t_env *denv, t_tok *tdata, int *x)
+{
+	while (split[x[I]][x[J]])
+	{
+		ms_single_quote_transform(split, denv, x, &tdata->strl);
+		if (ms_double_quote_transform(split, denv, x, &tdata->strl))
+			tdata->w_pos = ms_intab(tdata->w_pos, &tdata->w_size, x[2], x[3]);
+		if (ms_no_quote_transform(split, x, &tdata->strl))
+			tdata->w_pos = ms_intab(tdata->w_pos, &tdata->w_size, x[2], x[3]);
+	}
+}
 
 char	**transform_split(char **split, t_env *denv, t_tok *tdata, int index)
 {
-	t_starlist	*strl;
-	int			x[2];
+	int	x[5];
 
-    (void) tdata;
 	x[I] = 0;
-	strl = NULL;
-    int p_a;
-    int p_b;
-    char *tmp;
-    // int off;
-
-    // off = 0;
-	while (ms_setint(&x[J], ZERO), split[x[I]])
+	tdata->strl = NULL;
+	while (ms_setint(&x[J], ZERO), ms_setint(&tdata->w_size, ZERO),
+		ms_setint(&x[2], ZERO), ms_setint(&x[3], ZERO), split[x[I]])
 	{
-		if (tdata->type[index][x[I]] == DELIMITER)
-        {
-			split[x[I]] = ms_delimiter(split[x[I]]);
-			x[I]++;
-			if (!split[x[I]])
-				break;
-        }
-        tdata->w_size = 0;
-        tdata->w_pos = NULL;
-        p_a = 0;
-        p_b = 0;
+		if (ms_delimiter_expand(split, tdata, x, index) == ERROR)
+			break ;
+		tdata->w_pos = NULL;
 		split[x[I]] = tild_expand(split[x[I]], denv);
-        // ft_printf("----------------\n");
-		while (split[x[I]][x[J]])
-		{
-			if (split[x[I]][x[J]] != '\'' && split[x[I]][x[J]] != '\"')
-            {
-                tmp = r_env(ms_xt(split[x[I]], &x[J], ZERO), denv);
-				ms_sab(&strl, ms_snew(tmp, 0));
-                p_b += (p_b != 0);
-                p_a = p_b;
-                p_b += ft_strlen(tmp) - 1;
-                // ft_printf("|_| p_a = %d, p_b = %d\n", p_a, p_b);
-            }
-			else if (split[x[I]][x[J]] == '\"')
-            {
-                tmp = r_env(ms_xt(split[x[I]], &x[J], '\"'), denv);
-                ms_sab(&strl, ms_snew(tmp, 0));
-                p_b += (p_b != 0);
-                p_a = p_b;
-                p_b += ft_strlen(tmp) - 1;
-                tdata->w_pos = ms_intab(tdata->w_pos, &tdata->w_size, p_a, p_b);
-                // ft_printf("|\"| p_a = %d, p_b = %d\n", p_a, p_b);
-            }
-			else if (split[x[I]][x[J]] == '\'')
-            {
-                tmp = ms_xt(split[x[I]], &x[J], '\'');
-				ms_sab(&strl, ms_snew(tmp, 0));
-                p_b += (p_b != 0);
-                p_a = p_b;
-                p_b += ft_strlen(tmp) - 1;
-                tdata->w_pos = ms_intab(tdata->w_pos, &tdata->w_size, p_a, p_b);
-                // ft_printf("|\'| p_a = %d, p_b = %d\n", p_a, p_b);
-            }
-		}
-        // print_tab(tdata->w_pos, tdata->w_size);
+		ms_expandsion_manager(split, denv, tdata, x);
 		free(split[x[I]]);
-		split[x[I]] = w_expand(ms_starjoin(&strl), denv, tdata);
-		ms_starclear(&strl);
+		split[x[I]] = w_expand(ms_starjoin(&tdata->strl), denv, tdata);
+		ms_starclear(&tdata->strl);
 		free(tdata->w_pos);
 		x[I]++;
 	}
-	int i = 0;
-	while (split[i])
-    {
-		if (ft_strlen(split[i]) == 0)
-        {
-			// ft_printf("I = %d\n", i);
-			split = ms_delindex(split, i);
-			// ft_printf("split[0] = %fs\n", split[0]);
-        }
-		else
-			i++;
-    }
+	split = ms_check_empty(split);
 	return (split);
 }

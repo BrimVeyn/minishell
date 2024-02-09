@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   b_exec.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
+/*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/30 12:33:30 by nbardavi          #+#    #+#             */
-/*   Updated: 2024/02/07 15:37:35 by nbardavi         ###   ########.fr       */
+/*   Updated: 2024/02/09 09:01:55 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	b_redi_out(t_tok *d_token, t_pipe *d_pipe, int i)
 	}
 	if (d_pipe->output != -1)
 		close(d_pipe->output);
-	if (d_token->type[i][0] == S_AR)// ATTENTION
+	if (d_token->type[i][0] == S_AR)
 		d_pipe->output = open(d_token->tokens[i + 1][0],
 				O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	else
@@ -40,7 +40,7 @@ void	b_redi_out(t_tok *d_token, t_pipe *d_pipe, int i)
 				O_WRONLY | O_CREAT | O_APPEND, 0644);
 }
 
-void free_exit(t_tok *d_token, t_pipe *d_pipe, t_env *denv)
+void	free_exit(t_tok *d_token, t_pipe *d_pipe, t_env *denv)
 {
 	ms_reset_fd(d_pipe);
 	ms_h_unlink(d_pipe);
@@ -71,7 +71,7 @@ void	b_parse(t_tok *d_token, t_env *denv, int *i)
 	if (!ft_strcmp(d_token->tokens[*i][0], "env"))
 		b_env(denv);
 	if (!ft_strcmp(d_token->tokens[*i][0], "pwd"))
-		b_pwd(d_token->tokens[*i], denv);
+		b_pwd();
 	if (!ft_strcmp(d_token->tokens[*i][0], "robin"))
 		b_robin();
 }

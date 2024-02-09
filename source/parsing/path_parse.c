@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   path_parse.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
+/*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/26 11:25:26 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/02/08 13:40:01 by nbardavi         ###   ########.fr       */
+/*   Updated: 2024/02/08 15:54:48 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,9 +47,8 @@ char	*join_path(char *cmd, t_env *denv)
 	i = 0;
 	if (!access(cmd, X_OK) && ms_filetype(cmd) == FAILE)
 		return (cmd);
-	if (no_such_file(cmd) == ERROR
-		|| is_a_directory(cmd) == ERROR || command_not_found(cmd) == ERROR
-		|| !cmd)
+	if (no_such_file(cmd) == ERROR || is_a_directory(cmd) == ERROR
+		|| command_not_found(cmd) == ERROR || !cmd)
 		return (ft_strdup("WRONG"));
 	paths = ft_split(denv->path, ':');
 	while (paths[i])
@@ -70,29 +69,28 @@ char	*join_path(char *cmd, t_env *denv)
 void	ms_add_path(t_tok *tdata, t_env *denv)
 {
 	int	i;
-    int j;
+	int	j;
 
 	i = 0;
-	while (tdata->tokens[i])
+	while (ms_setint(&j, 0), tdata->tokens[i])
 	{
-        j = 0;
-        if (ms_wltoken(tdata->tokens[i][j]) == ERROR)
-        {
-            while (ms_wlcmdtok(tdata->tokens[i][j]) == TRUE)
-            {
-                if (!tdata->tokens[i][j + 2])
-                    break;
-                j+= 2;
-            }
-            if (ms_check_builtin(tdata->tokens[i][j]) == TRUE)
-                tdata->type[i][j] = BUILTIN;
-            else if (tdata->type[i][j] == CMD)
-            {
-                tdata->tokens[i][j] = join_path(tdata->tokens[i][j], denv);
-                if (!ft_strncmp(tdata->tokens[i][j], "WRONG", 5))
-                    tdata->type[i][j] = WRONG;
-            }
-        }
-        i++;
+		if (ms_wltoken(tdata->tokens[i][j]) == ERROR)
+		{
+			while (ms_wlcmdtok(tdata->tokens[i][j]) == TRUE)
+			{
+				if (!tdata->tokens[i][j + 2])
+					break ;
+				j += 2;
+			}
+			if (ms_check_builtin(tdata->tokens[i][j]) == TRUE)
+				tdata->type[i][j] = BUILTIN;
+			else if (tdata->type[i][j] == CMD)
+			{
+				tdata->tokens[i][j] = join_path(tdata->tokens[i][j], denv);
+				if (!ft_strncmp(tdata->tokens[i][j], "WRONG", 5))
+					tdata->type[i][j] = WRONG;
+			}
+		}
+		i++;
 	}
 }
