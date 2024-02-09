@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
+/*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 10:40:47 by nbardavi          #+#    #+#             */
-/*   Updated: 2024/02/09 10:39:51 by nbardavi         ###   ########.fr       */
+/*   Updated: 2024/02/09 13:13:34 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ char	*h_exec(t_pipe *d_pipe, char *save, char *limiter)
 		if (g_exitno == 130)
 		{
 			signal_ctrl();
-			return (NULL);
+			return (free(save), NULL);
 		}
 		if (input == NULL)
 		{
