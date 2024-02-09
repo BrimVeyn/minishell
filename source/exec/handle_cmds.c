@@ -6,7 +6,7 @@
 /*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 10:12:28 by nbardavi          #+#    #+#             */
-/*   Updated: 2024/02/09 10:38:40 by nbardavi         ###   ########.fr       */
+/*   Updated: 2024/02/09 12:27:56 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,8 @@ void	handle_cmd(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
 	{
 		exec_cmd(d_token, d_pipe, denv, i);
 	}
+	else if (d_token->type[*i][0] == WRONG)
+		d_pipe->failed = 1;
 	cmd_reset_fd(d_pipe);
 }
 

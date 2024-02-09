@@ -6,7 +6,7 @@
 /*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/26 14:41:53 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/02/08 19:07:54 by nbardavi         ###   ########.fr       */
+/*   Updated: 2024/02/09 12:03:02 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	exec_id0(t_pipe *d_pipe, t_tok *d_token, int id, int *i)
 		{
 			if (d_token->t_size > *i + 1 && d_token->type[*i + 1][0] == P_C)
 				if (d_pipe->p_cpt >= 0)
-					d_pipe->p_return[d_pipe->p_cpt] = 1;
+					d_pipe->p_return = 1;
 			d_pipe->or_return = 1;
 			d_pipe->failed = 0;
 		}
@@ -73,7 +73,7 @@ void	handle_signs(t_pipe *d_pipe, t_tok *d_token, int *i)
 		{
 			if (d_token->t_size > *i + 1 && d_token->type[*i + 1][0] == P_C)
 				if (d_pipe->p_cpt >= 0)
-					d_pipe->p_return[d_pipe->p_cpt] = 1;
+					d_pipe->p_return = 1;
 			d_pipe->or_return = 1;
 			d_pipe->failed = 0;
 		}

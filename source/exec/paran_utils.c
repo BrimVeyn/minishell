@@ -6,7 +6,7 @@
 /*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 13:04:03 by nbardavi          #+#    #+#             */
-/*   Updated: 2024/02/08 19:44:31 by nbardavi         ###   ########.fr       */
+/*   Updated: 2024/02/09 12:05:28 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,5 +23,5 @@ void	p_count(t_tok *d_token, t_pipe *d_pipe)
 			d_pipe->p_nbr++;
 		i++;
 	}
-	d_pipe->p_return = ft_calloc(d_pipe->p_nbr, sizeof(int));
+	// d_pipe->p_return = ft_calloc(d_pipe->p_nbr + 1, sizeof(int));
 }
