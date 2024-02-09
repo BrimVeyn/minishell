@@ -6,7 +6,7 @@
 /*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 10:38:01 by nbardavi          #+#    #+#             */
-/*   Updated: 2024/02/08 18:53:55 by nbardavi         ###   ########.fr       */
+/*   Updated: 2024/02/08 12:06:48 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,12 +37,7 @@ void	exec_pipe(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
 			dup2(d_pipe->output, STDOUT_FILENO);
 		close(d_pipe->pipefd[1]);
 		close(d_pipe->output);
-		if (d_pipe->t_f_redi == 0)
-			c_execve(d_token, d_pipe, denv, i);
-		if (d_pipe->b_pipefd[1] > -1)
-			close(d_pipe->b_pipefd[1]);
-		free_tpe(d_token, d_pipe, denv);
-		exit(EXIT_SUCCESS);
+		c_execve(d_token, d_pipe, denv, i);
 	}
 }
 
@@ -68,10 +63,7 @@ void	cmd_exec_pipe(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
 	}
 	if (d_pipe->output != -1)
 	{
-		if (d_pipe->redi_o == 0)
-			dup2(d_pipe->old_stdout, STDOUT_FILENO);
-		else
-			d_pipe->redi_o = 0;
+		dup2(d_pipe->old_stdout, STDOUT_FILENO);
 		d_pipe->output = -1;
 	}
 }
@@ -79,8 +71,8 @@ void	cmd_exec_pipe(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
 void	handle_cmd_pipe(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
 {
 	if (*i < d_token->t_size)
-		cmd_redi(d_token, d_pipe, denv, i);
-			// return ;
+		if (cmd_redi(d_token, d_pipe, denv, i) == 1)
+			return ;
 	if (d_pipe->skip_and == 0 && d_pipe->skip_or == 0 && d_pipe->or_return == 0)
 		cmd_exec_pipe(d_token, d_pipe, denv, i);
 }

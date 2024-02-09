@@ -11,7 +11,8 @@
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
-void tprint(char ***string);
+
+void		tprint(char ***string);
 
 void	end_heredoc(char *save, char *sasave, t_pipe *d_pipe, t_env *denv)
 {
@@ -23,7 +24,7 @@ void	end_heredoc(char *save, char *sasave, t_pipe *d_pipe, t_env *denv)
 	free(save);
 }
 
-int		heredoc(t_pipe *d_pipe, t_tok *dt, t_env *denv, int *i)
+int	heredoc(t_pipe *d_pipe, t_tok *dt, t_env *denv, int *i)
 {
 	char	*f_name;
 	char	*save;
@@ -75,4 +76,3 @@ void	t_heredoc(t_tok *d_token, int *i, char *limiter)
 	free(limiter);
 	g_exitno = 0;
 }
-

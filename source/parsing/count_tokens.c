@@ -12,22 +12,22 @@
 
 #include "../../include/minishell.h"
 
-static void skip_word(char *input, int *trigger, int *counter, int *i)
+static void	skip_word(char *input, int *trigger, int *counter, int *i)
 {
-	int q[2];
+	int	q[2];
 
 	q[0] = 0;
 	q[1] = 0;
 	while (input[*i] && (ms_wlcmd(&input[*i]) == TRUE || (q[0] || q[1])))
 	{
 		q[0] ^= (input[*i] == '\"');
-		while(input[*i] && q[0])
+		while (input[*i] && q[0])
 		{
 			(*i)++;
 			q[0] ^= (input[*i] == '\"');
 		}
 		q[1] ^= (input[*i] == '\'');
-		while(input[*i] && q[1])
+		while (input[*i] && q[1])
 		{
 			(*i)++;
 			q[1] ^= (input[*i] == '\'');
@@ -41,8 +41,7 @@ static void skip_word(char *input, int *trigger, int *counter, int *i)
 		*counter += 1;
 }
 
-
-int		count_tokens(char *input)
+int	count_tokens(char *input)
 {
 	int	i;
 	int	counter;
@@ -51,7 +50,7 @@ int		count_tokens(char *input)
 	i = 0;
 	counter = 0;
 	trigger = 0;
-	while(input[i])
+	while (input[i])
 	{
 		trigger = 0;
 		while (input[i] && ms_isws(input[i]))
@@ -67,4 +66,3 @@ int		count_tokens(char *input)
 	}
 	return (counter);
 }
-

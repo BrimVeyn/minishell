@@ -12,7 +12,7 @@
 
 #include "../../include/minishell.h"
 
-//REMOVE WRONG DES OPES, bug possible
+// REMOVE WRONG DES OPES, bug possible
 
 int	next_ope(t_tok *d_token, int i)
 {
