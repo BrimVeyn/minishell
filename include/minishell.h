@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
+/*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 11:34:27 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/02/09 09:58:34 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/02/09 10:36:08 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -312,7 +312,6 @@ void					opt_1(char *newoldpwd, char *tmp, t_env *denv,
 							int *index);
 void					opt_2(char *newoldpwd, char *tmp, t_env *denv);
 void					error_1(char **args);
-void					b_robin(void);
 char					**ms_replace_value(char **f_env, int index, char *arg);
 char					**del_var(char **f_env, int index);
 char					*ms_find_var(t_env *denv, char *var);
@@ -444,9 +443,9 @@ void					b_parse(t_tok *d_token, t_env *denv, int *i);
 void					b_parse_nf(t_tok *d_token, t_env *denv, int *i,
 							t_pipe *d_pipe);
 char					*ms_form_prompt(t_env *denv);
-char	**remove_first(t_tok *dt, int skip_type, int c);
-int	handle_append(char *token, t_pipe *d_pipe);
-int	handle_output(char *token, t_pipe *d_pipe);
+char					**remove_first(t_tok *dt, int skip_type, int c, int i);
+int						handle_append(char *token, t_pipe *d_pipe);
+int						handle_output(char *token, t_pipe *d_pipe);
 int	handle_heredoc(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i);
 int	cmd_return(t_pipe *d_pipe);
 int	count_cmd(char **string, int *type);
