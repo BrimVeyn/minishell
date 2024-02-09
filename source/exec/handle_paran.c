@@ -6,15 +6,31 @@
 /*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 14:09:49 by nbardavi          #+#    #+#             */
-/*   Updated: 2024/02/09 12:05:36 by nbardavi         ###   ########.fr       */
+/*   Updated: 2024/02/09 13:01:27 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
+// void	handle_or(t_pipe *d_pipe)
+// {
+// 	if (d_pipe->failed == 0 || d_pipe->p_return == 1)
+// 		d_pipe->skip_or = 1;
+// }
+//
+// void	handle_and_para(t_pipe *d_pipe)
+// {
+// 	d_pipe->skip_or_p = 0;
+// 	if (d_pipe->failed == 1 || d_pipe->p_return == 0)
+// 	{
+// 		d_pipe->p_return (= -1);
+// 		d_pipe->skip_and = 1;
+// 		d_pipe->failed = 0;
+// 	}
+// }
+
 void	handle_pc_paran(t_pipe *d_pipe)
 {
-	// printf("p: %d\n", d_pipe->p_cpt);
 	if (d_pipe->failed == 1)
 		d_pipe->p_return = 0;
 	else
