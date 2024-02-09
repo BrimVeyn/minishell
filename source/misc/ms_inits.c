@@ -6,7 +6,7 @@
 /*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/26 14:42:22 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/02/08 18:37:15 by nbardavi         ###   ########.fr       */
+/*   Updated: 2024/02/09 12:23:09 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,9 +54,9 @@ void	init_d_pipe(t_pipe *d_pipe)
 	d_pipe->failed = 0;
 	d_pipe->skip_or = 0;
 	d_pipe->or_return = 0;
-	d_pipe->p_nbr = 0;
+	d_pipe->p_nbr = -1;
 	d_pipe->p_return = 0;
-	d_pipe->p_cpt = -1;
+	d_pipe->p_cpt = 0;
 	d_pipe->nbr_h = 0;
 	d_pipe->p_trig = 0;
 	d_pipe->h_i = 0;

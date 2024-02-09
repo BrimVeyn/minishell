@@ -6,7 +6,7 @@
 /*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 11:08:22 by nbardavi          #+#    #+#             */
-/*   Updated: 2024/02/09 11:39:57 by nbardavi         ###   ########.fr       */
+/*   Updated: 2024/02/09 12:04:40 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,6 @@ void	ms_free_pipe(t_pipe *d_pipe)
 	free(d_pipe->fork_id);
 	free(d_pipe->f_id);
 	free(d_pipe->tab_wait);
-	free(d_pipe->p_return);
 	free(d_pipe->file_name);
 	close(d_pipe->old_stdout);
 	close(d_pipe->old_stdin);
