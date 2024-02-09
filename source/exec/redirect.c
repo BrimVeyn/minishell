@@ -6,7 +6,7 @@
 /*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 10:35:07 by nbardavi          #+#    #+#             */
-/*   Updated: 2024/02/09 09:24:25 by nbardavi         ###   ########.fr       */
+/*   Updated: 2024/02/09 10:41:39 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,72 +15,8 @@
 
 extern int	g_exitno;
 
-char	**remove_first(t_tok *dt, int skip_type, int c);
-int	handle_append(char *token, t_pipe *d_pipe);
-int	handle_output(char *token, t_pipe *d_pipe);
-int	handle_heredoc(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i);
-int	cmd_return(t_pipe *d_pipe);
-int	count_cmd(char **string, int *type);
-int	check_next(int signe);
-int	handle_input(char *token, t_pipe *d_pipe);
-
-int	handle_append(char *token, t_pipe *d_pipe)
-{
-	d_pipe->output = open(token, O_WRONLY | O_CREAT | O_APPEND, 0644);
-	if (d_pipe->output == -1)
-	{
-		d_pipe->file_name = ft_sprintf("%s", token);
-		return (D_AR);
-	}
-	d_pipe->redi = 1;
-	dup2(d_pipe->output, STDOUT_FILENO);
-	return (0);
-}
-
-int	handle_output(char *token, t_pipe *d_pipe)
-{
-	d_pipe->output = open(token, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	if (d_pipe->output == -1)
-	{
-		d_pipe->file_name = ft_sprintf("%s", token);
-		return (S_AR);
-	}
-	d_pipe->redi = 1;
-	dup2(d_pipe->output, STDOUT_FILENO);
-	close(d_pipe->output);
-	return (0);
-}
-
-int	handle_input(char *token, t_pipe *d_pipe)
-{
-	if (access(token, F_OK | R_OK))
-	{
-		d_pipe->file_name = ft_sprintf("%s", token);
-		return (S_AL);
-	}
-	if (d_pipe->input != -1)
-		close(d_pipe->input);
-	d_pipe->redi = 1;
-	d_pipe->input = open(token, O_RDONLY);
-	return (0);
-}
-
-int	handle_heredoc(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
-{
-	int	returnvalue;
-
-	d_pipe->h_trigger = 0;
-	d_pipe->h_cpt = 0;
-	returnvalue = heredoc(d_pipe, d_token, denv, i);
-	d_token->tokens[*i] = remove_first(d_token, DELIMITER, *i);
-	d_pipe->redi = 1;
-	return (returnvalue);
-}
-
 int	cmd_return(t_pipe *d_pipe)
 {
-	// char *buffer;
-	// buffer = ft_calloc(1000, 1);
 	if (d_pipe->failure)
 		return (r_parse_error(d_pipe), 1);
 	if (d_pipe->input != -1)
@@ -107,9 +43,8 @@ int	count_cmd(char **string, int *type)
 	return (len);
 }
 
-char	**remove_first(t_tok *dt, int skip_type, int c)
+char	**remove_first(t_tok *dt, int skip_type, int c, int i)
 {
-	int		i;
 	int		j;
 	int		skipped;
 	char	**new;
@@ -117,7 +52,6 @@ char	**remove_first(t_tok *dt, int skip_type, int c)
 
 	j = 0;
 	skipped = 0;
-	i = 0;
 	new_type = ft_calloc(ft_strlenlen(dt->tokens[c]), sizeof(int));
 	new = ft_calloc(ft_strlenlen(dt->tokens[c]), sizeof(char *));
 	while (dt->tokens[c][i])
@@ -125,8 +59,7 @@ char	**remove_first(t_tok *dt, int skip_type, int c)
 		if (dt->type[c][i] != skip_type || skipped)
 		{
 			new[j] = ft_strdup(dt->tokens[c][i]);
-			new_type[j] = dt->type[c][i];
-			j++;
+			new_type[j++] = dt->type[c][i];
 		}
 		else
 			skipped = 1;
@@ -165,4 +98,3 @@ int	check_next(int signe)
 		return (1);
 	return (0);
 }
-

@@ -6,7 +6,7 @@
 /*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 08:59:09 by nbardavi          #+#    #+#             */
-/*   Updated: 2024/02/08 18:59:52 by nbardavi         ###   ########.fr       */
+/*   Updated: 2024/02/09 10:39:01 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,8 @@ int	heredoc(t_pipe *d_pipe, t_tok *dt, t_env *denv, int *i)
 	char	*limiter;
 	char	*sasave;
 
-	// printf("---------- DEBUG HEREDOC----------\n");
 	limiter = ft_strdup(dt->tokens[*i][check_here(dt->tokens, *i) + 1]);
 	f_name = h_create_file(d_pipe);
-	// printf("Limiter: %s\nFile_name: %s\n", limiter, f_name);
 	save = h_redo(d_pipe, dt, limiter);
 	if (save == NULL)
 		return (close(d_pipe->heredoc), free(limiter), free(f_name), D_AL);
