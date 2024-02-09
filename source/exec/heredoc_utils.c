@@ -12,9 +12,10 @@
 
 #include "../../include/minishell.h"
 #include <signal.h>
-extern int g_exitno;
-void	ctrl_heredoc(int sig_num);
-void	signal_ctrl(void);
+
+extern int	g_exitno;
+void		ctrl_heredoc(int sig_num);
+void		signal_ctrl(void);
 
 char	*h_create_file(t_pipe *d_pipe)
 {
@@ -50,7 +51,7 @@ char	*h_redo(t_pipe *d_pipe, t_tok *d_token, char *limiter)
 char	*h_exec(t_pipe *d_pipe, char *save, char *limiter)
 {
 	char	*input;
-	
+
 	signal(SIGINT, ctrl_heredoc);
 	while (d_pipe->h_trigger != 1)
 	{
@@ -58,7 +59,7 @@ char	*h_exec(t_pipe *d_pipe, char *save, char *limiter)
 		if (g_exitno == 130)
 		{
 			signal_ctrl();
-			return(NULL);
+			return (NULL);
 		}
 		if (input == NULL)
 		{

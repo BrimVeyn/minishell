@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
+/*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 11:34:27 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/02/08 18:30:50 by nbardavi         ###   ########.fr       */
+/*   Updated: 2024/02/09 08:55:32 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,6 +139,7 @@ typedef struct s_pipe
 	int					f_cpt;
 	int					*f_id;
 	int					p_trig;
+	int					t_cat;
 	int					redi;
 	int					h_i;
 	int					t_exit;
@@ -152,8 +153,6 @@ typedef struct s_pipe
 	char				*file_name;
 	int					failure;
 	int					tr_p;
-	int					redi_o;
-	int					t_f_redi;
 }						t_pipe;
 
 typedef struct s_lst
@@ -194,7 +193,18 @@ typedef struct s_tok
     int                 *w_pos;
     int                 w_size;
 	char				**heredoc;
+	t_starlist			*strl;
 }						t_tok;
+
+typedef struct	s_splith
+{
+	char	***split;
+	int				i;
+	int				j;
+	int				j_save;
+	int				wc;
+	int				d_value;
+}					t_splith;
 
 typedef struct s_tokh
 {
@@ -284,7 +294,7 @@ void					b_export(char **args, t_env *denv);
 void					b_unset(char **args, t_env *denv);
 void					b_env(t_env *denv);
 void					b_exit(char **args, t_pipe *d_pipe);
-void					b_pwd(char **args, t_env *denv);
+void					b_pwd(void);
 void					b_cd(char **args, t_env *denv);
 void					no_old_pwd(void);
 void					cd_tild(char *newpwd, t_env *denv);
@@ -360,6 +370,15 @@ int	ms_count_words(char *input);
 int ms_newline_error(t_tok *tdata);
 int ms_token_error(t_tok *tdata);
 int ms_ambiguous_error(t_tok *tdata, char ***tok_copy);
+char	**ms_delindex(char **split, int i);
+char	*ms_delimiter(char *delimiter);
+int	*ms_intab(int *w_pos, int *w_size, int p_a, int p_b);
+char **ms_check_empty(char **split);
+int ms_delimiter_expand(char **split, t_tok *tdata, int *x, int index);
+void	ms_fill_cmd(char **split, char *input, int *j, int *type);
+void	ms_fill_token(char **split, char *input, int *j, int *type);
+void	ms_fill_word(char *input, int *j, int *q, int *len);
+void	ms_type_set(char *input, int *x, int *type, char **split);
 
 
 

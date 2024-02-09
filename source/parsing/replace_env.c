@@ -6,7 +6,7 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/26 11:19:26 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/02/08 08:58:44 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/02/08 15:53:33 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,32 +47,41 @@ char	*r_dollar(char *split, int *i, int start, t_env *denv)
 	return (tmp);
 }
 
+static char	*split_dollar(char *split, int *i, t_env *denv)
+{
+	int	start;
+
+	start = 0;
+	if (split[(*i)] == '$')
+	{
+		if (split[(*i) + 1])
+			(*i)++;
+		start = (*i);
+		if (ft_isdigit(split[(*i)]) || (!ft_isalpha(split[(*i)])
+				&& split[(*i)] != '_'))
+			start = INT_MAX;
+		else
+			(*i)++;
+		while (split[(*i)] && (ft_isalnum(split[(*i)]) || split[(*i)] == '_'))
+			(*i)++;
+		if ((*i) > start)
+			split = r_dollar(split, &(*i), start, denv);
+		else
+			(*i)++;
+	}
+	return (split);
+}
+
 char	*r_env(char *split, t_env *denv)
 {
 	int	i;
-	int	start;
 
 	i = 0;
 	while (split && split[i])
 	{
 		if (!ft_strncmp(&split[i], "$?", 2))
 			split = r_dollarquestion(split, &i);
-		if (split[i] == '$')
-		{
-			if (split[i + 1])
-				i++;
-			start = i;
-			if (ft_isdigit(split[i]) || (!ft_isalpha(split[i]) && split[i] != '_'))
-				start = INT_MAX;
-			else
-				i++;
-			while (split[i] && (ft_isalnum(split[i]) || split[i] == '_'))
-				i++;
-			if (i > start)
-				split = r_dollar(split, &i, start, denv);
-			else
-				i++;
-		}
+		split = split_dollar(split, &i, denv);
 		if (split[i] && split[i] != '$')
 			i++;
 	}

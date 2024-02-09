@@ -6,11 +6,27 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 15:53:41 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/01/30 17:33:07 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/02/09 08:50:20 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
+
+int	ms_var_exist(char *var, t_env *denv)
+{
+	char	*tmp;
+	int		i;
+
+	i = 0;
+	tmp = ms_cut_at(ft_strdup(var), '=');
+	while (denv->f_env[i])
+	{
+		if (!ft_strncmp(denv->f_env[i], tmp, ft_strlen(tmp)))
+			return (free(tmp), i);
+		i++;
+	}
+	return (free(tmp), ERROR);
+}
 
 char	**del_var(char **f_env, int index)
 {

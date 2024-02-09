@@ -12,72 +12,77 @@
 
 #include "../../include/minishell.h"
 
-static int ms_first_token_check(t_tok *tdata)
+static int	ms_first_token_check(t_tok *tdata)
 {
-    if (ms_typetok(tdata->type[0][0]) == TRUE && tdata->type[0][0] != P_O)
-    {
-        fd_printf(2, "minishell: syntax error near unexpected token `%fs'\n", tdata->tokens[0][0]);
-        return (ERROR);
-    }
-	return (TRUE);
-}
-
-
-static int ms_after_cparenthesis_check(t_tok *tdata, int *i)
-{
-	if (tdata->type[*i][0] == P_C && tdata->type[*i + 1] && tdata->type[*i + 1][0] == CMD)
+	if (ms_typetok(tdata->type[0][0]) == TRUE && tdata->type[0][0] != P_O)
 	{
-		fd_printf(2, "minishell: syntax error near unexpected token `%fs'\n", tdata->tokens[*i + 1][0]);
+		fd_printf(2, "minishell: syntax error near unexpected token `%fs'\n",
+			tdata->tokens[0][0]);
 		return (ERROR);
 	}
 	return (TRUE);
 }
 
-static int ms_after_cmd_check(t_tok *tdata, int *i)
+static int	ms_after_cparenthesis_check(t_tok *tdata, int *i)
 {
-	if (tdata->type[*i][0] == CMD && tdata->type[*i + 1] && tdata->type[*i + 1][0] == P_O)
+	if (tdata->type[*i][0] == P_C && tdata->type[*i + 1] && tdata->type[*i
+		+ 1][0] == CMD)
 	{
-		fd_printf(2, "minishell: syntax error near unexpected token `%fs'\n", tdata->tokens[*i + 1][0]);
+		fd_printf(2, "minishell: syntax error near unexpected token `%fs'\n",
+			tdata->tokens[*i + 1][0]);
 		return (ERROR);
 	}
 	return (TRUE);
 }
 
-static int ms_general_case_check(t_tok *tdata, int *i)
+static int	ms_after_cmd_check(t_tok *tdata, int *i)
 {
-	if (tdata->tokens[*i + 1] && ms_typetok(tdata->type[*i + 1][0]) == TRUE && ms_typetok(tdata->type[*i][0]) != P_C 
-		&& ms_typetok(tdata->type[*i + 1][0]) != P_O)
+	if (tdata->type[*i][0] == CMD && tdata->type[*i + 1] && tdata->type[*i
+		+ 1][0] == P_O)
 	{
-		fd_printf(2, "minishell: syntax error near unexpected token `%fs'\n", tdata->tokens[*i + 1][0]);
+		fd_printf(2, "minishell: syntax error near unexpected token `%fs'\n",
+			tdata->tokens[*i + 1][0]);
+		return (ERROR);
+	}
+	return (TRUE);
+}
+
+static int	ms_general_case_check(t_tok *tdata, int *i)
+{
+	if (tdata->tokens[*i + 1] && ms_typetok(tdata->type[*i + 1][0]) == TRUE
+		&& ms_typetok(tdata->type[*i][0]) != P_C && ms_typetok(tdata->type[*i
+			+ 1][0]) != P_O)
+	{
+		fd_printf(2, "minishell: syntax error near unexpected token `%fs'\n",
+			tdata->tokens[*i + 1][0]);
 		return (ERROR);
 	}
 	else if (!tdata->tokens[*i + 1] && tdata->type[*i][0] != P_C)
 	{
-		fd_printf(2, "minishell: syntax error near unexpected token `%fs'\n", tdata->tokens[*i][0]);
+		fd_printf(2, "minishell: syntax error near unexpected token `%fs'\n",
+			tdata->tokens[*i][0]);
 		return (ERROR);
 	}
 	return (TRUE);
 }
 
-
-int ms_token_error(t_tok *tdata)
+int	ms_token_error(t_tok *tdata)
 {
-    int i;
+	int	i;
 
-    i = 0;
+	i = 0;
 	if (ms_first_token_check(tdata) == ERROR)
 		return (ERROR);
-    while (tdata->tokens[i])
-    {
+	while (tdata->tokens[i])
+	{
 		if (ms_after_cparenthesis_check(tdata, &i) == ERROR)
 			return (ERROR);
 		if (ms_after_cmd_check(tdata, &i) == ERROR)
 			return (ERROR);
-        if (ms_typetok(tdata->type[i][0]) == TRUE)
+		if (ms_typetok(tdata->type[i][0]) == TRUE)
 			if (ms_general_case_check(tdata, &i) == ERROR)
 				return (ERROR);
-        i++;
-    }
-    return (TRUE);
+		i++;
+	}
+	return (TRUE);
 }
-

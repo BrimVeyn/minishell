@@ -6,29 +6,13 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 16:09:44 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/02/08 14:21:35 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/02/09 08:52:29 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
 extern int	g_exitno;
-
-int	ms_var_exist(char *var, t_env *denv)
-{
-	char	*tmp;
-	int		i;
-
-	i = 0;
-	tmp = ms_cut_at(ft_strdup(var), '=');
-	while (denv->f_env[i])
-	{
-		if (!ft_strncmp(denv->f_env[i], tmp, ft_strlen(tmp)))
-			return (free(tmp), i);
-		i++;
-	}
-	return (free(tmp), ERROR);
-}
 
 static int	invalid_identifier(char *identifier)
 {
@@ -83,11 +67,33 @@ void	b_export_helper(int *i, char **args, t_env *denv)
 	(*i)++;
 }
 
+void	b_export_no_args(t_env *denv)
+{
+	int		i;
+	char	*identifier;
+	char	*value;
+	char	*final;
+
+	i = 0;
+	while (denv->f_env[i])
+	{
+		identifier = ms_cut_at(ft_strdup(denv->f_env[i]), '=');
+		value = ms_getenv(ft_strdup(identifier), denv);
+		final = ft_sprintf("%fs%s%fs%fs%s%fs", "declare -x ", identifier, "=",
+				"\"", value, "\"");
+		printf("%s\n", final);
+		free(final);
+		i++;
+	}
+}
+
 void	b_export(char **args, t_env *denv)
 {
 	int	i;
 
 	i = 1;
+	if (ms_tablen(args) == 1)
+		b_export_no_args(denv);
 	while (args[i])
 		b_export_helper(&i, args, denv);
 }

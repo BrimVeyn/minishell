@@ -102,7 +102,7 @@ char	*w_expand(char *word, t_env *denv, t_tok *tdata)
 	dot_trigger = (word[0] != '.');
 	flist = get_flist(denv);
 	slist = ms_starsplit(word, tdata);
-    current = slist;
+	current = slist;
 	flist = ms_wildcard_expand(current, flist);
 	if (!flist)
 		return (ms_dlstclear(&flist), word);

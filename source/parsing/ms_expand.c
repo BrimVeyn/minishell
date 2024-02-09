@@ -12,26 +12,28 @@
 
 #include "../../include/minishell.h"
 
-void ms_expand(t_tok *tdata, t_env *denv)
+void	ms_expand(t_tok *tdata, t_env *denv)
 {
-    int i;
-    int j;
-    
-    i = 0;
-    while(tdata->tokens[i])
-    {
-        j = 0;
-        while (tdata->tokens[i][j])
-        {
-            if (ms_typecmdtok(tdata->type[i][j]) == TRUE || tdata->type[i][j] == CMD)
-            {
-                tdata->tokens[i] = transform_split(tdata->tokens[i], denv, tdata, i);
+	int	i;
+	int	j;
+
+	i = 0;
+	while (tdata->tokens[i])
+	{
+		j = 0;
+		while (tdata->tokens[i][j])
+		{
+			if (ms_typecmdtok(tdata->type[i][j]) == TRUE
+				|| tdata->type[i][j] == CMD)
+			{
+				tdata->tokens[i] = transform_split(tdata->tokens[i], denv,
+						tdata, i);
 				if (!ft_strcmp(tdata->tokens[i][0], "WRONG"))
 					tdata->type[i][0] = WRONG;
-                break;
-            }
-            j++;
-        }
-        i++;
-    }
+				break ;
+			}
+			j++;
+		}
+		i++;
+	}
 }
