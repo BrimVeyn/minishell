@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirect.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
+/*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/09 09:30:42 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/02/09 09:30:58 by bvan-pae         ###   ########.fr       */
+/*   Created: 2024/02/01 10:35:07 by nbardavi          #+#    #+#             */
+/*   Updated: 2024/02/09 09:24:25 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ int	handle_append(char *token, t_pipe *d_pipe)
 		d_pipe->file_name = ft_sprintf("%s", token);
 		return (D_AR);
 	}
+	d_pipe->redi = 1;
 	dup2(d_pipe->output, STDOUT_FILENO);
 	return (0);
 }
@@ -44,6 +45,7 @@ int	handle_output(char *token, t_pipe *d_pipe)
 		d_pipe->file_name = ft_sprintf("%s", token);
 		return (S_AR);
 	}
+	d_pipe->redi = 1;
 	dup2(d_pipe->output, STDOUT_FILENO);
 	close(d_pipe->output);
 	return (0);
@@ -71,6 +73,7 @@ int	handle_heredoc(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
 	d_pipe->h_cpt = 0;
 	returnvalue = heredoc(d_pipe, d_token, denv, i);
 	d_token->tokens[*i] = remove_first(d_token, DELIMITER, *i);
+	d_pipe->redi = 1;
 	return (returnvalue);
 }
 

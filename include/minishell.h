@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/09 09:29:10 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/02/09 09:29:20 by bvan-pae         ###   ########.fr       */
+/*   Created: 2024/02/08 11:34:27 by bvan-pae          #+#    #+#             */
+/*   Updated: 2024/02/09 09:58:34 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,7 +139,6 @@ typedef struct s_pipe
 	int					f_cpt;
 	int					*f_id;
 	int					p_trig;
-	int					t_cat;
 	int					redi;
 	int					h_i;
 	int					t_exit;
@@ -199,16 +198,6 @@ typedef struct s_tok
 	t_starlist			*strl;
 }						t_tok;
 
-typedef struct	s_splith
-{
-	char	***split;
-	int				i;
-	int				j;
-	int				j_save;
-	int				wc;
-	int				d_value;
-}					t_splith;
-
 typedef struct s_tokh
 {
 	int					i;
@@ -219,6 +208,16 @@ typedef struct s_tokh
 	int					quotes[2];
 	t_tokvar			tokvar;
 }						t_tokh;
+
+typedef struct	s_splith
+{
+	char	***split;
+	int				i;
+	int				j;
+	int				j_save;
+	int				wc;
+	int				d_value;
+}					t_splith;
 
 t_h_lst					*ms_lst_new(char *content);
 t_tok					parse_input(char *input, t_env *denv);
