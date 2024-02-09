@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirect.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
+/*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/01 10:35:07 by nbardavi          #+#    #+#             */
-/*   Updated: 2024/02/08 11:49:00 by nbardavi         ###   ########.fr       */
+/*   Created: 2024/02/09 09:30:42 by bvan-pae          #+#    #+#             */
+/*   Updated: 2024/02/09 09:30:58 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,16 @@
 
 extern int	g_exitno;
 
-char		**remove_first(t_tok *dt, int skip_type, int c);
-void		tprint(char ***string);
+char	**remove_first(t_tok *dt, int skip_type, int c);
+int	handle_append(char *token, t_pipe *d_pipe);
+int	handle_output(char *token, t_pipe *d_pipe);
+int	handle_heredoc(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i);
+int	cmd_return(t_pipe *d_pipe);
+int	count_cmd(char **string, int *type);
+int	check_next(int signe);
+int	handle_input(char *token, t_pipe *d_pipe);
 
-static int	handle_append(char *token, t_pipe *d_pipe)
+int	handle_append(char *token, t_pipe *d_pipe)
 {
 	d_pipe->output = open(token, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	if (d_pipe->output == -1)
@@ -30,7 +36,7 @@ static int	handle_append(char *token, t_pipe *d_pipe)
 	return (0);
 }
 
-static int	handle_output(char *token, t_pipe *d_pipe)
+int	handle_output(char *token, t_pipe *d_pipe)
 {
 	d_pipe->output = open(token, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (d_pipe->output == -1)
@@ -43,7 +49,7 @@ static int	handle_output(char *token, t_pipe *d_pipe)
 	return (0);
 }
 
-static int	handle_input(char *token, t_pipe *d_pipe)
+int	handle_input(char *token, t_pipe *d_pipe)
 {
 	if (access(token, F_OK | R_OK))
 	{
@@ -57,7 +63,7 @@ static int	handle_input(char *token, t_pipe *d_pipe)
 	return (0);
 }
 
-static int	handle_heredoc(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
+int	handle_heredoc(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
 {
 	int	returnvalue;
 
@@ -157,46 +163,3 @@ int	check_next(int signe)
 	return (0);
 }
 
-int	cmd_redi(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
-{
-	int	j;
-	int	temp;
-
-	j = 0;
-	d_pipe->failure = 0;
-	d_pipe->tr_p = 0;
-	while (d_token->tokens[*i][j])
-	{
-		temp = d_token->type[*i][j];
-		if (d_token->type[*i][j] == D_AR)
-			d_pipe->failure = handle_append(d_token->tokens[*i][j + 1], d_pipe);
-		else if (d_token->type[*i][j] == S_AR)
-			d_pipe->failure = handle_output(d_token->tokens[*i][j + 1], d_pipe);
-		else if (d_token->type[*i][j] == S_AL)
-			d_pipe->failure = handle_input(d_token->tokens[*i][j + 1], d_pipe);
-		else if (d_token->type[*i][j] == D_AL)
-			d_pipe->failure = handle_heredoc(d_token, d_pipe, denv, i);
-		if (d_token->t_size > *i + 2 && (d_token->type[*i + 1][0] == P_C
-				&& check_next(d_token->type[*i + 2][0]) == 1)
-			&& d_pipe->tr_p == 0)
-		{
-			d_pipe->tr_p = 1;
-			*i += 2;
-			d_pipe->failure = cmd_redi(d_token, d_pipe, denv, i);
-			*i -= 2;
-		}
-		if ((d_token->type[*i][j] != CMD && d_token->type[*i][j] != BUILTIN
-				&& d_token->type[*i][j] != WRONG) && !d_pipe->failure)
-			d_token->tokens[*i] = remove_first(d_token, d_token->type[*i][j],
-					*i);
-		else
-			j++;
-		if ((temp == D_AR || temp == S_AR || temp == S_AL) && !d_pipe->failure)
-			d_token->tokens[*i] = remove_first(d_token, FAILE, *i);
-		if (d_pipe->failure)
-			break ;
-		if (ft_strlenlen(d_token->tokens[*i]) == 0)
-			d_token->type[*i][0] = WRONG;
-	}
-	return (cmd_return(d_pipe));
-}
