@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   b_exec.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
+/*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/30 12:33:30 by nbardavi          #+#    #+#             */
-/*   Updated: 2024/02/09 09:58:55 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/02/09 10:43:54 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	b_redi_out(t_tok *d_token, t_pipe *d_pipe, int i)
 	}
 	if (d_pipe->output != -1)
 		close(d_pipe->output);
-	if (d_token->type[i][0] == S_AR) // ATTENTION
+	if (d_token->type[i][0] == S_AR)
 		d_pipe->output = open(d_token->tokens[i + 1][0],
 				O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	else
@@ -72,12 +72,4 @@ void	b_parse(t_tok *d_token, t_env *denv, int *i)
 		b_env(denv);
 	if (!ft_strcmp(d_token->tokens[*i][0], "pwd"))
 		b_pwd();
-	if (!ft_strcmp(d_token->tokens[*i][0], "robin"))
-		b_robin();
-}
-
-void	handle_built(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
-{
-	(void)d_pipe;
-	b_parse(d_token, denv, i);
 }

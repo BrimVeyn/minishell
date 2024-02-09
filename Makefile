@@ -46,7 +46,6 @@ SRC 			:= source/main.c source/prompt.c \
 				   source/builtins/cd_h2.c \
 				   source/builtins/cd_h3.c \
 				   source/builtins/exit.c \
-				   source/builtins/robin.c \
 				   source/parsing/parse_input.c \
 				   source/parsing/ft_splitm.c \
 				   source/parsing/expands.c \
@@ -81,6 +80,7 @@ SRC 			:= source/main.c source/prompt.c \
 				   source/exec/redirect.c\
 				   source/exec/redirect2.c\
 				   source/exec/cmd_redi.c \
+				   source/exec/redirect_helper.c \
 				   source/utils_exec/utils.c \
 				   source/misc/ms_setint.c \
 				   source/misc/ms_setchar.c \
