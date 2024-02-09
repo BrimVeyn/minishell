@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   type_parse.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
+/*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 14:40:30 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/02/08 14:25:58 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/02/08 18:44:44 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,27 +44,24 @@ void	w_exec_pipe(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
 	int	j;
 
 	j = 0;
-	d_pipe->f_cpt = 0;
 	dup2(d_pipe->input, STDIN_FILENO);
 	while ((next_ope(d_token, *i) == PIPE || (previous_ope(d_token, *i) == PIPE
 				&& next_ope(d_token, *i) != PIPE)
 			|| d_token->type[*i][0] == PIPE) && d_token->t_size > *i)
 	{
 		pipe_parse(d_token, d_pipe, denv, i);
-		d_pipe->f_cpt++;
+		if (d_token->type[*i][0] != PIPE)
+			d_pipe->f_cpt++;
 		(*i)++;
 	}
+	// printf("cpt fork: %d\n", d_pipe->f_cpt);
 	dup2(d_pipe->old_stdin, STDIN_FILENO);
 	while (d_pipe->f_cpt >= j)
 	{
-		// if (g_exitno == 256)
-		// {
-		// 	waitpid(d_pipe->f_id[d_pipe->f_cpt], NULL, 0);
-		// }
-		// else
-		// {
-		waitpid(d_pipe->f_id[d_pipe->f_cpt], &g_exitno, 0);
-		// }
+		if (g_exitno == 256)
+			waitpid(d_pipe->f_id[d_pipe->f_cpt], NULL, 0);
+		else
+			waitpid(d_pipe->f_id[d_pipe->f_cpt], &g_exitno, 0);
 		j++;
 	}
 	d_pipe->p_trig = 1;

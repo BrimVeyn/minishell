@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_pipe.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
+/*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/09 09:29:49 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/02/09 09:30:29 by bvan-pae         ###   ########.fr       */
+/*   Created: 2024/01/24 10:38:01 by nbardavi          #+#    #+#             */
+/*   Updated: 2024/02/08 20:00:26 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,10 @@ void	cmd_exec_pipe(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
 	}
 	if (d_pipe->output != -1)
 	{
-		dup2(d_pipe->old_stdout, STDOUT_FILENO);
+		if (d_pipe->redi_o == 0)
+			dup2(d_pipe->old_stdout, STDOUT_FILENO);
+		else
+			d_pipe->redi_o = 0;
 		d_pipe->output = -1;
 	}
 }
