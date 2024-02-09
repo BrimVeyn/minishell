@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/08 11:34:27 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/02/09 08:55:32 by bvan-pae         ###   ########.fr       */
+/*   Created: 2024/02/09 09:29:10 by bvan-pae          #+#    #+#             */
+/*   Updated: 2024/02/09 09:29:20 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,6 +153,9 @@ typedef struct s_pipe
 	char				*file_name;
 	int					failure;
 	int					tr_p;
+	int					redi_o;
+	int					t_f_redi;
+	int					temp;
 }						t_pipe;
 
 typedef struct s_lst
@@ -442,6 +445,14 @@ void					b_parse(t_tok *d_token, t_env *denv, int *i);
 void					b_parse_nf(t_tok *d_token, t_env *denv, int *i,
 							t_pipe *d_pipe);
 char					*ms_form_prompt(t_env *denv);
+char	**remove_first(t_tok *dt, int skip_type, int c);
+int	handle_append(char *token, t_pipe *d_pipe);
+int	handle_output(char *token, t_pipe *d_pipe);
+int	handle_heredoc(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i);
+int	cmd_return(t_pipe *d_pipe);
+int	count_cmd(char **string, int *type);
+int	check_next(int signe);
+int	handle_input(char *token, t_pipe *d_pipe);
 /*_.-=-._.-=-._.-=-._.-=-._.- HEREDOC -._.-=-._.-=-._.-=-._.-=-._.-=-._*/
 
 char					*h_exec(t_pipe *d_pipe, char *save, char *limiter);
