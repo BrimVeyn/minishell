@@ -92,10 +92,10 @@ $(OBJDEST)/%.o: sources/%.c
 	@printf "$(DEF_COLOR)"
 
 $(OBJDIR):
-	@mkdir -p $(OBJDIR) $(OBJDIR)
+	@mkdir -p $(OBJDIR) $(OBJDIR)/custom_utils $(OBJDIR)/ft_printf $(OBJDIR)/libft
 
 clean:
-	@rm -f $(OBJS)
+	@rm -rf $(OBJDIR)
 
 fclean: clean
 	@rm -f $(NAME)

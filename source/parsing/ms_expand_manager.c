@@ -74,6 +74,18 @@ void	ms_expandsion_manager(char **split, t_env *denv, t_tok *tdata, int *x)
 	}
 }
 
+void print_tab(int *pos, int size)
+{
+    int i;
+
+    i = 0;
+    while(i < size)
+    {
+        printf("W_POS[%d] = %d\n", i, pos[i]);
+        i++;
+    }
+}
+
 char	**transform_split(char **split, t_env *denv, t_tok *tdata, int index)
 {
 	int	x[5];
@@ -89,6 +101,7 @@ char	**transform_split(char **split, t_env *denv, t_tok *tdata, int index)
 		split[x[I]] = tild_expand(split[x[I]], denv);
 		ms_expandsion_manager(split, denv, tdata, x);
 		free(split[x[I]]);
+        // print_tab(tdata->w_pos, tdata->w_size); 
 		split[x[I]] = w_expand(ms_starjoin(&tdata->strl), denv, tdata);
 		ms_starclear(&tdata->strl);
 		free(tdata->w_pos);

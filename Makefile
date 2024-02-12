@@ -46,24 +46,24 @@ SRC 			:= source/main.c source/prompt.c \
 				   source/builtins/cd_h2.c \
 				   source/builtins/cd_h3.c \
 				   source/builtins/exit.c \
-				   source/parsing/parse_input.c \
-				   source/parsing/ft_splitm.c \
-				   source/parsing/expands.c \
-				   source/parsing/utils_two.c \
-				   source/parsing/replace_env.c \
-				   source/parsing/path_parse.c \
-				   source/parsing/path_errors.c \
+				   source/parsing/ms_add_path.c \
+				   source/parsing/ms_count_tokens.c \
+				   source/parsing/ms_expand.c \
+				   source/parsing/ms_expand_manager.c \
+				   source/parsing/ms_get_env.c \
+				   source/parsing/ms_parse_input.c \
+				   source/parsing/ms_parsing_errors.c \
+				   source/parsing/ms_path_errors.c \
 				   source/parsing/ms_split.c \
 				   source/parsing/ms_split_utils.c \
-				   source/parsing/ms_expand.c \
-				   source/parsing/get_env.c \
-				   source/parsing/quotes_parity_check.c \
+				   source/parsing/ms_token_errors.c \
+				   source/parsing/ms_unclosed_quotes_error.c \
+				   source/parsing/ms_var_expand.c \
+				   source/parsing/ms_whitelist.c \
+				   source/parsing/ms_wildcards.c \
 				   source/parsing/parenthesis_check.c \
 				   source/parsing/utils.c \
-				   source/parsing/count_tokens.c \
-				   source/parsing/ms_whitelist.c \
-				   source/parsing/ms_parsing_errors.c \
-				   source/parsing/ms_token_errors.c \
+				   source/parsing/utils_two.c \
 				   source/exec/main_exec.c \
 				   source/exec/type_parse.c \
 				   source/exec/handle_cmds.c \

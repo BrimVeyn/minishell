@@ -45,10 +45,8 @@ int	ms_count_word(char *input, int *j)
 {
 	int	counter;
 	int	q[2];
-	int	trigger;
 
 	counter = 0;
-	trigger = 0;
 	q[0] = 0;
 	q[1] = 0;
 	while (input[*j] && ms_wltoken(&input[*j]) == ERROR)
