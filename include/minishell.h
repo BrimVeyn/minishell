@@ -292,20 +292,9 @@ void					b_env(t_env *denv);
 void					b_exit(char **args, t_pipe *d_pipe);
 void					b_pwd(void);
 void					b_cd(char **args, t_env *denv);
-void					no_old_pwd(void);
-void					cd_tild(char *newpwd, t_env *denv);
-void					error_3(char *newpwd);
-void					no_pwd(char *newpwd, t_env *denv, int *index);
-void					oldpwdt(char *oldpwd, t_env *denv, int *index);
-void					nooldpwd(char *oldpwd, t_env *denv);
-void					fill_this(t_env *denv, char *oldpwd, char *newpwd,
-							int *index);
+void                    cd_minus(t_env *denv);
 int						too_many_args(char **args);
 int						no_args(char **args, t_env *denv);
-void					opt_1(char *newoldpwd, char *tmp, t_env *denv,
-							int *index);
-void					opt_2(char *newoldpwd, char *tmp, t_env *denv);
-void					error_1(char **args);
 char					**ms_replace_value(char **f_env, int index, char *arg);
 char					**del_var(char **f_env, int index);
 char					*ms_find_var(t_env *denv, char *var);
