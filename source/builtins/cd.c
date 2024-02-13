@@ -11,81 +11,74 @@
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
+#include <linux/limits.h>
+#include <unistd.h>
 
 extern int	g_exitno;
 
-static void	cd_minus_h(t_env *denv, int *index, char *newpwd, char *oldpwd)
+int	too_many_args(char **args)
 {
-	if (index[0] != ERROR)
-		no_pwd(newpwd, denv, index);
-	if (index[1] != ERROR)
-		oldpwdt(oldpwd, denv, index);
-	if (index[0] == ERROR && index[1] != ERROR)
-		denv->f_env = del_var(denv->f_env, index[1]);
-	else if (index[1] == ERROR)
-		nooldpwd(oldpwd, denv);
-}
-
-static void	cd_minus(t_env *denv)
-{
-	char	*oldpwd;
-	int		index[2];
-	char	*newpwd;
-
-	oldpwd = denv->pwd;
-	newpwd = ms_find_var(denv, "OLDPWD=");
-	index[0] = ms_var_exist("PWD=", denv);
-	index[1] = ms_var_exist("OLDPWD=", denv);
-	if (!newpwd)
-		return (no_old_pwd());
-	if (!ft_strncmp(newpwd, "~", 2))
-		cd_tild(newpwd, denv);
-	if (index[1] != ERROR && ms_filetype(newpwd) != DIRECTORY)
-		return (error_3(newpwd));
-	chdir(newpwd);
-	cd_minus_h(denv, index, newpwd, oldpwd);
-	free(newpwd);
-	g_exitno = 0;
-}
-
-void	valid_file(char *newoldpwd, char **args, t_env *denv, int *index)
-{
-	char	current_directory[PATH_MAX];
-	char	*tmp;
-
-	tmp = NULL;
-	index[0] = ms_var_exist("PWD=", denv);
-	index[1] = ms_var_exist("OLDPWD=", denv);
-	if (index[0] != ERROR)
-		newoldpwd = ft_strdup(denv->f_env[index[0]]);
-	getcwd(current_directory, sizeof(current_directory));
-	if (index[0] != ERROR)
+	if (ms_tablen(args) > 2)
 	{
-		tmp = ft_strjoin("PWD=", current_directory);
-		denv->f_env = ms_replace_value(denv->f_env, index[0], tmp);
+		fd_printf(2, "minishell: cd: too many arguments\n");
+		g_exitno = 1 << 8;
+		return (TRUE);
 	}
-	else if (index[0] == ERROR && index[1] != ERROR)
-		denv->f_env = del_var(denv->f_env, index[1]);
-	if (index[0] != ERROR && index[1] != ERROR)
-		opt_1(newoldpwd, tmp, denv, index);
-	else if (newoldpwd)
-		opt_2(newoldpwd, tmp, denv);
-	g_exitno = 0;
-	return (chdir(args[1]), free(newoldpwd), free(tmp));
+	return (ERROR);
+}
+
+void cd_oldandpwdset(t_env *denv, char *arg, char *pwd)
+{
+    char *newpwd;
+    char *newoldpwd;
+    char cdir[PATH_MAX];
+
+    if (ms_var_exist("PWD", denv) != ERROR && ms_var_exist("OLDPWD", denv) != ERROR)
+    {
+        chdir(arg);
+        getcwd(cdir, PATH_MAX);
+        newpwd = ft_strdup(cdir);
+        newoldpwd = ft_strdup(pwd);
+        newpwd = ft_sprintf("%fs%s", "PWD=", newpwd);
+        newoldpwd = ft_sprintf("%fs%s", "OLDPWD=", newoldpwd);
+        denv->f_env = ms_replace_value(denv->f_env, ms_var_exist("PWD", denv), newpwd);
+        denv->f_env = ms_replace_value(denv->f_env, ms_var_exist("OLDPWD", denv), newoldpwd);
+        return (free(newpwd), free(newoldpwd));
+    }
+}
+
+void update_dir(t_env *denv, char *arg)
+{
+    char *pwd;
+    char *oldpwd;
+
+    pwd = ms_find_var(denv, "PWD");
+    oldpwd = ms_find_var(denv, "OLDPWD");
+    if (pwd)
+        pwd = ft_substr_free(pwd, 1, ft_strlen(pwd));
+    if (oldpwd)
+        oldpwd = ft_substr_free(oldpwd, 1, ft_strlen(oldpwd));
+    cd_oldandpwdset(denv, arg, pwd);
+    if (ms_var_exist("PWD", denv) == ERROR || ms_var_exist("OLDPWD", denv) == ERROR)
+        chdir(arg);
+    free(pwd);
+    free(oldpwd);
+}
+
+void	cd_nosuchfile(char **args)
+{
+	fd_printf(2, "minishell: cd: %fs: No such file or directory\n", args[1]);
+	g_exitno = 1 << 8;
 }
 
 void	b_cd(char **args, t_env *denv)
 {
-	int		index[2];
-	char	*newoldpwd;
-
-	newoldpwd = NULL;
-	if (too_many_args(args) == ERROR || no_args(args, denv) == TRUE)
+	if (too_many_args(args) == TRUE || no_args(args, denv) == TRUE)
 		return ;
 	if (ft_strlen(args[1]) == 1 && args[1][0] == '-')
 		cd_minus(denv);
 	else if (ms_filetype(args[1]) == DIRECTORY)
-		valid_file(newoldpwd, args, denv, index);
+		update_dir(denv, args[1]);
 	else
-		error_1(args);
+		cd_nosuchfile(args);
 }
