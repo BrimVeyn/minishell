@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_splitm.c                                        :+:      :+:    :+:   */
+/*   ms_expand_manager.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
+/*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 14:40:00 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/02/09 09:51:52 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/02/14 16:56:21 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,18 +72,6 @@ void	ms_expandsion_manager(char **split, t_env *denv, t_tok *tdata, int *x)
 		if (ms_no_quote_transform(split, x, &tdata->strl))
 			tdata->w_pos = ms_intab(tdata->w_pos, &tdata->w_size, x[2], x[3]);
 	}
-}
-
-void print_tab(int *pos, int size)
-{
-    int i;
-
-    i = 0;
-    while(i < size)
-    {
-        printf("W_POS[%d] = %d\n", i, pos[i]);
-        i++;
-    }
 }
 
 char	**transform_split(char **split, t_env *denv, t_tok *tdata, int index)

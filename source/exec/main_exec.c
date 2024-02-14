@@ -6,7 +6,7 @@
 /*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 14:28:00 by nbardavi          #+#    #+#             */
-/*   Updated: 2024/02/09 10:40:27 by nbardavi         ###   ########.fr       */
+/*   Updated: 2024/02/14 16:54:48 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,5 +52,6 @@ int	ms_main_pipe(t_tok d_token, t_env *denv)
 		if (d_pipe.t_exit == 1)
 			break ;
 	}
+	init_sig();
 	return (end_main(d_pipe));
 }

@@ -6,11 +6,13 @@
 /*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 14:40:30 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/02/09 12:20:12 by nbardavi         ###   ########.fr       */
+/*   Updated: 2024/02/14 16:49:39 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
+
+void	sigint_spe(int sig_num);
 
 void	parse_type(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
 {
@@ -46,10 +48,12 @@ void	w_exec_pipe(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
 	dup2(d_pipe->old_stdin, STDIN_FILENO);
 	while (d_pipe->f_cpt >= j)
 	{
+		signal(SIGINT, SIG_IGN);
 		if (g_exitno == 256)
 			waitpid(d_pipe->f_id[d_pipe->f_cpt], NULL, 0);
 		else
 			waitpid(d_pipe->f_id[d_pipe->f_cpt], &g_exitno, 0);
+		signal(SIGINT, sigint_spe);
 		j++;
 	}
 	d_pipe->p_trig = 1;
