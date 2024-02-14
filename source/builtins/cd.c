@@ -27,42 +27,46 @@ int	too_many_args(char **args)
 	return (ERROR);
 }
 
-void cd_oldandpwdset(t_env *denv, char *arg, char *pwd)
+void	cd_oldandpwdset(t_env *denv, char *arg, char *pwd)
 {
-    char *newpwd;
-    char *newoldpwd;
-    char cdir[PATH_MAX];
+	char	*newpwd;
+	char	*newoldpwd;
+	char	cdir[PATH_MAX];
 
-    if (ms_var_exist("PWD", denv) != ERROR && ms_var_exist("OLDPWD", denv) != ERROR)
-    {
-        chdir(arg);
-        getcwd(cdir, PATH_MAX);
-        newpwd = ft_strdup(cdir);
-        newoldpwd = ft_strdup(pwd);
-        newpwd = ft_sprintf("%fs%s", "PWD=", newpwd);
-        newoldpwd = ft_sprintf("%fs%s", "OLDPWD=", newoldpwd);
-        denv->f_env = ms_replace_value(denv->f_env, ms_var_exist("PWD", denv), newpwd);
-        denv->f_env = ms_replace_value(denv->f_env, ms_var_exist("OLDPWD", denv), newoldpwd);
-        return (free(newpwd), free(newoldpwd));
-    }
+	if (ms_var_exist("PWD", denv) != ERROR && ms_var_exist("OLDPWD",
+			denv) != ERROR)
+	{
+		chdir(arg);
+		getcwd(cdir, PATH_MAX);
+		newpwd = ft_strdup(cdir);
+		newoldpwd = ft_strdup(pwd);
+		newpwd = ft_sprintf("%fs%s", "PWD=", newpwd);
+		newoldpwd = ft_sprintf("%fs%s", "OLDPWD=", newoldpwd);
+		denv->f_env = ms_replace_value(denv->f_env, ms_var_exist("PWD", denv),
+				newpwd);
+		denv->f_env = ms_replace_value(denv->f_env, ms_var_exist("OLDPWD",
+					denv), newoldpwd);
+		return (free(newpwd), free(newoldpwd));
+	}
 }
 
-void update_dir(t_env *denv, char *arg)
+void	update_dir(t_env *denv, char *arg)
 {
-    char *pwd;
-    char *oldpwd;
+	char	*pwd;
+	char	*oldpwd;
 
-    pwd = ms_find_var(denv, "PWD");
-    oldpwd = ms_find_var(denv, "OLDPWD");
-    if (pwd)
-        pwd = ft_substr_free(pwd, 1, ft_strlen(pwd));
-    if (oldpwd)
-        oldpwd = ft_substr_free(oldpwd, 1, ft_strlen(oldpwd));
-    cd_oldandpwdset(denv, arg, pwd);
-    if (ms_var_exist("PWD", denv) == ERROR || ms_var_exist("OLDPWD", denv) == ERROR)
-        chdir(arg);
-    free(pwd);
-    free(oldpwd);
+	pwd = ms_find_var(denv, "PWD");
+	oldpwd = ms_find_var(denv, "OLDPWD");
+	if (pwd)
+		pwd = ft_substr_free(pwd, 1, ft_strlen(pwd));
+	if (oldpwd)
+		oldpwd = ft_substr_free(oldpwd, 1, ft_strlen(oldpwd));
+	cd_oldandpwdset(denv, arg, pwd);
+	if (ms_var_exist("PWD", denv) == ERROR || ms_var_exist("OLDPWD",
+			denv) == ERROR)
+		chdir(arg);
+	free(pwd);
+	free(oldpwd);
 }
 
 void	cd_nosuchfile(char **args)

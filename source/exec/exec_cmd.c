@@ -6,7 +6,7 @@
 /*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/26 14:41:53 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/02/09 13:01:54 by nbardavi         ###   ########.fr       */
+/*   Updated: 2024/02/14 16:54:00 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@
 
 extern int	g_exitno;
 
+void	sigint_spe(int sig_num);
+
 void	exec_id0(t_pipe *d_pipe, t_tok *d_token, int id, int *i)
 {
 	char	*buffer;
@@ -23,7 +25,7 @@ void	exec_id0(t_pipe *d_pipe, t_tok *d_token, int id, int *i)
 	buffer = malloc(2);
 	signal(SIGINT, SIG_IGN);
 	waitpid(id, &g_exitno, 0);
-	init_sig();
+	signal(SIGINT, sigint_spe);
 	d_pipe->failed = 0;
 	if (g_exitno != 0)
 		d_pipe->failed = 1;
@@ -58,7 +60,6 @@ void	c_execve(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
 		if (d_pipe->b_pipefd[1] > -1)
 			close(d_pipe->b_pipefd[1]);
 		execve(d_token->tokens[*i][0], d_token->tokens[*i], denv->f_env);
-		perror("execve failed");
 		exit(g_exitno);
 	}
 }

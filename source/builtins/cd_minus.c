@@ -34,29 +34,32 @@ char	*ms_find_var(t_env *denv, char *var)
 	return (value);
 }
 
-void cd_minus_bothset(t_env *denv, char *oldpwd, char *pwd)
+void	cd_minus_bothset(t_env *denv, char *oldpwd, char *pwd)
 {
-    char *newpwd;
-    char *newoldpwd;
+	char	*newpwd;
+	char	*newoldpwd;
 
-    if (ms_var_exist("PWD", denv) != ERROR && ms_var_exist("OLDPWD", denv) != ERROR)
-    {
-        chdir(oldpwd);
-        newpwd = ft_sprintf("%fs%fs", "PWD=", oldpwd);
-        newoldpwd = ft_sprintf("%fs%fs", "OLDPWD=", pwd);
-        denv->f_env = ms_replace_value(denv->f_env, ms_var_exist("PWD", denv), newpwd);
-        denv->f_env = ms_replace_value(denv->f_env, ms_var_exist("OLDPWD", denv), newoldpwd);
-        return (free(newpwd), free(newoldpwd));
-    }
+	if (ms_var_exist("PWD", denv) != ERROR && ms_var_exist("OLDPWD",
+			denv) != ERROR)
+	{
+		chdir(oldpwd);
+		newpwd = ft_sprintf("%fs%fs", "PWD=", oldpwd);
+		newoldpwd = ft_sprintf("%fs%fs", "OLDPWD=", pwd);
+		denv->f_env = ms_replace_value(denv->f_env, ms_var_exist("PWD", denv),
+				newpwd);
+		denv->f_env = ms_replace_value(denv->f_env, ms_var_exist("OLDPWD",
+					denv), newoldpwd);
+		return (free(newpwd), free(newoldpwd));
+	}
 }
 
-void cd_minus_oldpwdnotset(char *oldpwd)
+void	cd_minus_oldpwdnotset(char *oldpwd)
 {
-    if (oldpwd == NULL)
-    {
-        fd_printf(2, "minishell: cd: OLDPWD not set\n");
-        g_exitno = 1 << 8;
-    }
+	if (oldpwd == NULL)
+	{
+		fd_printf(2, "minishell: cd: OLDPWD not set\n");
+		g_exitno = 1 << 8;
+	}
 }
 
 int	no_args(char **args, t_env *denv)
@@ -74,18 +77,18 @@ int	no_args(char **args, t_env *denv)
 	return (ERROR);
 }
 
-void cd_minus(t_env *denv)
+void	cd_minus(t_env *denv)
 {
-    char *pwd;
-    char *oldpwd;
+	char	*pwd;
+	char	*oldpwd;
 
-    pwd = ms_find_var(denv, "PWD");
-    oldpwd = ms_find_var(denv, "OLDPWD");
-    if (pwd)
-        pwd = ft_substr_free(pwd, 1, ft_strlen(pwd));
-    if (oldpwd)
-        oldpwd = ft_substr_free(oldpwd, 1, ft_strlen(oldpwd));
-    cd_minus_bothset(denv, oldpwd, pwd);
-    cd_minus_oldpwdnotset(oldpwd);
-    return (free(pwd), free(oldpwd));
+	pwd = ms_find_var(denv, "PWD");
+	oldpwd = ms_find_var(denv, "OLDPWD");
+	if (pwd)
+		pwd = ft_substr_free(pwd, 1, ft_strlen(pwd));
+	if (oldpwd)
+		oldpwd = ft_substr_free(oldpwd, 1, ft_strlen(oldpwd));
+	cd_minus_bothset(denv, oldpwd, pwd);
+	cd_minus_oldpwdnotset(oldpwd);
+	return (free(pwd), free(oldpwd));
 }

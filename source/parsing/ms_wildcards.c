@@ -17,9 +17,9 @@ t_dlist	*get_flist(t_env *denv)
 	struct dirent	*entry;
 	DIR				*dir;
 	t_dlist			*head;
-    char            cdir[PATH_MAX];
+	char			cdir[PATH_MAX];
 
-    (void) denv;
+	(void)denv;
 	head = NULL;
 	dir = opendir(getcwd(cdir, PATH_MAX));
 	if (dir == NULL)

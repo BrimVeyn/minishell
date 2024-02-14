@@ -55,16 +55,16 @@ static int	parse_error_checker(char *input, t_tok *tdata, char ***tok_copy)
 	return (TRUE);
 }
 
-static int empty_string(t_tok *tdata)
+static int	empty_string(t_tok *tdata)
 {
-    if (tdata->t_size == ZERO)
-    {
-        tdata->t_size = ERROR;
-        tdata->tokens = NULL;
-        tdata->type = NULL;
-        return (ERROR);
-    }
-    return (TRUE);
+	if (tdata->t_size == ZERO)
+	{
+		tdata->t_size = ERROR;
+		tdata->tokens = NULL;
+		tdata->type = NULL;
+		return (ERROR);
+	}
+	return (TRUE);
 }
 
 t_tok	parse_input(char *input, t_env *denv)
@@ -85,9 +85,9 @@ t_tok	parse_input(char *input, t_env *denv)
 		return (tdata);
 	}
 	tdata.t_size = count_tokens(input);
-    if (empty_string(&tdata) == ERROR)
-        return (tdata);
-    tdata.tokens = ms_split(&tdata, input);
+	if (empty_string(&tdata) == ERROR)
+		return (tdata);
+	tdata.tokens = ms_split(&tdata, input);
 	tok_copy = ms_copy_tok(tdata.tokens, tdata.t_size);
 	ms_expand(&tdata, denv);
 	if (parse_error_checker(input, &tdata, tok_copy) == ERROR)

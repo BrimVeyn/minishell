@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
+/*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 11:41:47 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/02/09 11:41:53 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/02/14 16:53:15 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,16 @@
 #include <unistd.h>
 
 extern int	g_exitno;
+
+void	sigint_spe(int sig_num)
+{
+	(void)sig_num;
+	g_exitno = 130;
+	ft_printf("\n\n");
+	rl_on_new_line();
+	rl_replace_line("", 0);
+	rl_redisplay();
+}
 
 void	sigint_handler(int sig_num)
 {
