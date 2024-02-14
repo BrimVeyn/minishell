@@ -1,18 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   path_parse.c                                       :+:      :+:    :+:   */
+/*   ms_add_path.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
+/*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/26 11:25:26 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/02/09 09:55:58 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/02/14 16:56:31 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
 extern int	g_exitno;
+
+void	print_tab(int *pos, int size)
+{
+	int	i;
+
+	i = 0;
+	while (i < size)
+	{
+		printf("W_POS[%d] = %d\n", i, pos[i]);
+		i++;
+	}
+}
 
 int	ms_filetype(char *path)
 {
