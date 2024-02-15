@@ -6,7 +6,7 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/30 17:31:29 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/01/30 17:31:45 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/02/15 09:06:20 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ char	**ms_replace_value(char **f_env, int index, char *arg)
 	char	**new;
 	int		i;
 
+	if (index == ERROR)
+		return (f_env);
 	new = ft_calloc(ms_tablen(f_env) + 1, sizeof(char *));
 	if (!new)
 		return (NULL);

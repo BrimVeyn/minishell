@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cd_h.c                                             :+:      :+:    :+:   */
+/*   cd_minus.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
+/*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 10:26:03 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/02/08 13:44:21 by nbardavi         ###   ########.fr       */
+/*   Updated: 2024/02/15 09:11:05 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,12 +65,19 @@ void	cd_minus_oldpwdnotset(char *oldpwd)
 int	no_args(char **args, t_env *denv)
 {
 	char	*tmp;
+	char	*newold;
 
 	if (ms_tablen(args) == 1)
 	{
 		tmp = ms_getenv(ft_strdup("HOME"), denv);
 		chdir(tmp);
+		newold = ms_getenv(ft_strdup("PWD"), denv);
+		denv->f_env = ms_replace_value(denv->f_env, ms_var_exist("OLDPWD", denv),
+					newold);
+		denv->f_env = ms_replace_value(denv->f_env, ms_var_exist("PWD",
+					denv), tmp);
 		free(tmp);
+		free(newold);
 		g_exitno = 0;
 		return (TRUE);
 	}
