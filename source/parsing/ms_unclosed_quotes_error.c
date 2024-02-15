@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   quotes_parity_check.c                              :+:      :+:    :+:   */
+/*   ms_unclosed_quotes_error.c                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 13:49:14 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/02/08 14:24:29 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/02/15 10:00:44 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int	quotes_check_helper2(int *quotes)
 	return (ERROR);
 }
 
-int	quotes_parity_check(char *str)
+int	quotes_parity_check(char *str, t_tok *tdata)
 {
 	int	i;
 	int	quotes[2];
@@ -57,6 +57,11 @@ int	quotes_parity_check(char *str)
 			i++;
 	}
 	if (quotes_check_helper2(quotes) == ERROR)
+	{
+		tdata->tokens = NULL;
+		tdata->type = NULL;
+		tdata->t_size = ERROR;
 		return (ERROR);
+	}
 	return (ZERO);
 }
