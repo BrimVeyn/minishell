@@ -6,7 +6,7 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/26 11:26:10 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/02/08 08:53:36 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/02/15 10:10:21 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ void	free_tab(char **tab)
 	int	i;
 
 	i = 0;
+	if (!tab)
+		return ;
 	while (tab[i])
 	{
 		free(tab[i]);
@@ -52,6 +54,7 @@ void	free_startab(char ***tokens, int **type)
 void	free_tdata(t_tok *tdata)
 {
 	free_startab(tdata->tokens, tdata->type);
+	free_tab(tdata->heredoc);
 }
 
 void	free_copy(char ***tokens)
