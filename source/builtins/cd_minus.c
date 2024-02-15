@@ -6,7 +6,7 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 10:26:03 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/02/15 09:11:05 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/02/15 09:38:23 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,10 +72,10 @@ int	no_args(char **args, t_env *denv)
 		tmp = ms_getenv(ft_strdup("HOME"), denv);
 		chdir(tmp);
 		newold = ms_getenv(ft_strdup("PWD"), denv);
-		denv->f_env = ms_replace_value(denv->f_env, ms_var_exist("OLDPWD", denv),
-					newold);
-		denv->f_env = ms_replace_value(denv->f_env, ms_var_exist("PWD",
-					denv), tmp);
+		denv->f_env = ms_replace_value(denv->f_env, ms_var_exist("OLDPWD",
+					denv), newold);
+		denv->f_env = ms_replace_value(denv->f_env, ms_var_exist("PWD", denv),
+				tmp);
 		free(tmp);
 		free(newold);
 		g_exitno = 0;
