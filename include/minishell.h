@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
+/*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 11:34:27 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/02/09 12:48:17 by nbardavi         ###   ########.fr       */
+/*   Updated: 2024/02/15 09:39:23 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -292,7 +292,7 @@ void					b_env(t_env *denv);
 void					b_exit(char **args, t_pipe *d_pipe);
 void					b_pwd(void);
 void					b_cd(char **args, t_env *denv);
-void                    cd_minus(t_env *denv);
+void					cd_minus(t_env *denv);
 int						too_many_args(char **args);
 int						no_args(char **args, t_env *denv);
 char					**ms_replace_value(char **f_env, int index, char *arg);
