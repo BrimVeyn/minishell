@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse_input.c                                      :+:      :+:    :+:   */
+/*   ms_parse_input.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 14:20:38 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/02/09 13:12:50 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/02/15 09:59:19 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,11 +79,8 @@ t_tok	parse_input(char *input, t_env *denv)
 		tdata.heredoc = ft_split(ft_strchr(input, '\n'), '\n');
 		input = ms_cut_at(input, '\n');
 	}
-	if (quotes_parity_check(input) == ERROR)
-	{
-		tdata.t_size = ERROR;
+	if (quotes_parity_check(input, &tdata) == ERROR)
 		return (tdata);
-	}
 	tdata.t_size = count_tokens(input);
 	if (empty_string(&tdata) == ERROR)
 		return (tdata);

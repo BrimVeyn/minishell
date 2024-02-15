@@ -6,7 +6,7 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 11:34:27 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/02/15 09:39:23 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/02/15 09:59:39 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -322,7 +322,7 @@ char					*tild_expand(char *word, t_env *denv);
 char					*w_expand(char *word, t_env *denv, t_tok *tdata);
 char					**dupdup(void);
 int						missing_delimiter_check(t_tok *tdata);
-int						quotes_parity_check(char *str);
+int						quotes_parity_check(char *str, t_tok *tdata);
 int						parenthesis_check(char *input);
 int						delimiter_check(char *input);
 int						count_tokens(char *input);
