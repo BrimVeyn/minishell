@@ -6,7 +6,7 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 11:21:47 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/02/15 10:31:20 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/02/15 10:34:20 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	init_prompt(t_env **denv, char **input)
 	*denv = update_env(*denv);
 	signal_ctrl();
 	prompt = ms_form_prompt(*denv);
-	*input = readline("dede : ");
+	*input = readline(prompt);
 	free(prompt);
 }
 
