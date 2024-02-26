@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   redirect2.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
+/*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 10:36:37 by nbardavi          #+#    #+#             */
-/*   Updated: 2024/02/09 10:40:37 by nbardavi         ###   ########.fr       */
+/*   Updated: 2024/02/26 10:00:28 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 #include <unistd.h>
 
-extern int	g_exitno;
+
 
 void	r_parse_error(t_pipe *d_pipe)
 {
@@ -33,5 +33,5 @@ void	r_parse_error(t_pipe *d_pipe)
 			strerror(errno));
 	}
 	d_pipe->t_f_redi = 1;
-	g_exitno = 1 << 8;
+	tdata->exitno = 1 << 8;
 }

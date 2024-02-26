@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
+/*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 12:57:52 by nbardavi          #+#    #+#             */
-/*   Updated: 2024/02/09 10:43:44 by nbardavi         ###   ########.fr       */
+/*   Updated: 2024/02/26 09:57:48 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,8 @@ int	ft_strlenlen(char **str)
 	return (i);
 }
 
-void	handle_built(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
+void	handle_built(t_tok *tdata, t_pipe *d_pipe, t_env *denv, int *i)
 {
 	(void)d_pipe;
-	b_parse(d_token, denv, i);
+	b_parse(tdata, denv, i);
 }

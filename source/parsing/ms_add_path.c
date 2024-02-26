@@ -3,16 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ms_add_path.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
+/*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/26 11:25:26 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/02/14 16:56:31 by nbardavi         ###   ########.fr       */
+/*   Updated: 2024/02/26 11:27:17 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
-
-extern int	g_exitno;
 
 void	print_tab(int *pos, int size)
 {
@@ -50,7 +48,7 @@ int	ms_check_builtin(char *cmd)
 	return (ERROR);
 }
 
-char	*join_path(char *cmd, t_env *denv)
+char	*join_path(char *cmd, t_env *denv, t_tok *tdata)
 {
 	int		i;
 	char	**paths;
@@ -74,7 +72,7 @@ char	*join_path(char *cmd, t_env *denv)
 	if (permission_denied(cmd) == ERROR)
 		return (free_tab(paths), ft_strdup("WRONG"));
 	fd_printf(2, "%fs: command not found\n", cmd);
-	g_exitno = 127 << 8;
+	tdata->exitno = 127 << 8;
 	return (free_tab(paths), free(cmd), ft_strdup("WRONG"));
 }
 
@@ -98,7 +96,7 @@ void	ms_add_path(t_tok *tdata, t_env *denv)
 				tdata->type[i][j] = BUILTIN;
 			else if (tdata->type[i][j] == CMD)
 			{
-				tdata->tokens[i][j] = join_path(tdata->tokens[i][j], denv);
+				tdata->tokens[i][j] = join_path(tdata->tokens[i][j], denv, tdata);
 				if (!ft_strncmp(tdata->tokens[i][j], "WRONG", 5))
 					tdata->type[i][j] = WRONG;
 			}

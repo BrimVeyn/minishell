@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prompt.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
+/*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/26 14:40:51 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/02/02 09:43:32 by nbardavi         ###   ########.fr       */
+/*   Updated: 2024/02/26 10:01:26 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,6 @@
 #include <readline/history.h>
 #include <readline/readline.h>
 #include <sys/ioctl.h>
-
-extern int	g_exitno;
 
 char	*rm_last_slash(char *path, int total_slash)
 {
