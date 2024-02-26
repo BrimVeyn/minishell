@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
+/*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 11:34:27 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/02/26 11:31:55 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/02/26 11:49:58 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -433,13 +433,13 @@ int						handle_append(char *token, t_pipe *d_pipe);
 int						handle_output(char *token, t_pipe *d_pipe);
 int						handle_heredoc(t_tok *tdata, t_pipe *d_pipe,
 							t_env *denv, int *i);
-int						cmd_return(t_pipe *d_pipe);
+int						cmd_return(t_pipe *d_pipe, t_tok *tdata);
 int						count_cmd(char **string, int *type);
 int						check_next(int signe);
 int						handle_input(char *token, t_pipe *d_pipe);
 /*_.-=-._.-=-._.-=-._.-=-._.- HEREDOC -._.-=-._.-=-._.-=-._.-=-._.-=-._*/
 
-char					*h_exec(t_pipe *d_pipe, char *save, char *limiter);
+char					*h_exec(t_pipe *d_pipe, char *save, char *limiter, t_tok *tdata);
 char					*h_redo(t_pipe *d_pipe, t_tok *tdata, char *limiter);
 char					*h_handle(t_pipe *d_pipe, t_tok *tdata, t_env *denv,
 							int *i);
@@ -456,7 +456,7 @@ char					*ms_getlast(t_env *denv);
 
 void					c_execve(t_tok *tdata, t_pipe *d_pipe, t_env *denv,
 							int *i);
-void					r_parse_error(t_pipe *d_pipe);
+void					r_parse_error(t_pipe *d_pipe, t_tok *tdata);
 void					b_redi_out(t_tok *tdata, t_pipe *d_pipe, int i);
 
 /*_.-=-._.-=-._.-=-._.-=-._.- FREE && EXIT -._.-=-._.-=-._.-=-._.-=-._.-=-._*/

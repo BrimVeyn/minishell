@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prompt2.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
+/*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 11:21:47 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/02/26 10:11:43 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/02/26 12:47:48 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void	print_t(char ***str)
 
 int	prompt2(t_tok *tdata, t_env *denv)
 {
-	if (ms_main_pipe(*tdata, denv) == 1)
+	if (ms_main_pipe(tdata, denv) == 1)
 	{
 		free_tdata(tdata);
 		return (1);
@@ -55,12 +55,15 @@ int	prompt2(t_tok *tdata, t_env *denv)
 	return (0);
 }
 
+extern int g_signal;
+
 void	prompt(t_env *denv, t_tok *tdata, int i)
 {
 	char	*input;
 
 	while (init_prompt(&denv, &input), i++ > -1)
 	{
+		g_signal = 0;
 		if (input == NULL)
 		{
 			printf("exit\n");
@@ -76,6 +79,12 @@ void	prompt(t_env *denv, t_tok *tdata, int i)
 			parse_input(input, denv, tdata);
 			if (prompt2(tdata, denv) == 1)
 				break ;
+		}
+		printf("g_signal: %d\n", g_signal);
+		if (g_signal == 1)
+		{
+			ft_printf("HELLO\n");
+			tdata->exitno = 130;
 		}
 	}
 	return (ms_free_env(denv), free(input));

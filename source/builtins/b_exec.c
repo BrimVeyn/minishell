@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   b_exec.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
+/*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/30 12:33:30 by nbardavi          #+#    #+#             */
-/*   Updated: 2024/02/26 10:00:28 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/02/26 11:42:20 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,14 +52,14 @@ void	free_exit(t_tok *tdata, t_pipe *d_pipe, t_env *denv)
 void	b_parse_nf(t_tok *tdata, t_env *denv, int *i, t_pipe *d_pipe)
 {
 	if (!ft_strcmp(tdata->tokens[*i][0], "export"))
-		b_export(tdata->tokens[*i], denv);
+		b_export(tdata->tokens[*i], denv, tdata);
 	if (!ft_strcmp(tdata->tokens[*i][0], "unset"))
 		b_unset(tdata->tokens[*i], denv);
 	if (!ft_strcmp(tdata->tokens[*i][0], "cd"))
-		b_cd(tdata->tokens[*i], denv);
+		b_cd(tdata->tokens[*i], denv, tdata);
 	if (!ft_strcmp(tdata->tokens[*i][0], "exit"))
 	{
-		b_exit(tdata->tokens[*i], d_pipe);
+		b_exit(tdata->tokens[*i], d_pipe, tdata);
 		free_exit(tdata, d_pipe, denv);
 	}
 }
@@ -69,7 +69,7 @@ void	b_parse(t_tok *tdata, t_env *denv, int *i)
 	if (!ft_strcmp(tdata->tokens[*i][0], "echo"))
 		b_echo(tdata, i);
 	if (!ft_strcmp(tdata->tokens[*i][0], "env"))
-		b_env(denv);
+		b_env(denv, tdata);
 	if (!ft_strcmp(tdata->tokens[*i][0], "pwd"))
-		b_pwd();
+		b_pwd(tdata);
 }

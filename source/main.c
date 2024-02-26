@@ -3,14 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
+/*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/23 15:16:24 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/02/26 10:05:30 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/02/26 12:02:17 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
+
+int g_signal;
 
 int	main(int ac, char *av[], char *env[])
 {
@@ -18,6 +20,7 @@ int	main(int ac, char *av[], char *env[])
 	t_tok	tdata;
 
 	(void) av;
+	g_signal = 0;
 	if (!env || ac >= 2)
 		perror("Env is null");
 	denv.f_env = ms_dupdup(env);

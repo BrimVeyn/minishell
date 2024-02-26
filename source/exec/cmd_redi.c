@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_redi.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
+/*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 19:10:36 by nbardavi          #+#    #+#             */
-/*   Updated: 2024/02/26 10:00:28 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/02/26 11:50:12 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,5 +76,5 @@ int	cmd_redi(t_tok *tdata, t_pipe *d_pipe, t_env *denv, int *i)
 		if (ft_strlenlen(tdata->tokens[*i]) == 0)
 			tdata->type[*i][0] = WRONG;
 	}
-	return (cmd_return(d_pipe));
+	return (cmd_return(d_pipe, tdata));
 }
