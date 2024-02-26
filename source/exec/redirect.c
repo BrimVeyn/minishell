@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirect.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
+/*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 10:35:07 by nbardavi          #+#    #+#             */
-/*   Updated: 2024/02/26 10:00:28 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/02/26 11:49:35 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,10 @@
 
 
 
-int	cmd_return(t_pipe *d_pipe)
+int	cmd_return(t_pipe *d_pipe, t_tok *tdata)
 {
 	if (d_pipe->failure)
-		return (r_parse_error(d_pipe), 1);
+		return (r_parse_error(d_pipe, tdata), 1);
 	if (d_pipe->input != -1)
 	{
 		dup2(d_pipe->input, STDIN_FILENO);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
+/*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 11:41:47 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/02/26 10:11:06 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/02/26 14:10:42 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,12 @@
 #include <term.h>
 #include <unistd.h>
 
+extern int g_signal;
+
 void	sigint_spe(int sig_num)
 {
 	(void)sig_num;
+	g_signal = 1;
 	ft_printf("\n\n");
 	rl_on_new_line();
 	rl_replace_line("", 0);
@@ -26,6 +29,7 @@ void	sigint_spe(int sig_num)
 void	sigint_handler(int sig_num)
 {
 	(void)sig_num;
+	g_signal = 1;
 	ft_printf("\n");
 	rl_on_new_line();
 	rl_replace_line("", 0);
