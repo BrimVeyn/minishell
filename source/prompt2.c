@@ -6,22 +6,26 @@
 /*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 11:21:47 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/02/26 12:47:48 by nbardavi         ###   ########.fr       */
+/*   Updated: 2024/02/26 15:42:39 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
 void	signal_ctrl(void);
+extern int	g_signal;
 
-void	init_prompt(t_env **denv, char **input)
+void	init_prompt(t_env **denv, char **input, t_tok *tdata)
 {
 	char	*prompt;
 
 	*denv = update_env(*denv);
+	printf("Hee\n");
 	signal_ctrl();
 	prompt = ms_form_prompt(*denv);
 	*input = readline(prompt);
+	if (g_signal == 2)
+		tdata->exitno = 130;
 	free(prompt);
 }
 
@@ -55,13 +59,11 @@ int	prompt2(t_tok *tdata, t_env *denv)
 	return (0);
 }
 
-extern int g_signal;
-
 void	prompt(t_env *denv, t_tok *tdata, int i)
 {
 	char	*input;
 
-	while (init_prompt(&denv, &input), i++ > -1)
+	while (init_prompt(&denv, &input, tdata), i++ > -1)
 	{
 		g_signal = 0;
 		if (input == NULL)
