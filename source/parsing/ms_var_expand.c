@@ -6,15 +6,13 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/26 11:19:26 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/02/15 09:36:26 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/02/26 11:30:02 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-extern int	g_exitno;
-
-char	*r_dollarquestion(char *split, int *i)
+char	*r_dollarquestion(char *split, int *i, t_tok *tdata)
 {
 	char	*p1;
 	char	*var;
@@ -22,7 +20,7 @@ char	*r_dollarquestion(char *split, int *i)
 	char	*tmp;
 
 	p1 = ft_substr(split, 0, *i);
-	var = ft_itoa(g_exitno);
+	var = ft_itoa(tdata->exitno);
 	p2 = ft_substr(split, *i + 2, (ft_strlen(split) - (*i + 2)));
 	*i += ft_strlen(var);
 	tmp = ft_sprintf("%s%s%s", p1, var, p2);
@@ -72,7 +70,7 @@ static char	*split_dollar(char *split, int *i, t_env *denv)
 	return (split);
 }
 
-char	*r_env(char *split, t_env *denv)
+char	*r_env(char *split, t_env *denv, t_tok *tdata)
 {
 	int	i;
 
@@ -80,7 +78,7 @@ char	*r_env(char *split, t_env *denv)
 	while (split && split[i])
 	{
 		if (!ft_strncmp(&split[i], "$?", 2))
-			split = r_dollarquestion(split, &i);
+			split = r_dollarquestion(split, &i, tdata);
 		split = split_dollar(split, &i, denv);
 		if (split[i] && split[i] != '$')
 			i++;

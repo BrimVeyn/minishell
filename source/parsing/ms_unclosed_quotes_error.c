@@ -6,13 +6,11 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 13:49:14 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/02/15 10:00:44 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/02/26 11:29:15 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
-
-extern int	g_exitno;
 
 void	quotes_check_helper(int *quotes, int c, int *i, char *str)
 {
@@ -27,7 +25,7 @@ void	quotes_check_helper(int *quotes, int c, int *i, char *str)
 	}
 }
 
-int	quotes_check_helper2(int *quotes)
+int	quotes_check_helper2(int *quotes, t_tok *tdata)
 {
 	if (quotes[0] % 2 != 0)
 		fd_printf(2, "minishell: parsing error: unclosed double quotes\n");
@@ -35,7 +33,7 @@ int	quotes_check_helper2(int *quotes)
 		fd_printf(2, "minishell: parsing error: unclosed single quotes\n");
 	else
 		return (ZERO);
-	g_exitno = 2 << 8;
+	tdata->exitno = 2 << 8;
 	return (ERROR);
 }
 
@@ -56,7 +54,7 @@ int	quotes_parity_check(char *str, t_tok *tdata)
 		if (str[i] && str[i] != SQUOTE && str[i] != DQUOTE)
 			i++;
 	}
-	if (quotes_check_helper2(quotes) == ERROR)
+	if (quotes_check_helper2(quotes, tdata) == ERROR)
 	{
 		tdata->tokens = NULL;
 		tdata->type = NULL;

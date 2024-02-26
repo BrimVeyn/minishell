@@ -6,7 +6,7 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 11:41:47 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/02/15 09:52:40 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/02/26 10:11:06 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,9 @@
 #include <term.h>
 #include <unistd.h>
 
-extern int	g_exitno;
-
 void	sigint_spe(int sig_num)
 {
 	(void)sig_num;
-	g_exitno = 130;
 	ft_printf("\n\n");
 	rl_on_new_line();
 	rl_replace_line("", 0);
@@ -29,7 +26,6 @@ void	sigint_spe(int sig_num)
 void	sigint_handler(int sig_num)
 {
 	(void)sig_num;
-	g_exitno = 130;
 	ft_printf("\n");
 	rl_on_new_line();
 	rl_replace_line("", 0);
@@ -39,7 +35,6 @@ void	sigint_handler(int sig_num)
 void	ctrl_heredoc(int sig_num)
 {
 	(void)sig_num;
-	g_exitno = 130;
 	printf("\n");
 	close(STDIN_FILENO);
 }

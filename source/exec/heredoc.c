@@ -6,7 +6,7 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 08:59:09 by nbardavi          #+#    #+#             */
-/*   Updated: 2024/02/15 10:30:39 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/02/26 10:00:28 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,16 +48,16 @@ int	heredoc(t_pipe *d_pipe, t_tok *dt, t_env *denv, int *i)
 	return (free(limiter), 0);
 }
 
-extern int	g_exitno;
 
-void	t_heredoc(t_tok *d_token, int *i, char *limiter)
+
+void	t_heredoc(t_tok *tdata, int *i, char *limiter)
 {
 	char	*input;
 	int		cpt;
 
 	cpt = 1;
 	if (limiter == NULL)
-		limiter = ft_strdup(d_token->tokens[*i + 1][0]);
+		limiter = ft_strdup(tdata->tokens[*i + 1][0]);
 	while (1)
 	{
 		input = readline("> ");
@@ -73,5 +73,5 @@ void	t_heredoc(t_tok *d_token, int *i, char *limiter)
 		cpt++;
 	}
 	free(limiter);
-	g_exitno = 0;
+	tdata->exitno = 0;
 }

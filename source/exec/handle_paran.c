@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_paran.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
+/*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 14:09:49 by nbardavi          #+#    #+#             */
-/*   Updated: 2024/02/09 13:01:27 by nbardavi         ###   ########.fr       */
+/*   Updated: 2024/02/26 09:57:48 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,26 +40,26 @@ void	handle_pc_paran(t_pipe *d_pipe)
 	d_pipe->p_trig = 1;
 }
 
-void	p_parse_type(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
+void	p_parse_type(t_tok *tdata, t_pipe *d_pipe, t_env *denv, int *i)
 {
-	if (d_token->type[*i][0] == P_O)
+	if (tdata->type[*i][0] == P_O)
 		d_pipe->p_cpt++;
-	else if (d_token->type[*i][0] == P_C)
+	else if (tdata->type[*i][0] == P_C)
 		handle_pc_paran(d_pipe);
-	else if (d_token->type[*i][0] == AND)
+	else if (tdata->type[*i][0] == AND)
 		handle_and(d_pipe);
-	else if (d_token->type[*i][0] == OR)
+	else if (tdata->type[*i][0] == OR)
 		handle_or(d_pipe);
 	else if (d_pipe->skip_and == 0)
-		handle_cmd(d_token, d_pipe, denv, i);
+		handle_cmd(tdata, d_pipe, denv, i);
 }
 
-void	p_while(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
+void	p_while(t_tok *tdata, t_pipe *d_pipe, t_env *denv, int *i)
 {
 	(*i)++;
 	while (d_pipe->p_nbr > 0)
 	{
-		p_parse_type(d_token, d_pipe, denv, i);
+		p_parse_type(tdata, d_pipe, denv, i);
 		if (d_pipe->p_trig == 0)
 			(*i)++;
 		else

@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
+/*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 14:40:15 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/02/08 14:51:50 by nbardavi         ###   ########.fr       */
+/*   Updated: 2024/02/26 10:00:28 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-extern int	g_exitno;
+
 
 int	flag_echo(char *flag)
 {
@@ -35,7 +35,7 @@ int	flag_echo(char *flag)
 	return (1);
 }
 
-void	b_echo(t_tok *d_token, int *i)
+void	b_echo(t_tok *tdata, int *i)
 {
 	int	flag;
 	int	t;
@@ -43,23 +43,23 @@ void	b_echo(t_tok *d_token, int *i)
 
 	j = 1;
 	t = 0;
-	flag = flag_echo(d_token->tokens[*i][j]);
+	flag = flag_echo(tdata->tokens[*i][j]);
 	j += flag;
-	while (d_token->tokens[*i][j])
+	while (tdata->tokens[*i][j])
 	{
 		if (t == 0)
-			if (flag_echo(d_token->tokens[*i][j]) == 0)
+			if (flag_echo(tdata->tokens[*i][j]) == 0)
 				t = 1;
 		if (t == 1)
 		{
 			t = 1;
-			printf("%s", d_token->tokens[*i][j]);
-			if (d_token->tokens[*i][j + 1])
+			printf("%s", tdata->tokens[*i][j]);
+			if (tdata->tokens[*i][j + 1])
 				printf(" ");
 		}
 		j++;
 	}
 	if (flag == 0)
 		printf("\n");
-	g_exitno = 0;
+	tdata->exitno = 0;
 }

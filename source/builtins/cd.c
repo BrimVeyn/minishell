@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
+/*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 11:50:19 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/02/01 17:21:17 by nbardavi         ###   ########.fr       */
+/*   Updated: 2024/02/26 11:25:55 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,12 @@
 #include <linux/limits.h>
 #include <unistd.h>
 
-extern int	g_exitno;
-
-int	too_many_args(char **args)
+int	too_many_args(char **args, t_tok *tdata)
 {
 	if (ms_tablen(args) > 2)
 	{
 		fd_printf(2, "minishell: cd: too many arguments\n");
-		g_exitno = 1 << 8;
+		tdata->exitno = 1 << 8;
 		return (TRUE);
 	}
 	return (ERROR);
@@ -69,20 +67,20 @@ void	update_dir(t_env *denv, char *arg)
 	free(oldpwd);
 }
 
-void	cd_nosuchfile(char **args)
+void	cd_nosuchfile(char **args, t_tok *tdata)
 {
 	fd_printf(2, "minishell: cd: %fs: No such file or directory\n", args[1]);
-	g_exitno = 1 << 8;
+	tdata->exitno = 1 << 8;
 }
 
-void	b_cd(char **args, t_env *denv)
+void	b_cd(char **args, t_env *denv, t_tok *tdata)
 {
-	if (too_many_args(args) == TRUE || no_args(args, denv) == TRUE)
+	if (too_many_args(args, tdata) == TRUE || no_args(args, denv, tdata) == TRUE)
 		return ;
 	if (ft_strlen(args[1]) == 1 && args[1][0] == '-')
-		cd_minus(denv);
+		cd_minus(denv, tdata);
 	else if (ms_filetype(args[1]) == DIRECTORY)
 		update_dir(denv, args[1]);
 	else
-		cd_nosuchfile(args);
+		cd_nosuchfile(args, tdata);
 }

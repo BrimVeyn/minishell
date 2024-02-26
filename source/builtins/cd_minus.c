@@ -6,13 +6,11 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 10:26:03 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/02/15 09:38:23 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/02/26 11:25:20 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
-
-extern int	g_exitno;
 
 char	*ms_find_var(t_env *denv, char *var)
 {
@@ -53,16 +51,16 @@ void	cd_minus_bothset(t_env *denv, char *oldpwd, char *pwd)
 	}
 }
 
-void	cd_minus_oldpwdnotset(char *oldpwd)
+void	cd_minus_oldpwdnotset(char *oldpwd, t_tok *tdata)
 {
 	if (oldpwd == NULL)
 	{
 		fd_printf(2, "minishell: cd: OLDPWD not set\n");
-		g_exitno = 1 << 8;
+		tdata->exitno = 1 << 8;
 	}
 }
 
-int	no_args(char **args, t_env *denv)
+int	no_args(char **args, t_env *denv, t_tok *tdata)
 {
 	char	*tmp;
 	char	*newold;
@@ -78,13 +76,13 @@ int	no_args(char **args, t_env *denv)
 				tmp);
 		free(tmp);
 		free(newold);
-		g_exitno = 0;
+		tdata->exitno = 0;
 		return (TRUE);
 	}
 	return (ERROR);
 }
 
-void	cd_minus(t_env *denv)
+void	cd_minus(t_env *denv, t_tok *tdata)
 {
 	char	*pwd;
 	char	*oldpwd;
@@ -96,6 +94,6 @@ void	cd_minus(t_env *denv)
 	if (oldpwd)
 		oldpwd = ft_substr_free(oldpwd, 1, ft_strlen(oldpwd));
 	cd_minus_bothset(denv, oldpwd, pwd);
-	cd_minus_oldpwdnotset(oldpwd);
+	cd_minus_oldpwdnotset(oldpwd, tdata);
 	return (free(pwd), free(oldpwd));
 }

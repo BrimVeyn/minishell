@@ -6,7 +6,7 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 11:21:47 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/02/15 10:34:20 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/02/26 10:11:43 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,21 +44,20 @@ void	print_t(char ***str)
 	}
 }
 
-int	prompt2(t_tok *d_token, t_env *denv)
+int	prompt2(t_tok *tdata, t_env *denv)
 {
-	if (ms_main_pipe(*d_token, denv) == 1)
+	if (ms_main_pipe(*tdata, denv) == 1)
 	{
-		free_tdata(d_token);
+		free_tdata(tdata);
 		return (1);
 	}
-	free_tdata(d_token);
+	free_tdata(tdata);
 	return (0);
 }
 
-void	prompt(t_env *denv, int i)
+void	prompt(t_env *denv, t_tok *tdata, int i)
 {
 	char	*input;
-	t_tok	d_token;
 
 	while (init_prompt(&denv, &input), i++ > -1)
 	{
@@ -74,8 +73,8 @@ void	prompt(t_env *denv, int i)
 			else
 				ms_lst_b(&denv->history, ms_lst_new(ft_strdup(input)));
 			add_history(input);
-			d_token = parse_input(input, denv);
-			if (prompt2(&d_token, denv) == 1)
+			parse_input(input, denv, tdata);
+			if (prompt2(tdata, denv) == 1)
 				break ;
 		}
 	}
