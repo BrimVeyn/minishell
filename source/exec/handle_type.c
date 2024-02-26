@@ -3,21 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   handle_type.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
+/*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 10:11:19 by nbardavi          #+#    #+#             */
-/*   Updated: 2024/02/09 13:00:52 by nbardavi         ###   ########.fr       */
+/*   Updated: 2024/02/26 10:00:28 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-extern int	g_exitno;
 
-void	handle_po(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
+
+void	handle_po(t_tok *tdata, t_pipe *d_pipe, t_env *denv, int *i)
 {
 	d_pipe->p_nbr++;
-	p_while(d_token, d_pipe, denv, i);
+	p_while(tdata, d_pipe, denv, i);
 }
 
 void	handle_pc(t_pipe *d_pipe)

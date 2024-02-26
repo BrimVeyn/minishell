@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_cmd.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
+/*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/26 14:41:53 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/02/14 16:54:00 by nbardavi         ###   ########.fr       */
+/*   Updated: 2024/02/26 10:00:28 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,26 +14,26 @@
 #include <signal.h>
 #include <unistd.h>
 
-extern int	g_exitno;
+
 
 void	sigint_spe(int sig_num);
 
-void	exec_id0(t_pipe *d_pipe, t_tok *d_token, int id, int *i)
+void	exec_id0(t_pipe *d_pipe, t_tok *tdata, int id, int *i)
 {
 	char	*buffer;
 
 	buffer = malloc(2);
 	signal(SIGINT, SIG_IGN);
-	waitpid(id, &g_exitno, 0);
+	waitpid(id, &tdata->exitno, 0);
 	signal(SIGINT, sigint_spe);
 	d_pipe->failed = 0;
-	if (g_exitno != 0)
+	if (tdata->exitno != 0)
 		d_pipe->failed = 1;
-	if (d_pipe->failed == 1 && *i < d_token->t_size)
+	if (d_pipe->failed == 1 && *i < tdata->t_size)
 	{
-		if (d_token->t_size > *i + 1 && d_token->type[*i + 1][0] != OR)
+		if (tdata->t_size > *i + 1 && tdata->type[*i + 1][0] != OR)
 		{
-			if (d_token->t_size > *i + 1 && d_token->type[*i + 1][0] == P_C)
+			if (tdata->t_size > *i + 1 && tdata->type[*i + 1][0] == P_C)
 				if (d_pipe->p_cpt >= 0)
 					d_pipe->p_return = 1;
 			d_pipe->or_return = 1;
@@ -44,35 +44,35 @@ void	exec_id0(t_pipe *d_pipe, t_tok *d_token, int id, int *i)
 	return ;
 }
 
-void	c_execve(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
+void	c_execve(t_tok *tdata, t_pipe *d_pipe, t_env *denv, int *i)
 {
 	signal(SIGQUIT, SIG_DFL);
-	if (d_token->type[*i][0] == BUILTIN)
+	if (tdata->type[*i][0] == BUILTIN)
 	{
-		handle_built(d_token, d_pipe, denv, i);
+		handle_built(tdata, d_pipe, denv, i);
 		if (d_pipe->b_pipefd[1] > -1)
 			close(d_pipe->b_pipefd[1]);
-		free_tpe(d_token, d_pipe, denv);
-		exit(g_exitno);
+		free_tpe(tdata, d_pipe, denv);
+		exit(tdata->exitno);
 	}
 	else
 	{
 		if (d_pipe->b_pipefd[1] > -1)
 			close(d_pipe->b_pipefd[1]);
-		execve(d_token->tokens[*i][0], d_token->tokens[*i], denv->f_env);
-		exit(g_exitno);
+		execve(tdata->tokens[*i][0], tdata->tokens[*i], denv->f_env);
+		exit(tdata->exitno);
 	}
 }
 
-void	handle_signs(t_pipe *d_pipe, t_tok *d_token, int *i)
+void	handle_signs(t_pipe *d_pipe, t_tok *tdata, int *i)
 {
-	if (g_exitno != 0)
+	if (tdata->exitno != 0)
 		d_pipe->failed = 1;
-	if (d_pipe->failed == 1 && *i < d_token->t_size)
+	if (d_pipe->failed == 1 && *i < tdata->t_size)
 	{
-		if (d_token->t_size > *i + 1 && d_token->type[*i + 1][0] != OR)
+		if (tdata->t_size > *i + 1 && tdata->type[*i + 1][0] != OR)
 		{
-			if (d_token->t_size > *i + 1 && d_token->type[*i + 1][0] == P_C)
+			if (tdata->t_size > *i + 1 && tdata->type[*i + 1][0] == P_C)
 				if (d_pipe->p_cpt >= 0)
 					d_pipe->p_return = 1;
 			d_pipe->or_return = 1;
@@ -94,19 +94,19 @@ int	check_nf(t_tok *dt, t_pipe *dp, t_env *dv, int *i)
 	return (0);
 }
 
-void	exec_cmd(t_tok *d_token, t_pipe *d_pipe, t_env *denv, int *i)
+void	exec_cmd(t_tok *tdata, t_pipe *d_pipe, t_env *denv, int *i)
 {
 	int	id;
 
-	if (check_nf(d_token, d_pipe, denv, i) == 1)
+	if (check_nf(tdata, d_pipe, denv, i) == 1)
 		return ;
 	id = fork();
 	if (id != 0)
 	{
-		exec_id0(d_pipe, d_token, id, i);
+		exec_id0(d_pipe, tdata, id, i);
 		return ;
 	}
 	close(d_pipe->old_stdin);
 	close(d_pipe->old_stdout);
-	c_execve(d_token, d_pipe, denv, i);
+	c_execve(tdata, d_pipe, denv, i);
 }

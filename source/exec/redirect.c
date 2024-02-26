@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   redirect.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
+/*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 10:35:07 by nbardavi          #+#    #+#             */
-/*   Updated: 2024/02/09 10:41:39 by nbardavi         ###   ########.fr       */
+/*   Updated: 2024/02/26 10:00:28 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 #include <unistd.h>
 
-extern int	g_exitno;
+
 
 int	cmd_return(t_pipe *d_pipe)
 {

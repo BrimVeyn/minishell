@@ -6,13 +6,13 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 16:09:44 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/02/09 09:56:53 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/02/26 11:21:25 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-extern int	g_exitno;
+
 
 static int	invalid_identifier(char *identifier)
 {
@@ -31,16 +31,16 @@ static int	invalid_identifier(char *identifier)
 	return (ERROR);
 }
 
-void	b_export_helper2(char *identifier, int *i)
+void	b_export_helper2(char *identifier, int *i, t_tok *tdata)
 {
 	fd_printf(2, "minishell: export: `%fs': not a valid identifier\n",
 		identifier);
-	g_exitno = 1 << 8;
+	tdata->exitno = 1 << 8;
 	(*i)++;
 	return ;
 }
 
-void	b_export_helper(int *i, char **args, t_env *denv)
+void	b_export_helper(int *i, char **args, t_env *denv, t_tok *tdata)
 {
 	char	*value;
 	char	*identifier;
@@ -54,7 +54,7 @@ void	b_export_helper(int *i, char **args, t_env *denv)
 		index = ms_var_exist(args[*i], denv);
 		if (invalid_identifier(identifier) == TRUE || !ft_strncmp("",
 				identifier, 2))
-			return (b_export_helper2(identifier, i), free(identifier));
+			return (b_export_helper2(identifier, i, tdata), free(identifier));
 		if (value)
 		{
 			if (index == ERROR)
@@ -87,7 +87,7 @@ void	b_export_no_args(t_env *denv)
 	}
 }
 
-void	b_export(char **args, t_env *denv)
+void	b_export(char **args, t_env *denv, t_tok *tdata)
 {
 	int	i;
 
@@ -95,5 +95,5 @@ void	b_export(char **args, t_env *denv)
 	if (ms_tablen(args) == 1)
 		b_export_no_args(denv);
 	while (args[i])
-		b_export_helper(&i, args, denv);
+		b_export_helper(&i, args, denv, tdata);
 }

@@ -6,14 +6,12 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 14:20:02 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/02/08 14:20:19 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/02/26 11:26:33 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 #include <limits.h>
-
-extern int	g_exitno;
 
 static long	ms_latoi(const char *theString)
 {
@@ -60,7 +58,7 @@ static int	ms_is_nbr(char *str)
 	return (0);
 }
 
-static void	set_exitno(char **args, t_pipe *d_pipe)
+static void	set_exitno(char **args, t_pipe *d_pipe, t_tok *tdata)
 {
 	char	*to_cmp;
 	long	no;
@@ -72,36 +70,36 @@ static void	set_exitno(char **args, t_pipe *d_pipe)
 	d_pipe->t_exit = 1;
 	if (ft_strcmp(args[1], to_cmp))
 	{
-		g_exitno = 2 << 8;
+		tdata->exitno = 2 << 8;
 		fd_printf(2, "minishell: exit: %fs: numeric argument required\n",
 			args[1]);
 	}
 	else
-		g_exitno = ((unsigned char)no) << 8;
+		tdata->exitno = ((unsigned char)no) << 8;
 }
 
-void	b_exit(char **args, t_pipe *d_pipe)
+void	b_exit(char **args, t_pipe *d_pipe, t_tok *tdata)
 {
 	if (ft_strlenlen(args) == 1)
 	{
 		d_pipe->t_exit = 1;
-		g_exitno = 0;
+		tdata->exitno = 0;
 	}
 	else if (ms_is_nbr(args[1]) == 0)
 	{
 		if (ft_strlenlen(args) > 2)
 		{
 			fd_printf(2, "minishell: exit: too many arguments\n");
-			g_exitno = 1 << 8;
+			tdata->exitno = 1 << 8;
 		}
 		else
-			set_exitno(args, d_pipe);
+			set_exitno(args, d_pipe, tdata);
 	}
 	else if (ms_is_nbr(args[1]) != 0)
 	{
 		fd_printf(2, "minishell: exit: %fs: numeric argument required\n",
 			args[1]);
 		d_pipe->t_exit = 1;
-		g_exitno = 2 << 8;
+		tdata->exitno = 2 << 8;
 	}
 }

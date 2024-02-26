@@ -6,14 +6,14 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 10:40:47 by nbardavi          #+#    #+#             */
-/*   Updated: 2024/02/15 10:27:44 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/02/26 10:00:28 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 #include <signal.h>
 
-extern int	g_exitno;
+
 void		ctrl_heredoc(int sig_num);
 void		signal_ctrl(void);
 
@@ -26,20 +26,20 @@ char	*h_create_file(t_pipe *d_pipe)
 	return (f_name);
 }
 
-char	*h_redo(t_pipe *d_pipe, t_tok *d_token, char *limiter)
+char	*h_redo(t_pipe *d_pipe, t_tok *tdata, char *limiter)
 {
 	char	*save;
 	char	*temp;
 
 	save = ft_strdup("");
-	while (d_token->heredoc && d_token->heredoc[d_pipe->h_i])
+	while (tdata->heredoc && tdata->heredoc[d_pipe->h_i])
 	{
-		if (ft_strcmp(d_token->heredoc[d_pipe->h_i], limiter) == 0)
+		if (ft_strcmp(tdata->heredoc[d_pipe->h_i], limiter) == 0)
 		{
 			d_pipe->h_trigger = 1;
 			break ;
 		}
-		save = ft_sprintf("%s%fs\n", save, d_token->heredoc[d_pipe->h_i++]);
+		save = ft_sprintf("%s%fs\n", save, tdata->heredoc[d_pipe->h_i++]);
 	}
 	temp = ft_strdup(save);
 	free(save);
@@ -55,7 +55,7 @@ char	*h_exec(t_pipe *d_pipe, char *save, char *limiter)
 	while (d_pipe->h_trigger != 1)
 	{
 		input = readline("> ");
-		if (g_exitno == 130)
+		if (tdata->exitno == 130)
 		{
 			signal_ctrl();
 			return (free(save), NULL);
@@ -76,7 +76,7 @@ char	*h_exec(t_pipe *d_pipe, char *save, char *limiter)
 	return (save);
 }
 
-void	cut_here(t_tok *d_token, int *i)
+void	cut_here(t_tok *tdata, int *i)
 {
 	char	**new;
 	int		j;
@@ -87,22 +87,22 @@ void	cut_here(t_tok *d_token, int *i)
 	if (ms_setint(&k, 0), ms_setint(&l, 0), ms_setint(&j, 0), ms_setint(&t, 0),
 		1)
 		(void)l;
-	while (d_token->tokens[*i][l] != NULL)
+	while (tdata->tokens[*i][l] != NULL)
 		l++;
 	new = ft_calloc(l, sizeof(char *));
-	while (d_token->tokens[*i][j] != NULL && j < l)
+	while (tdata->tokens[*i][j] != NULL && j < l)
 	{
-		if (ft_strcmp(d_token->tokens[*i][j], "<<") == 0 && t == 0)
+		if (ft_strcmp(tdata->tokens[*i][j], "<<") == 0 && t == 0)
 		{
 			j += 1;
 			t = 1;
 		}
 		if (j >= l)
 			break ;
-		new[k++] = ft_strdup(d_token->tokens[*i][j++]);
+		new[k++] = ft_strdup(tdata->tokens[*i][j++]);
 	}
-	free_tab(d_token->tokens[*i]);
-	d_token->tokens[*i] = new;
+	free_tab(tdata->tokens[*i]);
+	tdata->tokens[*i] = new;
 }
 
 int	check_here(char ***tokens, int i)

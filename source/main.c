@@ -6,17 +6,16 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/23 15:16:24 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/02/09 10:48:04 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/02/26 10:05:30 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-int	g_exitno;
-
 int	main(int ac, char *av[], char *env[])
 {
 	t_env	denv;
+	t_tok	tdata;
 
 	(void) av;
 	if (!env || ac >= 2)
@@ -29,6 +28,6 @@ int	main(int ac, char *av[], char *env[])
 	denv.debug = 0;
 	if (ac > 1 && ft_strcmp(av[1], "-d") == 0)
 		denv.debug = 1;
-	prompt(&denv, 0);
-	exit(g_exitno);
+	prompt(&denv, &tdata, 0);
+	exit(tdata.exitno);
 }

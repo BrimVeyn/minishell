@@ -3,17 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   main_exec.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
+/*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 14:28:00 by nbardavi          #+#    #+#             */
-/*   Updated: 2024/02/14 16:54:48 by nbardavi         ###   ########.fr       */
+/*   Updated: 2024/02/26 11:31:44 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
-#include <stdlib.h>
-
-extern int	g_exitno;
 
 void	ms_reset_fd(t_pipe *d_pipe)
 {
@@ -21,37 +18,37 @@ void	ms_reset_fd(t_pipe *d_pipe)
 	dup2(d_pipe->old_stdin, STDIN_FILENO);
 }
 
-static int	end_main(t_pipe d_pipe)
+static int	end_main(t_pipe d_pipe, t_tok *tdata)
 {
 	ms_reset_fd(&d_pipe);
 	ms_h_unlink(&d_pipe);
 	ms_free_pipe(&d_pipe);
-	g_exitno = WEXITSTATUS(g_exitno);
+	tdata->exitno = WEXITSTATUS(tdata->exitno);
 	if (d_pipe.t_exit == 1)
 		return (1);
 	return (0);
 }
 
-int	ms_main_pipe(t_tok d_token, t_env *denv)
+int	ms_main_pipe(t_tok *tdata, t_env *denv)
 {
 	int		i;
 	t_pipe	d_pipe;
 
 	i = 0;
-	if (d_token.tokens == NULL)
+	if (tdata->tokens == NULL)
 		return (0);
 	init_d_pipe(&d_pipe);
-	p_count(&d_token, &d_pipe);
-	while (i < d_token.t_size)
+	p_count(tdata, &d_pipe);
+	while (i < tdata->t_size)
 	{
 		d_pipe.t_r = 0;
-		if (d_token.type[0][0] == -1)
+		if (tdata->type[0][0] == -1)
 			break ;
-		parse_type(&d_token, &d_pipe, denv, &i);
+		parse_type(tdata, &d_pipe, denv, &i);
 		i++;
 		if (d_pipe.t_exit == 1)
 			break ;
 	}
 	init_sig();
-	return (end_main(d_pipe));
+	return (end_main(d_pipe, tdata));
 }

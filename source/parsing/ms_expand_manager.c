@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ms_expand_manager.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
+/*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 14:40:00 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/02/14 16:56:21 by nbardavi         ###   ########.fr       */
+/*   Updated: 2024/02/26 10:00:28 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-extern int	g_exitno;
+
 
 static void	ms_single_quote_transform(char **split, t_env *denv, int *x,
 		t_starlist **strl)
