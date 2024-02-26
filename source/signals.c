@@ -6,7 +6,7 @@
 /*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 11:41:47 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/02/26 14:10:42 by nbardavi         ###   ########.fr       */
+/*   Updated: 2024/02/26 15:44:04 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ extern int g_signal;
 void	sigint_spe(int sig_num)
 {
 	(void)sig_num;
-	g_signal = 1;
+	g_signal = 2;
 	ft_printf("\n\n");
 	rl_on_new_line();
 	rl_replace_line("", 0);
@@ -29,7 +29,7 @@ void	sigint_spe(int sig_num)
 void	sigint_handler(int sig_num)
 {
 	(void)sig_num;
-	g_signal = 1;
+	g_signal = 2;
 	ft_printf("\n");
 	rl_on_new_line();
 	rl_replace_line("", 0);
