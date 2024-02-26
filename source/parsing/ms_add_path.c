@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ms_add_path.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
+/*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/26 11:25:26 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/02/26 11:27:17 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/02/26 11:42:50 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,8 +57,8 @@ char	*join_path(char *cmd, t_env *denv, t_tok *tdata)
 	i = 0;
 	if (!access(cmd, X_OK) && ms_filetype(cmd) == FAILE)
 		return (cmd);
-	if (no_such_file(cmd) == ERROR || is_a_directory(cmd) == ERROR
-		|| command_not_found(cmd) == ERROR || !cmd)
+	if (no_such_file(cmd, tdata) == ERROR || is_a_directory(cmd, tdata) == ERROR
+		|| command_not_found(cmd, tdata) == ERROR || !cmd)
 		return (ft_strdup("WRONG"));
 	paths = ft_split(denv->path, ':');
 	while (paths[i])
@@ -69,7 +69,7 @@ char	*join_path(char *cmd, t_env *denv, t_tok *tdata)
 		free(cmd_cpy);
 		i++;
 	}
-	if (permission_denied(cmd) == ERROR)
+	if (permission_denied(cmd, tdata) == ERROR)
 		return (free_tab(paths), ft_strdup("WRONG"));
 	fd_printf(2, "%fs: command not found\n", cmd);
 	tdata->exitno = 127 << 8;

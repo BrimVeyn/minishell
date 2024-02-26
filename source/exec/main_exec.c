@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main_exec.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
+/*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 14:28:00 by nbardavi          #+#    #+#             */
-/*   Updated: 2024/02/26 11:31:44 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/02/26 12:05:17 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ void	ms_reset_fd(t_pipe *d_pipe)
 	dup2(d_pipe->old_stdout, STDOUT_FILENO);
 	dup2(d_pipe->old_stdin, STDIN_FILENO);
 }
+
+extern int g_signal;
 
 static int	end_main(t_pipe d_pipe, t_tok *tdata)
 {

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ms_expand_manager.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
+/*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 14:40:00 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/02/26 10:00:28 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/02/26 11:47:33 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,13 @@
 
 
 static void	ms_single_quote_transform(char **split, t_env *denv, int *x,
-		t_starlist **strl)
+		t_starlist **strl, t_tok *tdata)
 {
 	char	*tmp;
 
 	if (split[x[I]][x[J]] != '\'' && split[x[I]][x[J]] != '\"')
 	{
-		tmp = r_env(ms_xt(split[x[I]], &x[J], ZERO), denv);
+		tmp = r_env(ms_xt(split[x[I]], &x[J], ZERO), denv, tdata);
 		ms_sab(strl, ms_snew(tmp, 0));
 		x[3] += (x[3] != 0);
 		x[2] = x[3];
@@ -30,13 +30,13 @@ static void	ms_single_quote_transform(char **split, t_env *denv, int *x,
 }
 
 static int	ms_double_quote_transform(char **split, t_env *denv, int *x,
-		t_starlist **strl)
+		t_starlist **strl, t_tok *tdata)
 {
 	char	*tmp;
 
 	if (split[x[I]][x[J]] == '\"')
 	{
-		tmp = r_env(ms_xt(split[x[I]], &x[J], '\"'), denv);
+		tmp = r_env(ms_xt(split[x[I]], &x[J], '\"'), denv, tdata);
 		ms_sab(strl, ms_snew(tmp, 0));
 		x[3] += (x[3] != 0);
 		x[2] = x[3];
@@ -66,8 +66,8 @@ void	ms_expandsion_manager(char **split, t_env *denv, t_tok *tdata, int *x)
 {
 	while (split[x[I]][x[J]])
 	{
-		ms_single_quote_transform(split, denv, x, &tdata->strl);
-		if (ms_double_quote_transform(split, denv, x, &tdata->strl))
+		ms_single_quote_transform(split, denv, x, &tdata->strl, tdata);
+		if (ms_double_quote_transform(split, denv, x, &tdata->strl, tdata))
 			tdata->w_pos = ms_intab(tdata->w_pos, &tdata->w_size, x[2], x[3]);
 		if (ms_no_quote_transform(split, x, &tdata->strl))
 			tdata->w_pos = ms_intab(tdata->w_pos, &tdata->w_size, x[2], x[3]);

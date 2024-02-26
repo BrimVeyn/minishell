@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
+/*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 10:40:47 by nbardavi          #+#    #+#             */
-/*   Updated: 2024/02/26 10:00:28 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/02/26 11:48:25 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,11 +43,11 @@ char	*h_redo(t_pipe *d_pipe, t_tok *tdata, char *limiter)
 	}
 	temp = ft_strdup(save);
 	free(save);
-	save = h_exec(d_pipe, temp, limiter);
+	save = h_exec(d_pipe, temp, limiter, tdata);
 	return (save);
 }
 
-char	*h_exec(t_pipe *d_pipe, char *save, char *limiter)
+char	*h_exec(t_pipe *d_pipe, char *save, char *limiter, t_tok *tdata)
 {
 	char	*input;
 
