@@ -6,7 +6,7 @@
 /*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/26 14:41:53 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/02/26 14:12:25 by nbardavi         ###   ########.fr       */
+/*   Updated: 2024/02/27 10:59:05 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,8 @@
 #include <signal.h>
 #include <unistd.h>
 
-
-
 void	sigint_spe(int sig_num);
+extern int g_signal;
 
 void	exec_id0(t_pipe *d_pipe, t_tok *tdata, int id, int *i)
 {
@@ -25,7 +24,8 @@ void	exec_id0(t_pipe *d_pipe, t_tok *tdata, int id, int *i)
 	buffer = malloc(2);
 	signal(SIGINT, SIG_IGN);
 	waitpid(id, &tdata->exitno, 0);
-	fd_printf(2, "exitnb :%d\n", tdata->exitno);
+	if (WIFSIGNALED(tdata->exitno))
+		g_signal = 2;
 	signal(SIGINT, sigint_spe);
 	d_pipe->failed = 0;
 	if (tdata->exitno != 0)
