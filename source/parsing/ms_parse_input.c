@@ -6,7 +6,7 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 14:20:38 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/02/26 10:05:00 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/02/27 16:19:03 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,23 @@ void	parse_input(char *input, t_env *denv, t_tok *tdata)
 		return ;
 	tdata->tokens = ms_split(tdata, input);
 	tok_copy = ms_copy_tok(tdata->tokens, tdata->t_size);
+	for(int i = 0; tdata->tokens[i]; i++)
+    {
+		for(int l = 0; tdata->tokens[i][l]; l++)
+        {
+			printf("--- BEFORE tdata->type[%d][%d] = %d ---\n", i, l, tdata->type[i][l]);
+			printf("BEFORE tdata->tokens[%d][%d] = %s\n", i, l, tdata->tokens[i][l]);
+        }
+    }
 	ms_expand(tdata, denv);
+	for(int i = 0; tdata->tokens[i]; i++)
+    {
+		for(int l = 0; tdata->tokens[i][l]; l++)
+        {
+			printf("--- FINAL tdata->type[%d][%d] = %d ---\n", i, l, tdata->type[i][l]);
+			printf("FINAL tdata->tokens[%d][%d] = %s\n", i, l, tdata->tokens[i][l]);
+        }
+    }
 	if (parse_error_checker(input, tdata, tok_copy) == ERROR)
 		return (free_copy(tok_copy));
 	ms_add_path(tdata, denv);
