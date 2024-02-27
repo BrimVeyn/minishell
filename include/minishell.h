@@ -6,7 +6,7 @@
 /*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 11:34:27 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/02/26 11:49:58 by nbardavi         ###   ########.fr       */
+/*   Updated: 2024/02/27 11:45:03 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -273,7 +273,6 @@ int						ms_isws(char c);
 int						ms_tablen(char **tab);
 int						ms_strstrchr(char c, char *charset);
 int						ms_findstar(char *word, t_tok *tdata);
-int						ft_strlenlen(char **str);
 
 /*_.-=-._.-=-._.-=-._.-=-._.- MISC -._.-=-._.-=-._.-=-._.-=-._.-=-._*/
 
