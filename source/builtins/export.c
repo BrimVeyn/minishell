@@ -3,16 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
+/*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 16:09:44 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/02/26 11:21:25 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/02/27 11:54:59 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
-
-
 
 static int	invalid_identifier(char *identifier)
 {
@@ -67,24 +65,45 @@ void	b_export_helper(int *i, char **args, t_env *denv, t_tok *tdata)
 	(*i)++;
 }
 
-void	b_export_no_args(t_env *denv)
+// char	**ms_sort_identifiers(char **lst)
+// {
+//
+// }
+//
+char	**ms_get_identifiers(t_env *denv)
 {
-	int		i;
-	char	*identifier;
-	char	*value;
-	char	*final;
+	char **lst;
+	int i;
+	int	len;
 
 	i = 0;
-	while (denv->f_env[i])
+	len = ft_strlenlen(denv->f_env);
+	lst = ft_calloc(len, sizeof(char*));
+	while(i < len)
 	{
-		identifier = ms_cut_at(ft_strdup(denv->f_env[i]), '=');
-		value = ms_getenv(ft_strdup(identifier), denv);
-		final = ft_sprintf("%fs%s%fs%fs%s%fs", "declare -x ", identifier, "=",
-				"\"", value, "\"");
-		printf("%s\n", final);
-		free(final);
+		lst[i] = ms_cut_at(ft_strdup(denv->f_env[i]), '=');
 		i++;
 	}
+	return (lst);
+}
+
+void	b_export_no_args(t_env *denv)
+{
+	char	**lst;
+	// char	*final;
+	
+	lst = ms_get_identifiers(denv);
+	// lst = ms_sort_identifiers(lst);
+	// i = 0;
+	// while (denv->f_env[i])
+	// {
+	// 	identifier = ms_cut_at(ft_strdup(denv->f_env[i]), '=');
+	// 	value = ms_getenv(ft_strdup(identifier), denv);
+	// 	final = ft_sprintf("declare -x %s=\"%fs%s\"" , identifier, value);
+	// 	printf("%s\n", final);
+	// 	free(final);
+	// 	i++;
+	// }
 }
 
 void	b_export(char **args, t_env *denv, t_tok *tdata)
