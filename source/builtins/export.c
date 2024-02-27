@@ -6,7 +6,7 @@
 /*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 16:09:44 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/02/27 11:54:59 by nbardavi         ###   ########.fr       */
+/*   Updated: 2024/02/27 13:13:15 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,11 +65,31 @@ void	b_export_helper(int *i, char **args, t_env *denv, t_tok *tdata)
 	(*i)++;
 }
 
-// char	**ms_sort_identifiers(char **lst)
-// {
-//
-// }
-//
+char	**ms_sort_identifiers(char **lst)
+{
+	int		i;
+	int		j;
+	char	*temp;
+
+	i = 0;
+	while(lst[i] != NULL)
+	{
+		j = i + 1;
+		while(lst[j])
+		{
+			if (ft_strcmp(lst[i], lst[j]) > 0)
+			{
+				temp = lst[i];
+				lst[i] = lst[j];
+				lst[j] = temp;
+			}
+			j++;
+		}
+		i++;
+	}
+	return (lst);
+}
+
 char	**ms_get_identifiers(t_env *denv)
 {
 	char **lst;
@@ -90,20 +110,21 @@ char	**ms_get_identifiers(t_env *denv)
 void	b_export_no_args(t_env *denv)
 {
 	char	**lst;
-	// char	*final;
-	
+	char	*final;
+	int		i;
+	char	*value;
+
 	lst = ms_get_identifiers(denv);
-	// lst = ms_sort_identifiers(lst);
-	// i = 0;
-	// while (denv->f_env[i])
-	// {
-	// 	identifier = ms_cut_at(ft_strdup(denv->f_env[i]), '=');
-	// 	value = ms_getenv(ft_strdup(identifier), denv);
-	// 	final = ft_sprintf("declare -x %s=\"%fs%s\"" , identifier, value);
-	// 	printf("%s\n", final);
-	// 	free(final);
-	// 	i++;
-	// }
+	lst = ms_sort_identifiers(lst);
+	i = 0;
+	while (lst[i])
+	{
+		value = ms_getenv(ft_strdup(lst[i]), denv);
+		final = ft_sprintf("declare -x %fs=\"%s\"" , lst[i], value);
+		printf("%s\n", final);
+		free(final);
+		i++;
+	}
 }
 
 void	b_export(char **args, t_env *denv, t_tok *tdata)
