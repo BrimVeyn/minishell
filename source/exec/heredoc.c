@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
+/*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 08:59:09 by nbardavi          #+#    #+#             */
-/*   Updated: 2024/02/26 10:00:28 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/02/27 15:11:08 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,20 +48,22 @@ int	heredoc(t_pipe *d_pipe, t_tok *dt, t_env *denv, int *i)
 	return (free(limiter), 0);
 }
 
-
+extern int g_signal;
 
 void	t_heredoc(t_tok *tdata, int *i, char *limiter)
 {
 	char	*input;
-	int		cpt;
+	static int		cpt;
 
+	// printf("das\n");
+	// if (!cpt)
 	cpt = 1;
 	if (limiter == NULL)
 		limiter = ft_strdup(tdata->tokens[*i + 1][0]);
 	while (1)
 	{
 		input = readline("> ");
-		if (input == NULL)
+		if (input == NULL && g_signal != 2)
 		{
 			fd_printf(2, "minishell:");
 			fd_printf(2, "warning: here-document at line %d", cpt);

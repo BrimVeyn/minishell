@@ -6,7 +6,7 @@
 /*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/26 14:42:22 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/02/09 12:57:29 by nbardavi         ###   ########.fr       */
+/*   Updated: 2024/02/27 15:20:29 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ t_tok	init_tok(int tokcount, char **heredoc)
 	self.type = (int **)ft_calloc(tokcount + 1, sizeof(int *));
 	self.t_size = tokcount;
 	self.heredoc = heredoc;
+	self.h_cpt = 0;
 	return (self);
 }
 

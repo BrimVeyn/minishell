@@ -6,7 +6,7 @@
 /*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 10:40:47 by nbardavi          #+#    #+#             */
-/*   Updated: 2024/02/26 11:48:25 by nbardavi         ###   ########.fr       */
+/*   Updated: 2024/02/28 10:48:47 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,34 +43,44 @@ char	*h_redo(t_pipe *d_pipe, t_tok *tdata, char *limiter)
 	}
 	temp = ft_strdup(save);
 	free(save);
-	save = h_exec(d_pipe, temp, limiter, tdata);
+	save = h_exec(d_pipe, temp, limiter);
 	return (save);
 }
 
-char	*h_exec(t_pipe *d_pipe, char *save, char *limiter, t_tok *tdata)
+int get_h_cpt(int trigger)
+{
+	static int h_cpt;
+
+	if (trigger == 1)
+		h_cpt = 0;
+	else if (trigger == 0)
+		h_cpt++;
+	return (h_cpt);
+}
+
+extern int g_signal;
+
+char	*h_exec(t_pipe *d_pipe, char *save, char *limiter)
 {
 	char	*input;
-
+	
 	signal(SIGINT, ctrl_heredoc);
 	while (d_pipe->h_trigger != 1)
 	{
+		get_h_cpt(0);
 		input = readline("> ");
-		if (tdata->exitno == 130)
-		{
-			signal_ctrl();
+		if (g_signal == 2)
 			return (free(save), NULL);
-		}
 		if (input == NULL)
 		{
 			fd_printf(2, "minishell:");
-			fd_printf(2, "warning: here-document at line %d ", d_pipe->h_cpt);
+			fd_printf(2, "warning: here-document at line %d ", get_h_cpt(2));
 			fd_printf(2, "delimited by end-of-file (wanted '%fs')\n", limiter);
 			free(save);
 			return (NULL);
 		}
 		if (ft_strcmp(limiter, input) == 0)
 			break ;
-		d_pipe->h_cpt++;
 		save = ft_sprintf("%s%s\n", save, input);
 	}
 	return (save);
