@@ -3,16 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   type_parse.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
+/*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 14:40:30 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/02/26 10:00:28 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/02/27 15:46:29 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
-
-void	sigint_spe(int sig_num);
 
 void	parse_type(t_tok *tdata, t_pipe *d_pipe, t_env *denv, int *i)
 {
@@ -28,7 +26,7 @@ void	parse_type(t_tok *tdata, t_pipe *d_pipe, t_env *denv, int *i)
 		handle_cmd(tdata, d_pipe, denv, i);
 }
 
-
+void	sigint_handler(int sig_num);
 
 void	w_exec_pipe(t_tok *tdata, t_pipe *d_pipe, t_env *denv, int *i)
 {
@@ -53,7 +51,7 @@ void	w_exec_pipe(t_tok *tdata, t_pipe *d_pipe, t_env *denv, int *i)
 			waitpid(d_pipe->f_id[d_pipe->f_cpt], NULL, 0);
 		else
 			waitpid(d_pipe->f_id[d_pipe->f_cpt], &tdata->exitno, 0);
-		signal(SIGINT, sigint_spe);
+		signal(SIGINT, sigint_handler);
 		j++;
 	}
 	d_pipe->p_trig = 1;
