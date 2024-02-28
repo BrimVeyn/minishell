@@ -6,7 +6,7 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 11:34:27 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/02/27 17:22:39 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/02/28 16:29:31 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -184,6 +184,7 @@ typedef struct s_tokvar
 typedef struct s_tok
 {
 	char				***tokens;
+	char				***tok_copy;
 	int					t_size;
 	int					**type;
 	int					*w_pos;
@@ -352,7 +353,7 @@ char					***ms_copy_tok(char ***tokens, int t_size);
 int						ms_count_words(char *input);
 int						ms_newline_error(t_tok *tdata);
 int						ms_token_error(t_tok *tdata);
-int						ms_ambiguous_error(t_tok *tdata, char ***tok_copy);
+int						ms_ambiguous_error(t_tok *tdata);
 char					**ms_delindex(char **split, int i);
 char					*ms_delimiter(char *delimiter);
 int						*ms_intab(int *w_pos, int *w_size, int p_a, int p_b);
