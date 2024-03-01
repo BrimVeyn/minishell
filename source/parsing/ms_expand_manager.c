@@ -6,7 +6,7 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 14:40:00 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/03/01 15:02:27 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/03/01 16:23:52 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,9 +36,17 @@ static int	ms_double_quote_transform(char **split, t_env *denv, int *x,
 	{
 		tmp = r_env(ms_xt(split[x[I]], &x[J], '\"'), denv, tdata);
 		ms_sab(strl, ms_snew(tmp, 0));
+		ft_printf("x[2] = %d, x[3] = %d\n", x[2], x[3]);
 		x[3] += (x[3] != 0);
+		x[3] += (x[3] == 0 && x[5] != ERROR) * 2;
+		ft_printf("x[2] = %d, x[3] = %d\n", x[2], x[3]);
 		x[2] = x[3];
+		ft_printf("x[2] = %d, x[3] = %d\n", x[2], x[3]);
 		x[3] += ft_strlen(tmp) - 1;
+		ft_printf("x[2] = %d, x[3] = %d\n", x[2], x[3]);
+		ft_printf("---------------\n");
+		if (x[5] == ERROR)
+			x[5] = 0;
 		return (TRUE);
 	}
 	return (ZERO);
@@ -173,13 +181,13 @@ char **ms_joinparts(t_ts *ts, char *words, t_tok *tdata)
 
 char	**transform_split(char **split, t_env *denv, t_tok *tdata, int index)
 {
-	int	x[5];
+	int	x[6];
 	t_ts	ts;
 
 	x[I] = 0;
 	tdata->strl = NULL;
 	while (ms_setint(&x[J], ZERO), ms_setint(&tdata->w_size, ZERO),
-		ms_setint(&x[2], ZERO), ms_setint(&x[3], ZERO), split[x[I]])
+		ms_setint(&x[2], ZERO), ms_setint(&x[3], ZERO), ms_setint(&x[5], ERROR), split[x[I]])
 	{
 		if (ms_delimiter_expand(split, tdata, x, index) == ERROR)
 			break ;
