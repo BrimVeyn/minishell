@@ -6,7 +6,7 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 09:01:01 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/02/09 11:38:06 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/03/01 11:33:09 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,6 @@ static int	ms_general_case_check(t_tok *tdata, int *i)
 	if (tdata->tokens[*i + 1] && ms_typetok(tdata->type[*i + 1][0]) == TRUE
 		&& tdata->type[*i][0] != P_C && tdata->type[*i + 1][0] != P_O)
 	{
-		printf("dkeodk");
 		fd_printf(2, "minishell: syntax error near unexpected token `%fs'\n",
 			tdata->tokens[*i + 1][0]);
 		return (ERROR);

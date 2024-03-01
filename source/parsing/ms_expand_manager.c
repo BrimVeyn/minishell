@@ -6,7 +6,7 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 14:40:00 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/02/28 13:30:17 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/03/01 15:02:27 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,14 @@ typedef struct s_ts
 
 }	t_ts;
 
+char **ms_strtotab(char *str)
+{
+	char **mid;
+
+	mid = ft_calloc(2, sizeof(char *));
+	mid[0] = ft_strdup(str);
+	return (mid);
+}
 
 char **ms_joinparts(t_ts *ts, char *words, t_tok *tdata)
 {
@@ -112,21 +120,24 @@ char **ms_joinparts(t_ts *ts, char *words, t_tok *tdata)
     {
 		mid = ft_split(words, ' ');
 		if (!mid[0])
-			mid[0] = ft_strdup("");
+        {
+			free_tab(mid);
+			mid = ms_strtotab("");
+        }
     }
 	else
-		mid = ft_split(words, '\0');
+		mid = ms_strtotab(words);
 	new = ft_calloc(ms_tablen(ts->p1) + ms_tablen(mid) + ms_tablen(ts->p2) + 2, sizeof(char *));
 	newtype = ft_calloc(ms_tablen(ts->p1) + ms_tablen(mid) + ms_tablen(ts->p2) + 2, sizeof(int));
 	j = 0;
 	i = 0;
 	int k = 0;
-	printf("MID[%d] = %s\n", 0, mid[0]);
+	// printf("MID[%d] = %s\n", 0, mid[0]);
 	while (ts->p1 && ts->p1[i])
     {
 		new[j] = ft_strdup(ts->p1[i]);
 		newtype[k] = tdata->type[ts->index][k];
-		printf("SET TYPE P1 %d to %d\n", k, tdata->type[ts->index][k]);
+		// printf("SET TYPE P1 %d to %d\n", k, tdata->type[ts->index][k]);
 		k++;
 		j++;
 		i++;
@@ -136,8 +147,8 @@ char **ms_joinparts(t_ts *ts, char *words, t_tok *tdata)
 	{
 		new[j] = ft_strdup(mid[i]);
 		newtype[k] = CMD;
-		printf("SET TYPE MID %d to %d\n", k, CMD);
-		printf("NEW[%d] = mid[%d] = %s\n", j, i, mid[i]);
+		// printf("SET TYPE MID %d to %d\n", k, CMD);
+		// printf("NEW[%d] = mid[%d] = %s\n", j, i, mid[i]);
 		k++;
 		j++;
 		i++;
@@ -148,7 +159,7 @@ char **ms_joinparts(t_ts *ts, char *words, t_tok *tdata)
 	{
 		new[j] = ft_strdup(ts->p2[i]);
 		newtype[k] = tdata->type[ts->index][cp];
-		printf("SET TYPE P2 %d to %d\n", k, tdata->type[ts->index][cp]);
+		// printf("SET TYPE P2 %d to %d\n", k, tdata->type[ts->index][cp]);
 		k++;
 		cp++;
 		j++;
@@ -177,28 +188,29 @@ char	**transform_split(char **split, t_env *denv, t_tok *tdata, int index)
 		ms_expandsion_manager(split, denv, tdata, x);
 		free(split[x[I]]);
 		split[x[I]] = w_expand(ms_starjoin(&tdata->strl), denv, tdata);
-		printf("split[%d] = %s\n", x[I], split[x[I]]);
+		// printf("split[%d] = |%s|\n", x[I], split[x[I]]);
 		if (tdata->type[index][x[I]] == CMD)
 		{
-			for(int k = 0; tdata->tokens[index][k]; k++)
-				printf("TYPE[%d] = %d\n", k, tdata->type[index][k]);
+			// for(int k = 0; tdata->tokens[index][k]; k++)
+			// 	printf("TYPE[%d] = %d\n", k, tdata->type[index][k]);
 			ts.p1 = ms_cuttab(split, 0, x[I] - 1);
 			ts.p2 = ms_cuttab(split, x[I] + 1, ms_tablen(split) - 1);
 			ts.xi = x[I];
 			ts.index = index;
 			char **new = ms_joinparts(&ts, split[x[I]], tdata);
-			for(int k = 0; tdata->w_pos && tdata->w_pos[k]; k++)
-				printf("tdata->w_pos[%d] = %d\n", k, tdata->w_pos[k]);
+			// for(int k = 0; k < tdata->w_size; k++)
+			// 	printf("tdata->w_pos[%d] = %d\n", k, tdata->w_pos[k]);
 			free_tab(split);
 			split = new;
-			printf("nenennew[0] = %s\n", new[0]);
+			// printf("split[%d] = |%s|\n", 0, split[0]);
+			// printf("nenennew[0] = %s\n", new[0]);
 			x[I] = ts.xi;
         }
 		else
-		{
+        {
 			(void) ts;
 			x[I]++;
-		}
+        }
 		ms_starclear(&tdata->strl);
 		free(tdata->w_pos);
 	}
