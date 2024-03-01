@@ -6,7 +6,7 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 14:20:38 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/03/01 15:02:59 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/03/01 16:32:05 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,12 @@ void	parse_input(char *input, t_tok *tdata)
 		input = ms_cut_at(input, '\n');
 	}
 	if (quotes_parity_check(input, tdata) == ERROR)
+    {
+		tdata->t_size = ERROR;
+		tdata->tokens = NULL;
+		tdata->type = NULL;
 		return ;
+    }
 	tdata->t_size = count_tokens(input);
 	if (empty_string(tdata) == ERROR)
 		return ;
