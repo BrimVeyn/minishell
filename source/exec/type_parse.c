@@ -6,7 +6,7 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 14:40:30 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/02/26 10:00:28 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/03/01 15:19:22 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,10 @@ void	parse_type(t_tok *tdata, t_pipe *d_pipe, t_env *denv, int *i)
 	else if (tdata->type[*i][0] == OR)
 		handle_or(d_pipe);
 	else if (d_pipe->skip_and == 0)
+    {
+		ms_parse(tdata, denv, *i);
 		handle_cmd(tdata, d_pipe, denv, i);
+    }
 }
 
 
@@ -49,7 +52,7 @@ void	w_exec_pipe(t_tok *tdata, t_pipe *d_pipe, t_env *denv, int *i)
 	while (d_pipe->f_cpt >= j)
 	{
 		signal(SIGINT, SIG_IGN);
-		if (tdata->exitno == 256)
+		if (tdata->exitno == 256 || tdata->exitno == 127 * 256)
 			waitpid(d_pipe->f_id[d_pipe->f_cpt], NULL, 0);
 		else
 			waitpid(d_pipe->f_id[d_pipe->f_cpt], &tdata->exitno, 0);

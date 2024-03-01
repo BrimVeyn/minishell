@@ -6,11 +6,13 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 13:49:14 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/02/26 11:29:15 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/03/01 13:18:06 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
+
+extern int	g_exitno;
 
 void	quotes_check_helper(int *quotes, int c, int *i, char *str)
 {
@@ -55,11 +57,6 @@ int	quotes_parity_check(char *str, t_tok *tdata)
 			i++;
 	}
 	if (quotes_check_helper2(quotes, tdata) == ERROR)
-	{
-		tdata->tokens = NULL;
-		tdata->type = NULL;
-		tdata->t_size = ERROR;
 		return (ERROR);
-	}
 	return (ZERO);
 }
