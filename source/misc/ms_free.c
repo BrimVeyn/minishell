@@ -6,7 +6,7 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/26 11:26:10 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/02/15 10:10:21 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/03/01 13:59:24 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ void	free_tdata(t_tok *tdata)
 {
 	free_startab(tdata->tokens, tdata->type);
 	free_tab(tdata->heredoc);
+	free_copy(tdata->tok_copy);
 }
 
 void	free_copy(char ***tokens)

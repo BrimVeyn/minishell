@@ -1,25 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ms_tablen.c                                        :+:      :+:    :+:   */
+/*   heredoc_utils3.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
+/*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/25 13:41:29 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/03/01 14:34:20 by bvan-pae         ###   ########.fr       */
+/*   Created: 2024/02/29 09:42:39 by nbardavi          #+#    #+#             */
+/*   Updated: 2024/02/29 09:43:03 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
+#include <signal.h>
 
-int	ms_tablen(char **tab)
+int	get_h_cpt(int trigger)
 {
-	int	i;
+	static int	h_cpt;
 
-	i = 0;
-	if (!tab)
-		return (0);
-	while (tab[i])
-		i++;
-	return (i);
+	if (trigger == 1)
+		h_cpt = 0;
+	else if (trigger == 0)
+		h_cpt++;
+	return (h_cpt);
 }

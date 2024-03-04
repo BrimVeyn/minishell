@@ -6,7 +6,7 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 08:59:04 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/02/09 10:39:34 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/03/01 11:31:37 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ int	ms_newline_error(t_tok *tdata)
 	return (TRUE);
 }
 
-int	ms_ambiguous_error(t_tok *tdata, char ***tok_copy)
+int	ms_ambiguous_error(t_tok *tdata)
 {
 	int	i;
 	int	j;
@@ -73,10 +73,10 @@ int	ms_ambiguous_error(t_tok *tdata, char ***tok_copy)
 				&& tdata->type[i][j] != D_AL)
 			{
 				if (ms_count_words(tdata->tokens[i][j + 1]) > 1
-					&& ft_strchr(tok_copy[i][j + 1], '*'))
+					&& (ft_strchr(tdata->tok_copy[i][j + 1], '*') || ft_strchr(tdata->tok_copy[i][j + 1], '$')))
 				{
 					fd_printf(2, "minishell: %fs: ambiguous redirect\n",
-						tok_copy[i][j + 1]);
+						tdata->tok_copy[i][j + 1]);
 					return (ERROR);
 				}
 			}

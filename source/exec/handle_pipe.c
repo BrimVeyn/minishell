@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_pipe.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
+/*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 10:38:01 by nbardavi          #+#    #+#             */
-/*   Updated: 2024/02/26 10:00:28 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/03/04 12:02:04 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,5 +99,13 @@ void	pipe_parse(t_tok *tdata, t_pipe *d_pipe, t_env *denv, int *i)
 	else if (tdata->type[*i][0] == OR)
 		handle_or(d_pipe);
 	else if (d_pipe->skip_and == 0 && tdata->type[*i][0] != PIPE)
+    {
+		ms_parse(tdata, denv, *i);
 		handle_cmd_pipe(tdata, d_pipe, denv, i);
+    }
+	if (tdata->type[*i][0] == WRONG && next_ope(tdata, *i) != PIPE)
+	{
+		printf("Hello\n");
+		tdata->exitno = 127 << 8;
+	}
 }

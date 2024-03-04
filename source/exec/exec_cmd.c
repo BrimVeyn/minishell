@@ -6,7 +6,7 @@
 /*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/26 14:41:53 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/02/27 15:46:04 by nbardavi         ###   ########.fr       */
+/*   Updated: 2024/03/04 11:53:01 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,10 @@ void	c_execve(t_tok *tdata, t_pipe *d_pipe, t_env *denv, int *i)
 	{
 		if (d_pipe->b_pipefd[1] > -1)
 			close(d_pipe->b_pipefd[1]);
-		execve(tdata->tokens[*i][0], tdata->tokens[*i], denv->f_env);
+		if (tdata->type[*i][0] != WRONG && tdata->type[*i][0] != IGNORE)
+			execve(tdata->tokens[*i][0], tdata->tokens[*i], denv->f_env);
+		// else
+		// 	tdata->exitno = 127 << 8;
 		exit(tdata->exitno);
 	}
 }
