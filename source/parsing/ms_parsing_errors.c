@@ -6,7 +6,7 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 08:59:04 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/03/01 11:31:37 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/03/04 10:00:27 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,31 +58,25 @@ int	ms_newline_error(t_tok *tdata)
 	return (TRUE);
 }
 
-int	ms_ambiguous_error(t_tok *tdata)
+int	ms_ambiguous_error(t_tok *tdata, int index)
 {
-	int	i;
 	int	j;
 
-	i = 0;
-	while (tdata->tokens[i])
+	j = 0;
+	while (tdata->tokens[index][j])
 	{
-		j = 0;
-		while (tdata->tokens[i][j])
+		if (ms_typecmdtok(tdata->type[index][j]) == TRUE
+			&& tdata->type[index][j] != D_AL)
 		{
-			if (ms_typecmdtok(tdata->type[i][j]) == TRUE
-				&& tdata->type[i][j] != D_AL)
+			if (ms_count_words(tdata->tokens[index][j + 1]) > 1
+				&& (ft_strchr(tdata->tok_copy[index][j + 1], '*') || ft_strchr(tdata->tok_copy[index][j + 1], '$')))
 			{
-				if (ms_count_words(tdata->tokens[i][j + 1]) > 1
-					&& (ft_strchr(tdata->tok_copy[i][j + 1], '*') || ft_strchr(tdata->tok_copy[i][j + 1], '$')))
-				{
-					fd_printf(2, "minishell: %fs: ambiguous redirect\n",
-						tdata->tok_copy[i][j + 1]);
-					return (ERROR);
-				}
+				fd_printf(2, "minishell: %fs: ambiguous redirect\n",
+			  tdata->tok_copy[index][j + 1]);
+				return (ERROR);
 			}
-			j++;
 		}
-		i++;
+		j++;
 	}
 	return (TRUE);
 }

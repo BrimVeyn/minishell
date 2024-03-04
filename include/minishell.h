@@ -6,7 +6,7 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 11:34:27 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/03/01 13:18:11 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/03/04 11:02:13 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ enum
 	BUILTIN = 200,
 	SQUOTE = 39,
 	DQUOTE = 34,
+	IGNORE = 999,
 };
 
 enum
@@ -110,6 +111,28 @@ typedef struct s_starlist
 	int					type;
 	struct s_starlist	*next;
 }						t_starlist;
+
+typedef struct s_ts
+{
+	char **new;
+	char **p1;
+	char **p2;
+	int	 xi;
+	int  index;
+
+}	t_ts;
+
+typedef struct s_jp
+{
+	char **mid;
+	char **new;
+	int *newtype;
+	int i;
+	int j;
+	int k;
+	int cp;
+
+}	t_jp;
 
 typedef struct s_pipe
 {
@@ -343,6 +366,13 @@ int						ms_wlp(char *input);
 void	ms_expand(t_tok *tdata, t_env *denv, int index);
 char					**transform_split(char **split, t_env *denv,
 							t_tok *tdata, int index);
+char **ms_joinparts(t_ts *ts, char *words, t_tok *tdata);
+void	ms_expandsion_manager(char **split, t_env *denv, t_tok *tdata, int *x);
+char **ms_cuttab(char **tab, int start, int end);
+char **ms_strtotab(char *str);
+int	ms_double_quote_transform(char **split, t_env *denv, int *x, t_tok *tdata);
+void ms_single_quote_transform(char **split, t_env *denv, int *x, t_tok *tdata);
+int	ms_no_quote_transform(char **split, int *x, t_starlist **strl);
 int						ms_isinw_pos(int i, t_tok *tdata);
 int						ms_typecmdtok(int type);
 int						ms_typetok(int type);
@@ -354,7 +384,7 @@ char					***ms_copy_tok(char ***tokens, int t_size);
 int						ms_count_words(char *input);
 int	ms_newline_error(t_tok *tdata);
 int	ms_token_error(t_tok *tdata);
-int	ms_ambiguous_error(t_tok *tdata);
+int	ms_ambiguous_error(t_tok *tdata, int index);
 char					**ms_delindex(char **split, int i);
 char					*ms_delimiter(char *delimiter);
 int						*ms_intab(int *w_pos, int *w_size, int p_a, int p_b);
