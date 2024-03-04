@@ -12,8 +12,6 @@
 
 #include "../../include/minishell.h"
 
-
-
 void	b_redi(t_tok *tdata, t_pipe *d_pipe, int i)
 {
 	if (access(tdata->tokens[i + 1][0], F_OK | R_OK) == 0)

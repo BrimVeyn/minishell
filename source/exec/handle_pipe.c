@@ -12,8 +12,6 @@
 
 #include "../../include/minishell.h"
 
-
-
 void	end_ep(t_pipe *d_pipe, t_env *denv, t_tok *tdata)
 {
 	if (d_pipe->b_pipefd[1] > -1)
@@ -38,8 +36,7 @@ void	exec_pipe(t_tok *tdata, t_pipe *d_pipe, t_env *denv, int *i)
 		close(d_pipe->input);
 		if (previous_ope(tdata, *i) != PIPE)
 			dup2(d_pipe->input, STDIN_FILENO);
-		if (next_ope(tdata, *i) == PIPE
-			&& d_pipe->output == d_pipe->old_stdout)
+		if (next_ope(tdata, *i) == PIPE && d_pipe->output == d_pipe->old_stdout)
 			dup2(d_pipe->pipefd[1], STDOUT_FILENO);
 		else
 			dup2(d_pipe->output, STDOUT_FILENO);
@@ -99,10 +96,10 @@ void	pipe_parse(t_tok *tdata, t_pipe *d_pipe, t_env *denv, int *i)
 	else if (tdata->type[*i][0] == OR)
 		handle_or(d_pipe);
 	else if (d_pipe->skip_and == 0 && tdata->type[*i][0] != PIPE)
-    {
+	{
 		ms_parse(tdata, denv, *i);
 		handle_cmd_pipe(tdata, d_pipe, denv, i);
-    }
+	}
 	if (tdata->type[*i][0] == WRONG && next_ope(tdata, *i) != PIPE)
 	{
 		printf("Hello\n");

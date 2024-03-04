@@ -6,7 +6,7 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 16:07:37 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/03/04 14:00:19 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/03/04 15:48:48 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,5 +29,17 @@ void	ms_expand(t_tok *tdata, t_env *denv, int index)
 			break ;
 		}
 		j++;
+	}
+}
+
+void	ms_parse(t_tok *tdata, t_env *denv, int index)
+{
+	ms_expand(tdata, denv, index);
+	ms_add_path(tdata, denv, index);
+	if (ms_ambiguous_error(tdata, index) == ERROR)
+	{
+		tdata->exitno = 1 << 8;
+		tdata->t_size = ERROR;
+		tdata->type[index][0] = IGNORE;
 	}
 }

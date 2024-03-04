@@ -69,10 +69,11 @@ int	ms_ambiguous_error(t_tok *tdata, int index)
 			&& tdata->type[index][j] != D_AL)
 		{
 			if (ms_count_words(tdata->tokens[index][j + 1]) > 1
-				&& (ft_strchr(tdata->tok_copy[index][j + 1], '*') || ft_strchr(tdata->tok_copy[index][j + 1], '$')))
+				&& (ft_strchr(tdata->tok_copy[index][j + 1], '*')
+					|| ft_strchr(tdata->tok_copy[index][j + 1], '$')))
 			{
 				fd_printf(2, "minishell: %fs: ambiguous redirect\n",
-			  tdata->tok_copy[index][j + 1]);
+					tdata->tok_copy[index][j + 1]);
 				return (ERROR);
 			}
 		}

@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/08 14:20:38 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/03/04 15:41:49 by bvan-pae         ###   ########.fr       */
+/*   Created: 2024/03/04 15:42:50 by bvan-pae          #+#    #+#             */
+/*   Updated: 2024/03/04 15:50:59 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,22 +58,28 @@ static int	empty_string(t_tok *tdata)
 	return (TRUE);
 }
 
-void	parse_input(char *input, t_tok *tdata)
+static char	*fill_heredoc(char *input, t_tok *tdata)
 {
-	tdata->heredoc = NULL;
-	tdata->tok_copy = NULL;
 	if (ft_strchr(input, '\n'))
 	{
 		tdata->heredoc = ft_split(ft_strchr(input, '\n'), '\n');
 		input = ms_cut_at(input, '\n');
 	}
+	return (input);
+}
+
+void	parse_input(char *input, t_tok *tdata)
+{
+	tdata->heredoc = NULL;
+	tdata->tok_copy = NULL;
+	input = fill_heredoc(input, tdata);
 	if (quotes_parity_check(input, tdata) == ERROR)
-    {
+	{
 		tdata->t_size = ERROR;
 		tdata->tokens = NULL;
 		tdata->type = NULL;
 		return ;
-    }
+	}
 	tdata->t_size = count_tokens(input);
 	if (empty_string(tdata) == ERROR)
 		return ;
@@ -89,36 +95,3 @@ void	parse_input(char *input, t_tok *tdata)
 		return ;
 	return ;
 }
-
-void ms_parse(t_tok *tdata, t_env *denv, int index)
-{
-	// ft_printf("t[0] = %fs\n", tdata->tokens[index][0]);
-	// ft_printf("t[0] = %d\n", tdata->type[index][0]);
-	// for(int i = 0; tdata->tokens[i]; i++)
-	// {
-	// 	for (int j = 0; tdata->tokens[i][j]; j++)
-	// 	{
-	// 		printf("type[%d][%d] = %d\n", i, j, tdata->type[i][j]);
-	// 		printf("tokens[%d][%d] = %s\n", i, j, tdata->tokens[i][j]);
-	// 	}
-	// }
-	ms_expand(tdata, denv, index);
-	// for(int i = 0; tdata->tokens[i]; i++)
-	// {
-	// 	for (int j = 0; tdata->tokens[i][j]; j++)
-	// 	{
-	// 		printf("type[%d][%d] = %d\n", i, j, tdata->type[i][j]);
-	// 		printf("tokens[%d][%d] = %s\n", i, j, tdata->tokens[i][j]);
-	// 	}
-	// }
-	ms_add_path(tdata, denv, index);
-	if (ms_ambiguous_error(tdata, index) == ERROR)
-	{
-		tdata->exitno = 1 << 8;
-		tdata->t_size = ERROR;
-		tdata->type[index][0] = WRONG;
-	}
-	// ft_printf("t[0] = %fs\n", tdata->tokens[index][0]);
-	// ft_printf("t[0] = %d\n", tdata->type[index][0]);
-}
-

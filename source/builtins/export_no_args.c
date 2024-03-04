@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_no_args.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
+/*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 10:51:05 by nbardavi          #+#    #+#             */
-/*   Updated: 2024/02/29 10:53:09 by nbardavi         ###   ########.fr       */
+/*   Updated: 2024/03/04 15:45:26 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,23 +32,6 @@ char	**ms_sort_identifiers(char **lst)
 			}
 			j++;
 		}
-		i++;
-	}
-	return (lst);
-}
-
-char	**ms_get_identifiers(t_env *denv)
-{
-	char	**lst;
-	int		i;
-	int		len;
-
-	i = 0;
-	len = ft_strlenlen(denv->f_env);
-	lst = ft_calloc(len + 1, sizeof(char *));
-	while (i < len)
-	{
-		lst[i] = ms_cut_at(ft_strdup(denv->f_env[i]), '=');
 		i++;
 	}
 	return (lst);

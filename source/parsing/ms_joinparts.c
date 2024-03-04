@@ -12,27 +12,29 @@
 
 #include "../../include/minishell.h"
 
-void jp_helper(t_jp *jp, t_ts *ts, t_tok *tdata, char *words)
+void	jp_helper(t_jp *jp, t_ts *ts, t_tok *tdata, char *words)
 {
 	if (!tdata->w_pos)
-    {
+	{
 		jp->mid = ft_split(words, ' ');
 		if (!jp->mid[0])
-        {
+		{
 			free_tab(jp->mid);
 			jp->mid = ms_strtotab("");
-        }
-    }
+		}
+	}
 	else
 		jp->mid = ms_strtotab(words);
-	jp->new = ft_calloc(ms_tablen(ts->p1) + ms_tablen(jp->mid) + ms_tablen(ts->p2) + 2, sizeof(char *));
-	jp->newtype = ft_calloc(ms_tablen(ts->p1) + ms_tablen(jp->mid) + ms_tablen(ts->p2) + 2, sizeof(int));
+	jp->new = ft_calloc(ms_tablen(ts->p1) + ms_tablen(jp->mid)
+			+ ms_tablen(ts->p2) + 2, sizeof(char *));
+	jp->newtype = ft_calloc(ms_tablen(ts->p1) + ms_tablen(jp->mid)
+			+ ms_tablen(ts->p2) + 2, sizeof(int));
 	jp->j = 0;
 	jp->i = 0;
 	jp->k = 0;
 }
 
-void jp_cpp1(t_jp *jp, t_ts *ts, t_tok *tdata)
+void	jp_cpp1(t_jp *jp, t_ts *ts, t_tok *tdata)
 {
 	while (ts->p1 && ts->p1[jp->i])
 	{
@@ -45,9 +47,9 @@ void jp_cpp1(t_jp *jp, t_ts *ts, t_tok *tdata)
 	jp->i = 0;
 }
 
-void jp_cpmid(t_jp *jp, t_ts *ts)
+void	jp_cpmid(t_jp *jp, t_ts *ts)
 {
-	while(jp->mid && jp->mid[jp->i])
+	while (jp->mid && jp->mid[jp->i])
 	{
 		jp->new[jp->j] = ft_strdup(jp->mid[jp->i]);
 		jp->newtype[jp->k] = CMD;
@@ -59,7 +61,7 @@ void jp_cpmid(t_jp *jp, t_ts *ts)
 	jp->cp = ts->xi + 1;
 }
 
-void jp_cpp2(t_jp *jp, t_ts *ts, t_tok *tdata)
+void	jp_cpp2(t_jp *jp, t_ts *ts, t_tok *tdata)
 {
 	while (ts->p2 && ts->p2[jp->i])
 	{
@@ -72,7 +74,7 @@ void jp_cpp2(t_jp *jp, t_ts *ts, t_tok *tdata)
 	}
 }
 
-char **ms_joinparts(t_ts *ts, char *words, t_tok *tdata)
+char	**ms_joinparts(t_ts *ts, char *words, t_tok *tdata)
 {
 	t_jp	jp;
 

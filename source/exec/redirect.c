@@ -13,8 +13,6 @@
 #include "../../include/minishell.h"
 #include <unistd.h>
 
-
-
 int	cmd_return(t_pipe *d_pipe, t_tok *tdata)
 {
 	if (d_pipe->failure)

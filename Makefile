@@ -39,6 +39,9 @@ SRC 			:= source/main.c source/prompt.c \
 				   source/builtins/b_exec.c \
 				   source/builtins/unset.c \
 				   source/builtins/export.c \
+				   source/builtins/export_helper1.c \
+				   source/builtins/export_no_args.c \
+				   source/builtins/export_plus.c \
 				   source/builtins/env.c \
 				   source/builtins/pwd.c \
 				   source/builtins/cd.c \
@@ -73,6 +76,7 @@ SRC 			:= source/main.c source/prompt.c \
 				   source/exec/heredoc.c \
 				   source/exec/heredoc_utils.c \
 				   source/exec/heredoc_utils2.c \
+				   source/exec/heredoc_utils3.c \
 				   source/exec/exec_cmd.c \
 				   source/exec/paran_utils.c \
 				   source/exec/pipe_utils.c \
