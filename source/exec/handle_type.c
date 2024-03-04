@@ -6,13 +6,11 @@
 /*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 10:11:19 by nbardavi          #+#    #+#             */
-/*   Updated: 2024/03/04 11:47:21 by nbardavi         ###   ########.fr       */
+/*   Updated: 2024/03/04 15:17:10 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
-
-
 
 void	handle_po(t_tok *tdata, t_pipe *d_pipe, t_env *denv, int *i)
 {

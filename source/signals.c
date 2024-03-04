@@ -14,7 +14,7 @@
 #include <term.h>
 #include <unistd.h>
 
-extern int g_signal;
+extern int	g_signal;
 
 void	sigint_handler(int sig_num)
 {

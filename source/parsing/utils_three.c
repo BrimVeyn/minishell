@@ -6,7 +6,7 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/04 10:53:00 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/03/04 11:00:46 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/03/04 15:52:52 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,16 +24,16 @@ void	ms_expandsion_manager(char **split, t_env *denv, t_tok *tdata, int *x)
 	}
 }
 
-char **ms_cuttab(char **tab, int start, int end)
+char	**ms_cuttab(char **tab, int start, int end)
 {
-	char **new;
-	int i;
+	char	**new;
+	int		i;
 
 	i = 0;
 	if (end < start || !tab[start] || !tab[end])
 		return (NULL);
 	new = ft_calloc(end - start + 2, sizeof(char *));
-	while(start <= end)
+	while (start <= end)
 	{
 		new[i] = ft_strdup(tab[start]);
 		i++;
@@ -42,11 +42,21 @@ char **ms_cuttab(char **tab, int start, int end)
 	return (new);
 }
 
-char **ms_strtotab(char *str)
+char	**ms_strtotab(char *str)
 {
-	char **mid;
+	char	**mid;
 
 	mid = ft_calloc(2, sizeof(char *));
 	mid[0] = ft_strdup(str);
 	return (mid);
+}
+
+char	*check_file(char *cmd, t_tok *tdata)
+{
+	if (no_such_file(cmd, tdata) == ERROR || command_not_found(cmd,
+			tdata) == ERROR || !cmd)
+		return ("WRONG");
+	else if (is_a_directory(cmd, tdata) == ERROR)
+		return ("IGNORE");
+	return (cmd);
 }

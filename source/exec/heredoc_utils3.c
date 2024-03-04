@@ -6,12 +6,24 @@
 /*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 09:42:39 by nbardavi          #+#    #+#             */
-/*   Updated: 2024/02/29 09:43:03 by nbardavi         ###   ########.fr       */
+/*   Updated: 2024/03/04 15:13:46 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 #include <signal.h>
+
+void	exec_id0_helper(t_pipe *d_pipe)
+{
+	d_pipe->or_return = 1;
+	d_pipe->failed = 0;
+}
+
+void	handle_cmd_helper(t_tok *tdata, t_pipe *d_pipe)
+{
+	d_pipe->failed = 1;
+	tdata->exitno = 127 << 8;
+}
 
 int	get_h_cpt(int trigger)
 {

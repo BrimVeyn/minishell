@@ -6,13 +6,14 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 14:40:00 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/03/04 11:02:15 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/03/04 15:55:24 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-void ms_single_quote_transform(char **split, t_env *denv, int *x, t_tok *tdata)
+void	ms_single_quote_transform(char **split, t_env *denv, int *x,
+		t_tok *tdata)
 {
 	char	*tmp;
 
@@ -32,7 +33,6 @@ int	ms_double_quote_transform(char **split, t_env *denv, int *x, t_tok *tdata)
 	int		t;
 
 	t = x[J] - x[5];
-
 	if (split[x[I]][x[J]] == '\"')
 	{
 		tmp = r_env(ms_xt(split[x[I]], &x[J], '\"'), denv, tdata);
@@ -63,14 +63,13 @@ int	ms_no_quote_transform(char **split, int *x, t_starlist **strl)
 	return (ZERO);
 }
 
-char **ts_helper(int *x, char **split, t_tok *tdata, t_ts *ts, int index)
+char	**ts_helper(int *x, char **split, t_tok *tdata, t_ts *ts)
 {
-	if (tdata->type[index][x[I]] == CMD)
+	if (tdata->type[ts->index][x[I]] == CMD)
 	{
 		ts->p1 = ms_cuttab(split, 0, x[I] - 1);
 		ts->p2 = ms_cuttab(split, x[I] + 1, ms_tablen(split) - 1);
 		ts->xi = x[I];
-		ts->index = index;
 		ts->new = ms_joinparts(ts, split[x[I]], tdata);
 		free_tab(split);
 		split = ts->new;
@@ -83,13 +82,14 @@ char **ts_helper(int *x, char **split, t_tok *tdata, t_ts *ts, int index)
 
 char	**transform_split(char **split, t_env *denv, t_tok *tdata, int index)
 {
-	int	x[6];
+	int		x[6];
 	t_ts	ts;
 
 	x[I] = 0;
 	tdata->strl = NULL;
 	while (ms_setint(&x[J], ZERO), ms_setint(&tdata->w_size, ZERO),
-		ms_setint(&x[2], ZERO), ms_setint(&x[3], ZERO), ms_setint(&x[5], ZERO), split[x[I]])
+		ms_setint(&x[2], ZERO), ms_setint(&x[3], ZERO), ms_setint(&x[5], ZERO),
+		split[x[I]])
 	{
 		if (ms_delimiter_expand(split, tdata, x, index) == ERROR)
 			break ;
@@ -98,7 +98,8 @@ char	**transform_split(char **split, t_env *denv, t_tok *tdata, int index)
 		ms_expandsion_manager(split, denv, tdata, x);
 		free(split[x[I]]);
 		split[x[I]] = w_expand(ms_starjoin(&tdata->strl), denv, tdata);
-		split = ts_helper(x, split, tdata, &ts, index);
+		ts.index = index;
+		split = ts_helper(x, split, tdata, &ts);
 		ms_starclear(&tdata->strl);
 		free(tdata->w_pos);
 	}

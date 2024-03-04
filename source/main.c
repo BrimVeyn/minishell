@@ -12,8 +12,8 @@
 
 #include "../include/minishell.h"
 
-int g_signal;
-int get_h_cpt(int trigger);
+int	g_signal;
+int	get_h_cpt(int trigger);
 
 int	main(int ac, char *av[], char *env[])
 {
@@ -22,10 +22,10 @@ int	main(int ac, char *av[], char *env[])
 
 	g_signal = 0;
 	if (av && (!env || ac >= 2))
-    {
+	{
 		fd_printf(2, "Either env is null or too many arguments\n");
 		exit(EXIT_FAILURE);
-    }
+	}
 	denv.f_env = ms_dupdup(env);
 	get_h_cpt(1);
 	denv.pwd = get_pwd(&denv);

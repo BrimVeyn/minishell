@@ -12,8 +12,6 @@
 
 #include "../../include/minishell.h"
 
-
-
 int	flag_echo(char *flag)
 {
 	int	i;

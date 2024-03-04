@@ -6,7 +6,7 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/04 13:56:55 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/03/04 13:56:55 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/03/04 15:55:52 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,25 +114,25 @@ typedef struct s_starlist
 
 typedef struct s_ts
 {
-	char **new;
-	char **p1;
-	char **p2;
-	int	 xi;
-	int  index;
+	char				**new;
+	char				**p1;
+	char				**p2;
+	int					xi;
+	int					index;
 
-}	t_ts;
+}						t_ts;
 
 typedef struct s_jp
 {
-	char **mid;
-	char **new;
-	int *newtype;
-	int i;
-	int j;
-	int k;
-	int cp;
+	char				**mid;
+	char				**new;
+	int					*newtype;
+	int					i;
+	int					j;
+	int					k;
+	int					cp;
 
-}	t_jp;
+}						t_jp;
 
 typedef struct s_pipe
 {
@@ -240,8 +240,8 @@ typedef struct s_splith
 }						t_splith;
 
 t_h_lst					*ms_lst_new(char *content);
-void	parse_input(char *input, t_tok *tdata);
-void ms_parse(t_tok *tdata, t_env *denv, int index);
+void					parse_input(char *input, t_tok *tdata);
+void					ms_parse(t_tok *tdata, t_env *denv, int index);
 t_tok					init_tok(int tokcount, char **heredoc);
 t_tokvar				init_tokvar(char *symbol, int type);
 t_tokh					init_tokh(void);
@@ -312,15 +312,20 @@ int						ms_filetype(char *path);
 /*_.-=-._.-=-._.-=-._.-=-._.- BUILTIN -._.-=-._.-=-._.-=-._.-=-._.-=-._*/
 
 void					b_echo(t_tok *tdata, int *i);
-void	b_export(char **args, t_env *denv, t_tok *tdata);
+void					b_export(char **args, t_env *denv, t_tok *tdata);
+int						invalid_identifier(char *identifier);
+void					b_export_helper2(char *identifier, int *i,
+							t_tok *tdata);
 void					b_unset(char **args, t_env *denv);
-void	b_env(t_env *denv, t_tok *tdata);
-void	b_exit(char **args, t_pipe *d_pipe, t_tok *tdata);
-void	b_pwd(t_tok *tdata);
-void	b_cd(char **args, t_env *denv, t_tok *tdata);
-void	cd_minus(t_env *denv, t_tok *tdata);
-int	too_many_args(char **args, t_tok *tdata);
-int	no_args(char **args, t_env *denv, t_tok *tdata);
+void					b_export_no_args(t_env *denv);
+void					b_env(t_env *denv, t_tok *tdata);
+char					**ms_get_identifiers(t_env *denv);
+void					b_exit(char **args, t_pipe *d_pipe, t_tok *tdata);
+void					b_pwd(t_tok *tdata);
+void					b_cd(char **args, t_env *denv, t_tok *tdata);
+void					cd_minus(t_env *denv, t_tok *tdata);
+int						too_many_args(char **args, t_tok *tdata);
+int						no_args(char **args, t_env *denv, t_tok *tdata);
 char					**ms_replace_value(char **f_env, int index, char *arg);
 char					**del_var(char **f_env, int index);
 char					*ms_find_var(t_env *denv, char *var);
@@ -333,22 +338,22 @@ t_tokvar				ms_tiktok(char *ptr);
 t_dlist					*ms_wildcard_expand(t_starlist *current,
 							t_dlist *flist);
 void					fill_token(char *input, t_tok *tdata, t_env *denv);
-void	ms_add_path(t_tok *tdata, t_env *denv, int index);
+void					ms_add_path(t_tok *tdata, t_env *denv, int index);
 int						no_such_file(char *cmd, t_tok *tdata);
 int						is_a_directory(char *cmd, t_tok *tdata);
 int						command_not_found(char *cmd, t_tok *tdata);
 int						permission_denied(char *cmd, t_tok *tdata);
 int						empty_var(char *cmd);
 char					*grep_word(char *input, t_tokh *v);
-char	*r_dollarquestion(char *split, int *i, t_tok *tdata);
+char					*r_dollarquestion(char *split, int *i, t_tok *tdata);
 char					*r_dollar(char *split, int *i, int start, t_env *denv);
-char	*r_env(char *split, t_env *denv, t_tok *tdata);
+char					*r_env(char *split, t_env *denv, t_tok *tdata);
 char					*ms_xt(char *split, int *j, char c);
 char					*tild_expand(char *word, t_env *denv);
 char					*w_expand(char *word, t_env *denv, t_tok *tdata);
 char					**dupdup(void);
 int						missing_delimiter_check(t_tok *tdata);
-int	quotes_parity_check(char *str, t_tok *tdata);
+int						quotes_parity_check(char *str, t_tok *tdata);
 int						parenthesis_check(char *input);
 int						delimiter_check(char *input);
 int						count_tokens(char *input);
@@ -357,6 +362,7 @@ void					fill_split(char **split, char *str);
 int						ms_wl2(char *ptr);
 int						f_lcmd_index(t_tok *tdata, int j);
 int						tild_index(char *word);
+char					*check_file(char *cmd, t_tok *tdata);
 
 char					***ms_split(t_tok *tdata, char *input);
 int						ms_wlcmd(char *input);
@@ -364,16 +370,20 @@ int						ms_wltoken(char *input);
 int						ms_wlcmdtok(char *input);
 int						ms_typecmdtok(int type);
 int						ms_wlp(char *input);
-void	ms_expand(t_tok *tdata, t_env *denv, int index);
+void					ms_expand(t_tok *tdata, t_env *denv, int index);
 char					**transform_split(char **split, t_env *denv,
 							t_tok *tdata, int index);
-char **ms_joinparts(t_ts *ts, char *words, t_tok *tdata);
-void	ms_expandsion_manager(char **split, t_env *denv, t_tok *tdata, int *x);
-char **ms_cuttab(char **tab, int start, int end);
-char **ms_strtotab(char *str);
-int	ms_double_quote_transform(char **split, t_env *denv, int *x, t_tok *tdata);
-void ms_single_quote_transform(char **split, t_env *denv, int *x, t_tok *tdata);
-int	ms_no_quote_transform(char **split, int *x, t_starlist **strl);
+char					**ms_joinparts(t_ts *ts, char *words, t_tok *tdata);
+void					ms_expandsion_manager(char **split, t_env *denv,
+							t_tok *tdata, int *x);
+char					**ms_cuttab(char **tab, int start, int end);
+char					**ms_strtotab(char *str);
+int						ms_double_quote_transform(char **split, t_env *denv,
+							int *x, t_tok *tdata);
+void					ms_single_quote_transform(char **split, t_env *denv,
+							int *x, t_tok *tdata);
+int						ms_no_quote_transform(char **split, int *x,
+							t_starlist **strl);
 int						ms_isinw_pos(int i, t_tok *tdata);
 int						ms_typecmdtok(int type);
 int						ms_typetok(int type);
@@ -383,22 +393,22 @@ int						ms_wltoken(char *input);
 int						ms_wlp(char *input);
 char					***ms_copy_tok(char ***tokens, int t_size);
 int						ms_count_words(char *input);
-int	ms_newline_error(t_tok *tdata);
-int	ms_token_error(t_tok *tdata);
-int	ms_ambiguous_error(t_tok *tdata, int index);
+int						ms_newline_error(t_tok *tdata);
+int						ms_token_error(t_tok *tdata);
+int						ms_ambiguous_error(t_tok *tdata, int index);
 char					**ms_delindex(char **split, int i);
 char					*ms_delimiter(char *delimiter);
 int						*ms_intab(int *w_pos, int *w_size, int p_a, int p_b);
 char					**ms_check_empty(char **split);
 int						ms_delimiter_expand(char **split, t_tok *tdata, int *x,
-		int index);
+							int index);
 void					ms_fill_cmd(char **split, char *input, int *j,
-		int *type);
+							int *type);
 void					ms_fill_token(char **split, char *input, int *j,
-		int *type);
+							int *type);
 void					ms_fill_word(char *input, int *j, int *q, int *len);
 void					ms_type_set(char *input, int *x, int *type,
-		char **split);
+							char **split);
 
 /*_.-=-._.-=-._.-=-._.-=-._.--._.-=-._.--._.-=-._.-=-._.-=-._.-=-._.-=-._*/
 /*_.-=-._.-=-._.-=-._.-=-._.- TYPE PARSE -._.-=-._.-=-._.-=-._.-=-._.-=-._*/
@@ -425,8 +435,8 @@ void					pipe_parse(t_tok *tdata, t_pipe *d_pipe, t_env *denv,
 							int *i);
 void					exec_pipe(t_tok *tdata, t_pipe *d_pipe, t_env *denv,
 							int *i);
-void					cmd_exec_pipe(t_tok *tdata, t_pipe *d_pipe,
-							t_env *denv, int *i);
+void					cmd_exec_pipe(t_tok *tdata, t_pipe *d_pipe, t_env *denv,
+							int *i);
 void					handle_cmd_pipe(t_tok *tdata, t_pipe *d_pipe,
 							t_env *denv, int *i);
 
@@ -452,8 +462,8 @@ void					print_tok(t_tok *tdata);
 
 int						ft_strlenlen(char **str);
 
-void					handle_built(t_tok *tdata, t_pipe *d_pipe,
-							t_env *denv, int *i);
+void					handle_built(t_tok *tdata, t_pipe *d_pipe, t_env *denv,
+							int *i);
 void					b_redi(t_tok *tdata, t_pipe *d_pipe, int i);
 void					b_parse(t_tok *tdata, t_env *denv, int *i);
 void					b_parse_nf(t_tok *tdata, t_env *denv, int *i,
@@ -503,10 +513,10 @@ void					ms_reset_fd(t_pipe *d_pipe);
 
 void					init_sig(void);
 
-void	prompt(t_env *denv, t_tok *tdata, int i);
+void					prompt(t_env *denv, t_tok *tdata, int i);
 t_env					*update_env(t_env *denv);
 void					ms_lst_b(t_h_lst **lst, t_h_lst *newlst);
-int	ms_main_pipe(t_tok *tdata, t_env *denv);
+int						ms_main_pipe(t_tok *tdata, t_env *denv);
 
 void					free_tab(char **tab);
 void					free_tdata(t_tok *tdata);
@@ -529,8 +539,8 @@ int						next_ope(t_tok *tdata, int i);
 int						previous_ope(t_tok *tdata, int i);
 
 void					print_tokens(t_tok *tdata);
-void					p_parse_type(t_tok *tdata, t_pipe *d_pipe,
-							t_env *denv, int *i);
+void					p_parse_type(t_tok *tdata, t_pipe *d_pipe, t_env *denv,
+							int *i);
 
 void					cut_here(t_tok *tdata, int *i);
 char					*ms_getlast(t_env *denv);

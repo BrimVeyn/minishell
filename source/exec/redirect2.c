@@ -13,8 +13,6 @@
 #include "../../include/minishell.h"
 #include <unistd.h>
 
-
-
 void	r_parse_error(t_pipe *d_pipe, t_tok *tdata)
 {
 	if (d_pipe->failure == D_AR || d_pipe->failure == S_AR)
