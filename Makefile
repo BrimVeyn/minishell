@@ -48,6 +48,7 @@ SRC 			:= source/main.c source/prompt.c \
 				   source/parsing/ms_count_tokens.c \
 				   source/parsing/ms_expand.c \
 				   source/parsing/ms_expand_manager.c \
+				   source/parsing/ms_joinparts.c \
 				   source/parsing/ms_get_env.c \
 				   source/parsing/ms_parse_input.c \
 				   source/parsing/ms_parsing_errors.c \
@@ -62,6 +63,7 @@ SRC 			:= source/main.c source/prompt.c \
 				   source/parsing/parenthesis_check.c \
 				   source/parsing/utils.c \
 				   source/parsing/utils_two.c \
+				   source/parsing/utils_three.c \
 				   source/exec/main_exec.c \
 				   source/exec/type_parse.c \
 				   source/exec/handle_cmds.c \
