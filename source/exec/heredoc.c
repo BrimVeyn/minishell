@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
+/*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 08:59:09 by nbardavi          #+#    #+#             */
-/*   Updated: 2024/03/04 15:03:54 by nbardavi         ###   ########.fr       */
+/*   Updated: 2024/03/04 16:50:04 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,10 @@ int	heredoc(t_pipe *d_pipe, t_tok *dt, t_env *denv, int *i)
 	if (d_pipe->h_trigger == 0)
 		save = ft_sprintf("%fs\n%s%fs", ms_getlast(denv), save, limiter);
 	else
+	{
+		free(save);
 		save = ft_sprintf("%fs", ms_getlast(denv));
+	}
 	end_heredoc(save, sasave, d_pipe, denv);
 	close(d_pipe->input);
 	open(f_name, O_RDWR);
