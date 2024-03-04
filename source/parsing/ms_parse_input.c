@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ms_parse_input.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
+/*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 14:20:38 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/03/04 14:32:19 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/03/04 15:00:56 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,7 +120,7 @@ void ms_parse(t_tok *tdata, t_env *denv, int index)
 	{
 		tdata->exitno = 1 << 8;
 		tdata->t_size = ERROR;
-		tdata->type[index][0] = WRONG;
+		tdata->type[index][0] = IGNORE;
 	}
 	// ft_printf("t[0] = %fs\n", tdata->tokens[index][0]);
 	// ft_printf("t[0] = %d\n", tdata->type[index][0]);

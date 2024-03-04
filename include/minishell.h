@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
+/*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/04 13:56:55 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/03/04 13:56:55 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/03/04 15:27:34 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -313,6 +313,8 @@ int						ms_filetype(char *path);
 
 void					b_echo(t_tok *tdata, int *i);
 void	b_export(char **args, t_env *denv, t_tok *tdata);
+static int	invalid_identifier(char *identifier);
+void	b_export_helper2(char *identifier, int *i, t_tok *tdata);
 void					b_unset(char **args, t_env *denv);
 void	b_env(t_env *denv, t_tok *tdata);
 void	b_exit(char **args, t_pipe *d_pipe, t_tok *tdata);

@@ -6,7 +6,7 @@
 /*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/26 14:41:53 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/03/04 11:53:01 by nbardavi         ###   ########.fr       */
+/*   Updated: 2024/03/04 15:16:25 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,10 @@
 #include <signal.h>
 #include <unistd.h>
 
-extern int g_signal;
-void	sigint_handler(int sig_num);
+extern int	g_signal;
+void		sigint_handler(int sig_num);
+void		handle_cmd_helper(t_tok *tdata, t_pipe *d_pipe);
+void		exec_id0_helper(t_pipe *d_pipe);
 
 void	exec_id0(t_pipe *d_pipe, t_tok *tdata, int id, int *i)
 {
@@ -40,12 +42,10 @@ void	exec_id0(t_pipe *d_pipe, t_tok *tdata, int id, int *i)
 			if (tdata->t_size > *i + 1 && tdata->type[*i + 1][0] == P_C)
 				if (d_pipe->p_cpt >= 0)
 					d_pipe->p_return = 1;
-			d_pipe->or_return = 1;
-			d_pipe->failed = 0;
+			exec_id0_helper(d_pipe);
 		}
 	}
-	free(buffer);
-	return ;
+	return (free(buffer));
 }
 
 void	c_execve(t_tok *tdata, t_pipe *d_pipe, t_env *denv, int *i)
@@ -65,8 +65,6 @@ void	c_execve(t_tok *tdata, t_pipe *d_pipe, t_env *denv, int *i)
 			close(d_pipe->b_pipefd[1]);
 		if (tdata->type[*i][0] != WRONG && tdata->type[*i][0] != IGNORE)
 			execve(tdata->tokens[*i][0], tdata->tokens[*i], denv->f_env);
-		// else
-		// 	tdata->exitno = 127 << 8;
 		exit(tdata->exitno);
 	}
 }

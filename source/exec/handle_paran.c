@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_paran.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
+/*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 14:09:49 by nbardavi          #+#    #+#             */
-/*   Updated: 2024/03/01 11:21:56 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/03/04 15:17:26 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,10 +51,10 @@ void	p_parse_type(t_tok *tdata, t_pipe *d_pipe, t_env *denv, int *i)
 	else if (tdata->type[*i][0] == OR)
 		handle_or(d_pipe);
 	else if (d_pipe->skip_and == 0)
-    {
+	{
 		ms_parse(tdata, denv, *i);
 		handle_cmd(tdata, d_pipe, denv, i);
-    }
+	}
 }
 
 void	p_while(t_tok *tdata, t_pipe *d_pipe, t_env *denv, int *i)

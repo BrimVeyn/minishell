@@ -75,7 +75,8 @@ void	cd_nosuchfile(char **args, t_tok *tdata)
 
 void	b_cd(char **args, t_env *denv, t_tok *tdata)
 {
-	if (too_many_args(args, tdata) == TRUE || no_args(args, denv, tdata) == TRUE)
+	if (too_many_args(args, tdata) == TRUE || no_args(args, denv,
+			tdata) == TRUE)
 		return ;
 	if (ft_strlen(args[1]) == 1 && args[1][0] == '-')
 		cd_minus(denv, tdata);
