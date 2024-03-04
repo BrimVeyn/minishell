@@ -1,0 +1,21 @@
+include
+libftprintf
+Makefile
+minishell
+minishell_bonus
+minishell_tester
+objects
+outfile01
+output_with_forks.txt
+readline_suppression.supp
+source
+tester
+valgrind.sh
+type[0][0] = 0
+tokens[0][0] = /usr/bin/ls
+type[1][0] = 3
+tokens[1][0] = &&
+type[2][0] = 0
+tokens[2][0] = cat
+type[2][1] = 0
+tokens[2][1] = outfile01

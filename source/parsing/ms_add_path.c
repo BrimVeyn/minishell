@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/26 11:25:26 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/03/04 10:33:29 by bvan-pae         ###   ########.fr       */
+/*   Created: 2024/03/04 13:57:05 by bvan-pae          #+#    #+#             */
+/*   Updated: 2024/03/04 13:57:05 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,18 +48,28 @@ int	ms_check_builtin(char *cmd)
 	return (ERROR);
 }
 
+char	*check_file(char *cmd, t_tok *tdata)
+{
+	if (no_such_file(cmd, tdata) == ERROR || command_not_found(cmd, tdata) == ERROR || !cmd)
+		return("WRONG");
+	else if (is_a_directory(cmd, tdata) == ERROR)
+		return("IGNORE");
+	return (cmd);
+}
+
 char	*join_path(char *cmd, t_env *denv, t_tok *tdata)
 {
 	int		i;
 	char	**paths;
 	char	*cmd_cpy;
+	char	*temp;
 
 	i = 0;
 	if (!access(cmd, X_OK) && ms_filetype(cmd) == FAILE)
 		return (cmd);
-	if (no_such_file(cmd, tdata) == ERROR || is_a_directory(cmd, tdata) == ERROR
-		|| command_not_found(cmd, tdata) == ERROR || !cmd)
-		return (ft_strdup("WRONG"));
+	temp = check_file(cmd, tdata);
+	if (ft_strcmp(temp, cmd))
+		return (ft_strdup(temp));
 	paths = ft_split(denv->path, ':');
 	while (paths[i])
 	{
@@ -70,9 +80,9 @@ char	*join_path(char *cmd, t_env *denv, t_tok *tdata)
 		i++;
 	}
 	if (permission_denied(cmd, tdata) == ERROR)
-		return (free_tab(paths), ft_strdup("WRONG"));
+		return (free_tab(paths), ft_strdup("IGNORE"));
 	fd_printf(2, "%fs: command not found\n", cmd);
-	tdata->exitno = 127 << 8;
+	// tdata->exitno = 127 << 8;
 	return (free_tab(paths), free(cmd), ft_strdup("WRONG"));
 }
 
@@ -96,6 +106,8 @@ void	ms_add_path(t_tok *tdata, t_env *denv, int index)
 			tdata->tokens[index][j] = join_path(tdata->tokens[index][j], denv, tdata);
 			if (!ft_strncmp(tdata->tokens[index][j], "WRONG", 5))
 				tdata->type[index][j] = WRONG;
+			if (!ft_strncmp(tdata->tokens[index][j], "IGNORE", 5))
+				tdata->type[index][j] = IGNORE;
 		}
 	}
 }
