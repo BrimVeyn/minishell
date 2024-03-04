@@ -6,7 +6,7 @@
 /*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 08:59:09 by nbardavi          #+#    #+#             */
-/*   Updated: 2024/02/27 15:11:08 by nbardavi         ###   ########.fr       */
+/*   Updated: 2024/03/04 15:03:54 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,15 +48,13 @@ int	heredoc(t_pipe *d_pipe, t_tok *dt, t_env *denv, int *i)
 	return (free(limiter), 0);
 }
 
-extern int g_signal;
+extern int	g_signal;
 
 void	t_heredoc(t_tok *tdata, int *i, char *limiter)
 {
-	char	*input;
-	static int		cpt;
+	char		*input;
+	static int	cpt;
 
-	// printf("das\n");
-	// if (!cpt)
 	cpt = 1;
 	if (limiter == NULL)
 		limiter = ft_strdup(tdata->tokens[*i + 1][0]);

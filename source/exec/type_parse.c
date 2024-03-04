@@ -23,10 +23,10 @@ void	parse_type(t_tok *tdata, t_pipe *d_pipe, t_env *denv, int *i)
 	else if (tdata->type[*i][0] == OR)
 		handle_or(d_pipe);
 	else if (d_pipe->skip_and == 0)
-    {
+	{
 		ms_parse(tdata, denv, *i);
 		handle_cmd(tdata, d_pipe, denv, i);
-    }
+	}
 }
 
 void	sigint_handler(int sig_num);
@@ -38,8 +38,8 @@ void	w_exec_pipe(t_tok *tdata, t_pipe *d_pipe, t_env *denv, int *i)
 	j = 0;
 	dup2(d_pipe->input, STDIN_FILENO);
 	while ((next_ope(tdata, *i) == PIPE || (previous_ope(tdata, *i) == PIPE
-				&& next_ope(tdata, *i) != PIPE)
-			|| tdata->type[*i][0] == PIPE) && tdata->t_size > *i)
+				&& next_ope(tdata, *i) != PIPE) || tdata->type[*i][0] == PIPE)
+		&& tdata->t_size > *i)
 	{
 		pipe_parse(tdata, d_pipe, denv, i);
 		if (tdata->type[*i][0] != PIPE)

@@ -6,11 +6,15 @@
 /*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 10:50:05 by nbardavi          #+#    #+#             */
-/*   Updated: 2024/02/29 10:53:24 by nbardavi         ###   ########.fr       */
+/*   Updated: 2024/03/04 15:39:59 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
+
+int		handle_plus(char *str, char *value, t_env *denv);
+int		check_plus(char *str);
+char	*remove_plus(char *str);
 
 int	handle_plus(char *str, char *value, t_env *denv)
 {

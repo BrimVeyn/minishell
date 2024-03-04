@@ -18,7 +18,7 @@ void	ms_reset_fd(t_pipe *d_pipe)
 	dup2(d_pipe->old_stdin, STDIN_FILENO);
 }
 
-extern int g_signal;
+extern int	g_signal;
 
 static int	end_main(t_pipe d_pipe, t_tok *tdata)
 {
