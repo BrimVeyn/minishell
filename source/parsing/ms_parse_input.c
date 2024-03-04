@@ -6,7 +6,7 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 14:20:38 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/03/01 16:32:05 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/03/04 10:33:38 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,12 +40,6 @@ static int	parse_error_checker(t_tok *tdata)
 	if (ms_token_error(tdata) == ERROR || ms_newline_error(tdata) == ERROR)
 	{
 		tdata->exitno = 2 << 8;
-		tdata->t_size = ERROR;
-		return (ERROR);
-	}
-	if (ms_ambiguous_error(tdata) == ERROR)
-	{
-		tdata->exitno = 1 << 8;
 		tdata->t_size = ERROR;
 		return (ERROR);
 	}
@@ -102,6 +96,12 @@ void ms_parse(t_tok *tdata, t_env *denv, int index)
 	// ft_printf("t[0] = %d\n", tdata->type[index][0]);
 	ms_expand(tdata, denv, index);
 	ms_add_path(tdata, denv, index);
+	if (ms_ambiguous_error(tdata, index) == ERROR)
+	{
+		tdata->exitno = 1 << 8;
+		tdata->t_size = ERROR;
+		tdata->type[index][0] = WRONG;
+	}
 	// ft_printf("t[0] = %fs\n", tdata->tokens[index][0]);
 	// ft_printf("t[0] = %d\n", tdata->type[index][0]);
 }
