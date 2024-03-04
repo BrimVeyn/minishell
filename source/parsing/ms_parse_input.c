@@ -6,7 +6,7 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 14:20:38 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/03/04 14:32:19 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/03/04 15:41:49 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,16 +60,12 @@ static int	empty_string(t_tok *tdata)
 
 void	parse_input(char *input, t_tok *tdata)
 {
-	char *tmp;
-
 	tdata->heredoc = NULL;
 	tdata->tok_copy = NULL;
 	if (ft_strchr(input, '\n'))
 	{
 		tdata->heredoc = ft_split(ft_strchr(input, '\n'), '\n');
-		tmp = ft_strdup(input);
-		free(input);
-		input = ms_cut_at(tmp, '\n');
+		input = ms_cut_at(input, '\n');
 	}
 	if (quotes_parity_check(input, tdata) == ERROR)
     {
