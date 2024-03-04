@@ -6,16 +6,16 @@
 /*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 10:40:47 by nbardavi          #+#    #+#             */
-/*   Updated: 2024/02/28 10:48:47 by nbardavi         ###   ########.fr       */
+/*   Updated: 2024/03/04 15:06:38 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 #include <signal.h>
 
-
 void		ctrl_heredoc(int sig_num);
 void		signal_ctrl(void);
+int			get_h_cpt(int trigger);
 
 char	*h_create_file(t_pipe *d_pipe)
 {
@@ -47,23 +47,12 @@ char	*h_redo(t_pipe *d_pipe, t_tok *tdata, char *limiter)
 	return (save);
 }
 
-int get_h_cpt(int trigger)
-{
-	static int h_cpt;
-
-	if (trigger == 1)
-		h_cpt = 0;
-	else if (trigger == 0)
-		h_cpt++;
-	return (h_cpt);
-}
-
-extern int g_signal;
+extern int	g_signal;
 
 char	*h_exec(t_pipe *d_pipe, char *save, char *limiter)
 {
 	char	*input;
-	
+
 	signal(SIGINT, ctrl_heredoc);
 	while (d_pipe->h_trigger != 1)
 	{

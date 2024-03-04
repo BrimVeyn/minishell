@@ -73,6 +73,7 @@ SRC 			:= source/main.c source/prompt.c \
 				   source/exec/heredoc.c \
 				   source/exec/heredoc_utils.c \
 				   source/exec/heredoc_utils2.c \
+				   source/exec/heredoc_utils3.c \
 				   source/exec/exec_cmd.c \
 				   source/exec/paran_utils.c \
 				   source/exec/pipe_utils.c \

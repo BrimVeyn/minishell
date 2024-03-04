@@ -3,18 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   prompt2.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
+/*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 11:21:47 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/03/01 14:42:21 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/03/04 15:23:29 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-void	signal_ctrl(void);
+void		signal_ctrl(void);
 extern int	g_signal;
-char	*get_next_line(int fd);
+char		*get_next_line(int fd);
 
 void	init_prompt(t_env **denv, char **input, t_tok *tdata)
 {
@@ -27,7 +27,6 @@ void	init_prompt(t_env **denv, char **input, t_tok *tdata)
 	if (g_signal == 2)
 		tdata->exitno = 130;
 	free(prompt);
-
 }
 
 void	print_t(char ***str)
@@ -69,7 +68,7 @@ void	prompt(t_env *denv, t_tok *tdata, int i)
 		g_signal = 0;
 		if (input == NULL)
 		{
-			// printf("exit\n");
+			printf("exit\n");
 			break ;
 		}
 		if (input && *input)
