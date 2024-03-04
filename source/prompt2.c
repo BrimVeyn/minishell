@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prompt2.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
+/*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 11:21:47 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/02/27 10:58:17 by nbardavi         ###   ########.fr       */
+/*   Updated: 2024/03/01 14:42:21 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	init_prompt(t_env **denv, char **input, t_tok *tdata)
 	*denv = update_env(*denv);
 	signal_ctrl();
 	prompt = ms_form_prompt(*denv);
-	*input = readline(prompt);
+	*input = readline("M :");
 	if (g_signal == 2)
 		tdata->exitno = 130;
 	free(prompt);
@@ -79,7 +79,7 @@ void	prompt(t_env *denv, t_tok *tdata, int i)
 			else
 				ms_lst_b(&denv->history, ms_lst_new(ft_strdup(input)));
 			add_history(input);
-			parse_input(input, denv, tdata);
+			parse_input(input, tdata);
 			if (prompt2(tdata, denv) == 1)
 				break ;
 		}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_cmds.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
+/*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 10:12:28 by nbardavi          #+#    #+#             */
-/*   Updated: 2024/02/26 09:57:48 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/03/04 12:14:18 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,15 +57,24 @@ void	handle_cmd(t_tok *tdata, t_pipe *d_pipe, t_env *denv, int *i)
 		w_exec_pipe(tdata, d_pipe, denv, i);
 		d_pipe->t_r = 1;
 	}
+	// else if (tdata->type[*i][0] == WRONG && d_pipe->temp != AND && d_pipe->temp != OR)
+	// {
+	// 	// printf("HDFSDADA\n");
+	// 	tdata->exitno = 127 << 8;
+	// }
 	else if (d_pipe->skip_and == 0 && d_pipe->skip_or == 0
-		&& d_pipe->or_return == 0 && tdata->type[*i][0] != WRONG)
+		&& d_pipe->or_return == 0 && tdata->type[*i][0] != WRONG && tdata->type[*i][0] != IGNORE)
 	{
 		exec_cmd(tdata, d_pipe, denv, i);
 	}
 	else if (tdata->type[*i][0] == WRONG && d_pipe->temp != OR
 		&& d_pipe->temp != AND)
+	{
 		d_pipe->failed = 1;
-	cmd_reset_fd(d_pipe);
+		// printf("string: %s\ntype %d\n", tdata->tokens[*i][0], tdata->type[*i][0]);
+		tdata->exitno = 127 << 8;
+		cmd_reset_fd(d_pipe);
+	}
 }
 
 void	cmd_pipe(t_tok *tdata, t_pipe *d_pipe, t_env *denv, int *i)

@@ -6,7 +6,7 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/26 11:18:21 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/02/09 09:53:12 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/03/01 13:29:44 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ char	**ms_check_empty(char **split)
 	i = 0;
 	while (split[i])
 	{
-		if (ft_strlen(split[i]) == 0)
+		if (split[i] && ft_strlen(split[i]) == 0)
 			split = ms_delindex(split, i);
 		else
 			i++;

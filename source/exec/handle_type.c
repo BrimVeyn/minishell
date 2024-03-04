@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_type.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
+/*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 10:11:19 by nbardavi          #+#    #+#             */
-/*   Updated: 2024/02/26 10:00:28 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/03/04 11:47:21 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,6 @@ void	handle_po(t_tok *tdata, t_pipe *d_pipe, t_env *denv, int *i)
 void	handle_pc(t_pipe *d_pipe)
 {
 	(void)d_pipe;
-}
-
-void	handle_wrong(t_pipe *d_pipe)
-{
-	d_pipe->failed = 1;
 }
 
 void	handle_and(t_pipe *d_pipe)

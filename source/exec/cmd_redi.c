@@ -6,7 +6,7 @@
 /*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 19:10:36 by nbardavi          #+#    #+#             */
-/*   Updated: 2024/02/26 11:50:12 by nbardavi         ###   ########.fr       */
+/*   Updated: 2024/03/04 11:54:07 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void		tprint(char ***string);
 void	remove_cmd(t_tok *tdata, t_pipe *d_pipe, int *i, int *j)
 {
 	if ((tdata->type[*i][*j] != CMD && tdata->type[*i][*j] != BUILTIN
-			&& tdata->type[*i][*j] != WRONG) && !d_pipe->failure)
+			&& tdata->type[*i][*j] != WRONG && tdata->type[*i][*j] != IGNORE) && !d_pipe->failure)
 	{
 		tdata->tokens[*i] = remove_first(tdata, tdata->type[*i][*j], *i,
 				0);

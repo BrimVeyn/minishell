@@ -6,13 +6,11 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 14:20:38 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/02/26 10:05:00 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/03/01 16:32:05 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
-
-
 
 t_tokvar	ms_tiktok(char *ptr)
 {
@@ -37,16 +35,15 @@ t_tokvar	ms_tiktok(char *ptr)
 	return (init_tokvar("", CMD));
 }
 
-static int	parse_error_checker(char *input, t_tok *tdata, char ***tok_copy)
+static int	parse_error_checker(t_tok *tdata)
 {
-	if (ms_token_error(tdata) == ERROR || ms_newline_error(tdata) == ERROR
-		|| parenthesis_check(input) == ERROR)
+	if (ms_token_error(tdata) == ERROR || ms_newline_error(tdata) == ERROR)
 	{
 		tdata->exitno = 2 << 8;
 		tdata->t_size = ERROR;
 		return (ERROR);
 	}
-	if (ms_ambiguous_error(tdata, tok_copy) == ERROR)
+	if (ms_ambiguous_error(tdata) == ERROR)
 	{
 		tdata->exitno = 1 << 8;
 		tdata->t_size = ERROR;
@@ -67,27 +64,45 @@ static int	empty_string(t_tok *tdata)
 	return (TRUE);
 }
 
-void	parse_input(char *input, t_env *denv, t_tok *tdata)
+void	parse_input(char *input, t_tok *tdata)
 {
-	char	***tok_copy;
-
 	tdata->heredoc = NULL;
-	tok_copy = NULL;
+	tdata->tok_copy = NULL;
 	if (ft_strchr(input, '\n'))
 	{
 		tdata->heredoc = ft_split(ft_strchr(input, '\n'), '\n');
 		input = ms_cut_at(input, '\n');
 	}
 	if (quotes_parity_check(input, tdata) == ERROR)
-		return ; 
+    {
+		tdata->t_size = ERROR;
+		tdata->tokens = NULL;
+		tdata->type = NULL;
+		return ;
+    }
 	tdata->t_size = count_tokens(input);
 	if (empty_string(tdata) == ERROR)
 		return ;
 	tdata->tokens = ms_split(tdata, input);
-	tok_copy = ms_copy_tok(tdata->tokens, tdata->t_size);
-	ms_expand(tdata, denv);
-	if (parse_error_checker(input, tdata, tok_copy) == ERROR)
-		return (free_copy(tok_copy));
-	ms_add_path(tdata, denv);
-	return (free_copy(tok_copy));
+	tdata->tok_copy = ms_copy_tok(tdata->tokens, tdata->t_size);
+	if (parenthesis_check(input) == ERROR)
+	{
+		tdata->exitno = 2 << 8;
+		tdata->t_size = ERROR;
+		return ;
+	}
+	if (parse_error_checker(tdata) == ERROR)
+		return ;
+	return ;
 }
+
+void ms_parse(t_tok *tdata, t_env *denv, int index)
+{
+	// ft_printf("t[0] = %fs\n", tdata->tokens[index][0]);
+	// ft_printf("t[0] = %d\n", tdata->type[index][0]);
+	ms_expand(tdata, denv, index);
+	ms_add_path(tdata, denv, index);
+	// ft_printf("t[0] = %fs\n", tdata->tokens[index][0]);
+	// ft_printf("t[0] = %d\n", tdata->type[index][0]);
+}
+
