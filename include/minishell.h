@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/08 11:34:27 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/03/04 11:02:13 by bvan-pae         ###   ########.fr       */
+/*   Created: 2024/03/04 13:56:55 by bvan-pae          #+#    #+#             */
+/*   Updated: 2024/03/04 13:56:55 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -214,6 +214,7 @@ typedef struct s_tok
 	int					w_size;
 	int					exitno;
 	char				**heredoc;
+	int					h_cpt;
 	t_starlist			*strl;
 }						t_tok;
 
@@ -408,7 +409,6 @@ void					handle_or(t_pipe *d_pipe);
 void					handle_po(t_tok *tdata, t_pipe *d_pipe, t_env *denv,
 							int *i);
 void					handle_pc(t_pipe *d_pipe);
-void					handle_wrong(t_pipe *d_pipe);
 void					handle_and(t_pipe *d_pipe);
 
 void					cmd_pipe(t_tok *tdata, t_pipe *d_pipe, t_env *denv,
@@ -470,7 +470,7 @@ int						check_next(int signe);
 int						handle_input(char *token, t_pipe *d_pipe);
 /*_.-=-._.-=-._.-=-._.-=-._.- HEREDOC -._.-=-._.-=-._.-=-._.-=-._.-=-._*/
 
-char					*h_exec(t_pipe *d_pipe, char *save, char *limiter, t_tok *tdata);
+char					*h_exec(t_pipe *d_pipe, char *save, char *limiter);
 char					*h_redo(t_pipe *d_pipe, t_tok *tdata, char *limiter);
 char					*h_handle(t_pipe *d_pipe, t_tok *tdata, t_env *denv,
 							int *i);

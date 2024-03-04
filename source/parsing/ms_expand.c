@@ -6,7 +6,7 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 16:07:37 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/03/01 13:30:52 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/03/04 14:00:19 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	ms_expand(t_tok *tdata, t_env *denv, int index)
 			tdata->tokens[index] = transform_split(tdata->tokens[index], denv,
 					tdata, index);
 			if (!ft_strcmp(tdata->tokens[index][0], "WRONG"))
-				tdata->type[index][0] = WRONG;
+				tdata->type[index][0] = IGNORE;
 			break ;
 		}
 		j++;

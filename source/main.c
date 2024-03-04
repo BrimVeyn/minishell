@@ -3,16 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
+/*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/23 15:16:24 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/03/01 14:32:48 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/03/04 09:12:53 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
 int g_signal;
+int get_h_cpt(int trigger);
 
 int	main(int ac, char *av[], char *env[])
 {
@@ -26,6 +27,7 @@ int	main(int ac, char *av[], char *env[])
 		exit(EXIT_FAILURE);
     }
 	denv.f_env = ms_dupdup(env);
+	get_h_cpt(1);
 	denv.pwd = get_pwd(&denv);
 	denv.path = get_path(&denv);
 	denv.usr = get_usr(&denv);
