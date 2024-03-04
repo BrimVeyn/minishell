@@ -6,7 +6,7 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/04 15:42:50 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/03/04 15:50:59 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/03/04 16:51:19 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,5 +93,6 @@ void	parse_input(char *input, t_tok *tdata)
 	}
 	if (parse_error_checker(tdata) == ERROR)
 		return ;
-	return ;
+	if (tdata->heredoc)
+		free(input);
 }
