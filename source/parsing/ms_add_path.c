@@ -6,7 +6,7 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/04 13:57:05 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/03/04 15:53:01 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/03/05 13:46:59 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ char	*join_path(char *cmd, t_env *denv, t_tok *tdata)
 		return (cmd);
 	temp = check_file(cmd, tdata);
 	if (ft_strcmp(temp, cmd))
-		return (ft_strdup(temp));
+		return (free(cmd), temp);
 	paths = ft_split(denv->path, ':');
 	while (paths[i])
 	{

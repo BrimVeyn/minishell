@@ -6,7 +6,7 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 14:20:02 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/02/26 11:26:33 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/03/05 13:48:21 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ static void	set_exitno(char **args, t_pipe *d_pipe, t_tok *tdata)
 	}
 	else
 		tdata->exitno = ((unsigned char)no) << 8;
+	free(to_cmp);
 }
 
 void	b_exit(char **args, t_pipe *d_pipe, t_tok *tdata)

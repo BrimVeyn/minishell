@@ -6,7 +6,7 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/04 10:53:00 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/03/05 09:10:56 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/03/05 13:46:13 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,9 +55,9 @@ char	*check_file(char *cmd, t_tok *tdata)
 {
 	if (no_such_file(cmd, tdata) == ERROR || command_not_found(cmd,
 			tdata) == ERROR || !cmd)
-		return ("WRONG");
+		return (ft_strdup("WRONG"));
 	else if (is_a_directory(cmd, tdata) == ERROR)
-		return ("IGNORE");
+		return (ft_strdup("IGNORE"));
 	return (cmd);
 }
 
