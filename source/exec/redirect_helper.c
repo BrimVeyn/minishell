@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirect_helper.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
+/*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 10:10:41 by nbardavi          #+#    #+#             */
-/*   Updated: 2024/03/05 10:11:42 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/03/05 13:54:13 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,8 @@ int	handle_heredoc(t_tok *tdata, t_pipe *d_pipe, t_env *denv, int *i)
 	int	returnvalue;
 
 	d_pipe->h_trigger = 0;
+	if (d_pipe->input != -1)
+		close(d_pipe->input);
 	returnvalue = heredoc(d_pipe, tdata, denv, i);
 	tdata->tokens[*i] = remove_first(tdata, DELIMITER, *i, 0);
 	d_pipe->redi = 1;
