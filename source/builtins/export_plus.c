@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_plus.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
+/*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 10:50:05 by nbardavi          #+#    #+#             */
-/*   Updated: 2024/03/04 15:39:59 by nbardavi         ###   ########.fr       */
+/*   Updated: 2024/03/05 09:38:13 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,14 @@ int		handle_plus(char *str, char *value, t_env *denv);
 int		check_plus(char *str);
 char	*remove_plus(char *str);
 
-int	handle_plus(char *str, char *value, t_env *denv)
+int	hp(char *str, char *value, t_env *denv)
 {
 	int		index;
 	char	*temp;
 
 	temp = ms_cut_at(ft_strdup(str), '+');
 	index = ms_var_exist(temp, denv);
+	free(temp);
 	if (index != ERROR)
 	{
 		denv->f_env[index] = ft_sprintf("%s%t1fs", denv->f_env[index], value);
@@ -32,7 +33,7 @@ int	handle_plus(char *str, char *value, t_env *denv)
 		return (0);
 }
 
-int	check_plus(char *str)
+int	cp(char *str)
 {
 	int	i;
 	int	trigger;

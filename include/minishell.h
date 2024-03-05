@@ -6,7 +6,7 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/04 13:56:55 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/03/04 15:55:52 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/03/05 09:38:33 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -240,7 +240,7 @@ typedef struct s_splith
 }						t_splith;
 
 t_h_lst					*ms_lst_new(char *content);
-void					parse_input(char *input, t_tok *tdata);
+void	parse_input(char *input, t_tok *tdata);
 void					ms_parse(t_tok *tdata, t_env *denv, int index);
 t_tok					init_tok(int tokcount, char **heredoc);
 t_tokvar				init_tokvar(char *symbol, int type);
@@ -341,6 +341,10 @@ void					fill_token(char *input, t_tok *tdata, t_env *denv);
 void					ms_add_path(t_tok *tdata, t_env *denv, int index);
 int						no_such_file(char *cmd, t_tok *tdata);
 int						is_a_directory(char *cmd, t_tok *tdata);
+void ms_par_check(char *input, t_tok *tdata);
+int hp(char *str, char *value, t_env *denv);
+int	cp(char *str);
+char	*remove_plus(char *str);
 int						command_not_found(char *cmd, t_tok *tdata);
 int						permission_denied(char *cmd, t_tok *tdata);
 int						empty_var(char *cmd);

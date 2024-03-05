@@ -6,7 +6,7 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/04 15:42:50 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/03/04 16:51:19 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/03/05 09:13:22 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,21 +78,20 @@ void	parse_input(char *input, t_tok *tdata)
 		tdata->t_size = ERROR;
 		tdata->tokens = NULL;
 		tdata->type = NULL;
+		if (tdata->heredoc)
+			free(input);
 		return ;
 	}
 	tdata->t_size = count_tokens(input);
 	if (empty_string(tdata) == ERROR)
-		return ;
-	tdata->tokens = ms_split(tdata, input);
-	tdata->tok_copy = ms_copy_tok(tdata->tokens, tdata->t_size);
-	if (parenthesis_check(input) == ERROR)
 	{
-		tdata->exitno = 2 << 8;
-		tdata->t_size = ERROR;
+		if (tdata->heredoc)
+			free(input);
 		return ;
 	}
+	tdata->tokens = ms_split(tdata, input);
+	tdata->tok_copy = ms_copy_tok(tdata->tokens, tdata->t_size);
+	ms_par_check(input, tdata);
 	if (parse_error_checker(tdata) == ERROR)
 		return ;
-	if (tdata->heredoc)
-		free(input);
 }

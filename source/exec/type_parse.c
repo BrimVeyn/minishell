@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   type_parse.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
+/*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 14:40:30 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/03/04 11:46:21 by nbardavi         ###   ########.fr       */
+/*   Updated: 2024/03/05 11:35:55 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 void	parse_type(t_tok *tdata, t_pipe *d_pipe, t_env *denv, int *i)
 {
+	if (d_pipe->skip_and == 0 && d_pipe->skip_or == 0)
+		ms_parse(tdata, denv, *i);
 	if (tdata->type[*i][0] == P_O && d_pipe->t_r == 0)
 		handle_po(tdata, d_pipe, denv, i);
 	else if (tdata->type[*i][0] == P_C && d_pipe->t_r == 0)
@@ -23,10 +25,7 @@ void	parse_type(t_tok *tdata, t_pipe *d_pipe, t_env *denv, int *i)
 	else if (tdata->type[*i][0] == OR)
 		handle_or(d_pipe);
 	else if (d_pipe->skip_and == 0)
-	{
-		ms_parse(tdata, denv, *i);
 		handle_cmd(tdata, d_pipe, denv, i);
-	}
 }
 
 void	sigint_handler(int sig_num);
@@ -37,9 +36,9 @@ void	w_exec_pipe(t_tok *tdata, t_pipe *d_pipe, t_env *denv, int *i)
 
 	j = 0;
 	dup2(d_pipe->input, STDIN_FILENO);
-	while ((next_ope(tdata, *i) == PIPE || (previous_ope(tdata, *i) == PIPE
+	while (((next_ope(tdata, *i) == PIPE || (previous_ope(tdata, *i) == PIPE
 				&& next_ope(tdata, *i) != PIPE) || tdata->type[*i][0] == PIPE)
-		&& tdata->t_size > *i)
+		&& tdata->t_size > *i))
 	{
 		pipe_parse(tdata, d_pipe, denv, i);
 		if (tdata->type[*i][0] != PIPE)

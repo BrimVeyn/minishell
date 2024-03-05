@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirect_helper.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
+/*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 10:10:41 by nbardavi          #+#    #+#             */
-/*   Updated: 2024/02/27 15:13:32 by nbardavi         ###   ########.fr       */
+/*   Updated: 2024/03/05 10:11:42 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ int	handle_append(char *token, t_pipe *d_pipe)
 	}
 	d_pipe->redi = 1;
 	dup2(d_pipe->output, STDOUT_FILENO);
+	close(d_pipe->output);
 	return (0);
 }
 

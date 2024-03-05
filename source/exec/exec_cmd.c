@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_cmd.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
+/*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/26 14:41:53 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/03/04 15:16:25 by nbardavi         ###   ########.fr       */
+/*   Updated: 2024/03/05 09:52:54 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,8 @@ void	c_execve(t_tok *tdata, t_pipe *d_pipe, t_env *denv, int *i)
 			close(d_pipe->b_pipefd[1]);
 		if (tdata->type[*i][0] != WRONG && tdata->type[*i][0] != IGNORE)
 			execve(tdata->tokens[*i][0], tdata->tokens[*i], denv->f_env);
+		else
+			free_tpe(tdata, d_pipe, denv);
 		exit(tdata->exitno);
 	}
 }
