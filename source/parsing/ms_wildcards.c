@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   expands.c                                          :+:      :+:    :+:   */
+/*   ms_wildcards.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/26 11:15:52 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/02/01 11:32:58 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/03/05 12:24:03 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,7 @@ char	*w_expand(char *word, t_env *denv, t_tok *tdata)
 	current = slist;
 	flist = ms_wildcard_expand(current, flist);
 	if (!flist)
-		return (ms_dlstclear(&flist), word);
+		return (ms_dlstclear(&flist), ms_starclear(&slist), word);
 	if (dot_trigger)
 		flist = ms_dlstmap(&flist, NULL, &ms_del_hidden);
 	ms_dlsort(&flist);

@@ -6,7 +6,7 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 10:38:01 by nbardavi          #+#    #+#             */
-/*   Updated: 2024/03/05 11:35:58 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/03/05 11:49:58 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,6 @@ void	pipe_parse(t_tok *tdata, t_pipe *d_pipe, t_env *denv, int *i)
 		handle_or(d_pipe);
 	else if (d_pipe->skip_and == 0 && tdata->type[*i][0] != PIPE)
 		handle_cmd_pipe(tdata, d_pipe, denv, i);
-	if (tdata->type[*i][0] == WRONG && next_ope(tdata, *i) != PIPE)
+	else if (tdata->type[*i][0] == WRONG && next_ope(tdata, *i) != PIPE)
 		tdata->exitno = 127 << 8;
 }

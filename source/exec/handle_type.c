@@ -6,7 +6,7 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 10:11:19 by nbardavi          #+#    #+#             */
-/*   Updated: 2024/03/05 10:39:14 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/03/05 12:07:28 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	handle_po(t_tok *tdata, t_pipe *d_pipe, t_env *denv, int *i)
 
 void	handle_pc(t_pipe *d_pipe)
 {
-	(void)d_pipe;
+	d_pipe->p_nbr--;
 }
 
 void	handle_and(t_pipe *d_pipe)
@@ -44,7 +44,5 @@ void	handle_or(t_pipe *d_pipe)
 		d_pipe->p_return = -1;
 	}
 	if (d_pipe->failed == 0 || d_pipe->p_return == 1)
-	{
 		d_pipe->skip_or = 1;
-	}
 }

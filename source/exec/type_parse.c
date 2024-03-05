@@ -6,7 +6,7 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 14:40:30 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/03/05 11:35:55 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/03/05 11:52:44 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,9 +41,11 @@ void	w_exec_pipe(t_tok *tdata, t_pipe *d_pipe, t_env *denv, int *i)
 		&& tdata->t_size > *i))
 	{
 		pipe_parse(tdata, d_pipe, denv, i);
-		if (tdata->type[*i][0] != PIPE)
+		if (tdata->type[*i] && tdata->type[*i][0] != PIPE)
 			d_pipe->f_cpt++;
 		(*i)++;
+		if (*i >= tdata->t_size)
+			break;
 	}
 	dup2(d_pipe->old_stdin, STDIN_FILENO);
 	while (d_pipe->f_cpt >= j)
