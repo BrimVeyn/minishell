@@ -6,7 +6,7 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 14:09:49 by nbardavi          #+#    #+#             */
-/*   Updated: 2024/03/05 11:35:17 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/03/05 12:08:51 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ void	p_while(t_tok *tdata, t_pipe *d_pipe, t_env *denv, int *i)
 		if (*i == tdata->t_size)
 			break;
 		p_parse_type(tdata, d_pipe, denv, i);
-		if (d_pipe->p_trig == 0 && (*i) < tdata->t_size - 1)
+		if (d_pipe->p_trig == 0)
 			(*i)++;
 		else
 			d_pipe->p_trig = 0;
