@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_type.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
+/*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 10:11:19 by nbardavi          #+#    #+#             */
-/*   Updated: 2024/03/05 12:07:28 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/03/05 13:28:40 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ void	handle_pc(t_pipe *d_pipe)
 
 void	handle_and(t_pipe *d_pipe)
 {
-	// printf("p_nbr: %d\n", d_pipe->p_nbr);
 	if (d_pipe->p_nbr == 0)
 		d_pipe->skip_or = 0;
 	if (d_pipe->failed == 1 || d_pipe->p_return == 0)

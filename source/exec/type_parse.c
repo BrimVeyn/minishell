@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   type_parse.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
+/*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 14:40:30 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/03/05 11:52:44 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/03/05 13:27:50 by nbardavi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,24 +30,11 @@ void	parse_type(t_tok *tdata, t_pipe *d_pipe, t_env *denv, int *i)
 
 void	sigint_handler(int sig_num);
 
-void	w_exec_pipe(t_tok *tdata, t_pipe *d_pipe, t_env *denv, int *i)
+void	wait_pipe(t_tok *tdata, t_pipe *d_pipe)
 {
 	int	j;
 
 	j = 0;
-	dup2(d_pipe->input, STDIN_FILENO);
-	while (((next_ope(tdata, *i) == PIPE || (previous_ope(tdata, *i) == PIPE
-				&& next_ope(tdata, *i) != PIPE) || tdata->type[*i][0] == PIPE)
-		&& tdata->t_size > *i))
-	{
-		pipe_parse(tdata, d_pipe, denv, i);
-		if (tdata->type[*i] && tdata->type[*i][0] != PIPE)
-			d_pipe->f_cpt++;
-		(*i)++;
-		if (*i >= tdata->t_size)
-			break;
-	}
-	dup2(d_pipe->old_stdin, STDIN_FILENO);
 	while (d_pipe->f_cpt >= j)
 	{
 		signal(SIGINT, SIG_IGN);
@@ -58,5 +45,23 @@ void	w_exec_pipe(t_tok *tdata, t_pipe *d_pipe, t_env *denv, int *i)
 		signal(SIGINT, sigint_handler);
 		j++;
 	}
+}
+
+void	w_exec_pipe(t_tok *tdata, t_pipe *d_pipe, t_env *denv, int *i)
+{
+	dup2(d_pipe->input, STDIN_FILENO);
+	while (((next_ope(tdata, *i) == PIPE || (previous_ope(tdata, *i) == PIPE
+					&& next_ope(tdata, *i) != PIPE)
+				|| tdata->type[*i][0] == PIPE) && tdata->t_size > *i))
+	{
+		pipe_parse(tdata, d_pipe, denv, i);
+		if (tdata->type[*i] && tdata->type[*i][0] != PIPE)
+			d_pipe->f_cpt++;
+		(*i)++;
+		if (*i >= tdata->t_size)
+			break ;
+	}
+	dup2(d_pipe->old_stdin, STDIN_FILENO);
+	wait_pipe(tdata, d_pipe);
 	d_pipe->p_trig = 1;
 }
