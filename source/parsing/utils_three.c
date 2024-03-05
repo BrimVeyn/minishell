@@ -6,7 +6,7 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/04 10:53:00 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/03/04 15:52:52 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/03/05 09:10:56 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,4 +59,17 @@ char	*check_file(char *cmd, t_tok *tdata)
 	else if (is_a_directory(cmd, tdata) == ERROR)
 		return ("IGNORE");
 	return (cmd);
+}
+
+void	ms_par_check(char *input, t_tok *tdata)
+{
+	if (parenthesis_check(input) == ERROR)
+	{
+		tdata->exitno = 2 << 8;
+		tdata->t_size = ERROR;
+		if (tdata->heredoc)
+			free(input);
+	}
+	else if (tdata->heredoc)
+		free(input);
 }

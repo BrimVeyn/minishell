@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_paran.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbardavi <nbabardavid@gmail.com>           +#+  +:+       +#+        */
+/*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 14:09:49 by nbardavi          #+#    #+#             */
-/*   Updated: 2024/03/04 15:17:26 by nbardavi         ###   ########.fr       */
+/*   Updated: 2024/03/05 11:35:17 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,8 @@ void	handle_pc_paran(t_pipe *d_pipe)
 
 void	p_parse_type(t_tok *tdata, t_pipe *d_pipe, t_env *denv, int *i)
 {
+	if (d_pipe->skip_and == 0 && d_pipe->skip_or == 0)
+		ms_parse(tdata, denv, *i);
 	if (tdata->type[*i][0] == P_O)
 		d_pipe->p_cpt++;
 	else if (tdata->type[*i][0] == P_C)
@@ -51,10 +53,7 @@ void	p_parse_type(t_tok *tdata, t_pipe *d_pipe, t_env *denv, int *i)
 	else if (tdata->type[*i][0] == OR)
 		handle_or(d_pipe);
 	else if (d_pipe->skip_and == 0)
-	{
-		ms_parse(tdata, denv, *i);
 		handle_cmd(tdata, d_pipe, denv, i);
-	}
 }
 
 void	p_while(t_tok *tdata, t_pipe *d_pipe, t_env *denv, int *i)
@@ -62,8 +61,10 @@ void	p_while(t_tok *tdata, t_pipe *d_pipe, t_env *denv, int *i)
 	(*i)++;
 	while (d_pipe->p_nbr > 0)
 	{
+		if (*i == tdata->t_size)
+			break;
 		p_parse_type(tdata, d_pipe, denv, i);
-		if (d_pipe->p_trig == 0)
+		if (d_pipe->p_trig == 0 && (*i) < tdata->t_size - 1)
 			(*i)++;
 		else
 			d_pipe->p_trig = 0;

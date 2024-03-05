@@ -6,7 +6,7 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 10:51:05 by nbardavi          #+#    #+#             */
-/*   Updated: 2024/03/04 15:45:26 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/03/05 09:26:01 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,4 +55,5 @@ void	b_export_no_args(t_env *denv)
 		free(final);
 		i++;
 	}
+	free_tab(lst);
 }
