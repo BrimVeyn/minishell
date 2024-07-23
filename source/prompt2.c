@@ -6,7 +6,7 @@
 /*   By: bvan-pae <bryan.vanpaemel@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 11:21:47 by bvan-pae          #+#    #+#             */
-/*   Updated: 2024/03/05 11:53:48 by bvan-pae         ###   ########.fr       */
+/*   Updated: 2024/03/05 14:09:41 by bvan-pae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	init_prompt(t_env **denv, char **input, t_tok *tdata)
 	*denv = update_env(*denv);
 	signal_ctrl();
 	prompt = ms_form_prompt(*denv);
-	*input = readline("M: ");
+	*input = readline(prompt);
 	if (g_signal == 2)
 		tdata->exitno = 130;
 	free(prompt);
